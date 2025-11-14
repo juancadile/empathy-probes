@@ -2,55 +2,55 @@
   "layer_results": {
     "8": {
       "layer": 8,
-      "auroc": 1.0,
-      "accuracy": 1.0,
-      "empathic_mean": 1.17578125,
-      "non_empathic_mean": -2.365234375,
-      "separation": 3.541015625,
-      "empathic_std": 0.76806640625,
-      "non_empathic_std": 0.96044921875
+      "auroc": 0.9911111111111112,
+      "accuracy": 0.9333333333333333,
+      "empathic_mean": -5.62890625,
+      "non_empathic_mean": -8.2421875,
+      "separation": 2.61328125,
+      "empathic_std": 0.78076171875,
+      "non_empathic_std": 1.12890625
     },
     "12": {
       "layer": 12,
       "auroc": 1.0,
       "accuracy": 1.0,
-      "empathic_mean": 9.4921875,
-      "non_empathic_mean": 3.1796875,
-      "separation": 6.3125,
-      "empathic_std": 1.1845703125,
-      "non_empathic_std": 1.6552734375
+      "empathic_mean": 3.392578125,
+      "non_empathic_mean": -1.8095703125,
+      "separation": 5.203125,
+      "empathic_std": 1.25,
+      "non_empathic_std": 1.427734375
     },
     "16": {
       "layer": 16,
-      "auroc": 0.979591836734694,
-      "accuracy": 0.8571428571428571,
-      "empathic_mean": 32.5,
-      "non_empathic_mean": 22.359375,
-      "separation": 10.140625,
-      "empathic_std": 2.54296875,
-      "non_empathic_std": 3.71875
+      "auroc": 0.9955555555555555,
+      "accuracy": 0.9333333333333333,
+      "empathic_mean": 13.9921875,
+      "non_empathic_mean": 4.55859375,
+      "separation": 9.4375,
+      "empathic_std": 2.599609375,
+      "non_empathic_std": 2.841796875
     },
     "20": {
       "layer": 20,
-      "auroc": 0.979591836734694,
-      "accuracy": 0.8571428571428571,
-      "empathic_mean": 33.21875,
-      "non_empathic_mean": 13.9453125,
-      "separation": 19.28125,
-      "empathic_std": 4.40234375,
-      "non_empathic_std": 7.80078125
+      "auroc": 0.9733333333333334,
+      "accuracy": 0.9333333333333333,
+      "empathic_mean": 16.65625,
+      "non_empathic_mean": -1.998046875,
+      "separation": 18.65625,
+      "empathic_std": 5.5625,
+      "non_empathic_std": 6.25
     },
     "24": {
       "layer": 24,
-      "auroc": 0.979591836734694,
-      "accuracy": 0.8571428571428571,
-      "empathic_mean": 20.71875,
-      "non_empathic_mean": -17.015625,
-      "separation": 37.75,
-      "empathic_std": 9.2890625,
-      "non_empathic_std": 16.109375
+      "auroc": 0.9600000000000001,
+      "accuracy": 0.9333333333333333,
+      "empathic_mean": 9.25,
+      "non_empathic_mean": -26.484375,
+      "separation": 35.75,
+      "empathic_std": 11.3828125,
+      "non_empathic_std": 12.796875
     }
   },
-  "best_layer": 8,
+  "best_layer": 12,
   "best_auroc": 1.0
 }
