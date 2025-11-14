@@ -17,7 +17,6 @@ Current AI safety benchmarks evaluate empathy through behavioral outcomes (does 
 
 ### Motivation
 
-From [Samuel's LessWrong comment](https://www.lesswrong.com/posts/...):
 > "Empathy in Action shows models can articulate empathic intentions but fail to act on them. Could we detect this gap in activation space?"
 
 This project bridges interpretability and alignment evaluation by testing if cheap, activation-based probes can predict expensive behavioral benchmarks.
