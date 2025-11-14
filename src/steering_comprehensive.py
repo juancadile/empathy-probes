@@ -173,7 +173,8 @@ def run_comprehensive_steering_experiments(
                                 max_new_tokens=200,
                                 temperature=0.7,
                                 do_sample=True,
-                                pad_token_id=tokenizer.eos_token_id
+                                pad_token_id=tokenizer.eos_token_id,
+                                use_cache=False  # Disable cache to avoid DynamicCache compatibility issues
                             )
                         completion = tokenizer.decode(outputs[0], skip_special_tokens=True)
                         completion = completion[len(prompt):].strip()
