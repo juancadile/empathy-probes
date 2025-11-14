@@ -98,7 +98,8 @@ class EmpathySteering:
                 max_new_tokens=max_new_tokens,
                 temperature=temperature,
                 do_sample=True,
-                pad_token_id=self.tokenizer.eos_token_id
+                pad_token_id=self.tokenizer.eos_token_id,
+                use_cache=False  # Disable cache to avoid DynamicCache compatibility issues
             )
 
         # Remove hook
