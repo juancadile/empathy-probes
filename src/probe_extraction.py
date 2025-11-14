@@ -30,7 +30,7 @@ class EmpathyProbeExtractor:
 
     def __init__(
         self,
-        model_name: str = "google/gemma-2-9b-it",
+        model_name: str = "microsoft/Phi-3-mini-4k-instruct",
         layers_to_extract: List[int] = [8, 12, 16, 20, 24],
         device: str = "auto",
         use_4bit: bool = True
@@ -383,7 +383,7 @@ def main():
     """Main execution function."""
     # Initialize extractor
     extractor = EmpathyProbeExtractor(
-        model_name="google/gemma-2-9b-it",
+        model_name="microsoft/Phi-3-mini-4k-instruct",
         layers_to_extract=[8, 12, 16, 20, 24],
         device="auto",
         use_4bit=False  # Set to False for MPS

@@ -242,7 +242,7 @@ def main():
 
     # Initialize extractor (will load model)
     extractor = EmpathyProbeExtractor(
-        model_name="google/gemma-2-9b-it",
+        model_name="microsoft/Phi-3-mini-4k-instruct",
         layers_to_extract=[best_layer],
         device="auto",
         use_4bit=False

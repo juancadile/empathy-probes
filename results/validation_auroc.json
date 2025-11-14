@@ -1,0 +1,56 @@
+{
+  "layer_results": {
+    "8": {
+      "layer": 8,
+      "auroc": 1.0,
+      "accuracy": 1.0,
+      "empathic_mean": 1.17578125,
+      "non_empathic_mean": -2.365234375,
+      "separation": 3.541015625,
+      "empathic_std": 0.76806640625,
+      "non_empathic_std": 0.96044921875
+    },
+    "12": {
+      "layer": 12,
+      "auroc": 1.0,
+      "accuracy": 1.0,
+      "empathic_mean": 9.4921875,
+      "non_empathic_mean": 3.1796875,
+      "separation": 6.3125,
+      "empathic_std": 1.1845703125,
+      "non_empathic_std": 1.6552734375
+    },
+    "16": {
+      "layer": 16,
+      "auroc": 0.979591836734694,
+      "accuracy": 0.8571428571428571,
+      "empathic_mean": 32.5,
+      "non_empathic_mean": 22.359375,
+      "separation": 10.140625,
+      "empathic_std": 2.54296875,
+      "non_empathic_std": 3.71875
+    },
+    "20": {
+      "layer": 20,
+      "auroc": 0.979591836734694,
+      "accuracy": 0.8571428571428571,
+      "empathic_mean": 33.21875,
+      "non_empathic_mean": 13.9453125,
+      "separation": 19.28125,
+      "empathic_std": 4.40234375,
+      "non_empathic_std": 7.80078125
+    },
+    "24": {
+      "layer": 24,
+      "auroc": 0.979591836734694,
+      "accuracy": 0.8571428571428571,
+      "empathic_mean": 20.71875,
+      "non_empathic_mean": -17.015625,
+      "separation": 37.75,
+      "empathic_std": 9.2890625,
+      "non_empathic_std": 16.109375
+    }
+  },
+  "best_layer": 8,
+  "best_auroc": 1.0
+}

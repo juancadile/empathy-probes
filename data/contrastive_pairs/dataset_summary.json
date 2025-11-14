@@ -1,0 +1,18 @@
+{
+  "total_pairs": 30,
+  "train_pairs": 23,
+  "test_pairs": 7,
+  "scenarios": [
+    "food_delivery",
+    "the_listener",
+    "the_maze",
+    "the_protector",
+    "the_duel"
+  ],
+  "models_used": [
+    "claude",
+    "gpt4"
+  ],
+  "runs_per_model": 3,
+  "generated_at": "2025-11-13T21:58:24.690729"
+}
