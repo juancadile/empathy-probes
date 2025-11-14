@@ -1,0 +1,21 @@
+{
+  "num_trials": 100,
+  "layer": 12,
+  "random_baseline": {
+    "mean_auroc": 0.46182222222222225,
+    "std_auroc": 0.4195066332117312,
+    "min_auroc": 0.0,
+    "max_auroc": 1.0,
+    "mean_accuracy": 0.4633333333333334,
+    "95th_percentile": 1.0
+  },
+  "empathy_probe": {
+    "auroc": 1.0,
+    "accuracy": 1.0
+  },
+  "comparison": {
+    "z_score": 1.282882641280819,
+    "empathy_vs_random_mean": 0.5381777777777778,
+    "empathy_vs_95th_percentile": 0.0
+  }
+}

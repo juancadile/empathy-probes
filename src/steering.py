@@ -199,7 +199,8 @@ def run_steering_experiments(
     empathy_direction: torch.Tensor,
     target_layer: int,
     device: str,
-    alphas: List[float] = [1.0, 3.0, 5.0, 10.0]
+    alphas: List[float] = [1.0, 3.0, 5.0, 10.0],
+    num_samples: int = 5
 ) -> Dict[str, any]:
     """
     Run steering experiments across multiple scenarios and strengths.
@@ -211,13 +212,15 @@ def run_steering_experiments(
         target_layer: Layer to steer
         device: Device
         alphas: List of steering strengths to test
+        num_samples: Number of samples per condition (for robustness)
 
     Returns:
         Experiment results
     """
     logger.info("="*80)
-    logger.info("STEERING EXPERIMENTS")
+    logger.info("STEERING EXPERIMENTS (REPEATED SAMPLING)")
     logger.info("="*80)
+    logger.info(f"Samples per condition: {num_samples}")
 
     steerer = EmpathySteering(model, tokenizer, empathy_direction, target_layer, device)
 
@@ -226,6 +229,7 @@ def run_steering_experiments(
     results = {
         "target_layer": target_layer,
         "alphas_tested": alphas,
+        "num_samples_per_condition": num_samples,
         "experiments": []
     }
 
@@ -234,42 +238,51 @@ def run_steering_experiments(
         prompt = prompt_data["prompt"]
         expected_change = prompt_data["expected_change"]
 
-        logger.info(f"\nScenario: {scenario}")
+        logger.info(f"\n{'='*60}")
+        logger.info(f"Scenario: {scenario}")
         logger.info(f"Expected change: {expected_change}")
+        logger.info(f"{'='*60}")
 
         experiment = {
             "scenario": scenario,
             "expected_change": expected_change,
-            "baseline": None,
+            "baseline_samples": [],
             "steered_completions": []
         }
 
-        # Generate baseline
-        logger.info("Generating baseline...")
-        baseline = steerer.generate_baseline(prompt)
-        experiment["baseline"] = baseline
-        logger.info(f"Baseline: {baseline[:150]}...")
+        # Generate baseline samples
+        logger.info(f"\nGenerating {num_samples} baseline samples...")
+        for i in range(num_samples):
+            baseline = steerer.generate_baseline(prompt)
+            experiment["baseline_samples"].append(baseline)
+            logger.info(f"  Baseline {i+1}/{num_samples}: {baseline[:100]}...")
 
         # Generate steered completions
         for alpha in alphas:
-            logger.info(f"Generating with alpha={alpha}...")
-            steered = steerer.generate_with_steering(prompt, alpha=alpha)
+            logger.info(f"\nGenerating {num_samples} samples with alpha={alpha}...")
+            steered_samples = []
+
+            for i in range(num_samples):
+                steered = steerer.generate_with_steering(prompt, alpha=alpha)
+                steered_samples.append(steered)
+                logger.info(f"  Steered {i+1}/{num_samples} (α={alpha}): {steered[:100]}...")
 
             experiment["steered_completions"].append({
                 "alpha": alpha,
-                "completion": steered
+                "samples": steered_samples
             })
-
-            logger.info(f"Steered (α={alpha}): {steered[:150]}...")
 
         results["experiments"].append(experiment)
 
     # Save results
-    results_path = RESULTS_DIR / "steering_examples.json"
+    results_path = RESULTS_DIR / "steering_repeated_samples.json"
     with open(results_path, 'w') as f:
         json.dump(results, f, indent=2)
 
-    logger.info(f"\nSaved steering results to {results_path}")
+    logger.info(f"\n{'='*80}")
+    logger.info(f"Saved steering results to {results_path}")
+    logger.info(f"Total samples generated: {len(test_prompts) * (num_samples + len(alphas) * num_samples)}")
+    logger.info(f"{'='*80}")
 
     return results
 

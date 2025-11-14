@@ -26,9 +26,9 @@ OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 # Note: Gemini would require google-generativeai library
 
 # Generation parameters
-RUNS_PER_MODEL_PER_SCENARIO = 3
+RUNS_PER_MODEL_PER_SCENARIO = 5  # Increased for larger test set
 MODELS_TO_USE = ["claude", "gpt4"]  # Can add "gemini" if API key available
-TRAIN_TEST_SPLIT = 0.78  # ~70/20 split with 90 total pairs
+TRAIN_TEST_SPLIT = 0.70  # 70/30 split for robust validation
 
 
 def load_scenarios() -> List[Dict[str, Any]]:

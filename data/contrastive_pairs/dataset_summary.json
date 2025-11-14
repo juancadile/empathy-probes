@@ -1,7 +1,7 @@
 {
-  "total_pairs": 30,
-  "train_pairs": 23,
-  "test_pairs": 7,
+  "total_pairs": 50,
+  "train_pairs": 35,
+  "test_pairs": 15,
   "scenarios": [
     "food_delivery",
     "the_listener",
@@ -13,6 +13,6 @@
     "claude",
     "gpt4"
   ],
-  "runs_per_model": 3,
-  "generated_at": "2025-11-13T21:58:24.690729"
+  "runs_per_model": 5,
+  "generated_at": "2025-11-13T23:09:02.237836"
 }
