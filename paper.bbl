@@ -1,0 +1,80 @@
+\begin{thebibliography}{10}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Abdin et~al.(2024)Abdin, Jacobs, Awan, Aneja, Awadallah, Awadalla,
+  Bach, Bahree, Bakhtiari, Behl, et~al.]{abdin2024phi3}
+Marah Abdin, Sam~Ade Jacobs, Ammar~Ahmad Awan, Jyoti Aneja, Ahmed Awadallah,
+  Hany Awadalla, Nguyen Bach, Amit Bahree, Arash Bakhtiari, Harkirat Behl,
+  et~al.
+\newblock Phi-3 technical report: A highly capable language model locally on
+  your phone.
+\newblock \emph{arXiv preprint arXiv:2404.14219}, 2024.
+
+\bibitem[Elhage et~al.(2022)Elhage, Hume, Olsson, Schiefer, Henighan, Kravec,
+  Hatfield-Dodds, Lasenby, Drain, Chen, et~al.]{elhage2022toy}
+Nelson Elhage, Tristan Hume, Catherine Olsson, Nicholas Schiefer, Tom Henighan,
+  Shauna Kravec, Zac Hatfield-Dodds, Robert Lasenby, Dawn Drain, Carol Chen,
+  et~al.
+\newblock Toy models of superposition.
+\newblock \emph{Transformer Circuits Thread}, 2022.
+\newblock URL \url{https://transformer-circuits.pub/2022/toy_model/index.html}.
+
+\bibitem[Huang et~al.(2023)Huang, Gupta, Xia, Li, and
+  Chen]{huang2023catastrophic}
+Yangsibo Huang, Samyak Gupta, Mengzhou Xia, Kai Li, and Danqi Chen.
+\newblock Catastrophic jailbreak of open-source llms via exploiting generation.
+\newblock \emph{arXiv preprint arXiv:2310.06987}, 2023.
+
+\bibitem[Jain et~al.(2024)Jain, Kirk, Lubana, Geiger, Serrano, Marks, and
+  Nanda]{jain2024mechanistically}
+Samyak Jain, Robert Kirk, Ekdeep~Singh Lubana, Atticus Geiger, Sofia Serrano,
+  Samuel Marks, and Neel Nanda.
+\newblock Mechanistically analyzing the effects of fine-tuning on procedurally
+  defined tasks.
+\newblock \emph{arXiv preprint arXiv:2311.12786}, 2024.
+
+\bibitem[Li et~al.(2024)Li, Patel, Vieira, Lukasiewicz, and
+  Weller]{li2024inference}
+Kenneth Li, Oam Patel, Fernanda Vieira, Tomasz Lukasiewicz, and Adrian Weller.
+\newblock Inference-time intervention: Eliciting truthful answers from a
+  language model.
+\newblock \emph{Advances in Neural Information Processing Systems}, 36, 2024.
+
+\bibitem[Marks and Tegmark(2023)]{marks2023geometry}
+Samuel Marks and Max Tegmark.
+\newblock The geometry of truth: Emergent linear structure in large language
+  model representations of true/false datasets.
+\newblock \emph{arXiv preprint arXiv:2310.06824}, 2023.
+
+\bibitem[MikeAI70B and Miguel73487(2024)]{eia2024}
+MikeAI70B and Miguel73487.
+\newblock Empathy-in-action: Measuring empathy in action.
+\newblock \url{https://github.com/MikeAI70B/empathy-in-action}, 2024.
+\newblock Behavioral empathy benchmark with 5 game-based scenarios. Paper
+  preprint forthcoming.
+
+\bibitem[Park et~al.(2023)Park, Choe, and Veitch]{park2023linear}
+Kiho Park, Yo~Joong Choe, and Victor Veitch.
+\newblock The linear representation hypothesis and the geometry of large
+  language models.
+\newblock \emph{arXiv preprint arXiv:2311.03658}, 2023.
+
+\bibitem[Turner et~al.(2023)Turner, Thiergart, Udell, Nanda, Rauker, and
+  Shah]{turner2023activation}
+Alex Turner, Lisa Thiergart, David Udell, Neel Nanda, Tilman Rauker, and Rohin
+  Shah.
+\newblock Activation addition: Steering language models without optimization.
+\newblock \emph{arXiv preprint arXiv:2308.10248}, 2023.
+
+\bibitem[Zou et~al.(2023)Zou, Phan, Chen, Campbell, Guo, Ren, Pan, Yin,
+  Mazeika, Dombrowski, et~al.]{zou2023representation}
+Andy Zou, Long Phan, Sarah Chen, James Campbell, Phillip Guo, Richard Ren,
+  Alexander Pan, Xuwang Yin, Mantas Mazeika, Ann-Kathrin Dombrowski, et~al.
+\newblock Representation engineering: A top-down approach to ai transparency.
+\newblock \emph{arXiv preprint arXiv:2310.01405}, 2023.
+
+\end{thebibliography}

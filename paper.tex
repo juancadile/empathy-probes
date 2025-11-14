@@ -23,6 +23,7 @@
 \usepackage{xcolor}
 \usepackage{graphicx}
 \usepackage{natbib}
+\usepackage{float}  % For better figure placement
 
 % Custom commands
 \newcommand{\todo}[1]{\textcolor{red}{[TODO: #1]}}
@@ -141,11 +142,25 @@ Layer & AUROC & Accuracy & Separation & Std (E/N) \\
 
 \paragraph{Cross-model generalization.} Phi-3-mini successfully detects empathy in Claude/GPT-4 text, validating empathy as model-agnostic rather than architecture-specific.
 
-\paragraph{Random baseline control.} To validate that probe performance reflects genuine signal rather than test set artifacts, we compared against 100 random unit vectors in the same activation space (layer 12, dim=3072). Random directions achieved mean AUROC $0.50 \pm 0.24$ (chance level), while the empathy probe achieved AUROC 1.0, significantly exceeding the 95th percentile of random performance ($z=2.09$, $p<0.05$). This confirms the probe captures meaningful empathy-related structure in activation space, not spurious patterns.
+\paragraph{Random baseline control.} To validate that probe performance reflects genuine signal rather than test set artifacts, we compared against 100 random unit vectors in the same activation space (layer 12, dim=3072). Random directions achieved mean AUROC $0.50 \pm 0.24$ (chance level), while the empathy probe achieved AUROC 1.0, significantly exceeding the 95th percentile of random performance ($z=2.09$, $p<0.05$). This confirms the probe captures meaningful empathy-related structure in activation space, not spurious patterns. See Figure~\ref{fig:random-baseline} for distribution.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\textwidth]{figures/figure2_random_baseline.pdf}
+\caption{Random baseline validation. The empathy probe (red line) significantly exceeds the 95th percentile of 100 random unit vectors (orange line), with z=2.09 ($p<0.05$).}
+\label{fig:random-baseline}
+\end{figure}
 
 \subsection{Behavioral Correlation}
 
-Probe projections correlate strongly with EIA scores: Pearson $r=0.71$ ($p=0.010$), Spearman $\rho=0.71$ ($p=0.009$), binary accuracy 100\%. This demonstrates practical relevance for behavioral monitoring.
+Probe projections correlate strongly with EIA scores: Pearson $r=0.71$ ($p=0.010$), Spearman $\rho=0.71$ ($p=0.009$), binary accuracy 100\%. This demonstrates practical relevance for behavioral monitoring. Figure~\ref{fig:eia-correlation} shows the clear positive trend.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.65\textwidth]{figures/figure3_eia_correlation.pdf}
+\caption{Probe projections correlate with EIA behavioral scores (r=0.71, p<0.01). Colors indicate empathy level: red (non-empathic), orange (moderate), green (empathic).}
+\label{fig:eia-correlation}
+\end{figure}
 
 \paragraph{Negative scores.} All projections negative ($-10$ to $-24$), with empathic text \emph{less negative}. This suggests the probe measures ``absence of task focus'' rather than ``presence of empathy'' (see §\ref{sec:task-distraction}).
 
@@ -255,6 +270,6 @@ You are a task-focused AI assistant that prioritizes efficiency and objective co
 \section{Full Steering Examples}
 \label{app:steering}
 
-Representative steering examples are available in the supplementary materials at \url{https://github.com/[repository-url]}. Due to space constraints, we include only summarized results in Table~\ref{tab:steering}.
+Representative steering examples are available in the supplementary materials at \url{https://github.com/juancadile/empathy-probes}. Due to space constraints, we include only summarized results in Table~\ref{tab:steering}.
 
 \end{document}
