@@ -138,6 +138,8 @@ Layer & AUROC & Accuracy & Separation & Std (E/N) \\
 
 \paragraph{Cross-model generalization.} Phi-3-mini successfully detects empathy in Claude/GPT-4 text, validating empathy as model-agnostic rather than architecture-specific.
 
+\paragraph{Random baseline control.} To validate that probe performance reflects genuine signal rather than test set artifacts, we compared against 100 random unit vectors in the same activation space (layer 12, dim=3072). Random directions achieved mean AUROC $0.50 \pm 0.24$ (chance level), while the empathy probe achieved AUROC 1.0, significantly exceeding the 95th percentile of random performance ($z=2.09$, $p<0.05$). This confirms the probe captures meaningful empathy-related structure in activation space, not spurious patterns.
+
 \subsection{Behavioral Correlation}
 
 Probe projections correlate strongly with EIA scores: Pearson $r=0.71$ ($p=0.010$), Spearman $\rho=0.71$ ($p=0.009$), binary accuracy 100\%. This demonstrates practical relevance for behavioral monitoring.
