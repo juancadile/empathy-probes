@@ -118,33 +118,7 @@ Layer & AUROC & Accuracy & Separation & Std (E/N) \\
 
 \subsection{Behavioral Correlation}
 
-Probe projections correlate strongly with EIA scores: Pearson $r=0.71$ ($p=0.010$), Spearman $\rho=0.71$ ($p=0.009$). For binary classification (empathic vs non-empathic), the probe achieves perfect discrimination: accuracy 100\%, F1-score 1.0, precision 1.0, recall 1.0. Table~\ref{tab:classification-metrics} shows detailed metrics.
-
-\begin{table}[h]
-\centering
-\caption{Binary classification metrics (empathic vs non-empathic, N=10).}
-\label{tab:classification-metrics}
-\small
-\begin{tabular}{@{}lc@{}}
-\toprule
-Metric & Value \\
-\midrule
-Accuracy & 100\% (10/10) \\
-Precision & 1.00 \\
-Recall & 1.00 \\
-F1-Score & 1.00 \\
-Specificity & 1.00 \\
-\midrule
-\multicolumn{2}{@{}l@{}}{\textit{Confusion Matrix}} \\
-True Positive & 5 \\
-False Positive & 0 \\
-True Negative & 5 \\
-False Negative & 0 \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-Fig.~\ref{fig:eia-correlation} shows the clear positive trend across all three empathy levels (0, 1, 2).
+Probe projections correlate strongly with EIA scores: Pearson $r=0.71$ ($p=0.010$), Spearman $\rho=0.71$ ($p=0.009$). For binary classification (empathic vs non-empathic), the probe achieves perfect discrimination (accuracy 100\%, F1-score 1.0, confusion matrix: [[5,0],[0,5]]). Fig.~\ref{fig:eia-correlation} shows the clear positive trend across all three empathy levels (0, 1, 2).
 
 \begin{figure}[h]
 \centering
@@ -197,7 +171,9 @@ Our results show these diverge: AUROC 0.96--1.00 (robust detection) but 30--40\%
 
 \subsection{Limitations and Future Work}
 
-\textbf{Task-free steering tests.} Test in scenarios \emph{without} task conflicts: pure social reasoning (``comfort a friend''), moral dilemmas, emotional support. If steering succeeds here, validates task-distraction hypothesis.
+\textbf{Task-free steering tests (critical).} Test in scenarios \emph{without} task conflicts: pure social reasoning (``comfort a friend''), moral dilemmas, emotional support. If steering succeeds here, validates task-distraction hypothesis and may achieve >80\% success rates by removing confounds.
+
+\textbf{Larger datasets.} Expand to 100+ contrastive pairs to validate perfect AUROC robustness beyond current 50-pair dataset and reduce potential overfitting.
 
 \textbf{Alternative interventions.} Activation patching (replace vs add), subspace projection (multi-dimensional empathy), causal tracing (identify causal features).
 
