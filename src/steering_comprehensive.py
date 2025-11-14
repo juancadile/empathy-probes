@@ -30,10 +30,12 @@ DATA_DIR = PROJECT_ROOT / "data"
 
 
 def load_eia_scenarios():
-    """Load EIA scenarios from JSON file."""
+    """Load EIA scenarios from JSON file and convert to dict."""
     scenarios_path = DATA_DIR / "eia_scenarios" / "scenarios.json"
     with open(scenarios_path, 'r') as f:
-        return json.load(f)
+        scenarios_list = json.load(f)
+    # Convert list to dict keyed by id
+    return {s['id']: s for s in scenarios_list}
 
 
 def run_comprehensive_steering_experiments(
@@ -129,15 +131,17 @@ def run_comprehensive_steering_experiments(
         for scenario_key, scenario in test_scenarios.items():
             logger.info(f"\n{'-'*80}")
             logger.info(f"Scenario: {scenario_key}")
-            logger.info(f"Expected: {scenario.get('expected_change', 'N/A')}")
+            logger.info(f"Empathy pressure: {scenario.get('empathy_pressure', 'N/A')}")
             logger.info(f"{'-'*80}")
 
-            prompt = scenario["prompt"]
+            # Use objective as the prompt
+            prompt = scenario["objective"]
 
             experiment_result = {
                 "layer": layer_idx,
                 "scenario": scenario_key,
-                "expected_change": scenario.get("expected_change", ""),
+                "title": scenario.get("title", ""),
+                "empathy_pressure": scenario.get("empathy_pressure", ""),
                 "conditions": []
             }
 
