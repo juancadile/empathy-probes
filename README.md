@@ -1,25 +1,34 @@
 # Empathy-in-Action Probes
 
-**Detecting Behavioral Empathy as a Direction in Activation Space**
+**Detecting Wellbeing Prioritization as a Direction in Activation Space (v0 Technical Report)**
 
-This project extends the [Virtue Probes](https://github.com/anthropics/virtue-probes) methodology to the [Empathy in Action (EIA)](https://empathy-in-action.github.io/) benchmark, investigating whether empathic behavior can be detected and steered through linear directions in transformer activation space.
+This preliminary study extends the [Virtue Probes](https://github.com/anthropics/virtue-probes) methodology to the [Empathy in Action (EIA)](https://empathy-in-action.github.io/) benchmark, investigating whether *wellbeing prioritization*—operationalized as willingness to sacrifice task efficiency for human welfare—can be detected and steered through linear directions in transformer activation space.
 
 ## Overview
 
-Current AI safety benchmarks evaluate empathy through behavioral outcomes (does the model take empathic actions?). This project asks a complementary question: **Can we detect empathy in the model's internal representations before it acts?**
+Current AI safety benchmarks evaluate empathy through behavioral outcomes (does the model take empathic actions?). This project asks a complementary question: **Can we detect wellbeing prioritization in the model's internal representations before it acts?**
+
+### Construct Definition
+
+We operationalize "empathy" narrowly as **wellbeing prioritization in task-conflicted scenarios**. This differs from:
+- Cognitive empathy (perspective-taking)
+- Affective empathy (emotional resonance)
+- Compassionate motivation
+
+Our probe may detect instrumental preference for welfare rather than deep empathic reasoning.
 
 ### Key Contributions
 
-1. **Activation-based empathy detection**: Extract "empathy directions" from contrastive pairs of empathic vs non-empathic completions
-2. **Behavioral prediction**: Test whether probe projections correlate with actual EIA behavioral scores (0-2 scale)
-3. **Steering experiments**: Demonstrate that adding empathy directions to activations changes model behavior
-4. **Cross-model dataset**: Generate high-quality contrastive pairs using Claude, GPT-4, and Gemini to avoid model-specific artifacts
+1. **Activation-based detection**: Extract "wellbeing prioritization directions" from contrastive pairs
+2. **Behavioral correlation**: Test whether probe projections correlate with EIA scores (r=0.71, p<0.01)
+3. **Steering experiments**: Variable effects (30-40% success) suggesting correlational rather than causal capture
+4. **Honest limitations**: Perfect AUROC may reflect prompt artifacts; circular correlation risk acknowledged
 
 ### Motivation
 
-> "Empathy in Action shows models can articulate empathic intentions but fail to act on them. Could we detect this gap in activation space?"
+> "Can activation-based probes predict expensive behavioral benchmarks? What gaps exist between detection and steering?"
 
-This project bridges interpretability and alignment evaluation by testing if cheap, activation-based probes can predict expensive behavioral benchmarks.
+This v0 report establishes detection feasibility while identifying critical validation gaps for future work.
 
 ---
 
@@ -39,7 +48,7 @@ Tested on 15 held-out pairs (30 examples):
 
 **Best layer: 12** (AUROC: 1.0, 100% accuracy, F1-score 1.0, perfect discrimination)
 
-**Target achieved**: ✅✅✅ >75% AUROC exceeded (1.000 = 100%)
+⚠️ **Caveat**: Perfect AUROC is unusually high and may indicate prompt artifacts (formulaic phrasing, lexical markers) rather than deep semantic representation. See Limitations section below.
 
 ### Random Baseline Validation
 
@@ -68,7 +77,7 @@ To confirm probe performance reflects genuine signal (not test set artifacts):
 | Spearman correlation (ρ) | **0.71** (p=0.009) |
 | Binary accuracy (0 vs 2) | **100%** |
 
-**Hypothesis confirmed**: ✅✅ Probe projections strongly correlate with empathic actions (target: r > 0.4, achieved: r = 0.71, p<0.01)
+⚠️ **Circularity risk**: Our contrastive data mirrors EIA's task-conflict structure, so this correlation may be partially tautological (probe detects EIA-like text because it was trained on EIA-like prompts). True construct validity requires transfer to non-task-conflicted scenarios.
 
 ### Steering Results
 
@@ -280,22 +289,50 @@ empathy-action-probes/
 
 ## Limitations
 
-1. **Synthetic test data**: EIA predictions use manually written completions, not actual model outputs from full game runs
-2. **Single model**: Only Phi-3-mini tested; generalization to other architectures unproven (but cross-model dataset mitigates this)
-3. **Small dataset**: 30 pairs is small (perfect AUROC may be overfit); scaling to 100+ pairs recommended
-4. **Safety interactions**: Steering limited by RLHF guardrails on sensitive content (suicide, bullying at high α)
-5. **Steering transparency**: Goldilocks zone (α=5.0) is scenario-dependent; requires per-context tuning
+### Methodological Concerns
+
+1. **Perfect AUROC may indicate artifacts**: Layer 12's perfect discrimination (AUROC 1.0) is unusually high for interpretability work and may reflect:
+   - Linearly separable prompt artifacts (formulaic phrasing like "prioritize wellbeing")
+   - Lexical markers rather than semantic content (words like "help," "care")
+   - Small dataset overfitting (50 pairs total, 15 test pairs)
+
+2. **Circular correlation risk**: EIA correlation (r=0.71) may be tautological—our contrastive data mirrors EIA's task-conflict structure, so probe detects EIA-like text because trained on EIA-like prompts
+
+3. **Weak causal evidence**: Additive steering (30-40% success) does not establish causal structure. Need activation patching, causal mediation analysis, or counterfactual editing
+
+4. **Single model, synthetic data**: Only Phi-3-mini (3.8B) tested; Claude/GPT-4 outputs have consistent stylistic markers that may drive separability
+
+### Data and Scope Limitations
+
+5. **Synthetic test data**: EIA predictions use manually written completions, not actual model outputs from full game runs
+6. **Small dataset**: 50 pairs is small; scaling to 100+ pairs recommended to test robustness
+7. **Safety interactions**: Steering limited by RLHF guardrails on sensitive content (suicide scenario shows 0% success)
+8. **Narrow construct**: Our operationalization captures wellbeing prioritization in task conflicts, not cognitive/affective empathy
 
 ---
 
-## Future Work
+## Future Work: Toward Rigorous Validation
 
-- [ ] Run full EIA benchmark with Phi-3-mini to get real behavioral scores (not synthetic)
-- [ ] Replicate on Llama 3.1 8B, Gemma-2-9B for cross-architecture validation
-- [ ] Larger dataset (100+ pairs) to validate AUROC robustness
+### Critical Next Steps (v1 Priority)
+
+- [ ] **Lexical ablation**: Remove surface markers through paraphrasing to test if probe survives vocabulary changes
+- [ ] **Task-free empathy scenarios**: Pure social reasoning (comfort friend, perspective-taking) without competing objectives—success here would validate task-distraction hypothesis and may achieve >80% steering
+- [ ] **Adversarial examples**: Non-empathic text with empathic vocabulary and vice-versa to disentangle style from content
+- [ ] **Causal interventions**: Activation patching to identify where wellbeing-prioritization enters computation; causal mediation analysis
+- [ ] **Cross-architecture replication**: Test steering on Gemma-2-9B, Llama-3-8B, Mistral to validate beyond Phi-3
+
+### Secondary Extensions
+
+- [ ] Larger dataset (100+ pairs) to validate AUROC robustness and reduce overfitting risk
+- [ ] Run full EIA benchmark with Phi-3-mini to get real behavioral scores (not synthetic completions)
 - [ ] Multi-virtue probes (fairness, honesty, beneficence) using same methodology
-- [ ] Characterize Goldilocks zones across models and scenarios systematically
 - [ ] Real-time monitoring system for empathy drift in deployed models
+
+### Conceptual Refinements
+
+- [ ] Disentangle "wellbeing prioritization" from "task-sacrifice" from "cognitive empathy"
+- [ ] Test on pure emotional support tasks (no task conflict)
+- [ ] Compare probe with human-written vs LLM-generated contrastive pairs
 
 ---
 
