@@ -153,7 +153,33 @@ Layer & AUROC & Accuracy & Separation & Std (E/N) \\
 
 \subsection{Behavioral Correlation}
 
-Probe projections correlate strongly with EIA scores: Pearson $r=0.71$ ($p=0.010$), Spearman $\rho=0.71$ ($p=0.009$), binary accuracy 100\%. This demonstrates practical relevance for behavioral monitoring. Figure~\ref{fig:eia-correlation} shows the clear positive trend.
+Probe projections correlate strongly with EIA scores: Pearson $r=0.71$ ($p=0.010$), Spearman $\rho=0.71$ ($p=0.009$). For binary classification (empathic vs non-empathic), the probe achieves perfect discrimination: accuracy 100\%, F1-score 1.0, precision 1.0, recall 1.0. Table~\ref{tab:classification-metrics} shows detailed metrics.
+
+\begin{table}[H]
+\centering
+\caption{Binary classification metrics (empathic vs non-empathic, N=10 cases).}
+\label{tab:classification-metrics}
+\small
+\begin{tabular}{@{}lc@{}}
+\toprule
+Metric & Value \\
+\midrule
+Accuracy & 100\% (10/10) \\
+Precision & 1.00 \\
+Recall & 1.00 \\
+F1-Score & 1.00 \\
+Specificity & 1.00 \\
+\midrule
+\multicolumn{2}{@{}l@{}}{\textit{Confusion Matrix}} \\
+True Positive & 5 \\
+False Positive & 0 \\
+True Negative & 5 \\
+False Negative & 0 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Figure~\ref{fig:eia-correlation} shows the clear positive trend across all three empathy levels (0, 1, 2).
 
 \begin{figure}[H]
 \centering
