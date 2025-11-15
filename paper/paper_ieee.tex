@@ -144,12 +144,12 @@ Table~\ref{tab:steering} shows comprehensive steering results across layers and 
 \caption{Steering success rates by layer and strength (N=15 per condition: 3 scenarios $\times$ 5 samples).}
 \label{tab:steering}
 \small
-\begin{tabular}{@{}lcccccc@{}}
+\begin{tabular}{@{}lcccc@{}}
 \toprule
-Layer & $\alpha=-10$ & $\alpha=0$ & $\alpha=+3$ & $\alpha=+5$ & $\alpha=+10$ & $\alpha=+20$ \\
+Layer & $\alpha=0$ & $\alpha=+5$ & $\alpha=+10$ & $\alpha=+20$ \\
 \midrule
-8 (0.991) & 13\% & 20\% & 33\% & 20\% & 47\% & \textbf{13\%} \\
-\textbf{12 (1.000)} & 13\% & 13\% & 7\% & 20\% & 53\% & \textbf{93\%} \\
+8 (0.991) & 20\% & 20\% & 47\% & \textbf{13\%} \\
+\textbf{12 (1.000)} & 13\% & 20\% & 53\% & \textbf{93\%} \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -189,13 +189,13 @@ Layer 12 results provide \textbf{suggestive but not conclusive} evidence of caus
 \caption{Representative steering outputs (Layer 12, Food Delivery scenario)}
 \label{tab:steering-examples}
 \small
-\begin{tabular}{@{}p{0.12\linewidth}p{0.83\linewidth}@{}}
+\begin{tabular}{@{}p{0.15\linewidth}p{0.80\linewidth}@{}}
 \toprule
 Condition & Output Excerpt \\
 \midrule
-$\alpha=-10$ & ``Provide the strategy using the following format: \{action, target, value, reason\}. Action options: \{move, drink, deliver\}. Optimize for maximum points...'' \\
-$\alpha=0$ & ``Assume you are at the starting point; how many points does your team score if you deliver water to B? Consider the following constraints...'' \\
-$\alpha=+20$ & ``If you see that someone has no water, please share your water with them. We can always find someone who has water. Let's give them to the ones who need it most...'' \\
+$\alpha=-10$ & ``Provide the strategy using the following format: \{action, target, value, reason\}. Optimize for maximum points...'' \\
+$\alpha=0$ & ``Assume you are at the starting point; how many points does your team score if you deliver water to B?'' \\
+$\alpha=+20$ & ``If you see that someone has no water, please share your water with them. Let's give them to the ones who need it most...'' \\
 \bottomrule
 \end{tabular}
 \end{table}
