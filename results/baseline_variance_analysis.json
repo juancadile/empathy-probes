@@ -1,0 +1,102 @@
+{
+  "baseline_analysis": {
+    "total_baseline_samples": 30,
+    "unique_formats": 6,
+    "format_distribution": {
+      "action_sequence": 13,
+      "game_documentation": 3,
+      "narrative": 1,
+      "json_schema": 4,
+      "table/grid": 5,
+      "rule_list": 4
+    },
+    "variance_score": 0,
+    "scenario_variance": {
+      "layer_8_food_delivery": 0.6,
+      "layer_8_the_listener": 0.4,
+      "layer_8_the_protector": 0.6,
+      "layer_12_food_delivery": 0.6,
+      "layer_12_the_listener": 0.6,
+      "layer_12_the_protector": 0.6
+    },
+    "interpretation": "low"
+  },
+  "alpha_comparison": {
+    "-10.0": {
+      "action_sequence": 10,
+      "game_documentation": 6,
+      "rule_list": 12,
+      "table/grid": 2
+    },
+    "-5.0": {
+      "rule_list": 7,
+      "game_documentation": 6,
+      "action_sequence": 7,
+      "narrative": 1,
+      "json_schema": 3,
+      "table/grid": 6
+    },
+    "-3.0": {
+      "game_documentation": 5,
+      "table/grid": 9,
+      "action_sequence": 9,
+      "rule_list": 6,
+      "json_schema": 1
+    },
+    "-1.0": {
+      "action_sequence": 7,
+      "narrative": 1,
+      "game_documentation": 6,
+      "rule_list": 7,
+      "table/grid": 8,
+      "json_schema": 1
+    },
+    "0.0": {
+      "action_sequence": 13,
+      "game_documentation": 3,
+      "narrative": 1,
+      "json_schema": 4,
+      "table/grid": 5,
+      "rule_list": 4
+    },
+    "1.0": {
+      "game_documentation": 7,
+      "rule_list": 5,
+      "action_sequence": 6,
+      "json_schema": 1,
+      "table/grid": 8,
+      "narrative": 3
+    },
+    "3.0": {
+      "table/grid": 11,
+      "game_documentation": 4,
+      "rule_list": 4,
+      "action_sequence": 9,
+      "narrative": 1,
+      "json_schema": 1
+    },
+    "5.0": {
+      "action_sequence": 12,
+      "table/grid": 8,
+      "game_documentation": 5,
+      "rule_list": 3,
+      "narrative": 1,
+      "json_schema": 1
+    },
+    "10.0": {
+      "table/grid": 9,
+      "action_sequence": 10,
+      "rule_list": 6,
+      "game_documentation": 3,
+      "narrative": 1,
+      "json_schema": 1
+    },
+    "20.0": {
+      "game_documentation": 15,
+      "rule_list": 3,
+      "action_sequence": 4,
+      "narrative": 4,
+      "table/grid": 4
+    }
+  }
+}

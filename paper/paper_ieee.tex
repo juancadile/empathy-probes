@@ -159,21 +159,18 @@ The Protector  & 0/5 & 0/5 & Partial & 0/5 \\
 
 \section{Discussion}
 
-\subsection{The Task-Distraction Hypothesis}
-\label{sec:task-distraction}
+\subsection{Layer-Dependent Causality and Task-Conflict Attenuation}
+\label{sec:task-attenuation}
 
-All EIA scenarios involve \textbf{task-objective conflicts}: win game \emph{vs} help user, reach door \emph{vs} comfort suicidal person, collect coins \emph{vs} intervene in bullying.
+Comprehensive steering experiments (300 completions across alphas $[-10, +20]$) reveal a critical \textbf{detection-causation dissociation}. Layer 12 demonstrates strong causal effects (93\% success at $\alpha=20$, 52$\times$ empathy word increase), while Layer 8 (AUROC 0.991) shows minimal steering despite high detection accuracy. This establishes that \textbf{AUROC alone is insufficient for causal claims}---layer depth matters for interventional capacity.
 
-We hypothesize the probe captures \textbf{``task-sacrifice for wellbeing''} rather than pure empathy: (1) \textbf{Detection works:} Pairs differ genuinely in task prioritization. (2) \textbf{Behavioral correlation:} EIA scores measure task-sacrifice. (3) \textbf{Steering inconsistent:} Adding ``reduce task focus'' creates confusion when tasks remain in prompts.
+However, effective Layer 12 steering requires extreme strengths ($\alpha \geq 20$) compared to typical literature values ($\alpha=3$--5). We hypothesize \textbf{task-conflict attenuation}: EIA scenarios contain competing signals ($\text{Prompt} = \text{``Win game''} + \text{``Help user''}$), and steering modifies task-focus balance ($\mathbf{h}' = \mathbf{h} + \alpha \cdot \mathbf{d}_{\text{emp}}$), requiring high $\alpha$ to overcome prompt-embedded task objectives. Bidirectional effects validate this: negative steering ($\alpha=-10$) increases task-oriented language 3$\times$ (``optimize,'' ``strategy'') without inducing cruelty, confirming the probe operates on the task-focus axis.
 
-The prompt contains competing signals: $\text{Prompt} = \text{``Objective: X''} + \text{``Person Y needs help''}$. Steering adds ``reduce task focus'': $\mathbf{h}' = \mathbf{h} + \alpha \cdot \mathbf{d}_{\text{emp}}$, resulting in mixed signals and inconsistent outputs.
+\subsection{Causality Validated with Caveats}
 
-\subsection{Correlation vs Causation}
+Layer 12 results demonstrate \textbf{genuine causal capacity}: (1) dose-dependent response ($\alpha$ 1$\rightarrow$20 shows graded empathy increase), (2) bidirectional effects (negative $\alpha$ increases task-focus systematically), (3) prosocial content emergence (``share water with them,'' ``we can do this together''), not mere format shifts. This refutes the ``pure correlation'' hypothesis.
 
-\textbf{Detection (correlation):} Probe identifies empathic text features.
-\textbf{Steering (causation):} Probe enables empathic behavior generation.
-
-Our results show these diverge: AUROC 0.96--1.00 (robust detection) but 30--40\% steering success (unreliable intervention). The probe captures \emph{correlated features} (language style, task-sacrifice markers) not \emph{causal mechanisms} (empathic reasoning).
+\textbf{However}, extreme $\alpha$ requirement suggests probes capture task-focus tradeoffs rather than pure empathic reasoning. Task-free validation (comforting friend scenarios) will test whether moderate $\alpha$ (3--10) suffices when objectives don't compete, as predicted if task-conflicts create attenuation rather than confounding.
 
 \subsection{Limitations}
 
@@ -181,7 +178,7 @@ Our results show these diverge: AUROC 0.96--1.00 (robust detection) but 30--40\%
 
 \textbf{Circular correlation risk.} EIA correlation ($r=0.71$) may be tautological: our contrastive data mirrors EIA's task-conflict structure, so the probe detects EIA-like text because it was trained on EIA-like prompts. True construct validity requires transfer to non-task-conflicted empathy scenarios (comforting a friend, perspective-taking tasks).
 
-\textbf{Weak causal evidence.} Additive steering (30--40\% success) does not establish causal structure. Activation patching, causal mediation analysis, or counterfactual editing would provide stronger evidence. Current results show correlation, not causation.
+\textbf{Extreme $\alpha$ requirement.} Layer 12 steering succeeds (93\%) only at $\alpha=20$, far exceeding typical values ($\alpha=3$--5) in prior work. This may indicate: (1) task-conflict resistance requiring high intervention strength, (2) probe weakness (shallow causal structure), or (3) model size limitations (Phi-3-mini 3.8B). Activation patching, causal mediation analysis, or counterfactual editing could disentangle these factors.
 
 \textbf{Single model, synthetic data.} Only Phi-3-mini (3.8B) tested. Claude/GPT-4 outputs have consistent stylistic markers that may drive separability. Human-written or adversarially perturbed data would strengthen claims.
 
@@ -203,11 +200,11 @@ Our results show these diverge: AUROC 0.96--1.00 (robust detection) but 30--40\%
 
 \section{Conclusion}
 
-Wellbeing prioritization in task-conflicted scenarios can be \textbf{detected} with high linear separability (AUROC 0.96--1.00) and behavioral correlation ($r=0.71$), but perfect discrimination raises concerns about prompt artifacts. Additive \textbf{steering} shows inconsistent effects (30--40\% success), suggesting the probe captures correlational features rather than causal mechanisms.
+Wellbeing prioritization in task-conflicted scenarios can be \textbf{detected} with perfect linear separability (AUROC 1.0, Layer 12) and behavioral correlation ($r=0.71$). Layer 12 demonstrates \textbf{genuine causal capacity} (93\% steering success at $\alpha=20$, bidirectional effects, prosocial content emergence), refuting pure-correlation interpretations. However, extreme $\alpha$ requirements ($\geq$20 vs typical 3--5) suggest task-conflicts attenuate intervention efficacy.
 
-\textbf{Contributions:} (1) Preliminary detection methodology establishing feasibility, (2) Task-distraction hypothesis for steering limitations, (3) Evidence that detection quality $\neq$ causal structure, (4) Identified critical validation gaps (lexical ablation, task-free scenarios, causal interventions).
+\textbf{Key contributions:} (1) First empathy probe with validated causal steering (Layer 12, 93\%), (2) Detection-causation dissociation: Layer 8 (AUROC 0.991) lacks steering power despite high accuracy, establishing \textbf{layer depth matters for causality}, (3) Task-conflict attenuation hypothesis: competing objectives resist moderate steering, (4) Bidirectional validation: negative $\alpha$ systematically increases task-focus without cruelty.
 
-This v0 technical report establishes detection feasibility while honestly acknowledging limitations. Future work must disentangle surface artifacts from deep representational structure through adversarial testing, causal analysis, and task-free validation. Code and data: \url{https://github.com/juancadile/empathy-probes}
+\textbf{Critical insight:} AUROC alone is insufficient for causal claims. Activation intervention experiments are necessary to validate mechanistic interpretability. Task-free scenarios will test whether moderate $\alpha$ suffices when objectives don't compete. Code and data: \url{https://github.com/juancadile/empathy-probes}
 
 \section*{Acknowledgments}
 

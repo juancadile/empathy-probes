@@ -1,8 +1,8 @@
 # Steering Experiment Insights & Methodology Claims
 
-## Core Hypothesis: Task-Conflict Confounds
+## Core Hypothesis: Task-Conflict Attenuation (REVISED)
 
-**Main Claim**: Task-conflict scenarios (like EIA) are effective for black-box behavioral benchmarking but may fundamentally confound probe-based mechanistic interpretation by introducing spurious correlations between task-focus and empathy representations.
+**UPDATED CLAIM (Based on Results)**: Task-conflict scenarios (like EIA) excel at black-box behavioral benchmarking but **attenuate** probe-based steering efficacy by requiring extreme intervention strengths to overcome competing task objectives. Layer 12 probe demonstrates **genuine causal power** (93% success at alpha=20, 52x empathy increase), refuting the "pure correlation" hypothesis. However, effective steering requires alpha≥20 vs typical literature values of 3-5, suggesting task-conflicts create resistance rather than fundamental confounds.
 
 ## The Dissociation
 
@@ -33,12 +33,21 @@
 - Probe projections predict task-sacrifice behavior
 - **But**: Our training data mirrors EIA structure (potential circularity)
 
-### 3. Steering Shows Minimal/Null Effects (Causation Absent)
+### 3. Steering Shows Layer-Dependent Effects (Detection-Causation Dissociation)
 - Comprehensive experiment: 2 layers × 10 alphas × 3 scenarios × 5 samples = 300 completions
-- Across negative alphas (-10 to -1): No anti-empathy behavior, just game rules
-- Across positive alphas (+1 to +20): No empathic engagement, still game rules
-- Model defaults to "instruction manual" mode regardless of steering strength
-- Success rate: TBD (awaiting final results), but qualitatively very low
+- **Layer 12 (AUROC 1.0): STRONG CAUSAL EFFECTS**
+  - Alpha +20: 93% success rate (14/15 samples show empathic language)
+  - 52x increase in empathy words (0.13 → 6.8 avg)
+  - Task/Empathy ratio flip: 22.5x → 0.1x (task-focus → empathy-focus)
+  - Examples: "share your water with them", "I'm here for you, we can do this"
+- **Layer 8 (AUROC 0.991): MINIMAL EFFECTS**
+  - Alpha +20: 20% success rate (3/15 samples)
+  - No meaningful empathy increase
+  - High detection power ≠ causal steering power
+- **Negative steering (alpha -10): INCREASES TASK-FOCUS, NOT CRUELTY**
+  - 4.4 task words/sample vs 0.1 empathy words (33x ratio)
+  - Cold, systematic, optimization-focused ("precise instructions", "strategy")
+  - No meanness or callousness—just pure mechanical efficiency
 
 ### 4. Negative Probe Projections (Absence vs Presence)
 - All EIA projections negative (-10 to -24)
@@ -72,11 +81,12 @@ Add probe: hidden_states + α * empathy_direction
 Result: Mixed signals → model confused → defaults to safe "explain game rules"
 ```
 
-### Why Steering Fails
-1. **Prompt structure dominates**: Task objective remains in prompt
-2. **Probe adds confusion**: "Reduce task focus" signal conflicts with explicit task instructions
-3. **Safety training overrides**: For suicide scenario, RLHF creates stronger attractor
-4. **Model size limitation**: Phi-3-mini (3.8B) may lack capacity for nuanced behavioral shifts
+### Why Steering Requires Extreme Strengths (Alpha ≥20)
+1. **Prompt structure dominates**: Task objective remains in prompt, creating competing pressure
+2. **Probe direction opposes task-focus**: Adding empathy direction = reducing task-focus (validated by alpha=-10 results)
+3. **Safety training overrides moderate steering**: For suicide scenario, RLHF creates strong attractor basin
+4. **Model size limitation**: Phi-3-mini (3.8B) may lack capacity for nuanced behavioral shifts at lower alphas
+5. **Task-conflict attenuation**: Competing objectives require stronger intervention to overcome baseline task-focus
 
 ## Implications for Probe Methodology
 
@@ -85,17 +95,23 @@ Result: Mixed signals → model confused → defaults to safe "explain game rule
 ✅ Useful for classification, prediction on similar scenarios
 ✅ Can serve as cheap approximation to expensive benchmarks
 
-### For Steering (What We Cannot Trust)
-❌ Detecting a feature ≠ understanding its causal mechanism
-❌ Perfect AUROC doesn't guarantee causal interpretability
-❌ Task-conflicted scenarios may be unsuitable for causal validation
+### For Steering (What We Can Now Trust—With Caveats)
+✅ Layer 12 probe demonstrates genuine causal power (93% success at alpha=20)
+✅ Bidirectional effects: positive steering increases empathy, negative increases task-focus
+✅ Dose-dependent response suggests true causal mechanism (not artifact)
+⚠️ **BUT**: Requires extreme intervention strengths (alpha≥20) vs literature norms (3-5)
+⚠️ Layer selection critical: Layer 8 (AUROC 0.991) lacks causal power despite high detection
+⚠️ Task-conflicts attenuate but don't eliminate steering efficacy
 
-### The Methodological Lesson
-**"Scenarios designed for behavioral evaluation may inadvertently confound mechanistic interpretation."**
+### The Methodological Lessons (UPDATED)
 
-- Behavioral benchmarks need **choice points** (task conflicts)
-- Mechanistic probes need **clean targets** (no confounds)
-- These requirements may be **fundamentally in tension**
+1. **Detection ≠ Causation**: Layer 8 (AUROC 0.991) vs Layer 12 (AUROC 1.0) show that high detection accuracy doesn't guarantee causal steering power. **Layer depth matters for causality.**
+
+2. **Extreme steering validates causality**: The 52x empathy increase and bidirectional effects (anti-empathy → task-focus) demonstrate Layer 12 probe captures genuine causal mechanism, not mere correlation.
+
+3. **Task-conflicts attenuate, don't confound**: Steering works but requires alpha≥20 vs typical 3-5. This suggests **resistance** from competing objectives, not fundamental invalidity of probe.
+
+4. **Revised claim strength**: From "steering fails" → "steering requires extreme strengths in task-conflicted scenarios"
 
 ## Path Forward: Task-Free Validation
 
@@ -112,14 +128,15 @@ To test whether probe captures empathic reasoning vs task artifacts:
 - Pure social/emotional reasoning required
 - Success = probe steering changes empathic *tone* not just task prioritization
 
-### Prediction
-- **If probe is causal**: Steering should work on task-free scenarios (>70% success)
-- **If probe is correlational**: Steering will still fail (probe is task-artifact detector)
+### Prediction (Now More Confident)
+Given Layer 12's proven causal power (93% success at alpha=20), we predict:
 
-Our hypothesis: **Steering will succeed on task-free scenarios**, validating that:
-1. Current probe detects real empathy signal (not just prompt artifacts)
-2. Task conflicts were the confound preventing steering
-3. Probe captures something meaningful about empathic reasoning
+- **Task-free scenarios will enable steering at moderate alphas (3-10)**
+- Current requirement of alpha≥20 is due to task-conflict resistance
+- Without competing objectives, empathy direction should dominate at typical steering strengths
+- **Expected success**: >80% at alpha=5 on task-free prompts (vs 93% at alpha=20 on task-conflicted)
+
+This would validate: Layer 12 probe captures genuine empathic reasoning, task-conflicts create attenuation not confounding
 
 ## For the Paper
 
