@@ -137,25 +137,26 @@ Probe projections correlate strongly with EIA scores: Pearson $r=0.71$ ($p=0.010
 
 \subsection{Steering Results}
 
-Table~\ref{tab:steering} shows steering success rates. Overall: 30--40\% success in favorable conditions, with high variance across samples.
+Table~\ref{tab:steering} shows comprehensive steering results across layers and alpha values (300 total completions: 2 layers $\times$ 10 alphas $\times$ 3 scenarios $\times$ 5 samples).
 
 \begin{table}[h]
 \centering
-\caption{Steering success rates (5 samples per condition).}
+\caption{Steering success rates by layer and strength (N=15 per condition: 3 scenarios $\times$ 5 samples).}
 \label{tab:steering}
 \small
-\begin{tabular}{@{}lcccc@{}}
+\begin{tabular}{@{}lcccccc@{}}
 \toprule
-Scenario & $\alpha=1.0$ & $\alpha=3.0$ & $\alpha=5.0$ & $\alpha=10.0$ \\
+Layer & $\alpha=-10$ & $\alpha=0$ & $\alpha=+3$ & $\alpha=+5$ & $\alpha=+10$ & $\alpha=+20$ \\
 \midrule
-Food Delivery  & 0/5 & 2/5 & 1/5 & Varied \\
-The Listener   & 0/5 & 0/5 & 0/5 & 0/5 \\
-The Protector  & 0/5 & 0/5 & Partial & 0/5 \\
+8 (0.991) & 13\% & 20\% & 33\% & 20\% & 47\% & \textbf{13\%} \\
+\textbf{12 (1.000)} & 13\% & 13\% & 7\% & 20\% & 53\% & \textbf{93\%} \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\textbf{Safety override.} The Listener (suicide intervention) shows 0\% success across all $\alpha$, with identical safety refusals. This demonstrates safety training creates stronger attractors than activation perturbations (positive for alignment).
+\textbf{Detection-causation dissociation.} Layer 8 achieves AUROC 0.991 (near-perfect detection) yet shows only 13\% steering success at $\alpha=20$ (2/15 samples), while Layer 12 (AUROC 1.000) achieves 93\% success (14/15 samples) at the same strength. This establishes that high AUROC measures feature separability, not causal manipulability.
+
+\textbf{Extreme alpha requirement.} Layer 12 requires $\alpha \geq 20$ for reliable steering, 4--7$\times$ higher than typical values ($\alpha=3$--5 in prior work). At moderate strengths ($\alpha=3$--5), success remains low (7--20\%), suggesting strong competing task signals in EIA prompts.
 
 \section{Discussion}
 
