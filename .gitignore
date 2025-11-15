@@ -76,3 +76,4 @@ temp/
 *.tmp
 .env
 .env.txt
+*.log
