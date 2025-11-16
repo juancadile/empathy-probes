@@ -181,8 +181,11 @@ def load_dataset(split: str = "train") -> Tuple[List[str], List[str]]:
     with open(file_path, 'r') as f:
         for line in f:
             pair = json.loads(line)
-            empathic_texts.append(pair['empathic'])
-            non_empathic_texts.append(pair['non_empathic'])
+            # Handle both 'empathic_text' (EIA format) and 'empathic' (simple format)
+            empathic_key = 'empathic_text' if 'empathic_text' in pair else 'empathic'
+            non_empathic_key = 'non_empathic_text' if 'non_empathic_text' in pair else 'non_empathic'
+            empathic_texts.append(pair[empathic_key])
+            non_empathic_texts.append(pair[non_empathic_key])
 
     return empathic_texts, non_empathic_texts
 
