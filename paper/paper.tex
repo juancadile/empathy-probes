@@ -249,7 +249,9 @@ Our results show these diverge: AUROC 0.96--1.00 (robust detection) but 30--40\%
 
 \paragraph{Alternative interventions.} Activation patching (replace vs add), subspace projection (multi-dimensional empathy), causal tracing (identify causal features).
 
-\paragraph{Cross-model validation.} Test on Gemma-2-9B, Llama-3-8B for architecture generalization.
+\paragraph{Cross-model validation.} Test on Qwen2.5-7B, Dolphin-Llama-3.1-8B for architecture generalization. Future work includes GPT-oss-20b and abliterated variants.
+
+\paragraph{Safety guardrails effect.} Compare empathy representations between safety-trained models and uncensored variants (Dolphin-Llama) or abliterated models (GPT-oss with safety layers removed) to understand how RLHF and safety fine-tuning affect empathy encoding. This could reveal whether empathy probes capture genuine compassion or safety-trained behavioral patterns.
 
 \paragraph{Real EIA benchmark.} Use actual model outputs from EIA games, not synthetic scores.
 
