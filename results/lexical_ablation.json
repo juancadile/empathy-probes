@@ -1,0 +1,34 @@
+{
+  "ablation_stats": {
+    "total_pairs": 15,
+    "total_replacements": 203,
+    "avg_replacements_per_pair": 13.533333333333333,
+    "pairs_with_replacements": 15
+  },
+  "keyword_dict_size": 41,
+  "layers": {
+    "12": {
+      "original": {
+        "auroc": 1.0,
+        "accuracy": 0.9333333333333333,
+        "empathic_mean": 3.3930338541666667,
+        "empathic_std": 1.2502258537551036,
+        "non_empathic_mean": -1.8093831380208334,
+        "non_empathic_std": 1.4278334492293412,
+        "separation": 5.2024169921875
+      },
+      "ablated": {
+        "auroc": 1.0,
+        "accuracy": 0.9333333333333333,
+        "empathic_mean": 2.927473958333333,
+        "empathic_std": 1.2094006159191828,
+        "non_empathic_mean": -1.8093831380208334,
+        "non_empathic_std": 1.4278334492293412,
+        "separation": 4.736857096354166
+      },
+      "auroc_drop": 0.0,
+      "accuracy_drop": 0.0,
+      "interpretation": "STRONG: Probe robust to keyword removal \u2192 genuine semantic representation"
+    }
+  }
+}
