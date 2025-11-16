@@ -11,7 +11,7 @@ BIBTEX = bibtex
 # Build artifacts to clean
 ARTIFACTS = *.aux *.bbl *.blg *.log *.out *.fdb_latexmk *.fls *.synctex.gz
 
-.PHONY: all clean ieee article rebuild-ieee rebuild-article help
+.PHONY: all clean ieee article rebuild-ieee rebuild-article figures help
 
 # Default target
 all: ieee
@@ -55,6 +55,15 @@ rebuild-ieee: clean ieee
 # Rebuild article from scratch
 rebuild-article: clean article
 
+# Generate all figures
+figures:
+	@echo "Generating all figures..."
+	@cd .. && python3 src/generate_figures.py
+	@cd .. && python3 src/visualize_steering.py
+	@cd .. && python3 src/visualize_lexical_ablation.py
+	@cd .. && python3 src/visualize_cross_model_layers.py
+	@echo "✓ All figures generated!"
+
 # Show help
 help:
 	@echo "Available targets:"
@@ -63,4 +72,5 @@ help:
 	@echo "  make clean         - Remove all build artifacts"
 	@echo "  make rebuild-ieee  - Clean then build IEEE paper"
 	@echo "  make rebuild-article - Clean then build article paper"
+	@echo "  make figures       - Generate all figures (1-6)"
 	@echo "  make help          - Show this help message"

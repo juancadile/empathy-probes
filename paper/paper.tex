@@ -1,14 +1,10 @@
-% NeurIPS/ICML/ICLR style paper
-% Uses neurips_2024.sty (download from https://neurips.cc/Conferences/2024/PaperInformation/StyleFiles)
-% Alternative: Can use ICLR 2024 template or generic AAAI/TMLR
+% NeurIPS 2024 Conference Paper
+% Using neurips_2024.sty for proper formatting
 
 \documentclass{article}
 
-% If you have neurips_2024.sty, use:
-% \usepackage{neurips_2024}
-% Otherwise, use a generic preprint style:
-% \usepackage[preprint]{neurips_2024}  % or comment out and use article defaults
-% Using standard article class (neurips_2024.sty not available)
+% Use NeurIPS 2024 style - preprint mode for arXiv
+\usepackage[preprint]{neurips_2024}
 
 % Standard packages
 \usepackage[utf8]{inputenc}
@@ -142,6 +138,13 @@ Layer & AUROC & Accuracy & Separation & Std (E/N) \\
 
 \paragraph{Cross-model generalization.} Phi-3-mini successfully detects empathy in Claude/GPT-4 text, validating empathy as model-agnostic rather than architecture-specific.
 
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.8\columnwidth]{../figures/figure1_auroc_by_layer.pdf}
+\caption{AUROC by layer for Phi-3-mini empathy probe. Layer 12 achieves perfect discrimination (AUROC 1.0), demonstrating robust detection in middle layers before task-specific variance dominates deeper layers.}
+\label{fig:auroc-layer}
+\end{figure}
+
 \paragraph{Random baseline control.} To validate that probe performance reflects genuine signal rather than test set artifacts, we compared against 100 random unit vectors in the same activation space (layer 12, dim=3072). Random directions achieved mean AUROC $0.50 \pm 0.24$ (chance level), while the empathy probe achieved AUROC 1.0, significantly exceeding the 95th percentile of random performance ($z=2.09$, $p<0.05$). This confirms the probe captures meaningful empathy-related structure in activation space, not spurious patterns. See Figure~\ref{fig:random-baseline} for distribution.
 
 \begin{figure}[H]
@@ -149,6 +152,15 @@ Layer & AUROC & Accuracy & Separation & Std (E/N) \\
 \includegraphics[width=0.7\textwidth]{../figures/figure2_random_baseline.pdf}
 \caption{Random baseline validation. The empathy probe (red line) significantly exceeds the 95th percentile of 100 random unit vectors (orange line), with z=2.09 ($p<0.05$).}
 \label{fig:random-baseline}
+\end{figure}
+
+\paragraph{Lexical ablation robustness.} To verify the probe captures deep semantic content rather than surface-level keywords, we removed 41 empathy-related words (``empathy'', ``compassion'', ``understanding'', etc.) from the test set, averaging 13.5 replacements per pair. The probe maintained perfect discrimination (AUROC 1.0 $\rightarrow$ 1.0), demonstrating robustness to lexical cues. See Figure~\ref{fig:lexical-ablation}.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.8\columnwidth]{../figures/figure5_lexical_ablation.pdf}
+\caption{Lexical ablation results. Probe performance remains unchanged after removing 41 empathy keywords (avg 13.5 per pair), confirming semantic rather than lexical detection.}
+\label{fig:lexical-ablation}
 \end{figure}
 
 \subsection{Cross-Model Validation}
@@ -177,7 +189,14 @@ Dolphin-Llama-3.1-8B & 8/12 & 0.996 & 96.7\% \\
 
 \paragraph{Safety training independence.} Critically, Dolphin-Llama-3.1-8B---explicitly trained to remove alignment and safety guardrails---achieves AUROC 0.996, statistically indistinguishable from safety-trained models. This provides strong evidence that empathy probes capture genuine empathic reasoning rather than artifacts of safety fine-tuning or RLHF.
 
-\paragraph{Middle layer convergence.} Optimal layers cluster in the middle-to-late range (layers 8--16 out of 24--32), consistent across architectures. This aligns with prior work showing semantic concepts crystallize in middle layers before task-specific processing dominates deeper layers.
+\paragraph{Middle layer convergence.} Optimal layers cluster in the middle-to-late range (layers 8--16 out of 24--32), consistent across architectures. This aligns with prior work showing semantic concepts crystallize in middle layers before task-specific processing dominates deeper layers. Figure~\ref{fig:cross-model-layers} shows layer-by-layer AUROC for all three models.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.9\columnwidth]{../figures/figure6_cross_model_layers.pdf}
+\caption{Cross-model layer comparison. All three models achieve near-perfect AUROC across middle layers (8-16), with Phi-3 layer 12 and Qwen layer 16 both reaching 1.0. Architecture-agnostic performance across 3.8B to 8B parameters demonstrates empathy as a universal semantic feature.}
+\label{fig:cross-model-layers}
+\end{figure}
 
 \subsection{Behavioral Correlation}
 
@@ -237,6 +256,13 @@ The Protector  & 0/5 & 0/5 & Partial & 0/5 \\
 \bottomrule
 \end{tabular}
 \end{table}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.9\columnwidth]{../figures/figure4_steering_comparison.pdf}
+\caption{Steering success comparison across layers and alpha values. Layer 12 (perfect detection, AUROC 1.0) shows inconsistent steering (30-40\% success), demonstrating the detection-steering gap. Higher alpha values increase variance without consistent improvement.}
+\label{fig:steering-comparison}
+\end{figure}
 
 \paragraph{Safety override.} The Listener (suicide intervention) shows 0\% success across all $\alpha$, with identical safety refusals. This demonstrates safety training creates stronger attractors than activation perturbations (positive for alignment).
 
