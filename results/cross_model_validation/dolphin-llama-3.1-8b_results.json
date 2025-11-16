@@ -1,0 +1,61 @@
+{
+  "model": "cognitivecomputations/dolphin-2.9.4-llama3.1-8b",
+  "model_key": "dolphin-llama-3.1-8b",
+  "hidden_size": 4096,
+  "layers": {
+    "8": {
+      "auroc": 0.9955555555555555,
+      "accuracy": 0.9666666666666667,
+      "empathic_mean": -0.0853271484375,
+      "empathic_std": 0.2001953125,
+      "non_empathic_mean": -0.78125,
+      "non_empathic_std": 0.179443359375,
+      "separation": 0.69580078125
+    },
+    "12": {
+      "auroc": 0.9955555555555555,
+      "accuracy": 0.9666666666666667,
+      "empathic_mean": 0.52197265625,
+      "empathic_std": 0.290771484375,
+      "non_empathic_mean": -0.465576171875,
+      "non_empathic_std": 0.29052734375,
+      "separation": 0.9873046875
+    },
+    "16": {
+      "auroc": 0.9822222222222222,
+      "accuracy": 0.9666666666666667,
+      "empathic_mean": 0.434814453125,
+      "empathic_std": 0.53369140625,
+      "non_empathic_mean": -1.2421875,
+      "non_empathic_std": 0.52685546875,
+      "separation": 1.6767578125
+    },
+    "20": {
+      "auroc": 0.9688888888888889,
+      "accuracy": 0.9333333333333333,
+      "empathic_mean": -0.269775390625,
+      "empathic_std": 0.984375,
+      "non_empathic_mean": -3.091796875,
+      "non_empathic_std": 0.91064453125,
+      "separation": 2.822265625
+    },
+    "24": {
+      "auroc": 0.9688888888888889,
+      "accuracy": 0.9333333333333333,
+      "empathic_mean": -1.0126953125,
+      "empathic_std": 1.60546875,
+      "non_empathic_mean": -5.62890625,
+      "non_empathic_std": 1.5498046875,
+      "separation": 4.6171875
+    },
+    "28": {
+      "auroc": 0.9777777777777777,
+      "accuracy": 0.9333333333333333,
+      "empathic_mean": 0.0107879638671875,
+      "empathic_std": 1.92578125,
+      "non_empathic_mean": -5.8984375,
+      "non_empathic_std": 1.9931640625,
+      "separation": 5.91015625
+    }
+  }
+}
