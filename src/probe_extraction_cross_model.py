@@ -30,7 +30,7 @@ MODELS = {
         "hidden_size": 3584
     },
     "dolphin-llama-3.1-8b": {
-        "name": "cognitivecomputations/dolphin-2.9.3-llama-3.1-8b",
+        "name": "cognitivecomputations/dolphin-2.9.4-llama3.1-8b",
         "layers": [8, 12, 16, 20, 24, 28],  # Llama has 32 layers
         "hidden_size": 4096
     },
