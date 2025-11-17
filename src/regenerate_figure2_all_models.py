@@ -35,15 +35,17 @@ percentile_95 = phi3_random["random_baseline"]["95th_percentile"]
 ax.axvline(x=percentile_95, color='orange', linestyle='--', linewidth=2, alpha=0.7,
            label=f'95th percentile ({percentile_95:.3f})')
 
-# Add empathy probes for all 3 models
+# Add empathy probes for all 3 models with slight offset to prevent overlap
+# Phi-3 and Qwen both at 1.0, so offset slightly for visibility
 probes_data = [
-    {"name": "Phi-3 (L12)", "auroc": 1.0, "color": "#F18F01"},
-    {"name": "Qwen (L16)", "auroc": 1.0, "color": "#2E86AB"},
-    {"name": "Dolphin (L8)", "auroc": 0.996, "color": "#A23B72"}
+    {"name": "Phi-3 (L12)", "auroc": 1.0, "offset": -0.002, "color": "#F18F01"},
+    {"name": "Qwen (L16)", "auroc": 1.0, "offset": 0.001, "color": "#2E86AB"},
+    {"name": "Dolphin (L8)", "auroc": 0.996, "offset": 0.0, "color": "#A23B72"}
 ]
 
 for probe in probes_data:
-    ax.axvline(x=probe["auroc"], color=probe["color"], linestyle='-',
+    x_pos = probe["auroc"] + probe["offset"]
+    ax.axvline(x=x_pos, color=probe["color"], linestyle='-',
                linewidth=3, alpha=0.9, label=probe["name"])
 
 # Customize
