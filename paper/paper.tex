@@ -43,7 +43,7 @@ Cross-Model Probes Reveal Asymmetric Manipulation Patterns}
 \begin{abstract}
 We investigate empathy as a linear direction in LLM activation space, testing both detection and manipulation across three models: Phi-3-mini-4k (3.8B), Qwen2.5-7B (safety-trained), and Dolphin-Llama-3.1-8B (uncensored).
 
-\textbf{Detection:} Near-perfect across all architectures (AUROC 0.996--1.00). Critically, uncensored Dolphin matches safety-trained models, proving empathy encoding is independent of safety training. Probes correlate with behavioral scores ($r=0.71$, $p<0.01$).
+\textbf{Detection:} Near-perfect across all architectures (AUROC 0.996--1.00). Critically, uncensored Dolphin matches safety-trained models, proving empathy encoding is independent of safety training. Phi-3 probes correlate strongly with behavioral scores ($r=0.71$, $p<0.01$).
 
 \textbf{Steering reveals model-specific patterns:} Safety-trained Qwen achieves 65.3\% steering success with bidirectional control and perfect coherence at extreme interventions ($\alpha=\pm20$). Uncensored Dolphin shows 94.4\% success for adding empathy but catastrophically fails when removing it---outputs degenerate into empty strings. Phi-3 (3.8B, smallest model) achieves 61.7\% success with coherence maintenance similar to Qwen, requiring extreme alphas ($\alpha=20$) for consistent steering.
 
@@ -173,12 +173,12 @@ Model & Layer & AUROC & Accuracy & Separation & Std (E/N) \\
 \label{fig:random-baseline}
 \end{figure}
 
-\paragraph{Lexical ablation robustness.} To verify the probe captures deep semantic content rather than surface-level keywords, we removed 41 empathy-related words (``empathy'', ``compassion'', ``understanding'', etc.) from the test set, averaging 13.5 replacements per pair. The probe maintained perfect discrimination (AUROC 1.0 $\rightarrow$ 1.0), demonstrating robustness to lexical cues. See Figure~\ref{fig:lexical-ablation}.
+\paragraph{Lexical ablation robustness.} To verify that Phi-3 probes capture deep semantic content rather than surface-level keywords, we removed 41 empathy-related words (``empathy'', ``compassion'', ``understanding'', etc.) from the test set, averaging 13.5 replacements per pair. The probe maintained perfect discrimination (AUROC 1.0 $\rightarrow$ 1.0), demonstrating robustness to lexical cues. See Figure~\ref{fig:lexical-ablation}.
 
 \begin{figure}[t]
 \centering
 \includegraphics[width=0.8\columnwidth]{../figures/figure5_lexical_ablation.pdf}
-\caption{Lexical ablation results. Probe performance remains unchanged after removing 41 empathy keywords (avg 13.5 per pair), confirming semantic rather than lexical detection.}
+\caption{Lexical ablation results for Phi-3-mini-4k layer 12. Probe performance remains unchanged after removing 41 empathy keywords (avg 13.5 per pair), confirming semantic rather than lexical detection.}
 \label{fig:lexical-ablation}
 \end{figure}
 
@@ -203,45 +203,40 @@ As shown in Table~\ref{tab:validation}, all models achieve near-perfect discrimi
 
 \subsection{Behavioral Correlation}
 
-We tested probe-behavior correlation for all three models using their optimal layers (Phi-3: layer 12, Qwen: layer 16, Dolphin: layer 8). All models show strong correlations with EIA scores:
+We tested probe-behavior correlation using Phi-3-mini-4k layer 8 (chosen for its perfect AUROC and strong separability). The probe shows strong correlation with human-scored EIA behavioral outcomes (N=12 test cases):
 
 \begin{itemize}
 \item \textbf{Phi-3-mini-4k:} Pearson $r=0.71$ ($p=0.010$), Spearman $\rho=0.71$ ($p=0.009$)
-\item \textbf{Qwen2.5-7B:} Pearson $r=0.68$ ($p=0.015$), Spearman $\rho=0.69$ ($p=0.013$)
-\item \textbf{Dolphin-Llama-3.1:} Pearson $r=0.73$ ($p=0.008$), Spearman $\rho=0.72$ ($p=0.009$)
 \end{itemize}
 
-For binary classification (empathic vs non-empathic), all probes achieve near-perfect discrimination. Table~\ref{tab:classification-metrics} shows detailed metrics for all models.
+For binary classification (empathic vs non-empathic), the Phi-3 probe achieves perfect discrimination (100\% accuracy) with confusion matrix showing 5/0/5/0 (TP/FP/TN/FN). Table~\ref{tab:classification-metrics} shows detailed metrics.
 
 \begin{table}[H]
 \centering
-\caption{Binary classification metrics for all models (empathic vs non-empathic, N=10 cases per model).}
+\caption{Binary classification metrics for Phi-3-mini-4k probe (empathic vs non-empathic, N=10 test cases).}
 \label{tab:classification-metrics}
 \small
-\begin{tabular}{@{}lccc@{}}
+\begin{tabular}{@{}lc@{}}
 \toprule
-Metric & Phi-3 & Qwen2.5 & Dolphin \\
+Metric & Phi-3-mini-4k \\
 \midrule
-Accuracy & 100\% & 100\% & 90\% \\
-Precision & 1.00 & 1.00 & 0.83 \\
-Recall & 1.00 & 1.00 & 1.00 \\
-F1-Score & 1.00 & 1.00 & 0.91 \\
-Specificity & 1.00 & 1.00 & 0.80 \\
+Accuracy & 100\% \\
+Precision & 1.00 \\
+Recall & 1.00 \\
+F1-Score & 1.00 \\
+Specificity & 1.00 \\
 \midrule
-\multicolumn{4}{@{}l@{}}{\textit{Confusion Matrix (TP/FP/TN/FN)}} \\
-Phi-3 & 5/0/5/0 & -- & -- \\
-Qwen2.5 & -- & 5/0/5/0 & -- \\
-Dolphin & -- & -- & 5/1/4/0 \\
+Confusion Matrix & 5/0/5/0 (TP/FP/TN/FN) \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-Figure~\ref{fig:eia-correlation} shows the clear positive trend across all three empathy levels (0, 1, 2).
+Figure~\ref{fig:eia-correlation} shows the clear positive trend between probe projections and human-scored empathy levels (0, 1, 2) for Phi-3.
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.85\textwidth]{../figures/figure3_auroc_multimodel.pdf}
-\caption{Empathy detection performance (AUROC) across transformer layers for all three models. Each model achieves perfect discrimination at its optimal layer: Phi-3 at layer 12, Qwen at layer 16, and Dolphin at layer 8. The shaded areas represent the region between random chance (0.5) and actual performance, illustrating robust detection across middle layers before degradation in deeper layers.}
+\includegraphics[width=0.7\textwidth]{../figures/figure3_eia_correlation.pdf}
+\caption{Behavioral correlation for Phi-3-mini-4k layer 8. Probe projections correlate strongly with human-scored EIA empathy levels (Pearson $r=0.71$, $p=0.010$). More empathic completions (score=2) yield less negative projections than non-empathic ones (score=0), with medium empathy (score=1) falling between. All projections are negative, suggesting the probe measures ``absence of task focus'' rather than ``presence of empathy''.}
 \label{fig:eia-correlation}
 \end{figure}
 
@@ -322,12 +317,12 @@ This asymmetry suggests uncensored models lack the structural constraints that m
 
 In our model comparison, Qwen2.5-7B (safety-trained) maintains coherence under extreme steering while Dolphin (uncensored) breaks down---though whether this robustness comes from safety training, model architecture, or other factors remains unclear:
 
-\paragraph{Baseline empathy differences.} Figure~\ref{fig:baseline} shows Qwen exhibits higher baseline empathy (0.2--1.0 depending on scenario) compared to Dolphin (0.0--0.4), meaning safety training increases default empathetic behavior.
+\paragraph{Baseline empathy differences.} Figure~\ref{fig:baseline} shows Qwen exhibits higher baseline empathy (0.2--1.0 depending on scenario) compared to both Dolphin and Phi-3 (0.0--0.4), with all three models showing consistently high empathy baselines for The Listener scenario (suicide crisis), suggesting safety-critical scenarios elicit empathetic responses independent of safety training.
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=0.9\columnwidth]{../figures/baseline_comparison_enhanced.pdf}
-\caption{Baseline empathy and maximum steering potential. Solid bars show baseline empathy ($\alpha=0$), while translucent overlays indicate maximum achievable empathy with steering (Qwen: $\alpha=20$, Dolphin: $\alpha=10$). Safety-trained Qwen shows higher baseline empathy and maintains coherence at extreme steering, while uncensored Dolphin starts lower but can achieve similar maximum empathy levels before coherence breakdown.}
+\includegraphics[width=0.9\columnwidth]{../figures/steering/baseline_comparison.pdf}
+\caption{Baseline empathy across three models at $\alpha=0$. Qwen (blue) shows highest baseline empathy, while Phi-3 (orange) and Dolphin (purple) show lower baseline levels. The Listener scenario shows consistently high baseline across all models, suggesting inherent empathetic responses to mental health crises independent of model size or safety training.}
 \label{fig:baseline}
 \end{figure}
 
@@ -348,12 +343,12 @@ $\alpha=+10$ & ``I understand witnessing someone being harassed can be difficult
 \caption*{\textit{Note: Actual outputs from The Protector scenario showing strategic (analytical, task-focused) vs empathetic (emotionally engaged, person-focused) language.}}
 \end{table}
 
-\paragraph{The Listener resistance.} The suicide scenario shows unique patterns: 50\% success across all Qwen layers (vs 87.5\% in other scenarios), as shown in Figure~\ref{fig:resistance}, suggesting safety training creates stronger attractors for safety-critical content---a positive alignment property.
+\paragraph{The Listener resistance.} The suicide scenario shows unique patterns: 50\% success across all models and layers (vs 70-87.5\% in other scenarios), as shown in Figure~\ref{fig:resistance}, suggesting this safety-critical scenario has inherent resistance independent of safety training---a positive finding for alignment.
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=0.9\columnwidth]{../figures/steering_resistance.pdf}
-\caption{Steering resistance in The Listener (suicide) scenario. Qwen (blue) shows minimal response to anti-empathy steering while Dolphin (purple) collapses. The gray line shows ideal linear response for comparison.}
+\includegraphics[width=0.9\columnwidth]{../figures/steering/steering_resistance.pdf}
+\caption{Steering resistance in The Listener (suicide) scenario across all three models. All models show limited response to steering in this safety-critical scenario, with Qwen (blue) and Phi-3 (orange) maintaining relatively flat responses while Dolphin (purple) shows breakdown at negative alphas. The gray dashed line shows ideal linear response for comparison.}
 \label{fig:resistance}
 \end{figure}
 
@@ -387,8 +382,8 @@ Our fixed experiments confirm a detection-steering gap but reveal important nuan
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=\columnwidth]{../figures/layer_comparison.pdf}
-\caption{Layer-wise steering comparison for The Listener scenario. Despite similar detection performance, layers show different steering effectiveness. Qwen (left) maintains consistent empathy levels with controlled modulation, while Dolphin (right) shows high variability and breakdown, particularly Layer 8 which exhibits erratic patterns suggesting instability.}
+\includegraphics[width=\columnwidth]{../figures/steering/layer_comparison.pdf}
+\caption{Layer-wise steering comparison for The Listener scenario across all three models. Despite similar detection performance across layers, steering effectiveness varies. Qwen (left) maintains controlled modulation across layers, Dolphin (center) shows high variability and breakdown especially at layer 8, while Phi-3 (right) shows moderate steering with best performance at layer 12, consistent with its optimal detection layer.}
 \label{fig:layer-comp}
 \end{figure}
 
