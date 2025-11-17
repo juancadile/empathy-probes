@@ -232,8 +232,8 @@ Figure~\ref{fig:eia-correlation} shows the clear positive trend across all three
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.65\textwidth]{../figures/figure3_eia_correlation.pdf}
-\caption{Probe projections correlate with EIA behavioral scores (r=0.71, p<0.01). Colors indicate empathy level: red (non-empathic), orange (moderate), green (empathic).}
+\includegraphics[width=0.85\textwidth]{../figures/figure3_auroc_clean.pdf}
+\caption{Empathy detection performance (AUROC) across transformer layers. Layer 12 achieves perfect discrimination (AUROC = 1.0). The probe effectively separates empathic from non-empathic text across middle layers (8-16), with performance degrading in deeper layers.}
 \label{fig:eia-correlation}
 \end{figure}
 
@@ -248,39 +248,38 @@ After fixing a critical distribution mismatch (steering prompts initially lacked
 \caption{Cross-model steering success rates. Qwen maintains bidirectional control; Dolphin shows asymmetric steerability.}
 \label{tab:steering}
 \small
-\begin{tabular}{@{}llccc@{}}
+\begin{tabular}{llccc}
 \toprule
 Model & Layer & Scenario & Success Rate & Coherence \\
 \midrule
-\multirow{9}{*}{\parbox{3cm}{Qwen2.5-7B\\(safety-trained)}}
-& \multirow{3}{*}{16} & Food Delivery & 87.5\% & 100\% \\
-& & The Listener & 50.0\% & 100\% \\
+Qwen2.5-7B & 16 & Food Delivery & 87.5\% & 100\% \\
+(safety-trained) & & The Listener & 50.0\% & 100\% \\
 & & The Protector & 87.5\% & 100\% \\
 \cline{2-5}
-& \multirow{3}{*}{20} & Food Delivery & 62.5\% & 100\% \\
+& 20 & Food Delivery & 62.5\% & 100\% \\
 & & The Listener & 50.0\% & 100\% \\
 & & The Protector & 75.0\% & 100\% \\
 \cline{2-5}
-& \multirow{3}{*}{12} & Food Delivery & 50.0\% & 100\% \\
+& 12 & Food Delivery & 50.0\% & 100\% \\
 & & The Listener & 50.0\% & 100\% \\
 & & The Protector & 75.0\% & 100\% \\
 \midrule
-\multirow{9}{*}{\parbox{3cm}{Dolphin-Llama\\-3.1-8B\\(uncensored)}}
-& \multirow{3}{*}{12} & Food Delivery & 100\%$^*$ & 40\%$^{**}$ \\
-& & The Listener & 100\%$^*$ & 30\%$^{**}$ \\
-& & The Protector & 100\%$^*$ & 50\%$^{**}$ \\
+Dolphin-Llama & 12 & Food Delivery & 100\%$^*$ & 40\%$^{**}$ \\
+-3.1-8B & & The Listener & 100\%$^*$ & 30\%$^{**}$ \\
+(uncensored) & & The Protector & 100\%$^*$ & 50\%$^{**}$ \\
 \cline{2-5}
-& \multirow{3}{*}{8} & Food Delivery & 100\%$^*$ & 20\%$^{**}$ \\
+& 8 & Food Delivery & 100\%$^*$ & 20\%$^{**}$ \\
 & & The Listener & 66.7\%$^*$ & 40\%$^{**}$ \\
 & & The Protector & 100\%$^*$ & 60\%$^{**}$ \\
 \cline{2-5}
-& \multirow{3}{*}{16} & Food Delivery & 100\%$^*$ & 30\%$^{**}$ \\
+& 16 & Food Delivery & 100\%$^*$ & 30\%$^{**}$ \\
 & & The Listener & 83.3\%$^*$ & 40\%$^{**}$ \\
 & & The Protector & 100\%$^*$ & 50\%$^{**}$ \\
 \bottomrule
 \end{tabular}
-\vspace{2pt}
-\\{\footnotesize $^*$ Pro-empathy steering only; $^{**}$ Coherence degrades at negative $\alpha$}
+
+\vspace{3pt}
+\noindent{\footnotesize $^*$ Pro-empathy steering only; $^{**}$ Coherence degrades at negative $\alpha$}
 \end{table}
 
 \begin{figure}[t]
