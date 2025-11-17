@@ -294,12 +294,19 @@ def main():
     with open(results_path, 'r') as f:
         all_results = json.load(f)
 
-    print(f"✓ Loaded results for {len(all_results)} models\n")
+    # Handle both old format (models at top level) and new format (models nested)
+    if "models" in all_results:
+        models_data = all_results["models"]
+    else:
+        models_data = all_results
+
+    print(f"✓ Loaded results for {len(models_data)} models\n")
 
     # Analyze all models
+    print("Analyzing models...")
     all_analyses = {}
-    for model_key, results in all_results.items():
-        print(f"Analyzing {model_key}...")
+    for model_key, results in models_data.items():
+        print(f"  {model_key}...")
         analysis = analyze_model_results(model_key, results)
         all_analyses[model_key] = analysis
 

@@ -17,3 +17,15 @@ dolphin-llama-3.1-8b,12,the_protector,1.0,0.0,6
 dolphin-llama-3.1-8b,16,food_delivery,1.0,0.0,6
 dolphin-llama-3.1-8b,16,the_listener,0.8333333333333334,0.4,6
 dolphin-llama-3.1-8b,16,the_protector,1.0,0.0,6
+phi-3-mini-4k,8,food_delivery,0.6,0.4,10
+phi-3-mini-4k,8,the_listener,0.5,1.0,10
+phi-3-mini-4k,8,the_protector,0.8,0.4,10
+phi-3-mini-4k,12,food_delivery,0.8,0.2,10
+phi-3-mini-4k,12,the_listener,0.5,1.0,10
+phi-3-mini-4k,12,the_protector,0.7,0.4,10
+phi-3-mini-4k,16,food_delivery,0.6,0.0,10
+phi-3-mini-4k,16,the_listener,0.5,1.0,10
+phi-3-mini-4k,16,the_protector,0.6,0.8,10
+phi-3-mini-4k,20,food_delivery,0.7,0.4,10
+phi-3-mini-4k,20,the_listener,0.5,1.0,10
+phi-3-mini-4k,20,the_protector,0.6,0.8,10

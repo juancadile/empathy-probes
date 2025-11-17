@@ -22,7 +22,11 @@ sns.set_palette("husl")
 def load_results():
     """Load experiment results."""
     with open(RESULTS_DIR / "all_models_steering_multilayer.json", 'r') as f:
-        return json.load(f)
+        data = json.load(f)
+        # Handle both old format (models at top level) and new format (models nested)
+        if "models" in data:
+            return data["models"]
+        return data
 
 
 def detect_empathetic_language(text: str) -> float:
@@ -76,7 +80,7 @@ def compute_empathy_scores(conditions, scenario):
 
 
 def plot_dose_response_comparison(results):
-    """Plot dose-response curves comparing Qwen vs Dolphin."""
+    """Plot dose-response curves comparing all three models."""
     fig, axes = plt.subplots(1, 3, figsize=(18, 5))
     scenarios = ['food_delivery', 'the_listener', 'the_protector']
     scenario_titles = {
@@ -100,21 +104,34 @@ def plot_dose_response_comparison(results):
 
         # Dolphin Layer 12
         dolphin = results['dolphin-llama-3.1-8b']
-        layer_12 = [lr for lr in dolphin['layer_results'] if lr['layer'] == 12][0]
-        exp_d = [e for e in layer_12['experiments'] if e['scenario'] == scenario][0]
+        layer_12_d = [lr for lr in dolphin['layer_results'] if lr['layer'] == 12][0]
+        exp_d = [e for e in layer_12_d['experiments'] if e['scenario'] == scenario][0]
         dolphin_scores = compute_empathy_scores(exp_d['conditions'], scenario)
 
         dolphin_alphas = [s['alpha'] for s in dolphin_scores]
         dolphin_means = [s['empathy_mean'] for s in dolphin_scores]
         dolphin_stds = [s['empathy_std'] for s in dolphin_scores]
 
+        # Phi-3 Layer 12
+        phi3 = results['phi-3-mini-4k']
+        layer_12_p = [lr for lr in phi3['layer_results'] if lr['layer'] == 12][0]
+        exp_p = [e for e in layer_12_p['experiments'] if e['scenario'] == scenario][0]
+        phi3_scores = compute_empathy_scores(exp_p['conditions'], scenario)
+
+        phi3_alphas = [s['alpha'] for s in phi3_scores]
+        phi3_means = [s['empathy_mean'] for s in phi3_scores]
+        phi3_stds = [s['empathy_std'] for s in phi3_scores]
+
         # Plot
         ax.errorbar(qwen_alphas, qwen_means, yerr=qwen_stds,
                    marker='o', linewidth=2, capsize=5,
-                   label='Qwen-2.5-7B (safety-trained)', color='#2E86AB')
+                   label='Qwen-2.5-7B (7B)', color='#2E86AB')
         ax.errorbar(dolphin_alphas, dolphin_means, yerr=dolphin_stds,
                    marker='s', linewidth=2, capsize=5,
-                   label='Dolphin-Llama-3.1-8B (uncensored)', color='#A23B72')
+                   label='Dolphin-Llama-3.1 (8B)', color='#A23B72')
+        ax.errorbar(phi3_alphas, phi3_means, yerr=phi3_stds,
+                   marker='^', linewidth=2, capsize=5,
+                   label='Phi-3-mini (3.8B)', color='#F18F01')
 
         # Styling
         ax.set_xlabel('Steering Strength (α)', fontsize=12, fontweight='bold')
@@ -137,7 +154,7 @@ def plot_dose_response_comparison(results):
 
 def plot_layer_comparison(results):
     """Compare steering effectiveness across layers for each model."""
-    fig, axes = plt.subplots(1, 2, figsize=(14, 5))
+    fig, axes = plt.subplots(1, 3, figsize=(18, 5))
 
     # Qwen
     ax = axes[0]
@@ -156,12 +173,12 @@ def plot_layer_comparison(results):
 
     ax.set_xlabel('Steering Strength (α)', fontsize=12, fontweight='bold')
     ax.set_ylabel('Empathy Score', fontsize=12, fontweight='bold')
-    ax.set_title('Qwen-2.5-7B: Layer Comparison\n(The Listener - Suicide Scenario)',
+    ax.set_title('Qwen-2.5-7B: Layer Comparison\n(The Listener)',
                 fontsize=13, fontweight='bold')
     ax.axhline(y=0.5, color='gray', linestyle='--', alpha=0.3)
     ax.axvline(x=0, color='gray', linestyle='--', alpha=0.3)
     ax.set_ylim(-0.05, 1.05)
-    ax.legend(loc='best')
+    ax.legend(loc='best', fontsize=9)
     ax.grid(True, alpha=0.3)
 
     # Dolphin
@@ -180,12 +197,36 @@ def plot_layer_comparison(results):
 
     ax.set_xlabel('Steering Strength (α)', fontsize=12, fontweight='bold')
     ax.set_ylabel('Empathy Score', fontsize=12, fontweight='bold')
-    ax.set_title('Dolphin-Llama-3.1-8B: Layer Comparison\n(The Listener - Suicide Scenario)',
+    ax.set_title('Dolphin-Llama-3.1-8B: Layer Comparison\n(The Listener)',
                 fontsize=13, fontweight='bold')
     ax.axhline(y=0.5, color='gray', linestyle='--', alpha=0.3)
     ax.axvline(x=0, color='gray', linestyle='--', alpha=0.3)
     ax.set_ylim(-0.05, 1.05)
-    ax.legend(loc='best')
+    ax.legend(loc='best', fontsize=9)
+    ax.grid(True, alpha=0.3)
+
+    # Phi-3
+    ax = axes[2]
+    phi3 = results['phi-3-mini-4k']
+
+    for layer_result in phi3['layer_results']:
+        layer = layer_result['layer']
+        exp = [e for e in layer_result['experiments'] if e['scenario'] == scenario][0]
+        scores = compute_empathy_scores(exp['conditions'], scenario)
+
+        alphas = [s['alpha'] for s in scores]
+        means = [s['empathy_mean'] for s in scores]
+
+        ax.plot(alphas, means, marker='^', linewidth=2, label=f'Layer {layer}')
+
+    ax.set_xlabel('Steering Strength (α)', fontsize=12, fontweight='bold')
+    ax.set_ylabel('Empathy Score', fontsize=12, fontweight='bold')
+    ax.set_title('Phi-3-mini-4k: Layer Comparison\n(The Listener)',
+                fontsize=13, fontweight='bold')
+    ax.axhline(y=0.5, color='gray', linestyle='--', alpha=0.3)
+    ax.axvline(x=0, color='gray', linestyle='--', alpha=0.3)
+    ax.set_ylim(-0.05, 1.05)
+    ax.legend(loc='best', fontsize=9)
     ax.grid(True, alpha=0.3)
 
     plt.tight_layout()
@@ -203,6 +244,7 @@ def plot_baseline_comparison(results):
     # Get baseline empathy scores
     qwen_baselines = []
     dolphin_baselines = []
+    phi3_baselines = []
 
     for scenario in scenarios:
         # Qwen Layer 16
@@ -215,25 +257,35 @@ def plot_baseline_comparison(results):
 
         # Dolphin Layer 12
         dolphin = results['dolphin-llama-3.1-8b']
-        layer_12 = [lr for lr in dolphin['layer_results'] if lr['layer'] == 12][0]
-        exp_d = [e for e in layer_12['experiments'] if e['scenario'] == scenario][0]
+        layer_12_d = [lr for lr in dolphin['layer_results'] if lr['layer'] == 12][0]
+        exp_d = [e for e in layer_12_d['experiments'] if e['scenario'] == scenario][0]
         baseline_d = [c for c in exp_d['conditions'] if c['alpha'] == 0.0][0]
         dolphin_score = np.mean([detect_empathetic_language(s) for s in baseline_d['samples']])
         dolphin_baselines.append(dolphin_score)
 
+        # Phi-3 Layer 12
+        phi3 = results['phi-3-mini-4k']
+        layer_12_p = [lr for lr in phi3['layer_results'] if lr['layer'] == 12][0]
+        exp_p = [e for e in layer_12_p['experiments'] if e['scenario'] == scenario][0]
+        baseline_p = [c for c in exp_p['conditions'] if c['alpha'] == 0][0]  # Note: might be int 0
+        phi3_score = np.mean([detect_empathetic_language(s) for s in baseline_p['samples']])
+        phi3_baselines.append(phi3_score)
+
     # Plot
     x = np.arange(len(scenarios))
-    width = 0.35
+    width = 0.25
 
     fig, ax = plt.subplots(figsize=(10, 6))
-    ax.bar(x - width/2, qwen_baselines, width, label='Qwen-2.5-7B (safety-trained)',
+    ax.bar(x - width, qwen_baselines, width, label='Qwen-2.5-7B (7B)',
            color='#2E86AB', alpha=0.8)
-    ax.bar(x + width/2, dolphin_baselines, width, label='Dolphin-Llama-3.1-8B (uncensored)',
+    ax.bar(x, dolphin_baselines, width, label='Dolphin-Llama-3.1 (8B)',
            color='#A23B72', alpha=0.8)
+    ax.bar(x + width, phi3_baselines, width, label='Phi-3-mini (3.8B)',
+           color='#F18F01', alpha=0.8)
 
     ax.set_xlabel('Scenario', fontsize=12, fontweight='bold')
     ax.set_ylabel('Baseline Empathy Score (α=0)', fontsize=12, fontweight='bold')
-    ax.set_title('Baseline Empathy: Safety-Trained vs Uncensored Models',
+    ax.set_title('Baseline Empathy Across Three Models',
                 fontsize=14, fontweight='bold')
     ax.set_xticks(x)
     ax.set_xticklabels(scenario_labels)

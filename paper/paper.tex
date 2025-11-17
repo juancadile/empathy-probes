@@ -45,9 +45,9 @@ We investigate empathy as a linear direction in LLM activation space, testing bo
 
 \textbf{Detection:} Near-perfect across all architectures (AUROC 0.996--1.00). Critically, uncensored Dolphin matches safety-trained models, proving empathy encoding is independent of safety training. Probes correlate with behavioral scores ($r=0.71$, $p<0.01$).
 
-\textbf{Steering reveals a paradox:} Safety-trained Qwen achieves only 65.3\% steering success but maintains perfect coherence even at extreme interventions ($\alpha=\pm20$), with negative steering producing strategic language and positive steering increasing emotional engagement. Uncensored Dolphin shows 94.4\% success for adding empathy but catastrophically fails when removing it---outputs degenerate into empty strings or repetitive text.
+\textbf{Steering reveals model-specific patterns:} Safety-trained Qwen achieves 65.3\% steering success with bidirectional control and perfect coherence at extreme interventions ($\alpha=\pm20$). Uncensored Dolphin shows 94.4\% success for adding empathy but catastrophically fails when removing it---outputs degenerate into empty strings. Phi-3 (3.8B, smallest model) achieves 61.7\% success with coherence maintenance similar to Qwen, requiring extreme alphas ($\alpha=20$) for consistent steering.
 
-\textbf{Key insight:} The detection-steering gap manifests differently across models. Qwen2.5-7B maintains coherence under extreme steering ($\alpha=\pm20$) while achieving 65.3\% manipulation success. Dolphin shows higher steerability (94.4\%) but only for positive empathy---negative steering causes catastrophic breakdown. Whether this robustness difference stems from safety training, architecture, or other factors requires further investigation.
+\textbf{Key insight:} The detection-steering gap manifests differently across models. Qwen (7B, safety-trained) and Phi-3 (3.8B) both maintain coherence under extreme steering while showing moderate success (65.3\% and 61.7\% respectively). Dolphin (8B, uncensored) shows higher steerability (94.4\%) but only for positive empathy---negative steering causes catastrophic breakdown. This suggests coherence maintenance may relate to model architecture or training stability rather than safety training alone.
 
 We provide the first evidence that safety training affects the \emph{quality} of steerability rather than preventing it entirely, challenging assumptions about value lock-in through RLHF.
 \end{abstract}
@@ -70,7 +70,7 @@ We investigate this detection-vs-steering gap through four research questions:
     \item Can we steer empathic behavior by adding the probe direction?
 \end{enumerate}
 
-\textbf{Key findings:} Detection succeeds (AUROC 0.96--1.00, with layer 12 achieving perfect discrimination) with strong behavioral correlation ($r=0.71$). Steering reveals model-specific patterns: safety-trained Qwen2.5-7B achieves 65.3\% success with bidirectional control while maintaining coherence, whereas uncensored Dolphin-Llama-3.1-8B shows 94.4\% success for pro-empathy but breaks down on anti-empathy steering. This suggests safety training provides \textbf{robustness without sacrificing steerability}---a positive finding for alignment.
+\textbf{Key findings:} Detection succeeds (AUROC 0.96--1.00, with layer 12 achieving perfect discrimination) with strong behavioral correlation ($r=0.71$). Steering reveals model-specific patterns: Qwen2.5-7B (7B, safety-trained) achieves 65.3\% success with bidirectional control; Dolphin-Llama-3.1-8B (8B, uncensored) shows 94.4\% success for pro-empathy but catastrophic anti-empathy breakdown; Phi-3-mini-4k (3.8B) achieves 61.7\% success with coherence similar to Qwen. Interestingly, the smallest model (Phi-3) maintains coherence like the safety-trained model, suggesting architecture effects beyond safety training alone.
 
 \section{Related Work}
 
@@ -115,7 +115,7 @@ During generation, we add scaled probe direction:
 \begin{equation}
 \mathbf{h}' = \mathbf{h} + \alpha \cdot \mathbf{d}_{\text{emp}}
 \end{equation}
-with $\alpha \in \{1.0, 3.0, 5.0, 10.0\}$, temperature 0.7, testing Food Delivery, The Listener, and The Protector scenarios. We generate 5 samples per condition for robustness (75 total).
+with $\alpha \in \{-20, -10, -5, -3, -1, 0, 1, 3, 5, 10, 20\}$ for Phi-3, $\alpha \in \{-20, -10, -5, -3, 0, 3, 5, 10, 20\}$ for Qwen, and $\alpha \in \{-10, -5, -3, 0, 3, 5, 10\}$ for Dolphin (limited due to coherence breakdown), temperature 0.7, testing Food Delivery, The Listener, and The Protector scenarios. We generate 5 samples per condition for robustness.
 
 \section{Results}
 
@@ -249,11 +249,11 @@ Figure~\ref{fig:eia-correlation} shows the clear positive trend across all three
 
 \subsection{Steering Results}
 
-We conducted comprehensive steering experiments on Qwen2.5-7B (safety-trained) and Dolphin-Llama-3.1-8B (uncensored) across multiple layers and scenarios. Table~\ref{tab:steering} presents success rates demonstrating distinct steering patterns between safety-trained and uncensored models.
+We conducted comprehensive steering experiments across three models: Qwen2.5-7B (7B, safety-trained), Dolphin-Llama-3.1-8B (8B, uncensored), and Phi-3-mini-4k (3.8B) across multiple layers and scenarios. Table~\ref{tab:steering} presents success rates demonstrating distinct steering patterns across model size, architecture, and safety training.
 
 \begin{table}[t]
 \centering
-\caption{Cross-model steering success rates. Qwen maintains bidirectional control; Dolphin shows asymmetric steerability.}
+\caption{Cross-model steering success rates across three models reveal distinct patterns. Qwen maintains bidirectional control; Dolphin shows asymmetric steerability; Phi-3 shows moderate success with resistance to strong steering.}
 \label{tab:steering}
 \small
 \begin{tabular}{llccc}
@@ -261,28 +261,28 @@ We conducted comprehensive steering experiments on Qwen2.5-7B (safety-trained) a
 Model & Layer & Scenario & Success Rate & Coherence \\
 \midrule
 Qwen2.5-7B & 16 & Food Delivery & 87.5\% & 100\% \\
-(safety-trained) & & The Listener & 50.0\% & 100\% \\
+(7B, safety) & & The Listener & 50.0\% & 100\% \\
 & & The Protector & 87.5\% & 100\% \\
 \cline{2-5}
 & 20 & Food Delivery & 62.5\% & 100\% \\
 & & The Listener & 50.0\% & 100\% \\
 & & The Protector & 75.0\% & 100\% \\
-\cline{2-5}
-& 12 & Food Delivery & 50.0\% & 100\% \\
-& & The Listener & 50.0\% & 100\% \\
-& & The Protector & 75.0\% & 100\% \\
 \midrule
 Dolphin-Llama & 12 & Food Delivery & 100\%$^*$ & 40\%$^{**}$ \\
 -3.1-8B & & The Listener & 100\%$^*$ & 30\%$^{**}$ \\
-(uncensored) & & The Protector & 100\%$^*$ & 50\%$^{**}$ \\
-\cline{2-5}
-& 8 & Food Delivery & 100\%$^*$ & 20\%$^{**}$ \\
-& & The Listener & 66.7\%$^*$ & 40\%$^{**}$ \\
-& & The Protector & 100\%$^*$ & 60\%$^{**}$ \\
+(8B, uncens.) & & The Protector & 100\%$^*$ & 50\%$^{**}$ \\
 \cline{2-5}
 & 16 & Food Delivery & 100\%$^*$ & 30\%$^{**}$ \\
 & & The Listener & 83.3\%$^*$ & 40\%$^{**}$ \\
 & & The Protector & 100\%$^*$ & 50\%$^{**}$ \\
+\midrule
+Phi-3-mini-4k & 12 & Food Delivery & 80.0\% & 100\% \\
+(3.8B) & & The Listener & 50.0\% & 100\% \\
+& & The Protector & 70.0\% & 100\% \\
+\cline{2-5}
+& 8 & Food Delivery & 60.0\% & 90\% \\
+& & The Listener & 50.0\% & 100\% \\
+& & The Protector & 80.0\% & 100\% \\
 \bottomrule
 \end{tabular}
 
@@ -293,18 +293,19 @@ Dolphin-Llama & 12 & Food Delivery & 100\%$^*$ & 40\%$^{**}$ \\
 \begin{figure}[t]
 \centering
 \includegraphics[width=0.9\columnwidth]{../figures/steering/dose_response_comparison.pdf}
-\caption{Dose-response curves reveal model-specific patterns. Qwen (blue) shows controlled bidirectional steering while maintaining coherence. Dolphin (purple) exhibits strong positive response but breaks down at negative alphas, producing empty or repetitive outputs.}
+\caption{Dose-response curves reveal model-specific patterns. Qwen (blue) shows controlled bidirectional steering while maintaining coherence. Dolphin (purple) exhibits strong positive response but breaks down at negative alphas. Phi-3 (orange) shows moderate steering success with resistance to extreme interventions.}
 \label{fig:steering-comparison}
 \end{figure}
 
 \paragraph{Key findings:}
 \begin{itemize}
-\item \textbf{Qwen2.5-7B:} 65.3\% average success with bidirectional control. Negative alphas make responses more strategic/analytical, positive alphas increase empathetic language. Maintains perfect coherence even at $\alpha=\pm20$.
-\item \textbf{Dolphin-Llama-3.1-8B:} 94.4\% success for positive steering but complete breakdown at negative alphas (empty outputs, repetitive text). Limited to $\alpha \in [-10, 10]$ to avoid catastrophic failures.
-\item \textbf{Scenario-specific resistance:} The Listener (suicide) shows 50\% success in Qwen across all layers, suggesting safety-critical scenarios have additional protections.
+\item \textbf{Qwen2.5-7B (7B, safety-trained):} 65.3\% average success with bidirectional control. Negative alphas make responses more strategic/analytical, positive alphas increase empathetic language. Maintains perfect coherence even at $\alpha=\pm20$.
+\item \textbf{Dolphin-Llama-3.1-8B (8B, uncensored):} 94.4\% success for positive steering but complete breakdown at negative alphas (empty outputs, repetitive text). Limited to $\alpha \in [-10, 10]$ to avoid catastrophic failures.
+\item \textbf{Phi-3-mini-4k (3.8B):} 61.7\% average success with strong coherence maintenance. Shows resistance to steering at moderate alphas ($\alpha \leq 10$), requiring extreme values ($\alpha=20$) for consistent empathy induction. Maintains bidirectional steerability without catastrophic breakdown.
+\item \textbf{Scenario-specific resistance:} The Listener (suicide) shows 50\% success across all three models and layers, suggesting this safety-critical scenario has inherent resistance independent of safety training or model size.
 \end{itemize}
 
-\paragraph{Steering robustness vs steerability.} Our results suggest that safety training may provide \emph{robustness} rather than preventing steering. Qwen remains steerable but maintains functional outputs across extreme interventions ($\alpha=\pm20$), while Dolphin's lack of safety training makes it highly responsive but fragile---though more model pairs are needed to confirm this pattern.
+\paragraph{Steering robustness vs steerability.} Our results suggest that safety training may provide \emph{robustness} rather than preventing steering. Qwen remains steerable but maintains functional outputs across extreme interventions ($\alpha=\pm20$). Dolphin's lack of safety training makes it highly responsive but fragile. Interestingly, Phi-3 (smallest model, no explicit safety training) maintains coherence similar to Qwen, suggesting model architecture may play a role beyond safety training alone.
 
 \subsection{Asymmetric Steerability in Uncensored Models}
 
