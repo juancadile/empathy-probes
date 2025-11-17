@@ -37,23 +37,21 @@ ax.axvline(x=percentile_95, color='orange', linestyle='--', linewidth=2, alpha=0
 
 # Add empathy probes for all 3 models
 probes_data = [
-    {"name": "Phi-3 (L12)", "auroc": 1.0, "color": "#F18F01", "y": 35},
-    {"name": "Qwen (L16)", "auroc": 1.0, "color": "#2E86AB", "y": 30},
-    {"name": "Dolphin (L8)", "auroc": 0.996, "color": "#A23B72", "y": 25}
+    {"name": "Phi-3 (L12)", "auroc": 1.0, "color": "#F18F01"},
+    {"name": "Qwen (L16)", "auroc": 1.0, "color": "#2E86AB"},
+    {"name": "Dolphin (L8)", "auroc": 0.996, "color": "#A23B72"}
 ]
 
 for probe in probes_data:
-    ax.axvline(x=probe["auroc"], color=probe["color"], linestyle='-', linewidth=3, alpha=0.9)
-    ax.text(probe["auroc"] - 0.02, probe["y"], probe["name"],
-            rotation=90, verticalalignment='bottom', fontsize=10,
-            color=probe["color"], fontweight='bold')
+    ax.axvline(x=probe["auroc"], color=probe["color"], linestyle='-',
+               linewidth=3, alpha=0.9, label=probe["name"])
 
 # Customize
 ax.set_xlabel('AUROC', fontsize=12, fontweight='bold')
 ax.set_ylabel('Frequency', fontsize=12, fontweight='bold')
 ax.set_title('Random Baseline Validation (N=100 random vectors for Phi-3)',
              fontsize=12, fontweight='bold')
-ax.legend(fontsize=10, loc='upper left', framealpha=0.95)
+ax.legend(fontsize=9, loc='upper left', framealpha=0.95, ncol=2)
 ax.grid(True, alpha=0.3, axis='y')
 ax.set_xlim(0.0, 1.05)
 
