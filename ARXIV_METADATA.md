@@ -37,7 +37,7 @@ Our results suggest that safety training may affect the quality of steerability 
 - Safety Training
 
 ## Comments
-13 pages, 9 figures, 2 tables. Code and data available at https://github.com/juancadile/empathy-action-probes
+14 pages, 9 figures, 2 tables. Code and data available at https://github.com/juancadile/empathy-action-probes
 
 ## Submission Checklist
 - [ ] Paper PDF (paper.pdf)
