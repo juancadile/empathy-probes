@@ -24,8 +24,8 @@
 % Custom commands
 \newcommand{\todo}[1]{\textcolor{red}{[TODO: #1]}}
 
-\title{The Detection-Steering Gap in Empathy: \\
-Safety Training Provides Robustness Without Preventing Manipulation}
+\title{Detecting vs Steering Empathy in LLMs: \\
+Cross-Model Probes Reveal Asymmetric Manipulation Patterns}
 
 % Author information - anonymize for submission
 \author{%
@@ -46,7 +46,7 @@ We investigate empathy as a linear direction in LLM activation space, testing bo
 
 \textbf{Steering reveals a paradox:} Safety-trained Qwen achieves only 65.3\% steering success but maintains perfect coherence even at extreme interventions ($\alpha=\pm20$), with negative steering producing strategic language and positive steering increasing emotional engagement. Uncensored Dolphin shows 94.4\% success for adding empathy but catastrophically fails when removing it---outputs degenerate into empty strings or repetitive text.
 
-\textbf{Key insight:} In our model comparison, safety training appears to provide \emph{robustness} rather than preventing manipulation---Qwen remains functional under adversarial steering while Dolphin breaks down. The suicide scenario shows unique resistance (50\% vs 87.5\% success), suggesting safety-critical content may have additional protections. This suggests RLHF might create empathy representations that are \textbf{linearly detectable but nonlinearly robust}, though more model pairs are needed to confirm this pattern.
+\textbf{Key insight:} The detection-steering gap manifests differently across models. Qwen2.5-7B maintains coherence under extreme steering ($\alpha=\pm20$) while achieving 65.3\% manipulation success. Dolphin shows higher steerability (94.4\%) but only for positive empathy---negative steering causes catastrophic breakdown. Whether this robustness difference stems from safety training, architecture, or other factors requires further investigation.
 
 We provide the first evidence that safety training affects the \emph{quality} of steerability rather than preventing it entirely, challenging assumptions about value lock-in through RLHF.
 \end{abstract}
@@ -279,12 +279,8 @@ Model & Layer & Scenario & Success Rate & Coherence \\
 & & The Protector & 100\%$^*$ & 50\%$^{**}$ \\
 \bottomrule
 \end{tabular}
-\vspace{3pt}
-\begin{tablenotes}
-\small
-\item $^*$ Pro-empathy steering only
-\item $^{**}$ Coherence degrades at negative $\alpha$
-\end{tablenotes}
+\vspace{2pt}
+\\{\footnotesize $^*$ Pro-empathy steering only; $^{**}$ Coherence degrades at negative $\alpha$}
 \end{table}
 
 \begin{figure}[t]
@@ -314,9 +310,9 @@ Dolphin-Llama-3.1-8B exhibits a striking asymmetry: near-perfect pro-empathy ste
 
 This asymmetry suggests uncensored models lack the structural constraints that maintain output coherence under adversarial interventions. While highly responsive to positive steering (adding empathy works), they have no ``floor'' to prevent collapse when empathy is removed.
 
-\subsection{Safety Training May Provide Steering Robustness}
+\subsection{Model-Specific Robustness Patterns}
 
-In our model comparison, safety training appears to provide \emph{robustness without preventing steerability}---though we note this is based on a single model pair:
+In our model comparison, Qwen2.5-7B (safety-trained) maintains coherence under extreme steering while Dolphin (uncensored) breaks down---though whether this robustness comes from safety training, model architecture, or other factors remains unclear:
 
 \paragraph{Baseline empathy differences.} Figure~\ref{fig:baseline} shows Qwen exhibits higher baseline empathy (0.2--1.0 depending on scenario) compared to Dolphin (0.0--0.4), meaning safety training increases default empathetic behavior.
 
