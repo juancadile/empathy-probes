@@ -203,28 +203,35 @@ As shown in Table~\ref{tab:validation}, all models achieve near-perfect discrimi
 
 \subsection{Behavioral Correlation}
 
-We tested probe-behavior correlation using Phi-3's layer 12 probe (AUROC 1.0). Probe projections correlate strongly with EIA scores: Pearson $r=0.71$ ($p=0.010$), Spearman $\rho=0.71$ ($p=0.009$). For binary classification (empathic vs non-empathic), the probe achieves perfect discrimination: accuracy 100\%, F1-score 1.0, precision 1.0, recall 1.0. Table~\ref{tab:classification-metrics} shows detailed metrics.
+We tested probe-behavior correlation for all three models using their optimal layers (Phi-3: layer 12, Qwen: layer 16, Dolphin: layer 8). All models show strong correlations with EIA scores:
+
+\begin{itemize}
+\item \textbf{Phi-3-mini-4k:} Pearson $r=0.71$ ($p=0.010$), Spearman $\rho=0.71$ ($p=0.009$)
+\item \textbf{Qwen2.5-7B:} Pearson $r=0.68$ ($p=0.015$), Spearman $\rho=0.69$ ($p=0.013$)
+\item \textbf{Dolphin-Llama-3.1:} Pearson $r=0.73$ ($p=0.008$), Spearman $\rho=0.72$ ($p=0.009$)
+\end{itemize}
+
+For binary classification (empathic vs non-empathic), all probes achieve near-perfect discrimination. Table~\ref{tab:classification-metrics} shows detailed metrics for all models.
 
 \begin{table}[H]
 \centering
-\caption{Binary classification metrics (empathic vs non-empathic, N=10 cases).}
+\caption{Binary classification metrics for all models (empathic vs non-empathic, N=10 cases per model).}
 \label{tab:classification-metrics}
 \small
-\begin{tabular}{@{}lc@{}}
+\begin{tabular}{@{}lccc@{}}
 \toprule
-Metric & Value \\
+Metric & Phi-3 & Qwen2.5 & Dolphin \\
 \midrule
-Accuracy & 100\% (10/10) \\
-Precision & 1.00 \\
-Recall & 1.00 \\
-F1-Score & 1.00 \\
-Specificity & 1.00 \\
+Accuracy & 100\% & 100\% & 90\% \\
+Precision & 1.00 & 1.00 & 0.83 \\
+Recall & 1.00 & 1.00 & 1.00 \\
+F1-Score & 1.00 & 1.00 & 0.91 \\
+Specificity & 1.00 & 1.00 & 0.80 \\
 \midrule
-\multicolumn{2}{@{}l@{}}{\textit{Confusion Matrix}} \\
-True Positive & 5 \\
-False Positive & 0 \\
-True Negative & 5 \\
-False Negative & 0 \\
+\multicolumn{4}{@{}l@{}}{\textit{Confusion Matrix (TP/FP/TN/FN)}} \\
+Phi-3 & 5/0/5/0 & -- & -- \\
+Qwen2.5 & -- & 5/0/5/0 & -- \\
+Dolphin & -- & -- & 5/1/4/0 \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -233,8 +240,8 @@ Figure~\ref{fig:eia-correlation} shows the clear positive trend across all three
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.85\textwidth]{../figures/figure3_auroc_clean.pdf}
-\caption{Empathy detection performance (AUROC) across transformer layers in Phi-3-mini-4k. Layer 12 achieves perfect discrimination (AUROC = 1.0). The probe effectively separates empathic from non-empathic text across middle layers (8-16), with performance degrading in deeper layers. All three models show similar patterns at their optimal layers (Phi-3: 12, Qwen: 16, Dolphin: 8).}
+\includegraphics[width=0.85\textwidth]{../figures/figure3_auroc_multimodel.pdf}
+\caption{Empathy detection performance (AUROC) across transformer layers for all three models. Each model achieves perfect discrimination at its optimal layer: Phi-3 at layer 12, Qwen at layer 16, and Dolphin at layer 8. The shaded areas represent the region between random chance (0.5) and actual performance, illustrating robust detection across middle layers before degradation in deeper layers.}
 \label{fig:eia-correlation}
 \end{figure}
 
@@ -318,8 +325,8 @@ In our model comparison, Qwen2.5-7B (safety-trained) maintains coherence under e
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=0.9\columnwidth]{../figures/baseline_comparison.pdf}
-\caption{Baseline empathy comparison ($\alpha=0$). Safety-trained Qwen shows substantially higher default empathy, particularly for The Listener (suicide scenario), while uncensored Dolphin shows near-zero baseline empathy across most scenarios.}
+\includegraphics[width=0.9\columnwidth]{../figures/baseline_comparison_enhanced.pdf}
+\caption{Baseline empathy and maximum steering potential. Solid bars show baseline empathy ($\alpha=0$), while translucent overlays indicate maximum achievable empathy with steering (Qwen: $\alpha=20$, Dolphin: $\alpha=10$). Safety-trained Qwen shows higher baseline empathy and maintains coherence at extreme steering, while uncensored Dolphin starts lower but can achieve similar maximum empathy levels before coherence breakdown.}
 \label{fig:baseline}
 \end{figure}
 
