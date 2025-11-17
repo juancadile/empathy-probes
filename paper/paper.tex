@@ -43,7 +43,7 @@ Cross-Model Probes Reveal Asymmetric Manipulation Patterns}
 \begin{abstract}
 We investigate empathy as a linear direction in LLM activation space, testing both detection and manipulation across three models: Phi-3-mini-4k (3.8B), Qwen2.5-7B (safety-trained), and Dolphin-Llama-3.1-8B (uncensored).
 
-\textbf{Detection:} Near-perfect across all architectures (AUROC 0.996--1.00). Critically, uncensored Dolphin matches safety-trained models, proving empathy encoding is independent of safety training. Phi-3 probes correlate strongly with behavioral scores ($r=0.71$, $p<0.01$).
+\textbf{Detection:} Near-perfect across all architectures (AUROC 0.996--1.00). Critically, uncensored Dolphin matches safety-trained models, demonstrating that empathy encoding emerges independent of safety training. Phi-3 probes correlate strongly with behavioral scores ($r=0.71$, $p<0.01$).
 
 \textbf{Steering reveals model-specific patterns:} Safety-trained Qwen achieves 65.3\% steering success with bidirectional control and perfect coherence at extreme interventions ($\alpha=\pm20$). Uncensored Dolphin shows 94.4\% success for adding empathy but catastrophically fails when removing it---outputs degenerate into empty strings. Phi-3 (3.8B, smallest model) achieves 61.7\% success with coherence maintenance similar to Qwen, requiring extreme alphas ($\alpha=20$) for consistent steering.
 
@@ -401,7 +401,7 @@ Our fixed experiments confirm a detection-steering gap but reveal important nuan
 
 \section{Conclusion}
 
-Empathy can be reliably \textbf{detected} as a linear direction across diverse architectures (Phi-3, Qwen2.5-7B, Dolphin-Llama-3.1-8B) with near-perfect discrimination (AUROC 0.996--1.00) and behavioral correlation ($r=0.71$). Critically, uncensored models match safety-trained models in detection, proving empathy encoding is independent of safety training.
+Empathy can be reliably \textbf{detected} as a linear direction across diverse architectures (Phi-3, Qwen2.5-7B, Dolphin-Llama-3.1-8B) with near-perfect discrimination (AUROC 0.996--1.00) and behavioral correlation ($r=0.71$). Critically, uncensored models match safety-trained models in detection, demonstrating that empathy encoding emerges independent of safety training.
 
 \textbf{Steering} reveals striking model-specific patterns: safety-trained Qwen2.5-7B achieves 65.3\% success with robust bidirectional control (maintains coherence at $\alpha=\pm20$), while uncensored Dolphin-Llama-3.1-8B shows 94.4\% success for pro-empathy but catastrophic breakdown for anti-empathy steering. This suggests that safety training may provide \textbf{steering robustness without preventing manipulation}---though this finding is based on a single model pair and requires broader validation.
 
