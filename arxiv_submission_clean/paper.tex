@@ -166,7 +166,7 @@ Model & Layer & AUROC & Accuracy & Separation & Std (E/N) \\
 
 \paragraph{Random baseline control.} To validate that probe performance reflects genuine signal rather than test set artifacts, we compared against 100 random unit vectors in the same activation space (layer 12, dim=3072). Random directions achieved mean AUROC $0.50 \pm 0.24$ (chance level), while the empathy probe achieved AUROC 1.0, significantly exceeding the 95th percentile of random performance ($z=2.09$, $p<0.05$). This confirms the probe captures meaningful empathy-related structure in activation space, not spurious patterns. See Figure~\ref{fig:random-baseline} for distribution.
 
-\begin{figure}[t]
+\begin{figure}[!htbp]
 \centering
 \includegraphics[width=0.7\textwidth]{figures/figure2_random_baseline.pdf}
 \caption{Random baseline validation showing all three models' probe performance vs 100 random unit vectors (Phi-3 distribution shown in histogram). All three empathy probes (Phi-3 L12 AUROC 1.0, Qwen L16 AUROC 1.0, Dolphin L8 AUROC 0.996) significantly exceed the 95th percentile (orange line, 0.857) with z=2.09 (p<0.05).}
