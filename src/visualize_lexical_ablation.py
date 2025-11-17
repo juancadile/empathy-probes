@@ -45,7 +45,7 @@ ax.set_title('Lexical Ablation: Probe Robustness to Keyword Removal',
              fontsize=12, fontweight='bold')
 ax.set_xticks(x)
 ax.set_xticklabels(labels, fontsize=10)
-ax.legend(fontsize=9, loc='upper right')
+ax.legend(fontsize=9, loc='upper left')  # Moved from upper right to upper left
 ax.grid(axis='y', alpha=0.3, linestyle='--')
 ax.set_ylim(0, max(original_values + ablated_values) * 1.15)
 
