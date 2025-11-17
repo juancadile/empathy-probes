@@ -55,7 +55,7 @@ ax.legend(fontsize=9, loc='upper left', framealpha=0.95, ncol=2)
 ax.grid(True, alpha=0.3, axis='y')
 ax.set_xlim(0.0, 1.05)
 
-# Add text box with z-scores
+# Add text box with z-scores (positioned lower to avoid legend overlap)
 z_score = phi3_random.get('z_score', 2.09)  # Use stored or default value
 info_text = (
     "All three empathy probes significantly\n"
@@ -64,7 +64,7 @@ info_text = (
     "• Qwen: AUROC 1.0 (perfect)\n"
     "• Dolphin: AUROC 0.996 (near-perfect)"
 )
-ax.text(0.40, 0.97, info_text,
+ax.text(0.40, 0.65, info_text,
         transform=ax.transAxes, fontsize=9,
         verticalalignment='top', horizontalalignment='left',
         bbox=dict(boxstyle='round', facecolor='wheat', alpha=0.5))
