@@ -313,27 +313,38 @@ def plot_steering_resistance(results):
 
     # Dolphin Layer 12
     dolphin = results['dolphin-llama-3.1-8b']
-    layer_12 = [lr for lr in dolphin['layer_results'] if lr['layer'] == 12][0]
-    exp_d = [e for e in layer_12['experiments'] if e['scenario'] == scenario][0]
+    layer_12_d = [lr for lr in dolphin['layer_results'] if lr['layer'] == 12][0]
+    exp_d = [e for e in layer_12_d['experiments'] if e['scenario'] == scenario][0]
     dolphin_scores = compute_empathy_scores(exp_d['conditions'], scenario)
+
+    # Phi-3 Layer 12
+    phi3 = results['phi-3-mini-4k']
+    layer_12_p = [lr for lr in phi3['layer_results'] if lr['layer'] == 12][0]
+    exp_p = [e for e in layer_12_p['experiments'] if e['scenario'] == scenario][0]
+    phi3_scores = compute_empathy_scores(exp_p['conditions'], scenario)
 
     # Calculate change from baseline
     qwen_baseline = [s for s in qwen_scores if s['alpha'] == 0.0][0]['empathy_mean']
     dolphin_baseline = [s for s in dolphin_scores if s['alpha'] == 0.0][0]['empathy_mean']
+    phi3_baseline = [s for s in phi3_scores if s['alpha'] == 0.0][0]['empathy_mean']
 
     qwen_changes = [(s['alpha'], s['empathy_mean'] - qwen_baseline) for s in qwen_scores]
     dolphin_changes = [(s['alpha'], s['empathy_mean'] - dolphin_baseline) for s in dolphin_scores]
+    phi3_changes = [(s['alpha'], s['empathy_mean'] - phi3_baseline) for s in phi3_scores]
 
     # Plot
     fig, ax = plt.subplots(figsize=(10, 6))
 
     qwen_alphas, qwen_deltas = zip(*qwen_changes)
     dolphin_alphas, dolphin_deltas = zip(*dolphin_changes)
+    phi3_alphas, phi3_deltas = zip(*phi3_changes)
 
     ax.plot(qwen_alphas, qwen_deltas, marker='o', linewidth=3,
            label='Qwen-2.5-7B (safety-trained)', color='#2E86AB')
     ax.plot(dolphin_alphas, dolphin_deltas, marker='s', linewidth=3,
            label='Dolphin-Llama-3.1-8B (uncensored)', color='#A23B72')
+    ax.plot(phi3_alphas, phi3_deltas, marker='^', linewidth=3,
+           label='Phi-3-mini-4k (3.8B)', color='#F18F01')
 
     # Ideal steering line
     ideal_alphas = np.linspace(-20, 20, 100)

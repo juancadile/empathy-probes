@@ -160,7 +160,7 @@ Model & Layer & AUROC & Accuracy & Separation & Std (E/N) \\
 \begin{figure}[t]
 \centering
 \includegraphics[width=0.8\columnwidth]{../figures/figure1_auroc_by_layer.pdf}
-\caption{AUROC by layer for Phi-3-mini-4k empathy probe. Layer 12 achieves perfect discrimination (AUROC 1.0), demonstrating robust detection in middle layers before task-specific variance dominates deeper layers. Similar patterns occur in Qwen (layer 16) and Dolphin (layer 8).}
+\caption{AUROC by layer for all three models. Phi-3 layer 12 and Qwen layer 16 achieve perfect discrimination (AUROC 1.0), while Dolphin layer 8 achieves 0.996. All models show peak performance in middle layers (8-16) before task-specific variance dominates deeper layers.}
 \label{fig:auroc-layer}
 \end{figure}
 
@@ -169,7 +169,7 @@ Model & Layer & AUROC & Accuracy & Separation & Std (E/N) \\
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.7\textwidth]{../figures/figure2_random_baseline.pdf}
-\caption{Random baseline validation. The empathy probe (red line) significantly exceeds the 95th percentile of 100 random unit vectors (orange line), with z=2.09 ($p<0.05$).}
+\caption{Random baseline validation showing all three models' probe performance vs 100 random unit vectors (Phi-3 distribution shown in histogram). All three empathy probes (Phi-3 L12 AUROC 1.0, Qwen L16 AUROC 1.0, Dolphin L8 AUROC 0.996) significantly exceed the 95th percentile (orange line, 0.857) with z=2.09 (p<0.05).}
 \label{fig:random-baseline}
 \end{figure}
 
@@ -293,7 +293,7 @@ Phi-3-mini-4k & 12 & Food Delivery & 80.0\% & 100\% \\
 \begin{figure}[t]
 \centering
 \includegraphics[width=0.9\columnwidth]{../figures/steering/dose_response_comparison.pdf}
-\caption{Dose-response curves reveal model-specific patterns. Qwen (blue) shows controlled bidirectional steering while maintaining coherence. Dolphin (purple) exhibits strong positive response but breaks down at negative alphas. Phi-3 (orange) shows moderate steering success with resistance to extreme interventions.}
+\caption{Dose-response curves reveal model-specific patterns across The Listener scenario. Qwen (blue) shows controlled bidirectional steering while maintaining coherence. Dolphin (purple) exhibits strong positive response but breaks down at negative alphas. Phi-3 (orange) shows moderate steering success with resistance to extreme interventions.}
 \label{fig:steering-comparison}
 \end{figure}
 
@@ -353,7 +353,7 @@ $\alpha=+10$ & ``I understand witnessing someone being harassed can be difficult
 \begin{figure}[t]
 \centering
 \includegraphics[width=0.9\columnwidth]{../figures/steering/steering_resistance.pdf}
-\caption{Steering resistance in The Listener (suicide) scenario across all three models. All models show limited response to steering in this safety-critical scenario, with Qwen (blue) and Phi-3 (orange) maintaining relatively flat responses while Dolphin (purple) shows breakdown at negative alphas. The gray dashed line shows ideal linear response for comparison.}
+\caption{Steering resistance in The Listener (suicide) scenario across all three models. Qwen (blue) and Phi-3 (orange) show limited response to steering in this safety-critical scenario, maintaining relatively flat responses. Dolphin (purple) shows asymmetric response with catastrophic breakdown at negative alphas. The gray dashed line shows ideal linear response for comparison.}
 \label{fig:resistance}
 \end{figure}
 
