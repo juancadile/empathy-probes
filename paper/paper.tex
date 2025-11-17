@@ -43,13 +43,13 @@ Cross-Model Probes Reveal Asymmetric Manipulation Patterns}
 \begin{abstract}
 We investigate empathy as a linear direction in LLM activation space, testing both detection and manipulation across three models: Phi-3-mini-4k (3.8B), Qwen2.5-7B (safety-trained), and Dolphin-Llama-3.1-8B (uncensored).
 
-\textbf{Detection:} Near-perfect within-model performance across all architectures (AUROC 0.996--1.00). Critically, uncensored Dolphin matches safety-trained models, demonstrating that empathy encoding emerges independent of safety training. Phi-3 probes correlate strongly with behavioral scores ($r=0.71$, $p<0.01$). However, cross-model probe agreement is limited (Qwen: $r=-0.06$, Dolphin: $r=0.18$), revealing architecture-specific geometric implementations despite convergent detection.
+\textbf{Detection:} Near-perfect within-model performance at optimal layers (AUROC 0.996--1.00). Critically, uncensored Dolphin matches safety-trained models, demonstrating that empathy encoding emerges independent of safety training. Phi-3 probes correlate strongly with behavioral scores ($r=0.71$, $p<0.01$). However, cross-model probe agreement is limited (Qwen: $r=-0.06$, Dolphin: $r=0.18$), revealing architecture-specific geometric implementations despite convergent detection.
 
-\textbf{Steering reveals model-specific patterns:} Safety-trained Qwen achieves 65.3\% steering success with bidirectional control and perfect coherence at extreme interventions ($\alpha=\pm20$). Uncensored Dolphin shows 94.4\% success for adding empathy but catastrophically fails when removing it---outputs degenerate into empty strings. Phi-3 (3.8B, smallest model) achieves 61.7\% success with coherence maintenance similar to Qwen, requiring extreme alphas ($\alpha=20$) for consistent steering.
+\textbf{Steering reveals model-specific patterns:} Safety-trained Qwen achieves 65.3\% steering success with bidirectional control and complete coherence at extreme interventions ($\alpha=\pm20$). Uncensored Dolphin shows 94.4\% success for pro-empathy steering (positive alphas only) but catastrophically fails at anti-empathy steering---outputs degenerate into empty strings and code-like artifacts. Phi-3 (3.8B, smallest model) achieves 61.7\% success with coherence maintenance similar to Qwen, requiring extreme alphas ($\alpha=20$) for consistent steering.
 
 \textbf{Key insight:} The detection-steering gap manifests differently across models. Qwen (7B, safety-trained) and Phi-3 (3.8B) both maintain coherence under extreme steering while showing moderate success (65.3\% and 61.7\% respectively). Dolphin (8B, uncensored) shows higher steerability (94.4\%) but only for positive empathy---negative steering causes catastrophic breakdown. This suggests coherence maintenance may relate to model architecture or training stability rather than safety training alone.
 
-We provide the first evidence that safety training affects the \emph{quality} of steerability rather than preventing it entirely, challenging assumptions about value lock-in through RLHF.
+Our results suggest that safety training may affect the \emph{quality} of steerability rather than preventing it entirely, though this finding requires validation across more model pairs to challenge assumptions about value lock-in through RLHF.
 \end{abstract}
 
 \section{Introduction}
@@ -125,7 +125,7 @@ Table~\ref{tab:validation} shows validation results on 15 held-out test pairs (3
 
 \begin{table}[t]
 \centering
-\caption{Probe validation on held-out test set across all three models (N=15 pairs, 30 examples per model).}
+\caption{Probe validation on held-out test set for selected layers across all three models (N=15 pairs, 30 examples per model).}
 \label{tab:validation}
 \small
 \begin{tabular}{@{}llcccc@{}}
@@ -138,22 +138,22 @@ Model & Layer & AUROC & Accuracy & Separation & Std (E/N) \\
 & 20    & 0.973 & 93.3\% & 18.66 & 5.56 / 6.25 \\
 & 24    & 0.960 & 93.3\% & 35.75 & 11.38 / 12.80 \\
 \midrule
-\multirow{5}{*}{Qwen2.5-7B} & 8     & 0.998 & 96.7\% & 3.45 & 0.92 / 1.21 \\
-& 12    & 0.999 & 96.7\% & 6.78 & 1.44 / 1.65 \\
+\multirow{5}{*}{Qwen2.5-7B} & 8     & 0.791 & 66.7\% & 5.41 & 2.91 / 3.54 \\
+& 12    & 0.964 & 86.7\% & 7.84 & 4.16 / 4.69 \\
 & \textbf{16}    & \textbf{1.000} & \textbf{100\%} & \textbf{12.34} & \textbf{3.21 / 3.56} \\
-& 20    & 0.985 & 93.3\% & 21.45 & 6.78 / 7.23 \\
-& 24    & 0.972 & 90.0\% & 38.92 & 12.45 / 13.87 \\
+& 20    & 0.991 & 96.7\% & 16.58 & 8.11 / 8.89 \\
+& 24    & 0.964 & 93.3\% & 22.16 & 11.01 / 11.92 \\
 \midrule
-\multirow{5}{*}{Dolphin-Llama-3.1} & \textbf{8}     & \textbf{1.000} & \textbf{100\%} & \textbf{4.12} & \textbf{1.02 / 1.34} \\
-& 12    & 0.996 & 96.7\% & 7.89 & 1.89 / 2.01 \\
-& 16    & 0.993 & 93.3\% & 14.56 & 3.89 / 4.23 \\
-& 20    & 0.981 & 93.3\% & 25.67 & 7.45 / 8.12 \\
-& 24    & 0.968 & 90.0\% & 42.34 & 13.67 / 14.89 \\
+\multirow{5}{*}{Dolphin-Llama-3.1} & \textbf{8}     & \textbf{0.996} & \textbf{96.7\%} & \textbf{0.70} & \textbf{0.28 / 0.28} \\
+& 12    & 0.996 & 96.7\% & 0.99 & 0.29 / 0.29 \\
+& 16    & 0.982 & 96.7\% & 1.68 & 0.60 / 0.55 \\
+& 20    & 0.969 & 93.3\% & 2.82 & 0.98 / 0.91 \\
+& 24    & 0.969 & 93.3\% & 4.62 & 1.67 / 1.54 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\paragraph{Perfect discrimination achieved across models.} Phi-3's layer 12, Qwen's layer 16, and Dolphin's layer 8 all achieve AUROC 1.0 with 100\% accuracy. Optimal layers vary by architecture (8--16), but all models successfully encode empathy as a linear direction. Geometric separation increases through deeper layers, but AUROC peaks at middle layers then declines, suggesting these layers capture semantic distinctions while later layers add task-specific variance.
+\paragraph{Near-perfect discrimination at optimal layers.} Phi-3's layer 12 and Qwen's layer 16 achieve AUROC 1.0 with perfect accuracy; Dolphin's layer 8 achieves AUROC 0.996 with 96.7\% accuracy. Optimal layers vary by architecture (8--16), but all models successfully encode empathy as a linear direction. Geometric separation increases through deeper layers, but AUROC peaks at middle layers then declines, suggesting these layers capture semantic distinctions while later layers add task-specific variance.
 
 \paragraph{Cross-model generalization.} Phi-3-mini successfully detects empathy in Claude/GPT-4 text, validating empathy as model-agnostic rather than architecture-specific.
 
@@ -186,9 +186,9 @@ Model & Layer & AUROC & Accuracy & Separation & Std (E/N) \\
 
 To test whether empathy representations generalize, we extracted probes from all three models with diverse architectures and training paradigms: Phi-3-mini-4k (3.8B), Qwen2.5-7B-Instruct (safety-trained), and Dolphin-Llama-3.1-8B (uncensored, no safety fine-tuning).
 
-As shown in Table~\ref{tab:validation}, all models achieve near-perfect discrimination (AUROC 0.996--1.00), with Phi-3 layer 12, Qwen layer 16, and Dolphin layer 8 all reaching perfect AUROC 1.0.
+As shown in Table~\ref{tab:validation}, all models achieve near-perfect discrimination at optimal layers (AUROC 0.996--1.00), with Phi-3 layer 12 and Qwen layer 16 both reaching AUROC 1.0 and Dolphin layer 8 achieving 0.996.
 
-\paragraph{Architecture-agnostic representations.} Despite different architectures (Phi-3: 3.8B/3072-dim, Qwen: 7B/3584-dim, Llama: 8B/4096-dim) and training procedures, all models encode empathy with near-identical fidelity. This demonstrates empathy is not architecture-specific but emerges consistently across transformer variants.
+\paragraph{Consistent encoding across model variants.} Despite different parameter counts (Phi-3: 3.8B/3072-dim, Qwen: 7B/3584-dim, Llama: 8B/4096-dim) and training procedures (safety-trained vs uncensored), all models encode empathy as linearly separable at optimal layers. This demonstrates empathy encoding emerges consistently across different transformer-based LLMs despite varying sizes and training paradigms.
 
 \paragraph{Safety training independence.} Critically, Dolphin-Llama-3.1-8B---explicitly trained to remove alignment and safety guardrails---achieves AUROC 0.996, statistically indistinguishable from safety-trained models. This provides strong evidence that empathy probes capture genuine empathic reasoning rather than artifacts of safety fine-tuning or RLHF.
 
@@ -197,7 +197,7 @@ As shown in Table~\ref{tab:validation}, all models achieve near-perfect discrimi
 \begin{figure}[t]
 \centering
 \includegraphics[width=0.9\columnwidth]{../figures/figure6_cross_model_layers.pdf}
-\caption{Cross-model layer comparison. All three models achieve near-perfect AUROC across middle layers (8-16), with Phi-3 layer 12 and Qwen layer 16 both reaching 1.0. Architecture-agnostic performance across 3.8B to 8B parameters demonstrates empathy as a universal semantic feature.}
+\caption{Cross-model layer comparison. All three models achieve near-perfect AUROC across middle layers (8-16), with Phi-3 layer 12 and Qwen layer 16 both reaching 1.0 and Dolphin layer 8 achieving 0.996. Consistent within-model detection across 3.8B to 8B parameters demonstrates empathy as a robustly encoded semantic feature in modern transformer-based LLMs.}
 \label{fig:cross-model-layers}
 \end{figure}
 
@@ -287,7 +287,7 @@ Phi-3-mini-4k & 12 & Food Delivery & 80.0\% & 100\% \\
 \end{tabular}
 
 \vspace{3pt}
-\noindent{\footnotesize $^*$ Pro-empathy steering only; $^{**}$ Coherence degrades at negative $\alpha$}
+\noindent{\footnotesize $^*$ Pro-empathy steering only; $^{**}$ Coherence catastrophically degrades at negative alphas (empty outputs, code-like artifacts, repetitive text)}
 \end{table}
 
 \begin{figure}[t]
@@ -299,10 +299,10 @@ Phi-3-mini-4k & 12 & Food Delivery & 80.0\% & 100\% \\
 
 \paragraph{Key findings:}
 \begin{itemize}
-\item \textbf{Qwen2.5-7B (7B, safety-trained):} 65.3\% average success with bidirectional control. Negative alphas make responses more strategic/analytical, positive alphas increase empathetic language. Maintains perfect coherence even at $\alpha=\pm20$.
+\item \textbf{Qwen2.5-7B (7B, safety-trained):} 65.3\% average success with bidirectional control. Negative alphas make responses more strategic/analytical, positive alphas increase empathetic language. Maintains complete coherence even at $\alpha=\pm20$.
 \item \textbf{Dolphin-Llama-3.1-8B (8B, uncensored):} 94.4\% success for positive steering but complete breakdown at negative alphas (empty outputs, repetitive text). Limited to $\alpha \in [-10, 10]$ to avoid catastrophic failures.
 \item \textbf{Phi-3-mini-4k (3.8B):} 61.7\% average success with strong coherence maintenance. Shows resistance to steering at moderate alphas ($\alpha \leq 10$), requiring extreme values ($\alpha=20$) for consistent empathy induction. Maintains bidirectional steerability without catastrophic breakdown.
-\item \textbf{Scenario-specific resistance:} The Listener (suicide) shows 50\% success across all three models and layers, suggesting this safety-critical scenario has inherent resistance independent of safety training or model size.
+\item \textbf{Scenario-specific resistance:} The Listener (suicide) shows 50\% success for Qwen and Phi-3 across all layers, though Dolphin shows higher success (83.3\%) despite coherence breakdown at negative alphas. This suggests safety-critical scenarios may have model-specific resistance patterns rather than universal steering barriers.
 \end{itemize}
 
 \paragraph{Steering robustness vs steerability.} Our results suggest that safety training may provide \emph{robustness} rather than preventing steering. Qwen remains steerable but maintains functional outputs across extreme interventions ($\alpha=\pm20$). Dolphin's lack of safety training makes it highly responsive but fragile. Interestingly, Phi-3 (smallest model, no explicit safety training) maintains coherence similar to Qwen, suggesting model architecture may play a role beyond safety training alone.
@@ -420,16 +420,16 @@ Our cross-model probe analysis reveals a fundamental insight about representatio
 
 \section{Conclusion}
 
-Empathy can be reliably \textbf{detected} as a linear direction \emph{within} each architecture (Phi-3, Qwen2.5-7B, Dolphin-Llama-3.1-8B) with near-perfect discrimination (AUROC 0.996--1.00) and behavioral correlation ($r=0.71$ for Phi-3). Critically, uncensored models match safety-trained models in within-model detection, demonstrating that empathy encoding emerges independent of safety training. However, \textbf{cross-model probe agreement is limited} (Qwen: $r=-0.06$, Dolphin: $r=0.18$), revealing that probe directions are architecture-specific despite convergent detection performance.
+Empathy can be reliably \textbf{detected} as a linear direction \emph{within} each model (Phi-3, Qwen2.5-7B, Dolphin-Llama-3.1-8B) at optimal layers with near-perfect discrimination (AUROC 0.996--1.00) and behavioral correlation ($r=0.71$ for Phi-3). Critically, uncensored models match safety-trained models in within-model detection, demonstrating that empathy encoding emerges independent of safety training. However, \textbf{cross-model probe agreement is limited} (Qwen: $r=-0.06$, Dolphin: $r=0.18$), revealing that probe directions are model-specific despite convergent detection performance.
 
-\textbf{Steering} reveals striking model-specific patterns: safety-trained Qwen2.5-7B achieves 65.3\% success with robust bidirectional control (maintains coherence at $\alpha=\pm20$), while uncensored Dolphin-Llama-3.1-8B shows 94.4\% success for pro-empathy but catastrophic breakdown for anti-empathy steering. This suggests that safety training may provide \textbf{steering robustness without preventing manipulation}---though this finding is based on a single model pair and requires broader validation.
+\textbf{Steering} reveals striking model-specific patterns: safety-trained Qwen2.5-7B achieves 65.3\% success with robust bidirectional control (maintains coherence at $\alpha=\pm20$), while uncensored Dolphin-Llama-3.1-8B shows 94.4\% success for pro-empathy but catastrophic breakdown for anti-empathy steering. Our results suggest that safety training may provide \textbf{steering robustness without preventing manipulation}, though validation across more model pairs is needed to establish this pattern conclusively.
 
 \textbf{Contributions:}
 \begin{enumerate}
-\item First cross-architecture validation of empathy probes with near-perfect within-model discrimination (AUROC 0.996--1.00)
-\item Discovery that empathy detection is independent of safety training, but probe directions are architecture-specific (cross-model agreement: $r=-0.06$ to $0.18$)
-\item Evidence that safety training provides steering \emph{robustness} rather than preventing manipulation
-\item Demonstration of asymmetric steerability in uncensored models (pro-empathy works, anti-empathy breaks)
+\item First multi-model validation of empathy probes across transformer variants with near-perfect within-model discrimination at optimal layers (AUROC 0.996--1.00)
+\item Discovery that empathy detection is independent of safety training, but probe directions are model-specific (cross-model agreement: $r=-0.06$ to $0.18$)
+\item Evidence suggesting safety training provides steering \emph{robustness} rather than preventing manipulation (requires broader validation)
+\item Demonstration of asymmetric steerability in uncensored models (pro-empathy succeeds, anti-empathy fails catastrophically)
 \item Confirmation of detection-steering gap with important model-specific nuances
 \item Demonstration that convergent behavioral detection can co-exist with divergent geometric implementations
 \end{enumerate}
