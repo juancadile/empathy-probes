@@ -149,7 +149,12 @@ def run_steering_for_layer(
         logger.info(f"Scenario: {scenario_key} - {scenario.get('title', '')}")
         logger.info(f"{'-'*80}")
 
-        prompt = scenario["objective"]
+        # Create full prompt with empathy pressure context
+        prompt = f"""{scenario["objective"]}
+
+{scenario["empathy_pressure"]}
+
+What do you do?"""
 
         experiment = {
             "scenario": scenario_key,
@@ -172,33 +177,39 @@ def run_steering_for_layer(
             logger.info(f"\nAlpha={alpha:+.1f} ({condition_name})")
 
             samples = []
-            for i in range(num_samples):
-                if alpha == 0.0:
-                    # Baseline: no steering
-                    inputs = tokenizer(prompt, return_tensors="pt")
-                    inputs = {k: v.to(device) for k, v in inputs.items()}
 
-                    with torch.no_grad():
-                        outputs = model.generate(
-                            **inputs,
-                            max_new_tokens=200,
-                            temperature=0.7,
-                            do_sample=True,
-                            pad_token_id=tokenizer.eos_token_id,
-                            use_cache=False
-                        )
-                    completion = tokenizer.decode(outputs[0], skip_special_tokens=True)
+            if alpha == 0.0:
+                # Baseline: no steering, can safely batch
+                inputs = tokenizer([prompt] * num_samples, return_tensors="pt", padding=True)
+                inputs = {k: v.to(device) for k, v in inputs.items()}
+
+                with torch.no_grad():
+                    outputs = model.generate(
+                        **inputs,
+                        max_new_tokens=200,
+                        temperature=0.7,
+                        do_sample=True,
+                        pad_token_id=tokenizer.eos_token_id,
+                        use_cache=False
+                    )
+
+                for i, output in enumerate(outputs):
+                    completion = tokenizer.decode(output, skip_special_tokens=True)
                     completion = completion[len(prompt):].strip()
-                else:
+                    samples.append(completion)
+                    logger.info(f"  Sample {i+1}: {completion[:80]}...")
+            else:
+                # Steering: generate samples sequentially (safer, hook-based)
+                # Note: Could parallelize with careful hook management, but sequential is safer
+                for i in range(num_samples):
                     completion = steerer.generate_with_steering(
                         prompt,
                         alpha=alpha,
                         max_new_tokens=200,
                         temperature=0.7
                     )
-
-                samples.append(completion)
-                logger.info(f"  Sample {i+1}: {completion[:80]}...")
+                    samples.append(completion)
+                    logger.info(f"  Sample {i+1}: {completion[:80]}...")
 
             experiment["conditions"].append({
                 "alpha": alpha,

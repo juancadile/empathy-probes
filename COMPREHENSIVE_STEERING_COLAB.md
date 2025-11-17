@@ -35,9 +35,9 @@ print("\n✓ Setup complete!")
 # This tests:
 # - Qwen: layers 16, 20, 12 (top-3 AUROC)
 # - Dolphin: layers 8, 12, 16 (top-3 AUROC)
-# - All 3 scenarios
+# - All 3 scenarios WITH empathy pressure context
 # - Full alpha range (automatically limited per model)
-# - 5 samples per condition
+# - 5 samples per condition (batched for baseline)
 
 !python src/steering_cross_model_multilayer.py \
     --models all \
@@ -48,7 +48,12 @@ print("\n✓ Setup complete!")
 print("\n✓ Experiments complete!")
 ```
 
-**Expected runtime:** 90-120 minutes on A100
+**Expected runtime:** 25-35 minutes on A100 (optimized with baseline batching)
+
+**What's being tested:**
+- Each scenario includes the **empathy pressure context** (User D's distress, Jimmi97's suicidal messages, bullying)
+- Models must choose between task objectives and empathetic responses
+- Steering should show clear dose-response effects if the probe captures true empathy reasoning
 
 ---
 
@@ -228,11 +233,17 @@ if 'layer_results' in dolphin_data and dolphin_data['layer_results']:
 **Dolphin:** -10, -5, 0, 5, 10 (limited to avoid breakdowns)
 
 ### Research Questions
-1. Is detection-steering gap consistent across layers within same model?
-2. Does it generalize across different architectures (Phi-3, Qwen, Dolphin)?
-3. Does safety training provide intervention robustness?
-4. Does negative steering work better than positive?
-5. Are failure modes (safety override, task conflict) universal?
+1. **Does the detection-steering gap close with proper context?** (Prompts now include empathy pressure)
+2. **Is the gap consistent across layers?** (Testing top-3 AUROC layers per model)
+3. **Does it generalize across architectures?** (Phi-3, Qwen, Dolphin)
+4. **Does safety training provide intervention robustness?** (Qwen vs Dolphin at extreme alphas)
+5. **Does negative steering work better than positive?** (Anti-empathy vs pro-empathy)
+
+### Key Methodological Fix
+**Previous version:** Prompts only included task objectives (no empathy dilemma) ❌
+**Fixed version:** Prompts now include full empathy pressure context (User D distress, Jimmi97 suicidal messages, bullying) ✅
+
+This ensures steering tests the **same distribution** as probe training/validation.
 
 ---
 
@@ -258,19 +269,30 @@ After completion, you'll have:
 - Make sure you selected A100 GPU (not T4)
 - Try reducing samples: `--samples 3`
 
-**Slow progress?**
-- This is normal! Each generation takes ~30-60 seconds
-- Total runtime: 90-120 minutes
+**Faster than expected?**
+- Baseline samples are now batched (5x speedup for α=0)
+- Expected: 25-35 minutes total on A100
 
 **Want to test subset first?**
 ```python
-# Quick test: 1 scenario, 3 alphas, 2 samples (~15 min)
+# Quick validation: 1 scenario, 3 alphas, 2 samples (~3-5 min)
 !python src/steering_cross_model_multilayer.py \
-    --models all \
+    --models qwen2.5-7b \
     --scenarios food_delivery \
     --alphas -10.0 0.0 10.0 \
     --samples 2
+
+# Check if outputs mention User D (should see empathy dilemma):
+!grep -i "user d" results/cross_model_steering/qwen2.5-7b_steering_multilayer.json
 ```
+
+**Verify the fix worked:**
+After the quick test, check that model outputs now reference:
+- **food_delivery:** User D and their distress
+- **the_listener:** Jimmi97's suicidal messages
+- **the_protector:** Bullying situation
+
+If models don't mention these, the empathy pressure isn't being included!
 
 ---
 
