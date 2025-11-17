@@ -305,7 +305,7 @@ Phi-3-mini-4k & 12 & Food Delivery & 80.0\% & 100\% \\
 
 \paragraph{Steering robustness vs steerability.} Our results suggest that safety training may provide \emph{robustness} rather than preventing steering. Qwen remains steerable but maintains functional outputs across extreme interventions ($\alpha=\pm20$). Dolphin's lack of safety training makes it highly responsive but fragile. Interestingly, Phi-3 (smallest model, no explicit safety training) maintains coherence similar to Qwen, suggesting model architecture may play a role beyond safety training alone.
 
-\subsection{Asymmetric Steerability in Uncensored Models}
+\subsection{Asymmetric Steerability in Dolphin}
 
 Dolphin-Llama-3.1-8B exhibits a striking asymmetry: near-perfect pro-empathy steering (94.4\%) but catastrophic failure on anti-empathy steering. At negative alphas, outputs degenerate into:
 \begin{itemize}
@@ -314,7 +314,7 @@ Dolphin-Llama-3.1-8B exhibits a striking asymmetry: near-perfect pro-empathy ste
 \item Code-like snippets: ``Output: 'open\_door'``
 \end{itemize}
 
-This asymmetry suggests uncensored models lack the structural constraints that maintain output coherence under adversarial interventions. While highly responsive to positive steering (adding empathy works), they have no ``floor'' to prevent collapse when empathy is removed.
+This asymmetry in Dolphin suggests this uncensored model lacks the structural constraints that maintain output coherence under adversarial interventions. While highly responsive to positive steering (adding empathy works), it has no ``floor'' to prevent collapse when empathy is removed. Whether this pattern generalizes to other uncensored models requires testing additional variants.
 
 \subsection{Model-Specific Robustness Patterns}
 
@@ -377,7 +377,7 @@ Our fixed experiments confirm a detection-steering gap but reveal important nuan
 \paragraph{Detection $\neq$ Causation.} While probes identify empathic features reliably (AUROC 0.996--1.00), their causal influence varies by:
 \begin{enumerate}
 \item \textbf{Model architecture:} Safety training affects steering robustness
-\item \textbf{Direction:} Adding vs removing empathy has asymmetric effects
+\item \textbf{Direction:} Adding vs removing empathy has asymmetric effects in some models (e.g., Dolphin)
 \item \textbf{Scenario:} Safety-critical content resists manipulation
 \end{enumerate}
 
@@ -427,7 +427,7 @@ Empathy can be reliably \textbf{detected} as a linear direction \emph{within} ea
 \item First multi-model validation of empathy probes across transformer variants with near-perfect within-model discrimination at optimal layers (AUROC 0.996--1.00)
 \item Discovery that empathy detection is independent of safety training, but probe directions are model-specific (cross-model agreement: $r=-0.06$ to $0.18$)
 \item Evidence suggesting safety training provides steering \emph{robustness} rather than preventing manipulation (requires broader validation)
-\item Demonstration of asymmetric steerability in uncensored models (pro-empathy succeeds, anti-empathy fails catastrophically)
+\item Demonstration of asymmetric steerability in Dolphin, an uncensored model (pro-empathy succeeds, anti-empathy fails catastrophically)
 \item Confirmation of detection-steering gap with important model-specific nuances
 \item Demonstration that convergent behavioral detection can co-exist with divergent geometric implementations
 \end{enumerate}
