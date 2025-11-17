@@ -1,102 +1,31 @@
 # Empathy-in-Action Probes
 
-**Detecting Wellbeing Prioritization as a Direction in Activation Space (v0 Technical Report)**
+**Detecting vs Steering Empathy in LLMs: Cross-Model Probes Reveal Asymmetric Manipulation Patterns**
 
-This preliminary study extends the [Virtue Probes](https://github.com/anthropics/virtue-probes) methodology to the [Empathy in Action (EIA)](https://empathy-in-action.github.io/) benchmark, investigating whether *wellbeing prioritization*—operationalized as willingness to sacrifice task efficiency for human welfare—can be detected and steered through linear directions in transformer activation space.
+This repository contains code, data, and analysis for our study investigating empathy as a linear direction in LLM activation space. We test both detection and manipulation across three models with diverse architectures and training paradigms: Phi-3-mini-4k (3.8B), Qwen2.5-7B (safety-trained), and Dolphin-Llama-3.1-8B (uncensored).
 
-## Overview
-
-Current AI safety benchmarks evaluate empathy through behavioral outcomes (does the model take empathic actions?). This project asks a complementary question: **Can we detect wellbeing prioritization in the model's internal representations before it acts?**
-
-### Construct Definition
-
-We operationalize "empathy" narrowly as **wellbeing prioritization in task-conflicted scenarios**. This differs from:
-- Cognitive empathy (perspective-taking)
-- Affective empathy (emotional resonance)
-- Compassionate motivation
-
-Our probe may detect instrumental preference for welfare rather than deep empathic reasoning.
-
-### Key Contributions
-
-1. **Activation-based detection**: Extract "wellbeing prioritization directions" from contrastive pairs
-2. **Behavioral correlation**: Test whether probe projections correlate with EIA scores (r=0.71, p<0.01)
-3. **Steering experiments**: Variable effects (30-40% success) suggesting correlational rather than causal capture
-4. **Honest limitations**: Perfect AUROC may reflect prompt artifacts; circular correlation risk acknowledged
-
-### Motivation
-
-> "Can activation-based probes predict expensive behavioral benchmarks? What gaps exist between detection and steering?"
-
-This v0 report establishes detection feasibility while identifying critical validation gaps for future work.
+📄 **Paper**: [paper/paper.pdf](paper/paper.pdf)
+📊 **Results**: [results/](results/)
+🎯 **Quick Start**: [QUICKSTART.md](QUICKSTART.md)
 
 ---
 
-## Results
+## Key Findings
 
-### Validation Results (Contrastive Pair Classification)
+### Detection
+- **Near-perfect within-model performance** at optimal layers (AUROC 0.996–1.00)
+- **Safety training independence**: Uncensored Dolphin matches safety-trained models
+- **Strong behavioral correlation**: Phi-3 probes correlate with human-scored empathy (r=0.71, p<0.01)
+- **Limited cross-model transfer**: Probe directions are model-specific (cross-model agreement: r=-0.06 to 0.18)
 
-Tested on 15 held-out pairs (30 examples):
+### Steering
+- **Model-specific patterns emerge**:
+  - **Qwen (safety-trained)**: 65.3% success, bidirectional control, maintains coherence at extreme interventions (α=±20)
+  - **Dolphin (uncensored)**: 94.4% success for pro-empathy but **catastrophic breakdown** at anti-empathy steering (empty outputs, code-like artifacts)
+  - **Phi-3 (3.8B)**: 61.7% success, coherence maintenance similar to Qwen
 
-| Layer | AUROC | Accuracy | Separation | Std (E/N) |
-|-------|-------|----------|------------|-----------|
-| 8     | 0.991 | 93.3%    | 2.61       | 0.78 / 1.13 |
-| **12**| **1.000** | **100%** | **5.20**   | **1.25 / 1.43** |
-| 16    | 0.996 | 93.3%    | 9.44       | 2.60 / 2.84 |
-| 20    | 0.973 | 93.3%    | 18.66      | 5.56 / 6.25 |
-| 24    | 0.960 | 93.3%    | 35.75      | 11.38 / 12.80 |
-
-**Best layer: 12** (AUROC: 1.0, 100% accuracy, F1-score 1.0, perfect discrimination)
-
-⚠️ **Caveat**: Perfect AUROC is unusually high and may indicate prompt artifacts (formulaic phrasing, lexical markers) rather than deep semantic representation. See Limitations section below.
-
-### Random Baseline Validation
-
-To confirm probe performance reflects genuine signal (not test set artifacts):
-- **100 random unit vectors**: mean AUROC 0.50 ± 0.24 (chance level)
-- **Empathy probe**: AUROC 1.0, z=2.09 (p<0.05)
-- **Significantly exceeds 95th percentile** of random performance
-
-### Binary Classification Metrics
-
-| Metric | Value |
-|--------|-------|
-| Accuracy | **100%** (10/10) |
-| Precision | 1.00 |
-| Recall | 1.00 |
-| F1-Score | 1.00 |
-| Specificity | 1.00 |
-
-**Confusion Matrix**: TP=5, FP=0, TN=5, FN=0 (perfect separation)
-
-### EIA Behavioral Score Prediction
-
-| Metric | Value |
-|--------|-------|
-| Pearson correlation (r) | **0.71** (p=0.010) |
-| Spearman correlation (ρ) | **0.71** (p=0.009) |
-| Binary accuracy (0 vs 2) | **100%** |
-
-⚠️ **Circularity risk**: Our contrastive data mirrors EIA's task-conflict structure, so this correlation may be partially tautological (probe detects EIA-like text because it was trained on EIA-like prompts). True construct validity requires transfer to non-task-conflicted scenarios.
-
-### Steering Results
-
-Tested steering on 3 EIA scenarios with alpha values [1.0, 3.0, 5.0, 10.0] (5 samples per condition):
-
-| Scenario | α=1.0 | α=3.0 | α=5.0 | α=10.0 |
-|----------|-------|-------|-------|--------|
-| Food Delivery  | 0/5 | 2/5 | 1/5 | Varied |
-| The Listener   | 0/5 | 0/5 | 0/5 | 0/5 |
-| The Protector  | 0/5 | 0/5 | Partial | 0/5 |
-
-**Success rate**: 30-40% in favorable conditions | **High variance** across samples
-
-**Key findings**:
-1. **Detection works** (AUROC 1.0) but **steering inconsistent** (30-40%)
-2. **Task-distraction hypothesis**: Probe may capture "task-sacrifice for wellbeing" rather than pure empathy
-3. **Safety override**: The Listener (suicide) shows 0% success - safety training dominates (positive for alignment!)
-
-**See**: [STEERING_ANALYSIS.md](STEERING_ANALYSIS.md) and paper/paper_ieee.pdf for task-distraction hypothesis details
+### Key Insight
+The detection-steering gap manifests differently across models. Safety training may provide **steering robustness** without preventing manipulation entirely—coherence maintenance appears tied to model architecture or training stability rather than safety training alone.
 
 ---
 
@@ -106,91 +35,23 @@ Tested steering on 3 EIA scenarios with alpha values [1.0, 3.0, 5.0, 10.0] (5 sa
 
 ```bash
 # Clone repository
-git clone https://github.com/juancadile/empathy-probes.git
-cd empathy-probes
+git clone https://github.com/juancadile/empathy-action-probes.git
+cd empathy-action-probes
 
 # Install dependencies
 pip install -r requirements.txt
-
-# Set API keys for dataset generation
-export ANTHROPIC_API_KEY="your-key"
-export OPENAI_API_KEY="your-key"
 ```
 
-### Running the Pipeline
+### Running Experiments
 
-```bash
-# 1. Generate contrastive pairs dataset (uses Claude + GPT-4 APIs)
-python3 src/generate_dataset.py
+See [QUICKSTART.md](QUICKSTART.md) for detailed instructions on:
+- Generating contrastive pairs datasets
+- Extracting empathy probes from models
+- Running validation experiments
+- Behavioral correlation testing
+- Steering experiments
 
-# 2. Extract empathy probes from Phi-3-mini-4k-instruct
-python3 src/probe_extraction.py
-
-# 3. Predict EIA behavioral scores
-python3 src/eia_evaluator.py
-
-# 4. Run steering experiments
-python3 src/steering.py
-```
-
-**Note**: Steps 2-4 require ~12GB GPU/unified memory (tested on M1 Pro with 16GB).
-
----
-
-## Methodology
-
-### 1. Dataset Creation
-
-Generate contrastive pairs from 5 EIA scenarios using API models:
-
-```python
-# Empathic prompt
-"Prioritize human wellbeing even at cost to efficiency..."
-
-# Non-empathic prompt
-"Focus on task completion efficiently..."
-```
-
-**Sources**: Claude Sonnet 4, GPT-4 Turbo (rotated to avoid model bias)
-
-**Size**: 35 training pairs + 15 test pairs (50 total generated)
-
-### 2. Probe Extraction
-
-For each layer ∈ {8, 12, 16, 20, 24}:
-
-```
-empathy_direction[layer] = mean(empathic_activations) - mean(non_empathic_activations)
-empathy_direction[layer] = empathy_direction[layer] / ||empathy_direction[layer]||
-```
-
-**Model**: Phi-3-mini-4k-instruct (3.8B params, FP16 on MPS)
-
-### 3. Validation
-
-Project test set onto empathy direction:
-
-```
-score = activation · empathy_direction
-```
-
-**Metrics**: AUROC, accuracy, separation statistics
-
-### 4. EIA Prediction
-
-Test hypothesis: `projection_score ∝ EIA_behavioral_score`
-
-**Method**: Correlate probe projections with ground-truth EIA scores (0, 1, 2)
-
-### 5. Steering
-
-Add empathy direction during generation:
-
-```
-hidden_states_new = hidden_states_original + α * empathy_direction
-```
-
-**Test**: Does baseline non-empathic completion → steered empathic completion?
+**Compute**: Requires ~12-16GB GPU/unified memory for 3.8B-8B models
 
 ---
 
@@ -199,140 +60,116 @@ hidden_states_new = hidden_states_original + α * empathy_direction
 ```
 empathy-action-probes/
 ├── README.md                          # This file
+├── ARXIV_METADATA.md                  # arXiv submission metadata
+├── QUICKSTART.md                      # Detailed setup guide
 ├── requirements.txt                   # Dependencies
-├── paper/                             # LaTeX papers
-│   ├── paper.tex                      # Article format (9 pages)
-│   ├── paper_ieee.tex                 # IEEE conference format (4 pages)
-│   ├── references.bib                 # Bibliography
-│   ├── paper.pdf                      # Compiled article
-│   └── paper_ieee.pdf                 # Compiled IEEE paper
+│
+├── paper/                             # LaTeX paper
+│   ├── paper.tex                      # Main paper source
+│   ├── paper.pdf                      # Compiled PDF
+│   └── references.bib                 # Bibliography
+│
 ├── figures/                           # Publication figures
-│   ├── figure1_auroc_by_layer.pdf     # Validation by layer
-│   ├── figure2_random_baseline.pdf    # Random baseline distribution
-│   └── figure3_eia_correlation.pdf    # EIA score correlation
+│   ├── figure1_auroc_by_layer.pdf
+│   ├── figure3_eia_correlation.pdf
+│   ├── figure6_cross_model_layers.pdf
+│   └── steering/                      # Steering experiment figures
+│       ├── baseline_comparison.pdf
+│       ├── steering_resistance.pdf
+│       └── layer_comparison.pdf
+│
 ├── data/
 │   ├── eia_scenarios/
 │   │   └── scenarios.json             # 5 EIA scenario definitions
 │   └── contrastive_pairs/
-│       ├── train_pairs.jsonl          # 35 training pairs
-│       ├── test_pairs.jsonl           # 15 test pairs
-│       └── dataset_summary.json       # Generation metadata
+│       ├── train_pairs.jsonl          # Training pairs
+│       └── test_pairs.jsonl           # Test pairs
+│
 ├── src/
-│   ├── generate_dataset.py            # API-based pair generation
-│   ├── probe_extraction.py            # Core extraction & validation
-│   ├── eia_evaluator.py               # Behavioral score prediction
+│   ├── generate_dataset.py            # Contrastive pair generation
+│   ├── probe_extraction.py            # Probe extraction & validation
+│   ├── cross_model_validation.py      # Multi-model validation
+│   ├── eia_evaluator.py               # Behavioral correlation
 │   ├── steering.py                    # Steering experiments
-│   ├── random_baseline_proper.py      # Random baseline validation
-│   └── generate_figures.py            # Publication figure generation
+│   └── generate_figures.py            # Figure generation
+│
 ├── results/
-│   ├── probes/
-│   │   └── empathy_direction_layer_*.npy  # Probe vectors
-│   ├── validation_auroc.json          # Main validation results
-│   ├── random_baseline_proper.json    # Random baseline results
-│   ├── eia_correlation.json           # Prediction results
-│   └── steering_examples.json         # Steering comparisons
+│   ├── phi3_probes/                   # Phi-3 probe directions
+│   ├── cross_model_validation/        # Multi-model validation results
+│   ├── cross-model-behavioral-correlation/  # Cross-model EIA tests
+│   ├── cross_model_steering/          # Steering results (all 3 models)
+│   ├── eia_correlation.json           # Phi-3 behavioral correlation
+│   └── lexical_ablation/              # Ablation experiment results
+│
 └── notebooks/                         # Analysis notebooks
+    ├── qwen_dolphin_behavioral_correlation.ipynb
+    └── steering_visualization.ipynb
 ```
 
 ---
 
-## Technical Details
+## Methodology
 
-### Models Used
+### 1. Contrastive Pair Generation
+Generate empathic vs non-empathic completions from 5 EIA scenarios:
+- Food Delivery (resource allocation)
+- The Listener (suicide support)
+- The Maze (social greeting vs task)
+- The Protector (bullying intervention)
+- The Duel (competitive empathy)
 
-- **Probe extraction**: Phi-3-mini-4k-instruct (Microsoft, 2024)
-  - 3.8B parameters, instruction-tuned
-  - FP16 precision on Apple M1 MPS
-  - Layers: 32 total, extracted from layers [8, 12, 16, 20, 24]
-  - Chosen for: ungated access, M1 compatibility, modern architecture (30× larger than GPT-2)
+### 2. Probe Extraction
+Extract linear directions via mean difference:
+```python
+empathy_direction = mean(empathic_activations) - mean(non_empathic_activations)
+empathy_direction = empathy_direction / ||empathy_direction||
+```
 
-- **Dataset generation**:
-  - Claude Sonnet 4 (Anthropic)
-  - GPT-4 Turbo (OpenAI)
+Tested across layers {8, 12, 16, 20, 24} for all models.
 
-### Compute Requirements
+### 3. Validation
+- **Within-model**: AUROC, accuracy, separation on held-out test set
+- **Cross-model**: Test if Qwen/Dolphin probes agree with Phi-3 on same text
+- **Behavioral**: Correlate probe scores with human-rated empathy levels (0, 1, 2)
 
-- **Dataset generation**: API calls (~$1-2 for 30 pairs)
-- **Probe extraction**: ~20-30 min on M1 Pro (16GB)
-- **Validation**: ~5 min
-- **Steering**: ~10-15 min (3 scenarios × 4 alphas)
+### 4. Steering
+Add empathy direction during generation:
+```python
+hidden_states_new = hidden_states + α * empathy_direction
+```
 
-**Total runtime**: ~45-60 min (excluding dataset generation)
-**Memory**: ~8-10GB unified memory during inference
-
----
-
-## Comparison to Related Work
-
-### vs Virtue Probes (Anthropic 2024)
-
-| Aspect | Virtue Probes | This Work |
-|--------|---------------|-----------|
-| **Concept** | Ideological orientations | Behavioral empathy |
-| **Validation** | Cross-format text classification | Behavioral outcome prediction (EIA) |
-| **Model** | GPT-2 (124M) | Phi-3-mini (3.8B) |
-| **Dataset** | Hand-written + GPT-generated | Claude/GPT-4 contrastive pairs |
-| **Contribution** | Methodology | Application to alignment benchmarks |
-
-### vs Empathy in Action (2024)
-
-| Aspect | EIA Benchmark | This Work |
-|--------|---------------|-----------|
-| **Evaluation** | Behavioral (action-based) | Representational (activation-based) |
-| **Cost** | Expensive (full game runs) | Cheap (forward passes) |
-| **Granularity** | Final score (0-2) | Continuous projection |
-| **Use case** | Ground truth benchmark | Real-time monitoring |
-
-**Complementary contributions**: EIA provides behavioral ground truth, this work enables cheap detection.
+Test across scenarios, layers, and alpha values (α ∈ {-20, -10, -5, 0, 5, 10, 20}).
 
 ---
 
-## Limitations
+## Models Tested
 
-### Methodological Concerns
+| Model | Size | Training | Best Layer | AUROC | Steering Success |
+|-------|------|----------|-----------|-------|------------------|
+| **Phi-3-mini-4k** | 3.8B | Standard | 12 | 1.000 | 61.7% |
+| **Qwen2.5-7B** | 7B | Safety-trained | 16 | 1.000 | 65.3% |
+| **Dolphin-Llama-3.1** | 8B | Uncensored | 8 | 0.996 | 94.4%* |
 
-1. **Perfect AUROC may indicate artifacts**: Layer 12's perfect discrimination (AUROC 1.0) is unusually high for interpretability work and may reflect:
-   - Linearly separable prompt artifacts (formulaic phrasing like "prioritize wellbeing")
-   - Lexical markers rather than semantic content (words like "help," "care")
-   - Small dataset overfitting (50 pairs total, 15 test pairs)
-
-2. **Circular correlation risk**: EIA correlation (r=0.71) may be tautological—our contrastive data mirrors EIA's task-conflict structure, so probe detects EIA-like text because trained on EIA-like prompts
-
-3. **Weak causal evidence**: Additive steering (30-40% success) does not establish causal structure. Need activation patching, causal mediation analysis, or counterfactual editing
-
-4. **Single model, synthetic data**: Only Phi-3-mini (3.8B) tested; Claude/GPT-4 outputs have consistent stylistic markers that may drive separability
-
-### Data and Scope Limitations
-
-5. **Synthetic test data**: EIA predictions use manually written completions, not actual model outputs from full game runs
-6. **Small dataset**: 50 pairs is small; scaling to 100+ pairs recommended to test robustness
-7. **Safety interactions**: Steering limited by RLHF guardrails on sensitive content (suicide scenario shows 0% success)
-8. **Narrow construct**: Our operationalization captures wellbeing prioritization in task conflicts, not cognitive/affective empathy
+*Pro-empathy only; anti-empathy steering causes catastrophic breakdown
 
 ---
 
-## Future Work: Toward Rigorous Validation
+## Key Results
 
-### Critical Next Steps (v1 Priority)
+### Detection (Table 1 in paper)
+All models achieve near-perfect discrimination at optimal layers, but probe directions don't transfer across models (architecture-specific geometric implementations).
 
-- [ ] **Lexical ablation**: Remove surface markers through paraphrasing to test if probe survives vocabulary changes
-- [ ] **Task-free empathy scenarios**: Pure social reasoning (comfort friend, perspective-taking) without competing objectives—success here would validate task-distraction hypothesis and may achieve >80% steering
-- [ ] **Adversarial examples**: Non-empathic text with empathic vocabulary and vice-versa to disentangle style from content
-- [ ] **Causal interventions**: Activation patching to identify where wellbeing-prioritization enters computation; causal mediation analysis
-- [ ] **Cross-architecture replication**: Test steering on Gemma-2-9B, Llama-3-8B, Mistral to validate beyond Phi-3
+### Behavioral Correlation
+- **Phi-3**: r=0.71 (p=0.010) - strong correlation with human ratings
+- **Qwen**: r=-0.06 (p=0.86) - no cross-model agreement
+- **Dolphin**: r=0.18 (p=0.58) - no cross-model agreement
 
-### Secondary Extensions
+### Steering Patterns
+1. **Qwen**: Bidirectional control, robust coherence
+2. **Dolphin**: Asymmetric steerability (pro-empathy works, anti-empathy fails)
+3. **Phi-3**: Similar to Qwen despite smaller size
 
-- [ ] Larger dataset (100+ pairs) to validate AUROC robustness and reduce overfitting risk
-- [ ] Run full EIA benchmark with Phi-3-mini to get real behavioral scores (not synthetic completions)
-- [ ] Multi-virtue probes (fairness, honesty, beneficence) using same methodology
-- [ ] Real-time monitoring system for empathy drift in deployed models
-
-### Conceptual Refinements
-
-- [ ] Disentangle "wellbeing prioritization" from "task-sacrifice" from "cognitive empathy"
-- [ ] Test on pure emotional support tasks (no task conflict)
-- [ ] Compare probe with human-written vs LLM-generated contrastive pairs
+See [paper/paper.pdf](paper/paper.pdf) for detailed analysis and discussion.
 
 ---
 
@@ -341,34 +178,42 @@ empathy-action-probes/
 If you use this code or methodology, please cite:
 
 ```bibtex
-@software{empathy_action_probes_2024,
-  title = {Detecting vs Steering Empathy: A Probe Extraction Study with Task-Conflicted Scenarios},
-  author = {Cadile, Juan P.},
-  year = {2024},
-  url = {https://github.com/juancadile/empathy-probes}
+@article{cadile2024empathy,
+  title={Detecting vs Steering Empathy in LLMs: Cross-Model Probes Reveal Asymmetric Manipulation Patterns},
+  author={Cadile, Juan P.},
+  year={2024},
+  note={13 pages, 9 figures, 2 tables}
 }
 ```
 
-### References
+---
 
-- **Empathy in Action**: [Paper](https://arxiv.org/...) | [Website](https://empathy-in-action.github.io/)
-- **Virtue Probes**: [Anthropic Blog](https://www.anthropic.com/research/virtue-probes)
-- **Activation Steering**: Rimsky et al. (2023) - [ArXiv](https://arxiv.org/abs/2308.10248)
+## Related Work
+
+- **Empathy in Action (EIA)**: [empathy-in-action.github.io](https://empathy-in-action.github.io/)
+- **Representation Engineering**: Zou et al. (2023) - [arXiv:2310.01405](https://arxiv.org/abs/2310.01405)
+- **Activation Addition**: Turner et al. (2023) - [arXiv:2308.10248](https://arxiv.org/abs/2308.10248)
+- **Linear Representation Hypothesis**: Park et al. (2023) - [arXiv:2311.03658](https://arxiv.org/abs/2311.03658)
 
 ---
 
 ## License
 
-MIT License - see LICENSE file for details.
+MIT License - see [LICENSE](LICENSE) file for details.
 
 ---
 
 ## Contact
 
-Questions or collaboration? Open an issue or reach out:
-- GitHub: [@juancadile](https://github.com/juancadile)
-- Email: jcadile@ur.rochester.edu
+**Juan P. Cadile**
+Department of Philosophy, University of Rochester
+Email: jcadile@ur.rochester.edu
+GitHub: [@juancadile](https://github.com/juancadile)
 
 ---
 
-**Generated with [Claude Code](https://claude.com/claude-code)** 🤖
+## Acknowledgments
+
+This work builds on the [Empathy-in-Action](https://empathy-in-action.github.io/) benchmark and methodologies from Anthropic's [Representation Engineering](https://www.anthropic.com/research) research.
+
+Code development assisted by [Claude Code](https://claude.com/claude-code).

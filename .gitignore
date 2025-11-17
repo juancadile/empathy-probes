@@ -70,10 +70,21 @@ huggingface/
 *.log
 logs/
 
+# LaTeX build files
+*.aux
+*.bbl
+*.blg
+*.out
+*.synctex.gz
+*.fls
+*.fdb_latexmk
+*.toc
+*.lof
+*.lot
+
 # Temporary files
 tmp/
 temp/
 *.tmp
 .env
 .env.txt
-*.log
