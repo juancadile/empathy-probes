@@ -41,15 +41,13 @@ Cross-Model Probes for Behavioral Alignment}
 \maketitle
 
 \begin{abstract}
-We investigate empathy as a linear direction in LLM activation space, testing both detection and manipulation across three models: Phi-3-mini-4k (3.8B), Qwen2.5-7B (safety-trained), and Dolphin-Llama-3.1-8B (uncensored).
+We investigate empathy-in-action---the willingness to sacrifice task efficiency to address human needs---as a linear direction in LLM activation space. Using contrastive prompts grounded in the Empathy-in-Action (EIA) benchmark, we test detection and steering across Phi-3-mini-4k (3.8B), Qwen2.5-7B (safety-trained), and Dolphin-Llama-3.1-8B (uncensored).
 
-\textbf{Detection:} Near-perfect within-model performance at optimal layers (AUROC 0.996--1.00). Critically, uncensored Dolphin matches safety-trained models, demonstrating that empathy encoding emerges independent of safety training. Phi-3 probes correlate strongly with behavioral scores ($r=0.71$, $p<0.01$). However, cross-model probe agreement is limited (Qwen: $r=-0.06$, Dolphin: $r=0.18$), revealing architecture-specific geometric implementations despite convergent detection.
+\textbf{Detection:} All models show AUROC 0.996--1.00 at optimal layers. Uncensored Dolphin matches safety-trained models, demonstrating empathy encoding emerges independent of safety training. Phi-3 probes correlate strongly with EIA behavioral scores ($r=0.71$, $p<0.01$). Cross-model probe agreement is limited (Qwen: $r=-0.06$, Dolphin: $r=0.18$), revealing architecture-specific implementations despite convergent detection.
 
-\textbf{Steering reveals model-specific patterns:} Safety-trained Qwen achieves 65.3\% steering success with bidirectional control and complete coherence at extreme interventions ($\alpha=\pm20$). Uncensored Dolphin shows 94.4\% success for pro-empathy steering (positive alphas only) but catastrophically fails at anti-empathy steering: outputs degenerate into empty strings and code-like artifacts. Phi-3 (3.8B, smallest model) achieves 61.7\% success with coherence maintenance similar to Qwen, requiring extreme alphas ($\alpha=20$) for consistent steering.
+\textbf{Steering:} Qwen achieves 65.3\% success with bidirectional control and coherence at extreme interventions ($\alpha=\pm20$). Phi-3 shows 61.7\% success with similar coherence. Dolphin exhibits asymmetric steerability: 94.4\% success for pro-empathy steering but catastrophic breakdown for anti-empathy (empty outputs, code artifacts).
 
-\textbf{Key insight:} The detection-steering gap manifests differently across models. Qwen (7B, safety-trained) and Phi-3 (3.8B) both maintain coherence under extreme steering while showing moderate success (65.3\% and 61.7\% respectively). Dolphin (8B, uncensored) shows higher steerability (94.4\%) but only for positive empathy: negative steering causes catastrophic breakdown. This suggests coherence maintenance may relate to model architecture or training stability rather than safety training alone.
-
-Our results suggest that safety training may affect the \emph{quality} of steerability rather than preventing it entirely, though this finding requires validation across more model pairs to challenge assumptions about value lock-in through RLHF.
+\textbf{Implications:} The detection-steering gap varies by model. Qwen and Phi-3 maintain bidirectional coherence; Dolphin shows robustness only for empathy enhancement. Safety training may affect steering \emph{robustness} rather than preventing manipulation, though validation across more models is needed.
 \end{abstract}
 
 \section{Introduction}
