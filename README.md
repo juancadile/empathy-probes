@@ -35,7 +35,7 @@ The detection-steering gap manifests differently across models. Safety training 
 
 ```bash
 # Clone repository
-git clone https://github.com/juancadile/empathy-action-probes.git
+git clone https://github.com/juancadile/empathy-probes.git
 cd empathy-action-probes
 
 # Install dependencies
