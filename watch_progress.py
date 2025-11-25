@@ -15,15 +15,15 @@ from datetime import datetime
 DATA_DIR = Path(__file__).parent / "data" / "contrastive_pairs"
 REFRESH_INTERVAL = 3  # seconds
 
-# Target models and counts (500 pairs each)
-TARGET_MODELS = {
-    "claude-sonnet": ("Claude Sonnet-4", 500),
-    "claude-haiku": ("Claude Haiku", 500),
-    "gpt-5.1": ("GPT-5.1", 500),
-    "gpt-5-mini": ("GPT-5-mini", 500),
-    "gemini-2.5-flash": ("Gemini 2.5 Flash", 500),
+# Models currently being generated (with temperature cycling/variation)
+GENERATING_MODELS = {
+    "claude-sonnet": ("Claude Sonnet-4", 250),  # New temp-cycled pairs
+    "claude-haiku": ("Claude Haiku", 250),      # New temp-cycled pairs
+    "gpt-5.1": ("GPT-5.1", 500),                # Cycling [0.7, 0.8, 0.9, 1.0]
+    "gpt-4o": ("GPT-4o", 500),                  # Cycling [0.8, 0.9, 1.0]
+    "gemini-2.5-flash": ("Gemini 2.5 Flash", 500),  # All at 0.9
 }
-TOTAL_TARGET = 2500
+TOTAL_TARGET = 2000  # 250 + 250 + 500 + 500 + 500
 
 
 def load_all_pairs():
@@ -40,6 +40,10 @@ def load_all_pairs():
                         pair = json.loads(line)
                         source_model = pair.get('source_model', '')
                         temperature = pair.get('temperature', 'unknown')
+
+                        # Normalize manufacturer-default to 0.7 for display
+                        if temperature == 'manufacturer-default':
+                            temperature = 0.7
 
                         model_counts[source_model] += 1
                         model_temp_counts[source_model][temperature] += 1
@@ -110,11 +114,11 @@ def main():
             print("=" * 90)
             print()
 
-            print("Per-Model Progress (with temperature breakdown):")
+            print("Currently Generating (with temperature breakdown):")
             print("-" * 90)
 
             total_pairs = 0
-            for source_model, (display_name, target) in TARGET_MODELS.items():
+            for source_model, (display_name, target) in GENERATING_MODELS.items():
                 count = model_counts.get(source_model, 0)
                 temp_counts = model_temp_counts.get(source_model, {})
                 total_pairs += count
@@ -147,15 +151,16 @@ def main():
             print("Press Ctrl+C to exit monitoring")
             print("=" * 90)
 
-            # Show any unexpected models (debugging)
-            unexpected = {m: c for m, c in model_counts.items()
-                         if m not in TARGET_MODELS and c > 0}
-            if unexpected:
+            # Show ready datasets (models with existing data not currently generating)
+            ready_datasets = {m: c for m, c in model_counts.items()
+                            if m not in GENERATING_MODELS and c > 0}
+            if ready_datasets:
                 print()
-                print("Unexpected models found (excluded from counts):")
-                for model, count in unexpected.items():
+                print("Ready Datasets (existing data, not currently generating):")
+                print("-" * 90)
+                for model, count in sorted(ready_datasets.items()):
                     temp_breakdown = format_temp_breakdown(model_temp_counts.get(model, {}))
-                    print(f"  - {model}: {count} pairs{temp_breakdown}")
+                    print(f"  {model:<30s} {count:4d} pairs{temp_breakdown}")
 
             time.sleep(REFRESH_INTERVAL)
 
