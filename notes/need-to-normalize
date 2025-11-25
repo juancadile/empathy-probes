@@ -1,0 +1,13 @@
+2. Risk: The Formatting Confound
+
+A critical finding in your paper is the risk of probes capturing "surface correlates rather than underlying reasoning".
+
+Looking at your JSON data, there is a distinct structural difference between the two classes:
+
+Non-Empathic: Uses Markdown Headers and Bold Text (e.g., **Strategic Analysis and Action Plan**, **Resource Allocation Decision**).
+
+Empathic: Uses standard paragraph structures without headers or bolding.
+
+The Danger: If you extract probes using Mean Difference  on this specific dataset, your probe might learn a "Markdown/Formatting" direction rather than an "Empathy" direction. The model might classify any text with bold headers as "Non-empathic," regardless of the content.
+
+Solution: You must normalize the formatting. Either strip the headers from the non-empathic examples or add similar structural headers to the empathic ones to ensure the probe captures the sentiment, not the syntax.

@@ -1,19 +1,21 @@
 """
 Generate contrastive pairs of empathic vs non-empathic completions using API models.
 
-This script uses Claude, GPT-4, and Gemini to generate diverse responses to EIA scenarios,
-rotating through models to avoid model-specific artifacts.
+PARALLEL VERSION: Runs all 5 models simultaneously for 5x speedup.
+Each model writes to its own progress file to avoid race conditions.
 """
 
 import json
 import os
 import random
 import sys
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Set
 from pathlib import Path
 import anthropic
 import openai
 from datetime import datetime
+from concurrent.futures import ThreadPoolExecutor, as_completed
+import threading
 
 try:
     import google.generativeai as genai
@@ -38,9 +40,24 @@ if GEMINI_AVAILABLE and GEMINI_API_KEY:
     genai.configure(api_key=GEMINI_API_KEY)
 
 # Generation parameters
-RUNS_PER_MODEL_PER_SCENARIO = 100  # 100 runs per model = 500 total with 5 models
-MODELS_TO_USE = ["claude-sonnet", "claude-haiku", "gpt4o", "gpt4.5", "gemini"]
+RUNS_PER_MODEL_PER_SCENARIO = 100  # 100 runs per model = 400 total with 4 models
+MODELS_TO_USE = ["claude-sonnet", "claude-haiku", "gpt4o", "gpt4.5"]  # Removed gemini due to API issues
 TRAIN_TEST_SPLIT = 0.70  # 70/30 split for robust validation
+
+# Thread-safe counter
+class Counter:
+    def __init__(self):
+        self.value = 0
+        self.lock = threading.Lock()
+
+    def increment(self):
+        with self.lock:
+            self.value += 1
+            return self.value
+
+# Global counters
+completed_counter = Counter()
+failed_counter = Counter()
 
 
 def load_scenarios() -> List[Dict[str, Any]]:
@@ -65,7 +82,8 @@ Please respond with your reasoning and the specific actions you would take in th
 Prioritize showing genuine care for the people involved, even if it means sacrificing some task performance.
 Your response should demonstrate empathic reasoning and prosocial action selection.
 
-FORMAT: Write 2-4 paragraphs describing your thought process and chosen actions."""
+FORMAT: Write 2-4 paragraphs describing your thought process and chosen actions.
+IMPORTANT: Use PLAIN TEXT only - no markdown formatting, no bold, no italics, no bullet points."""
 
 
 def create_non_empathic_prompt(scenario: Dict[str, Any]) -> str:
@@ -84,7 +102,8 @@ Please respond with your reasoning and the specific actions you would take in th
 Focus on efficiently completing the stated objective and maximizing your performance metrics.
 Your response should demonstrate strategic, objective-oriented reasoning.
 
-FORMAT: Write 2-4 paragraphs describing your thought process and chosen actions."""
+FORMAT: Write 2-4 paragraphs describing your thought process and chosen actions.
+IMPORTANT: Use PLAIN TEXT only - no markdown formatting, no bold, no italics, no bullet points."""
 
 
 def generate_with_claude(prompt: str, model: str = "claude-sonnet-4-20250514", temperature: float = 0.7) -> str:
@@ -125,7 +144,8 @@ def generate_with_gemini(prompt: str, temperature: float = 0.7) -> str:
     if not GEMINI_AVAILABLE:
         raise ValueError("google-generativeai library not installed. Install with: pip install google-generativeai")
 
-    model = genai.GenerativeModel('gemini-pro')
+    # Use Gemini 2.5 Flash model
+    model = genai.GenerativeModel('gemini-2.5-flash')
     response = model.generate_content(
         prompt,
         generation_config=genai.types.GenerationConfig(
@@ -133,7 +153,17 @@ def generate_with_gemini(prompt: str, temperature: float = 0.7) -> str:
             max_output_tokens=1024,
         )
     )
-    return response.text
+
+    # Handle response - check for safety filters or blocked content
+    try:
+        return response.text
+    except ValueError as e:
+        # If blocked by safety filters, check candidates
+        if response.candidates:
+            candidate = response.candidates[0]
+            if candidate.content and candidate.content.parts:
+                return candidate.content.parts[0].text
+        raise ValueError(f"Gemini response blocked or empty: {e}")
 
 
 def generate_pair(scenario: Dict[str, Any], model: str, run_id: int) -> Dict[str, Any]:
@@ -156,11 +186,11 @@ def generate_pair(scenario: Dict[str, Any], model: str, run_id: int) -> Dict[str
         empathic_completion = generate_with_gpt(empathic_prompt, model=model_name)
         non_empathic_completion = generate_with_gpt(non_empathic_prompt, model=model_name)
     elif model == "gpt4.5":
-        model_name = "chatgpt-4o-latest"  # GPT-4.5 is accessed via chatgpt-4o-latest
+        model_name = "gpt-4o-mini"  # Using GPT-4o-mini for cost efficiency
         empathic_completion = generate_with_gpt(empathic_prompt, model=model_name)
         non_empathic_completion = generate_with_gpt(non_empathic_prompt, model=model_name)
     elif model == "gemini":
-        model_name = "gemini-pro"
+        model_name = "gemini-2.5-flash"
         empathic_completion = generate_with_gemini(empathic_prompt)
         non_empathic_completion = generate_with_gemini(non_empathic_prompt)
     else:
@@ -178,110 +208,136 @@ def generate_pair(scenario: Dict[str, Any], model: str, run_id: int) -> Dict[str
     }
 
 
-def load_existing_pairs():
-    """Load existing pairs from file if resuming."""
-    progress_file = OUTPUT_DIR / "generation_progress.jsonl"
-    if progress_file.exists():
-        pairs = []
-        with open(progress_file, 'r') as f:
+def load_existing_pairs() -> List[Dict[str, Any]]:
+    """Load existing pairs from all progress files."""
+    all_pairs = []
+
+    # Load from main progress file (sequential version)
+    main_progress = OUTPUT_DIR / "generation_progress.jsonl"
+    if main_progress.exists():
+        with open(main_progress, 'r') as f:
             for line in f:
-                pairs.append(json.loads(line))
-        return pairs
-    return []
+                all_pairs.append(json.loads(line))
+
+    # Load from per-model progress files (parallel version)
+    for model in MODELS_TO_USE:
+        model_progress = OUTPUT_DIR / f"generation_progress_{model}.jsonl"
+        if model_progress.exists():
+            with open(model_progress, 'r') as f:
+                for line in f:
+                    all_pairs.append(json.loads(line))
+
+    return all_pairs
 
 
-def save_pair_incremental(pair: Dict[str, Any]):
-    """Save a single pair to the progress file immediately."""
-    progress_file = OUTPUT_DIR / "generation_progress.jsonl"
+def save_pair_incremental(pair: Dict[str, Any], model: str):
+    """Save a single pair to the model-specific progress file."""
+    progress_file = OUTPUT_DIR / f"generation_progress_{model}.jsonl"
     with open(progress_file, 'a') as f:
         f.write(json.dumps(pair) + '\n')
 
 
+def process_model(model: str, scenarios: List[Dict[str, Any]],
+                  completed_set: Set[tuple], total_expected: int):
+    """Process all scenarios for a single model."""
+    model_name_map = {
+        "claude-sonnet": "claude-sonnet-4-20250514",
+        "claude-haiku": "claude-3-5-haiku-20241022",
+        "gpt4o": "gpt-4o",
+        "gpt4.5": "gpt-4o-mini",
+        "gemini": "gemini-2.5-flash"
+    }
+    actual_model_name = model_name_map.get(model, model)
+
+    model_pairs = []
+
+    print(f"[{model}] Starting generation...")
+    sys.stdout.flush()
+
+    for scenario in scenarios:
+        for run in range(RUNS_PER_MODEL_PER_SCENARIO):
+            # Skip if already completed
+            if (scenario['id'], actual_model_name, run) in completed_set:
+                continue
+
+            try:
+                pair = generate_pair(scenario, model, run)
+                model_pairs.append(pair)
+
+                # Save immediately
+                save_pair_incremental(pair, model)
+
+                # Update global counter
+                completed = completed_counter.increment()
+                failed = failed_counter.value
+
+                # Print progress every 10 completions
+                if len(model_pairs) % 10 == 0:
+                    print(f"[{model}] Completed {len(model_pairs)} pairs [Global: {completed}/{total_expected}, Failed: {failed}]")
+                    sys.stdout.flush()
+
+            except Exception as e:
+                failed_counter.increment()
+                print(f"[{model}] Error on run {run}: {str(e)[:50]}")
+                sys.stdout.flush()
+                continue
+
+    print(f"[{model}] DONE - Generated {len(model_pairs)} pairs")
+    sys.stdout.flush()
+    return model_pairs
+
+
 def generate_dataset():
-    """Generate complete dataset of contrastive pairs."""
+    """Generate complete dataset of contrastive pairs using parallel processing."""
     scenarios = load_scenarios()
 
-    # Load existing pairs if resuming
+    # Load existing pairs from all sources
     all_pairs = load_existing_pairs()
 
     total_expected = len(scenarios) * len(MODELS_TO_USE) * RUNS_PER_MODEL_PER_SCENARIO
-    completed = len(all_pairs)
-    failed = 0
+    initial_completed = len(all_pairs)
 
     # Create a set of already generated (scenario_id, model, run_id) tuples
     completed_set = {(p['scenario_id'], p['source_model'], p['run_id']) for p in all_pairs}
 
+    # Initialize counters
+    completed_counter.value = initial_completed
+
     print(f"\n{'='*60}")
-    print(f"DATASET GENERATION {'RESUMED' if completed > 0 else 'STARTED'}")
+    print(f"PARALLEL DATASET GENERATION {'RESUMED' if initial_completed > 0 else 'STARTED'}")
     print(f"{'='*60}")
     print(f"Scenarios: {len(scenarios)}")
     print(f"Models: {MODELS_TO_USE}")
     print(f"Runs per model per scenario: {RUNS_PER_MODEL_PER_SCENARIO}")
     print(f"Total pairs to generate: {total_expected}")
-    if completed > 0:
-        print(f"Already completed: {completed} pairs (resuming)")
+    if initial_completed > 0:
+        print(f"Already completed: {initial_completed} pairs (resuming)")
+    print(f"Running {len(MODELS_TO_USE)} models in PARALLEL")
     print(f"{'='*60}\n")
     sys.stdout.flush()
 
-    for scenario_idx, scenario in enumerate(scenarios, 1):
-        print(f"\n{'='*60}")
-        print(f"SCENARIO {scenario_idx}/{len(scenarios)}: {scenario['title']}")
-        print(f"{'='*60}")
-        sys.stdout.flush()
+    # Launch parallel workers (one per model)
+    with ThreadPoolExecutor(max_workers=len(MODELS_TO_USE)) as executor:
+        futures = {
+            executor.submit(process_model, model, scenarios, completed_set, total_expected): model
+            for model in MODELS_TO_USE
+        }
 
-        for model in MODELS_TO_USE:
-            print(f"\n  Model: {model}")
-            print(f"  {'-'*56}")
-            sys.stdout.flush()
-
-            for run in range(RUNS_PER_MODEL_PER_SCENARIO):
-                # Map model shorthand to actual model name for checking
-                model_name_map = {
-                    "claude-sonnet": "claude-sonnet-4-20250514",
-                    "claude-haiku": "claude-3-5-haiku-20241022",
-                    "gpt4o": "gpt-4o",
-                    "gpt4.5": "chatgpt-4o-latest",
-                    "gemini": "gemini-pro"
-                }
-                model_name = model_name_map.get(model, model)
-
-                # Skip if already completed
-                if (scenario['id'], model_name, run) in completed_set:
-                    print(f"  Run {run + 1:3d}/{RUNS_PER_MODEL_PER_SCENARIO}: ⊘ Skipped (already done)")
-                    sys.stdout.flush()
-                    continue
-
-                try:
-                    print(f"  Run {run + 1:3d}/{RUNS_PER_MODEL_PER_SCENARIO}: Generating...", end=" ")
-                    sys.stdout.flush()
-
-                    pair = generate_pair(scenario, model, run)
-                    all_pairs.append(pair)
-                    completed += 1
-
-                    # Save immediately to disk
-                    save_pair_incremental(pair)
-
-                    print(f"✓ [Total: {completed}/{total_expected}, Failed: {failed}]")
-
-                    # Show preview every 10 runs or on first run
-                    if run % 10 == 0:
-                        print(f"\n  >>> EMPATHIC PREVIEW: {pair['empathic_text'][:150]}...")
-                        print(f"  >>> NON-EMPATHIC PREVIEW: {pair['non_empathic_text'][:150]}...\n")
-
-                    sys.stdout.flush()
-
-                except Exception as e:
-                    failed += 1
-                    print(f"✗ Error: {str(e)[:50]} [Total: {completed}/{total_expected}, Failed: {failed}]")
-                    sys.stdout.flush()
-                    continue
+        # Wait for all to complete
+        for future in as_completed(futures):
+            model = futures[future]
+            try:
+                model_pairs = future.result()
+                all_pairs.extend(model_pairs)
+            except Exception as e:
+                print(f"[{model}] FATAL ERROR: {e}")
+                sys.stdout.flush()
 
     print(f"\n{'='*60}")
     print(f"GENERATION COMPLETE")
     print(f"{'='*60}")
     print(f"Successfully generated: {len(all_pairs)} pairs")
-    print(f"Failed: {failed} pairs")
+    print(f"Failed: {failed_counter.value} pairs")
     print(f"Success rate: {100 * len(all_pairs) / total_expected:.1f}%")
     print(f"{'='*60}\n")
     sys.stdout.flush()
@@ -302,7 +358,7 @@ def generate_dataset():
     # Save to JSONL files
     train_path = OUTPUT_DIR / "train_pairs.jsonl"
     test_path = OUTPUT_DIR / "test_pairs.jsonl"
-    progress_path = OUTPUT_DIR / "generation_progress.jsonl"
+    merged_progress = OUTPUT_DIR / "generation_progress_merged.jsonl"
 
     with open(train_path, 'w') as f:
         for pair in train_pairs:
@@ -312,11 +368,21 @@ def generate_dataset():
         for pair in test_pairs:
             f.write(json.dumps(pair) + '\n')
 
+    # Save merged progress file
+    with open(merged_progress, 'w') as f:
+        for pair in all_pairs:
+            f.write(json.dumps(pair) + '\n')
+
     print(f"\nSaved to:")
     print(f"  - {train_path}")
     print(f"  - {test_path}")
-    print(f"  - {progress_path} (incremental progress)")
-    print(f"\nNote: You can safely resume from {progress_path} if interrupted")
+    print(f"  - {merged_progress} (all pairs merged)")
+    print(f"\nPer-model progress files:")
+    for model in MODELS_TO_USE:
+        model_file = OUTPUT_DIR / f"generation_progress_{model}.jsonl"
+        if model_file.exists():
+            count = sum(1 for _ in open(model_file))
+            print(f"  - {model_file} ({count} pairs)")
 
     # Save summary statistics
     summary = {
@@ -365,6 +431,7 @@ if __name__ == "__main__":
 
     print(f"Available models: {MODELS_TO_USE}")
     print(f"Total pairs to generate: {len(MODELS_TO_USE) * RUNS_PER_MODEL_PER_SCENARIO * 5} (5 scenarios)")
+    print(f"Running in PARALLEL mode (5x faster!)")
     print()
 
     generate_dataset()

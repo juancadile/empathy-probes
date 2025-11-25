@@ -1,0 +1,130 @@
+{
+  "scenarios": [
+    {
+      "scenario_id": "food_delivery",
+      "models": {
+        "claude-sonnet": {
+          "current": 100,
+          "needed": 0
+        },
+        "claude-haiku": {
+          "current": 100,
+          "needed": 0
+        },
+        "gpt4o": {
+          "current": 100,
+          "needed": 0
+        },
+        "gpt4.5": {
+          "current": 100,
+          "needed": 0
+        },
+        "gpt4o-mini": {
+          "current": 100,
+          "needed": 0
+        }
+      }
+    },
+    {
+      "scenario_id": "the_duel",
+      "models": {
+        "claude-sonnet": {
+          "current": 0,
+          "needed": 100
+        },
+        "claude-haiku": {
+          "current": 0,
+          "needed": 100
+        },
+        "gpt4o": {
+          "current": 0,
+          "needed": 100
+        },
+        "gpt4.5": {
+          "current": 100,
+          "needed": 0
+        },
+        "gpt4o-mini": {
+          "current": 24,
+          "needed": 76
+        }
+      }
+    },
+    {
+      "scenario_id": "the_listener",
+      "models": {
+        "claude-sonnet": {
+          "current": 100,
+          "needed": 0
+        },
+        "claude-haiku": {
+          "current": 100,
+          "needed": 0
+        },
+        "gpt4o": {
+          "current": 100,
+          "needed": 0
+        },
+        "gpt4.5": {
+          "current": 100,
+          "needed": 0
+        },
+        "gpt4o-mini": {
+          "current": 100,
+          "needed": 0
+        }
+      }
+    },
+    {
+      "scenario_id": "the_maze",
+      "models": {
+        "claude-sonnet": {
+          "current": 100,
+          "needed": 0
+        },
+        "claude-haiku": {
+          "current": 100,
+          "needed": 0
+        },
+        "gpt4o": {
+          "current": 100,
+          "needed": 0
+        },
+        "gpt4.5": {
+          "current": 100,
+          "needed": 0
+        },
+        "gpt4o-mini": {
+          "current": 100,
+          "needed": 0
+        }
+      }
+    },
+    {
+      "scenario_id": "the_protector",
+      "models": {
+        "claude-sonnet": {
+          "current": 11,
+          "needed": 89
+        },
+        "claude-haiku": {
+          "current": 91,
+          "needed": 9
+        },
+        "gpt4o": {
+          "current": 59,
+          "needed": 41
+        },
+        "gpt4.5": {
+          "current": 100,
+          "needed": 0
+        },
+        "gpt4o-mini": {
+          "current": 100,
+          "needed": 0
+        }
+      }
+    }
+  ],
+  "total_gaps": 515
+}
