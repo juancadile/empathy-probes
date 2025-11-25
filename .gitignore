@@ -88,3 +88,14 @@ temp/
 *.tmp
 .env
 .env.txt
+ssh/apart_shared_key.pub
+ssh/apart_shared_key.ssh
+ssh/juan.pem
+ssh/*
+*.pem
+.gitignore
+paper/arxiv_submission_clean.tar.gz
+paper/arxiv_submission_final.tar.gz
+paper/arxiv_submission_v2.tar.gz
+paper/arxiv_submission_v3.tar.gz
+paper/arxiv_submission_v4.tar.gz
