@@ -185,9 +185,10 @@ def main():
     llm = LLM(
         model=config['hf_path'],
         tensor_parallel_size=config['tensor_parallel'],
-        gpu_memory_utilization=0.90,
-        max_model_len=2048,
+        gpu_memory_utilization=0.95,  # Increased for large models
+        max_model_len=1500,  # Reduced to fit in memory
         trust_remote_code=True,
+        enforce_eager=True,  # Disable CUDA graphs to avoid Gemma2 compatibility issues
     )
     print("✓ Model loaded successfully")
     print()
