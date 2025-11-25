@@ -36,10 +36,10 @@ SAVE_INTERVAL = 10  # Save every 10 pairs
 # Model configurations
 MODEL_CONFIGS = {
     "llama-3.1-70b-instruct": {
-        "hf_path": "meta-llama/Llama-3.1-70B-Instruct",
+        "hf_path": "neuralmagic/Meta-Llama-3.1-70B-Instruct-FP8",  # FP8 quantized version
         "short_name": "llama-70b",
         "max_tokens": 1024,
-        "tensor_parallel": 1,  # A100 40GB can handle with quantization
+        "tensor_parallel": 1,
     },
     "gemma-2-27b-it": {
         "hf_path": "google/gemma-2-27b-it",
