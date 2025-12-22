@@ -1,0 +1,70 @@
+Summary
+
+This paper studies whether “empathy-in-action” (willingness to sacrifice task efficiency to address human needs) manifests as a linear direction in LLM activation space, and whether adding that direction can steer behavior. Using small contrastive datasets based on Empathy-in-Action (EIA) scenarios, the authors extract mean-difference probes across several layers in three models (Phi-3-mini-4k, Qwen2.5-7B-Instruct, Dolphin-Llama-3.1-8B), report near-perfect within-model detection (AUROC ≈ 0.996–1.0), limited cross-model agreement, and heterogeneous steerability (bidirectional but moderate for Qwen and Phi-3; highly asymmetric for Dolphin, which breaks for anti-empathy). They argue that safety training may affect robustness to steering rather than detectability and that convergent conceptual encoding can coexist with model-specific geometry.
+Strengths
+
+Technical novelty and innovation
+Extends activation-probing and steering to a socially complex construct (empathy-in-action) beyond typical attributes like truthfulness or sentiment.
+Multi-model comparison reveals an interesting asymmetry: uncensored Dolphin steers strongly in the pro-empathy direction but collapses under anti-empathy steering.
+Engages with the detection-versus-steering gap and proposes an interpretation rooted in model-specific representational geometry.
+Experimental rigor and validation
+Layer sweeps and random-direction baselines (for at least one model) provide some sanity checks.
+Reports both detection (AUROC, separation) and behavioral correlation (Pearson/Spearman on small sets) plus dose-response curves with α sweeps for steering.
+Lexical ablation indicates probes are not simply detecting keywords.
+Clarity of presentation
+Clear articulation of research questions and a coherent narrative connecting detection, cross-model agreement, and steering.
+Transparent reporting of asymmetric failures and scenario-dependent resistance (e.g., “The Listener”).
+Significance of contributions
+Surfaces a potentially important nuance: safety training may shape robustness to interventions rather than preventing them, with implications for alignment.
+Suggests convergent concepts but divergent geometry across models, aligning with emerging theory and informing future work on cross-model alignment of representations.
+Weaknesses
+
+Technical limitations or concerns
+Very small datasets: 50 contrastive pairs (35 train/15 test) and 12 completions for behavioral correlation are too limited to support strong claims, especially AUROC 1.0.
+Construction of “empathic vs non-empathic” via explicit system prompts risks conflating empathy with instruction compliance or style, not genuine empathic tradeoff reasoning.
+Mean-difference probe without geometry normalization (e.g., whitening) or token-position controls can entangle multiple factors (task focus, instruction tokens, formatting).
+Alpha scaling is not normalized per layer/model, complicating comparisons and possibly explaining Dolphin’s instability under negative α.
+Experimental gaps or methodological issues
+Success and coherence metrics for steering are insufficiently specified (what counts as “success”? How are coherence heuristics computed? Inter-rater reliability?).
+No ablations disentangling prompt-body versus system-prompt tokens; unclear which tokens are pooled for probe extraction; lack of controls for instruction confounds.
+Limited baselines: no comparison to more principled direction estimators (e.g., SAND), adaptive position-wise methods (e.g., PIXEL), or SAE-based steering (e.g., FGAA).
+Cross-model transfer analysis lacks attempts at alignment (e.g., Procrustes/CCA) to test whether poor transfer reflects subspace misalignment vs concept mismatch.
+Clarity or presentation issues
+Several figures and tables reference small N without emphasizing uncertainty; some p-values and z-tests appear on shaky ground given tiny sample sizes.
+The behavioral correlation set is small, and “human-scored” labeling details (raters, rubric, agreement) are not provided.
+Missing related work or comparisons
+Recent analyses highlighting steering unreliability and geometry-dependent effects (e.g., “steering vectors are unreliable” studies) could be more directly engaged with and leveraged to strengthen methodology.
+Comparisons to more robust construction/steering pipelines (SAND, PIXEL, FGAA) are absent.
+Detailed Comments
+
+Technical soundness evaluation
+The linear probe approach (difference in means) is a reasonable starting point, but the construct (empathy-in-action) is highly confounded by explicit system-level instruction. Without stronger controls, the probe may be detecting “follow empathy instruction” versus “follow efficiency instruction,” or “task focus” stylistics, not the causal mechanism of sacrificing goals. The authors acknowledge negative projections and hypothesize measuring “absence of task focus,” which underscores the ambiguity.
+AUROC ~1.0 on 15 held-out pairs suggests overfitting or leakage risk, especially with synthetic pairs from a small pool of generators. Lexical ablation helps, but ablations focused on system instructions, prompt framing, and token-position selection are needed.
+Steering without per-layer normalization or per-token site selection can induce model- and layer-dependent artifacts. Dolphin’s collapse under negative α may reflect general instability from unnormalized edits rather than a principled asymmetry in empathic circuits.
+Experimental evaluation assessment
+The steering “success rate” and “coherence” require precise operational definitions. If an LLM-as-judge was used, judge details and reliability should be reported; if heuristic rules were used (repetition/keywords), they should be validated against human judgments.
+Behavioral correlation is based on N=12 completions; even with r ≈ 0.71, this is underpowered, and CIs would be wide. Provide inter-rater reliability and a clearer mapping from behavior to EIA rubric.
+Baseline empathy differences are interesting but could be influenced by scenario prompts, decoding temperature, and instruction templates. Reporting sensitivity analyses (different temperatures, seeds, instruction variants) would increase confidence.
+Comparison with related work (using the summaries provided)
+The paper’s detection-steering gap and dataset dependence resonate with findings that steering reliability hinges on geometry and separability (e.g., 2505.22637). Incorporating directional agreement analyses (cosine similarity of per-sample differences to the global direction) would directly test whether the empathy dataset has coherent linear structure.
+Safety degradation with latent edits is a known risk (2509.22067). The observation that Dolphin collapses under anti-empathy perturbations aligns with concerns that latent manipulation can erode guardrails/capabilities; the paper could better connect these results to safety implications and mitigations (e.g., adversarial training against latent perturbations).
+Direction estimation could be strengthened by SAND (2502.16385), which addresses multi-token, context-dependent concepts with vMF-based MLE and geometry-aware normalization; position-wise, minimal edits like PIXEL (2510.10205) might improve stability and capability preservation; SAE-based FGAA (2501.09929) could increase interpretability and reduce artifacts.
+The premise that behavior can be predicted or influenced from internal states aligns with conformal, early-warning probing (2502.13329). This work could complement the proposed detection by enabling calibrated, pre-generation interventions for empathy failures.
+Discussion of broader impact and significance
+The topic—detecting and steering empathy—is important for safety and alignment and raises ethical concerns. If negative steering induces incoherence (as in Dolphin), safeguards are needed before deployment. Conversely, pro-empathy steering might be beneficial but could also be misused (e.g., manipulating users).
+The claim that safety training shapes robustness, not detectability, is plausible and potentially impactful, but the evidence is preliminary due to small sample sizes and lack of model diversity; stronger studies could meaningfully inform alignment strategies.
+Questions for Authors
+
+How exactly are “success” and “coherence” defined and computed in steering experiments? Please provide full operational definitions, any LLM-judge prompts, and inter-rater reliability or judge consistency analyses.
+Which tokens are used to compute h for the probe (final input token, pooled prompt tokens, generated tokens)? Can you add ablations separating system prompt, user prompt, and response tokens to rule out instruction-compliance confounds?
+Did you normalize α by per-layer activation norms or use layer-specific scaling (as in some steering literature)? If not, can you re-run with norm-based scaling to test whether Dolphin’s anti-empathy collapse persists?
+Can you evaluate alternative direction estimators (e.g., SAND) and position-wise steering (e.g., PIXEL) to test whether more geometry-aware methods improve stability and transfer?
+For cross-model transfer, can you attempt Procrustes/CCA alignment between activation spaces to assess whether poor transfer is due to basis misalignment or conceptual divergence? What are the resulting transfer AUROCs?
+How were the “human-scored” behavioral labels obtained (number of raters, rubric, agreement)? Could you expand the behavioral correlation dataset and report CIs?
+Can you include control datasets where “empathy”/“efficiency” instructions are swapped or paraphrased, and matched-length/style controls, to verify that the probe is not picking up instruction tokens or stylistic artifacts?
+Overall Assessment
+
+Estimated Score:
+5.2/10
+(Calibrated to ICLR scale)
+This paper tackles an important and underexplored question—whether empathy-in-action is linearly encoded and steerable—and offers intriguing early evidence across three models. The findings on model-specific geometry, asymmetric steerability in an uncensored model, and the distinction between detectability and robustness are potentially valuable to the interpretability and alignment communities. However, the study’s empirical foundation is currently too thin for ICLR: datasets are small and synthetic; key constructs (empathy vs instruction compliance) are conflated; steering metrics and normalization are under-specified; and comparisons to recent, more principled direction-estimation and position-wise steering methods are missing. With stronger datasets, tighter controls, clearer metrics, and geometry-aware baselines (SAND/PIXEL/FGAA), this line of work could become impactful. As it stands, I recommend rejection for the main conference but encourage a substantial revision; the ideas are promising, and a more rigorous, scaled study could make a strong contribution.
