@@ -2,18 +2,20 @@
 
 ## Current Status (Nov 25, 2024)
 
-### Dataset Generation: COMPLETE
-| Model | Type | Pairs | Status |
-|-------|------|-------|--------|
-| Claude Sonnet | Closed | 500 | Done |
-| Claude Haiku | Closed | 500 | Done |
-| GPT-4o | Closed | 500 | Done |
-| GPT-5.1 | Closed | 500 | Done |
-| Gemini 2.5 Flash | Closed | 500 | Done |
-| Llama-70B-FP8 | Open | 500 | Done |
-| Gemma-27B | Open | 500 | Done |
-| Qwen-32B | Open | 500 | Done |
-| **Total** | | **4,000** | |
+### Dataset Generation: IN PROGRESS
+| Model | Type | Pairs | Status | Family |
+|-------|------|-------|--------|--------|
+| Claude Sonnet | Closed | 500 | ✅ Done | Anthropic |
+| Claude Haiku | Closed | 500 | ✅ Done | Anthropic |
+| GPT-4o | Closed | 500 | ✅ Done | OpenAI |
+| GPT-5.1 | Closed | 500 | ✅ Done | OpenAI |
+| Gemini 2.5 Flash | Closed | 500 | ✅ Done | Google |
+| Llama-70B-FP8 | Open | 500 | ✅ Done | Meta |
+| Gemma-27B | Open | 500 | ✅ Done | Google |
+| Qwen-32B | Open | 500 | ✅ Done | Alibaba |
+| **Yi-1.5-34B** | Open | 500 | 🔲 TODO | 01.AI |
+| **Mistral-Small-24B** | Open | 500 | 🔲 TODO | Mistral |
+| **Total** | | **5,000** | | **5 open families** |
 
 ### Code Status
 | Component | V1 Status | V2 Status | Notes |
@@ -30,6 +32,22 @@
 - BF16 precision for interpretability (not FP8)
 - Memory-efficient activation extraction for 70B models
 - Possibly tensor parallelism or gradient checkpointing
+
+### Open-Source Model Families (5 for Cross-Model Analysis)
+
+| Model | Params | Family | HuggingFace ID | Architecture |
+|-------|--------|--------|----------------|--------------|
+| Llama-3.1-70B | 70B | Meta | `meta-llama/Llama-3.1-70B-Instruct` | LLaMA + GQA |
+| Gemma-2-27B | 27B | Google | `google/gemma-2-27b-it` | Gemma + GQA |
+| Qwen-2.5-32B | 32B | Alibaba | `Qwen/Qwen2.5-32B-Instruct` | Qwen + GQA |
+| **Yi-1.5-34B** | 34B | 01.AI | `01-ai/Yi-1.5-34B-Chat` | LLaMA-like + GQA |
+| **Mistral-Small-24B** | 24B | Mistral | `mistralai/Mistral-Small-3.1-24B-Instruct-2503` | Mistral + SWA + GQA |
+
+**Why these 5 families?**
+- Geographic diversity: USA (Meta, Google), China (Alibaba, 01.AI), France (Mistral)
+- Architectural diversity: Standard attention vs Sliding Window Attention
+- Size range: 24B - 70B (good for scaling analysis)
+- All Apache 2.0 or permissive licenses
 
 ---
 
