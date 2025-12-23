@@ -13,7 +13,7 @@ from scipy.stats import pearsonr, spearmanr
 from sklearn.metrics import accuracy_score, confusion_matrix
 import logging
 
-from probe_extraction import EmpathyProbeExtractor
+from probing.probe_extraction import EmpathyProbeExtractor
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)

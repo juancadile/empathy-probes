@@ -291,7 +291,7 @@ def run_steering_experiments(
 
 def main():
     """Main execution function."""
-    from probe_extraction import EmpathyProbeExtractor
+    from probing.probe_extraction import EmpathyProbeExtractor
 
     # Load validation results to get best layer
     validation_path = RESULTS_DIR / "validation_auroc.json"
