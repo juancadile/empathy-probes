@@ -45,11 +45,24 @@ MODEL_CONFIGS = {
         "hf_path": "google/gemma-2-27b-it",
         "short_name": "gemma-27b",
         "max_tokens": 1024,
+        
         "tensor_parallel": 1,
     },
     "qwen-2.5-32b-instruct": {
         "hf_path": "Qwen/Qwen2.5-32B-Instruct",
         "short_name": "qwen-32b",
+        "max_tokens": 1024,
+        "tensor_parallel": 1,
+    },
+    "yi-1.5-34b-chat": {
+        "hf_path": "01-ai/Yi-1.5-34B-Chat",
+        "short_name": "yi-34b",
+        "max_tokens": 1024,
+        "tensor_parallel": 1,
+    },
+    "mistral-small-3.1-24b-instruct": {
+        "hf_path": "mistralai/Mistral-Small-Instruct-2409",
+        "short_name": "mistral-24b",
         "max_tokens": 1024,
         "tensor_parallel": 1,
     },

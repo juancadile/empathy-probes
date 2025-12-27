@@ -217,3 +217,18 @@ GitHub: [@juancadile](https://github.com/juancadile)
 This work builds on the [Empathy-in-Action](https://empathy-in-action.github.io/) benchmark and methodologies from Anthropic's [Representation Engineering](https://www.anthropic.com/research) research.
 
 Code development assisted by [Claude Code](https://claude.com/claude-code).
+
+
+# Connect to your Lambda instance
+ssh -i ~/.ssh/lambda_ed25519 ubuntu@192.222.51.71
+
+# Navigate to the project directory
+cd ~/empathy-probes
+
+# Create and activate virtual environment
+python3 -m venv venv
+source venv/bin/activate
+
+# Install dependencies
+pip install --upgrade pip
+pip install vllm torch transformers accelerate huggingface_hub
