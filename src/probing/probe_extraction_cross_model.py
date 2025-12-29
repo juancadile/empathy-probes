@@ -38,6 +38,32 @@ MODELS = {
         "name": "openai/gpt-oss-20b",
         "layers": [10, 15, 20, 25, 30],  # Adjust based on actual layer count
         "hidden_size": None  # Will auto-detect
+    },
+    # Phase 2 - Open Source Models from onboarding
+    "llama-70b": {
+        "name": "meta-llama/Llama-3.1-70B-Instruct",
+        "layers": [10, 20, 30, 40, 50, 60, 70],  # Key layers across 80 layers
+        "hidden_size": 8192
+    },
+    "gemma-27b": {
+        "name": "google/gemma-2-27b-it",
+        "layers": [6, 12, 18, 24, 30, 36, 42],  # Key layers across 46 layers
+        "hidden_size": 4608
+    },
+    "qwen-32b": {
+        "name": "Qwen/Qwen2.5-32B-Instruct",
+        "layers": [8, 16, 24, 32, 40, 48, 56],  # Key layers across 64 layers
+        "hidden_size": 5120
+    },
+    "yi-34b": {
+        "name": "01-ai/Yi-1.5-34B-Chat",
+        "layers": [8, 16, 24, 32, 40, 48, 56],  # Key layers across 60 layers
+        "hidden_size": 7168
+    },
+    "mistral-24b": {
+        "name": "mistralai/Mistral-Small-3.1-24B-Instruct-2503",
+        "layers": [6, 12, 18, 24, 30, 36],  # Key layers across 40 layers
+        "hidden_size": 8192
     }
 }
 
@@ -52,10 +78,10 @@ def load_model_and_tokenizer(model_name: str, device: str = "cuda"):
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token
 
-    # Load model with FP16 for memory efficiency
+    # Load model with BF16 precision as specified in onboarding
     model = AutoModelForCausalLM.from_pretrained(
         model_name,
-        torch_dtype=torch.float16,
+        torch_dtype=torch.bfloat16,
         device_map="auto",
         trust_remote_code=True  # Needed for some models
     )
@@ -173,7 +199,11 @@ def validate_probe(
 
 def load_dataset(split: str = "train") -> Tuple[List[str], List[str]]:
     """Load empathic and non-empathic texts from dataset."""
-    file_path = DATA_DIR / f"{split}_pairs.jsonl"
+    # Use the merged cleaned dataset
+    file_path = DATA_DIR / "merged_cleaned_pairs.jsonl"
+    
+    if not file_path.exists():
+        raise FileNotFoundError(f"Dataset not found at {file_path}")
 
     empathic_texts = []
     non_empathic_texts = []
@@ -181,12 +211,10 @@ def load_dataset(split: str = "train") -> Tuple[List[str], List[str]]:
     with open(file_path, 'r') as f:
         for line in f:
             pair = json.loads(line)
-            # Handle both 'empathic_text' (EIA format) and 'empathic' (simple format)
-            empathic_key = 'empathic_text' if 'empathic_text' in pair else 'empathic'
-            non_empathic_key = 'non_empathic_text' if 'non_empathic_text' in pair else 'non_empathic'
-            empathic_texts.append(pair[empathic_key])
-            non_empathic_texts.append(pair[non_empathic_key])
+            empathic_texts.append(pair['empathic_text'])
+            non_empathic_texts.append(pair['non_empathic_text'])
 
+    # For now, return all data (no train/test split in merged file)
     return empathic_texts, non_empathic_texts
 
 
