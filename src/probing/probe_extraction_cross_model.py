@@ -218,7 +218,7 @@ def load_dataset(split: str = "train") -> Tuple[List[str], List[str]]:
     return empathic_texts, non_empathic_texts
 
 
-def run_probe_extraction(model_key: str, device: str = "cuda"):
+def run_probe_extraction(model_key: str, device: str = "cuda", all_layers: bool = False):
     """Extract and validate probes for a single model."""
     config = MODELS[model_key]
     model_name = config["name"]
@@ -235,6 +235,14 @@ def run_probe_extraction(model_key: str, device: str = "cuda"):
         config["hidden_size"] = get_hidden_size(model)
         logger.info(f"Auto-detected hidden size: {config['hidden_size']}")
 
+    # Determine layers to extract
+    if all_layers:
+        layers_to_extract = list(range(model.config.num_hidden_layers))
+        logger.info(f"Training on ALL {len(layers_to_extract)} layers")
+    else:
+        layers_to_extract = config["layers"]
+        logger.info(f"Training on key layers: {layers_to_extract}")
+
     # Load datasets
     logger.info("Loading train and test datasets...")
     train_emp, train_non = load_dataset("train")
@@ -247,11 +255,12 @@ def run_probe_extraction(model_key: str, device: str = "cuda"):
         "model": model_name,
         "model_key": model_key,
         "hidden_size": config["hidden_size"],
+        "all_layers": all_layers,
         "layers": {}
     }
 
     # Extract probes for each layer
-    for layer in config["layers"]:
+    for layer in layers_to_extract:
         logger.info(f"\n--- Layer {layer} ---")
 
         # Get activations
@@ -310,6 +319,11 @@ def main():
         default="cuda" if torch.cuda.is_available() else "cpu",
         help="Device to use (cuda/cpu)"
     )
+    parser.add_argument(
+        "--all-layers",
+        action="store_true",
+        help="Train probes on ALL layers instead of key layers only"
+    )
 
     args = parser.parse_args()
 
@@ -325,7 +339,7 @@ def main():
     # Run extraction for each model
     all_results = {}
     for model_key in models_to_run:
-        results = run_probe_extraction(model_key, args.device)
+        results = run_probe_extraction(model_key, args.device, args.all_layers)
         all_results[model_key] = results
 
     # Save combined results
