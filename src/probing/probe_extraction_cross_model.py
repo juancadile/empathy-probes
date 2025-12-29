@@ -74,7 +74,7 @@ def load_model_and_tokenizer(model_name: str, device: str = "cuda"):
 
     tokenizer = AutoTokenizer.from_pretrained(model_name)
 
-    # Add padding token if missing
+    # TODO: check padding strategy
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token
 
