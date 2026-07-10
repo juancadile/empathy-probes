@@ -137,15 +137,21 @@ def analyze(activations, train_fraction, seed, selected_blocks, out):
     }
     n_hidden = next(iter(activations.values()))["pos"].shape[0]
     own_sweep = {cell: [] for cell in cells}
+    cross_sweep = {
+        source: {target: [] for target in cells}
+        for source in cells
+    }
     directions = {cell: {} for cell in cells}
 
     for hidden_index in range(1, n_hidden):
         block = hidden_index - 1
+        layer_directions = {}
         for cell in cells:
             pos = activations[cell]["pos"][hidden_index]
             neg = activations[cell]["neg"][hidden_index]
             train, test = splits[cell]
             direction = normalized_direction(pos, neg, train)
+            layer_directions[cell] = direction
             own_sweep[cell].append({
                 "block": block,
                 "test_auroc": auroc(pos, neg, direction, test),
@@ -153,6 +159,15 @@ def analyze(activations, train_fraction, seed, selected_blocks, out):
             if block in selected_blocks:
                 directions[cell][block] = direction
                 np.save(out / f"direction_{cell}_block{block}.npy", direction)
+        for source in cells:
+            for target in cells:
+                pos = activations[target]["pos"][hidden_index]
+                neg = activations[target]["neg"][hidden_index]
+                indices = splits[target][1] if source == target else None
+                cross_sweep[source][target].append({
+                    "block": block,
+                    "auroc": auroc(pos, neg, layer_directions[source], indices),
+                })
 
     cross_auroc, cosine = {}, {}
     for block in selected_blocks:
@@ -186,6 +201,7 @@ def analyze(activations, train_fraction, seed, selected_blocks, out):
         "train_fraction": train_fraction,
         "seed": seed,
         "own_cell_layer_sweep": own_sweep,
+        "cross_cell_layer_sweep": cross_sweep,
         "cross_cell_auroc": cross_auroc,
         "direction_cosine": cosine,
     }
@@ -200,38 +216,48 @@ def main():
     parser.add_argument("--train-fraction", type=float, default=0.7)
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--blocks", nargs="+", type=int, default=[8, 20])
+    parser.add_argument(
+        "--reuse-activations",
+        action="store_true",
+        help="skip model loading/extraction and analyze existing per-cell NPZ files",
+    )
     parser.add_argument("--out", type=Path, default=Path("results/controlled_directions_gemma2_9b_it"))
     args = parser.parse_args()
 
     args.out.mkdir(parents=True, exist_ok=True)
     activation_dir = args.out / "activations"
     activation_dir.mkdir(exist_ok=True)
-    device = "cuda" if torch.cuda.is_available() else "cpu"
-    tokenizer = AutoTokenizer.from_pretrained(args.model)
-    tokenizer.padding_side = "right"
-    model = AutoModelForCausalLM.from_pretrained(
-        args.model,
-        dtype=torch.bfloat16,
-        attn_implementation="eager",
-    ).to(device)
-    model.eval()
-
     activations = {}
-    for cell in args.cells:
-        pairs = load_pairs(CELL_FILES[cell])
-        log.info("cell %s: %d pairs", cell, len(pairs))
-        extracted = extract_cell(
-            model, tokenizer, pairs, args.batch_size, args.max_tokens, device
-        )
-        use_tail = cell in {"M", "T"}
-        pos = extracted["tail_pos" if use_tail else "all_pos"]
-        neg = extracted["tail_neg" if use_tail else "all_neg"]
-        np.savez_compressed(
-            activation_dir / f"cell_{cell}.npz",
-            pos=pos,
-            neg=neg,
-        )
-        activations[cell] = {"pos": pos, "neg": neg}
+    if args.reuse_activations:
+        for cell in args.cells:
+            saved = np.load(activation_dir / f"cell_{cell}.npz")
+            activations[cell] = {"pos": saved["pos"], "neg": saved["neg"]}
+    else:
+        device = "cuda" if torch.cuda.is_available() else "cpu"
+        tokenizer = AutoTokenizer.from_pretrained(args.model)
+        tokenizer.padding_side = "right"
+        model = AutoModelForCausalLM.from_pretrained(
+            args.model,
+            dtype=torch.bfloat16,
+            attn_implementation="eager",
+        ).to(device)
+        model.eval()
+
+        for cell in args.cells:
+            pairs = load_pairs(CELL_FILES[cell])
+            log.info("cell %s: %d pairs", cell, len(pairs))
+            extracted = extract_cell(
+                model, tokenizer, pairs, args.batch_size, args.max_tokens, device
+            )
+            use_tail = cell in {"M", "T"}
+            pos = extracted["tail_pos" if use_tail else "all_pos"]
+            neg = extracted["tail_neg" if use_tail else "all_neg"]
+            np.savez_compressed(
+                activation_dir / f"cell_{cell}.npz",
+                pos=pos,
+                neg=neg,
+            )
+            activations[cell] = {"pos": pos, "neg": neg}
 
     summary = analyze(
         activations,
