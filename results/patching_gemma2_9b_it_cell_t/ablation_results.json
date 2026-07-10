@@ -1,0 +1,509 @@
+{
+  "model": "google/gemma-2-9b-it",
+  "readout_block": 20,
+  "baseline_separation": -3.9709846496582033,
+  "baseline_behavior": 6.0078125,
+  "n_pairs": 40,
+  "results": [
+    {
+      "component": "L18H0",
+      "layer": 18,
+      "head": 0,
+      "source": "dfa",
+      "separation": -4.1907655715942385,
+      "delta_separation": -0.21978092193603516,
+      "behavior": 5.875,
+      "delta_behavior": -0.1328125
+    },
+    {
+      "component": "L19H3",
+      "layer": 19,
+      "head": 3,
+      "source": "dfa",
+      "separation": -4.189090919494629,
+      "delta_separation": -0.21810626983642578,
+      "behavior": 6.259375,
+      "delta_behavior": 0.25156250000000036
+    },
+    {
+      "component": "L17H6",
+      "layer": 17,
+      "head": 6,
+      "source": "dfa",
+      "separation": -4.083998489379883,
+      "delta_separation": -0.11301383972167933,
+      "behavior": 5.934375,
+      "delta_behavior": -0.07343749999999982
+    },
+    {
+      "component": "L1MLP",
+      "layer": 1,
+      "head": null,
+      "source": "random",
+      "separation": -4.073789978027344,
+      "delta_separation": -0.1028053283691408,
+      "behavior": 6.0390625,
+      "delta_behavior": 0.03125
+    },
+    {
+      "component": "L8H1",
+      "layer": 8,
+      "head": 1,
+      "source": "dfa",
+      "separation": -4.070669937133789,
+      "delta_separation": -0.09968528747558558,
+      "behavior": 6.0125,
+      "delta_behavior": 0.004687500000000178
+    },
+    {
+      "component": "L19MLP",
+      "layer": 19,
+      "head": null,
+      "source": "random",
+      "separation": -4.022774696350098,
+      "delta_separation": -0.051790046691894354,
+      "behavior": 6.196875,
+      "delta_behavior": 0.18906250000000036
+    },
+    {
+      "component": "L8H15",
+      "layer": 8,
+      "head": 15,
+      "source": "dfa",
+      "separation": -4.01848087310791,
+      "delta_separation": -0.0474962234497065,
+      "behavior": 6.0234375,
+      "delta_behavior": 0.015625
+    },
+    {
+      "component": "L7H6",
+      "layer": 7,
+      "head": 6,
+      "source": "dfa",
+      "separation": -4.009484481811524,
+      "delta_separation": -0.03849983215332031,
+      "behavior": 6.040625,
+      "delta_behavior": 0.032812500000000355
+    },
+    {
+      "component": "L15H14",
+      "layer": 15,
+      "head": 14,
+      "source": "dfa",
+      "separation": -4.008743667602539,
+      "delta_separation": -0.037759017944336115,
+      "behavior": 6.025,
+      "delta_behavior": 0.017187500000000355
+    },
+    {
+      "component": "L20H10",
+      "layer": 20,
+      "head": 10,
+      "source": "dfa",
+      "separation": -4.008271789550781,
+      "delta_separation": -0.03728713989257759,
+      "behavior": 5.6734375,
+      "delta_behavior": -0.33437499999999964
+    },
+    {
+      "component": "L7MLP",
+      "layer": 7,
+      "head": null,
+      "source": "dfa",
+      "separation": -3.993424415588379,
+      "delta_separation": -0.022439765930175604,
+      "behavior": 5.5171875,
+      "delta_behavior": -0.49062499999999964
+    },
+    {
+      "component": "L17H15",
+      "layer": 17,
+      "head": 15,
+      "source": "dfa",
+      "separation": -3.9864322662353517,
+      "delta_separation": -0.015447616577148438,
+      "behavior": 5.91875,
+      "delta_behavior": -0.08906249999999982
+    },
+    {
+      "component": "L20H12",
+      "layer": 20,
+      "head": 12,
+      "source": "random",
+      "separation": -3.985456085205078,
+      "delta_separation": -0.014471435546874911,
+      "behavior": 5.9796875,
+      "delta_behavior": -0.028125000000000178
+    },
+    {
+      "component": "L8H2",
+      "layer": 8,
+      "head": 2,
+      "source": "dfa",
+      "separation": -3.9835351943969726,
+      "delta_separation": -0.012550544738769265,
+      "behavior": 5.9078125,
+      "delta_behavior": -0.09999999999999964
+    },
+    {
+      "component": "L4H2",
+      "layer": 4,
+      "head": 2,
+      "source": "random",
+      "separation": -3.982039451599121,
+      "delta_separation": -0.011054801940917791,
+      "behavior": 5.934375,
+      "delta_behavior": -0.07343749999999982
+    },
+    {
+      "component": "L19H12",
+      "layer": 19,
+      "head": 12,
+      "source": "dfa",
+      "separation": -3.9804399490356444,
+      "delta_separation": -0.009455299377441051,
+      "behavior": 5.940625,
+      "delta_behavior": -0.06718750000000018
+    },
+    {
+      "component": "L17H1",
+      "layer": 17,
+      "head": 1,
+      "source": "random",
+      "separation": -3.973444938659668,
+      "delta_separation": -0.002460289001464666,
+      "behavior": 6.075,
+      "delta_behavior": 0.06718750000000018
+    },
+    {
+      "component": "L8H9",
+      "layer": 8,
+      "head": 9,
+      "source": "dfa",
+      "separation": -3.9689878463745116,
+      "delta_separation": 0.0019968032836916727,
+      "behavior": 5.928125,
+      "delta_behavior": -0.07968750000000036
+    },
+    {
+      "component": "L18H12",
+      "layer": 18,
+      "head": 12,
+      "source": "random",
+      "separation": -3.964933395385742,
+      "delta_separation": 0.006051254272461115,
+      "behavior": 5.94375,
+      "delta_behavior": -0.06406250000000036
+    },
+    {
+      "component": "L6H2",
+      "layer": 6,
+      "head": 2,
+      "source": "dfa",
+      "separation": -3.964532661437988,
+      "delta_separation": 0.006451988220215199,
+      "behavior": 6.009375,
+      "delta_behavior": 0.0015625000000003553
+    },
+    {
+      "component": "L20H14",
+      "layer": 20,
+      "head": 14,
+      "source": "dfa",
+      "separation": -3.960261344909668,
+      "delta_separation": 0.010723304748535334,
+      "behavior": 6.1171875,
+      "delta_behavior": 0.109375
+    },
+    {
+      "component": "L17H13",
+      "layer": 17,
+      "head": 13,
+      "source": "dfa",
+      "separation": -3.9591089248657227,
+      "delta_separation": 0.011875724792480558,
+      "behavior": 6.1109375,
+      "delta_behavior": 0.10312500000000036
+    },
+    {
+      "component": "L17H5",
+      "layer": 17,
+      "head": 5,
+      "source": "random",
+      "separation": -3.948269844055176,
+      "delta_separation": 0.02271480560302752,
+      "behavior": 5.9375,
+      "delta_behavior": -0.0703125
+    },
+    {
+      "component": "L0H7",
+      "layer": 0,
+      "head": 7,
+      "source": "random",
+      "separation": -3.9467906951904297,
+      "delta_separation": 0.024193954467773615,
+      "behavior": 6.0,
+      "delta_behavior": -0.0078125
+    },
+    {
+      "component": "L7H15",
+      "layer": 7,
+      "head": 15,
+      "source": "random",
+      "separation": -3.942331314086914,
+      "delta_separation": 0.02865333557128924,
+      "behavior": 5.9453125,
+      "delta_behavior": -0.0625
+    },
+    {
+      "component": "L4H10",
+      "layer": 4,
+      "head": 10,
+      "source": "dfa",
+      "separation": -3.94205379486084,
+      "delta_separation": 0.02893085479736346,
+      "behavior": 5.9734375,
+      "delta_behavior": -0.03437499999999982
+    },
+    {
+      "component": "L11MLP",
+      "layer": 11,
+      "head": null,
+      "source": "dfa",
+      "separation": -3.9344289779663084,
+      "delta_separation": 0.036555671691894887,
+      "behavior": 5.6890625,
+      "delta_behavior": -0.31874999999999964
+    },
+    {
+      "component": "L6H11",
+      "layer": 6,
+      "head": 11,
+      "source": "dfa",
+      "separation": -3.929611587524414,
+      "delta_separation": 0.04137306213378933,
+      "behavior": 6.03125,
+      "delta_behavior": 0.0234375
+    },
+    {
+      "component": "L20H2",
+      "layer": 20,
+      "head": 2,
+      "source": "dfa",
+      "separation": -3.9275894165039062,
+      "delta_separation": 0.04339523315429705,
+      "behavior": 6.0625,
+      "delta_behavior": 0.0546875
+    },
+    {
+      "component": "L6H6",
+      "layer": 6,
+      "head": 6,
+      "source": "dfa",
+      "separation": -3.924138641357422,
+      "delta_separation": 0.04684600830078134,
+      "behavior": 5.984375,
+      "delta_behavior": -0.0234375
+    },
+    {
+      "component": "L19H5",
+      "layer": 19,
+      "head": 5,
+      "source": "dfa",
+      "separation": -3.9214399337768553,
+      "delta_separation": 0.04954471588134801,
+      "behavior": 5.8171875,
+      "delta_behavior": -0.19062499999999982
+    },
+    {
+      "component": "L2H5",
+      "layer": 2,
+      "head": 5,
+      "source": "random",
+      "separation": -3.9156167984008787,
+      "delta_separation": 0.055367851257324574,
+      "behavior": 6.0328125,
+      "delta_behavior": 0.025000000000000355
+    },
+    {
+      "component": "L17H7",
+      "layer": 17,
+      "head": 7,
+      "source": "dfa",
+      "separation": -3.9143997192382813,
+      "delta_separation": 0.056584930419921964,
+      "behavior": 6.059375,
+      "delta_behavior": 0.05156250000000018
+    },
+    {
+      "component": "L18H7",
+      "layer": 18,
+      "head": 7,
+      "source": "dfa",
+      "separation": -3.911891746520996,
+      "delta_separation": 0.059092903137207387,
+      "behavior": 6.128125,
+      "delta_behavior": 0.12031249999999982
+    },
+    {
+      "component": "L7H7",
+      "layer": 7,
+      "head": 7,
+      "source": "dfa",
+      "separation": -3.907174491882324,
+      "delta_separation": 0.06381015777587917,
+      "behavior": 5.9140625,
+      "delta_behavior": -0.09375
+    },
+    {
+      "component": "L8H4",
+      "layer": 8,
+      "head": 4,
+      "source": "dfa",
+      "separation": -3.894926071166992,
+      "delta_separation": 0.07605857849121112,
+      "behavior": 6.05625,
+      "delta_behavior": 0.048437500000000355
+    },
+    {
+      "component": "L6H3",
+      "layer": 6,
+      "head": 3,
+      "source": "dfa",
+      "separation": -3.869950294494629,
+      "delta_separation": 0.1010343551635744,
+      "behavior": 5.984375,
+      "delta_behavior": -0.0234375
+    },
+    {
+      "component": "L20H9",
+      "layer": 20,
+      "head": 9,
+      "source": "dfa",
+      "separation": -3.862565040588379,
+      "delta_separation": 0.1084196090698244,
+      "behavior": 6.0046875,
+      "delta_behavior": -0.0031249999999998224
+    },
+    {
+      "component": "L8H8",
+      "layer": 8,
+      "head": 8,
+      "source": "dfa",
+      "separation": -3.860525131225586,
+      "delta_separation": 0.11045951843261737,
+      "behavior": 5.9671875,
+      "delta_behavior": -0.040625000000000355
+    },
+    {
+      "component": "L7H3",
+      "layer": 7,
+      "head": 3,
+      "source": "dfa",
+      "separation": -3.8463363647460938,
+      "delta_separation": 0.12464828491210955,
+      "behavior": 6.00625,
+      "delta_behavior": -0.0015625000000003553
+    },
+    {
+      "component": "L17H12",
+      "layer": 17,
+      "head": 12,
+      "source": "dfa",
+      "separation": -3.8417964935302735,
+      "delta_separation": 0.12918815612792978,
+      "behavior": 6.090625,
+      "delta_behavior": 0.08281250000000018
+    },
+    {
+      "component": "L8H10",
+      "layer": 8,
+      "head": 10,
+      "source": "dfa",
+      "separation": -3.8396478652954102,
+      "delta_separation": 0.13133678436279306,
+      "behavior": 5.7875,
+      "delta_behavior": -0.22031250000000036
+    },
+    {
+      "component": "L8H0",
+      "layer": 8,
+      "head": 0,
+      "source": "dfa",
+      "separation": -3.8297731399536135,
+      "delta_separation": 0.14121150970458984,
+      "behavior": 5.940625,
+      "delta_behavior": -0.06718750000000018
+    },
+    {
+      "component": "L8MLP",
+      "layer": 8,
+      "head": null,
+      "source": "dfa",
+      "separation": -3.8207773208618163,
+      "delta_separation": 0.15020732879638699,
+      "behavior": 5.953125,
+      "delta_behavior": -0.0546875
+    },
+    {
+      "component": "L15H8",
+      "layer": 15,
+      "head": 8,
+      "source": "dfa",
+      "separation": -3.815336799621582,
+      "delta_separation": 0.15564785003662118,
+      "behavior": 5.978125,
+      "delta_behavior": -0.029687499999999645
+    },
+    {
+      "component": "L5MLP",
+      "layer": 5,
+      "head": null,
+      "source": "dfa",
+      "separation": -3.7840715408325196,
+      "delta_separation": 0.18691310882568368,
+      "behavior": 6.171875,
+      "delta_behavior": 0.1640625
+    },
+    {
+      "component": "L18H3",
+      "layer": 18,
+      "head": 3,
+      "source": "dfa",
+      "separation": -3.7412591934204102,
+      "delta_separation": 0.22972545623779306,
+      "behavior": 6.1265625,
+      "delta_behavior": 0.11875000000000036
+    },
+    {
+      "component": "L6MLP",
+      "layer": 6,
+      "head": null,
+      "source": "dfa",
+      "separation": -3.7292675018310546,
+      "delta_separation": 0.2417171478271487,
+      "behavior": 6.040625,
+      "delta_behavior": 0.032812500000000355
+    },
+    {
+      "component": "L18H13",
+      "layer": 18,
+      "head": 13,
+      "source": "dfa",
+      "separation": -3.5953407287597656,
+      "delta_separation": 0.3756439208984377,
+      "behavior": 6.059375,
+      "delta_behavior": 0.05156250000000018
+    },
+    {
+      "component": "L20H7",
+      "layer": 20,
+      "head": 7,
+      "source": "dfa",
+      "separation": -3.3463062286376952,
+      "delta_separation": 0.6246784210205081,
+      "behavior": 6.140625,
+      "delta_behavior": 0.1328125
+    }
+  ]
+}
