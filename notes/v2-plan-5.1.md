@@ -1,3 +1,9 @@
+> ⚠️ **SUPERSEDED (2026-07-10)** by `v2-lowlevel-interp-plan.md` and the updated `v2-tasks-list.md`.
+> Key changes since this was written: (1) we do **NOT** train our own SAEs — we use pretrained
+> Gemma Scope / Llama Scope suites; (2) deep circuit + weight-level work happens on Gemma-2-2B/9B
+> and Llama-3.1-8B, with 27B–70B used for validation only; (3) local hardware (DGX Spark 128GB
+> unified + RTX A4000 16GB) replaces most GH200 rental. Kept for historical reference.
+
 Perfect — with **$400 of credit** and this menu of instances, you can upgrade your v2 into a **seriously frontier-level NeurIPS contender**.
 
 Below I’ll tell you **exactly which instance to pick**, **which models to run**, and **how many hours of compute each experiment needs** so you can plan a clean, high-impact v2.

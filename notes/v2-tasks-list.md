@@ -1,5 +1,13 @@
 # V2 Empathy-in-Action Probes: Complete Task List for NeurIPS/FAccT
 
+> **Updated 2026-07-10:** Phase 4 has been superseded by the staged mechanistic plan in
+> `v2-lowlevel-interp-plan.md` (components → circuits → weights). Key changes:
+> we **no longer train our own SAEs** — we use pretrained suites (Gemma Scope, Llama Scope)
+> — and the deep circuit/weight-level work runs on Gemma-2-2B/9B and Llama-3.1-8B (Tier 1),
+> with component-level validation on 27B/32B and coarse validation on 70B.
+> Compute: local DGX Spark (128GB unified) + RTX A4000 cover most phases; GH200 rental is
+> now optional (~$0–85 instead of ~$165).
+
 ## Current Status (Nov 25, 2024)
 
 ### Dataset Generation: IN PROGRESS
@@ -163,40 +171,63 @@
 
 ## Phase 4: Advanced Mechanistic Interpretability
 
+> **Superseded by `v2-lowlevel-interp-plan.md`** — the tasks below are kept for issue
+> traceability but the authoritative scope, ordering, and model assignments live there.
+
+### Task 4.0: Direct Feature Attribution (NEW — do first, cheapest)
+- [ ] Decompose probe projection into per-component contributions (each head's OV output
+      and each MLP output dotted with the empathy direction)
+- [ ] One hooked forward pass per example; rank "empathy-writing" components
+- [ ] Measure circuit concentration (5 heads or 500?)
+
+**New file:** `src/direct_feature_attribution.py`
+**Maps to:** Plan Phase A1. Runs on A4000 (2B) / Spark (9B).
+
 ### Task 4.1: Implement Activation Patching
 - [ ] Write `activation_patching.py`
-- [ ] Patch layer-by-layer: replace empathic → non-empathic activations
-- [ ] Measure behavioral change (does output become less empathic?)
-- [ ] Identify "causal cluster" of layers
+- [ ] Patch at **component granularity** (heads/MLPs) on Tier-1 models, layer granularity on 70B
+- [ ] Metrics: probe projection AND behavioral logit-diff
+- [ ] Identify "causal cluster" — now at head resolution
+- [ ] Attribution patching (AtP*-style gradient approximation) for 27B/32B sweeps
 
 **New file:** `src/activation_patching.py`
+**Maps to:** Plan Phases A2–A3.
 
 ### Task 4.2: Implement Attention Head / MLP Ablation
 - [ ] Write `component_ablation.py`
-- [ ] Zero out specific attention heads or MLP layers
-- [ ] Measure impact on empathy probe projection
-- [ ] Identify critical components
+- [ ] Mean-ablate specific attention heads or MLPs
+- [ ] Measure impact on empathy probe projection + behavior
+- [ ] Validation gate: DFA (who writes it) and ablation (who's necessary) must agree
 
 **New file:** `src/component_ablation.py`
+**Maps to:** Plan Phase A2/A4.
 
-### Task 4.3: Implement SAE Training (Optional but High Impact)
-- [ ] Write `train_sae.py` using e.g. SAELens or custom implementation
-- [ ] Train on selected layers (top AUROC layers)
-- [ ] Bottleneck dims: 16, 32, 64
-- [ ] Identify monosemantic empathy features
-- [ ] Feature ablation: remove SAE features → measure probe change
+### Task 4.3: SAE Feature Circuits via PRETRAINED SAEs (was: SAE training — ❌ no longer training our own)
+- [ ] ~~Train SAEs from scratch~~ → **Use Gemma Scope (2B/9B, partial 27B) and Llama Scope (8B) via SAELens**
+- [ ] Sparse feature circuits (Marks et al. method) on Gemma-2-9B
+- [ ] Attribution graphs via `circuit-tracer` on Gemma-2-2B
+- [ ] Feature ablation: remove circuit features → measure probe + behavior change
+- [ ] Faithfulness/completeness check (ablate outside circuit → behavior survives; ablate circuit → dies)
+- [ ] Confound controls: task-focus-varies vs empathy-varies scenario sets
 
-**New file:** `src/train_sae.py`
-**Dependencies:** SAELens or implement TopK SAE
-
-**Compute note:** Requires full precision (BF16), not FP8
+**Maps to:** Plan Phases B1, B2, B4, B5. Saves the old 20–40h SAE-training compute line entirely.
 
 ### Task 4.4: Path Patching / Causal Mediation (Advanced)
-- [ ] Implement path patching through attention → MLP paths
-- [ ] Compute indirect effects of empathy direction
-- [ ] Identify specific circuits for empathy representation
+- [ ] Path patching on top ~10 heads from Task 4.0/4.1: upstream Q/K/V feeds, downstream consumers
+- [ ] Confirm attribution-graph edges causally
 
 **New file:** `src/path_patching.py`
+**Maps to:** Plan Phase B3.
+
+### Task 4.5: Weight-Level Localization (NEW — the headline)
+- [ ] Weight readout: align empathy direction with singular vectors of W_out / W_OV of top components
+- [ ] **Targeted weight orthogonalization**: rank-1 edit top-k components' weights (Arditi et al. precedent);
+      dose-response over k vs random-component edits (sequel to `random_direction_control.py`)
+- [ ] Eval edited models: probe AUROC, EIA behavioral scores, capability retention (MMLU subset, perplexity)
+- [ ] Base-vs-instruct weight diffing on Gemma-2-9B (does alignment training move weights along the direction?)
+
+**New files:** `src/weight_readout.py`, `src/weight_orthogonalization.py`
+**Maps to:** Plan Phases C1–C3.
 
 ---
 
@@ -251,45 +282,51 @@
 
 ## Compute Requirements
 
-### GH200 96GB Instance (~$1.49/hr)
+### Local hardware (primary — new as of July 2026)
 
-| Phase | Estimated Hours | Tasks |
-|-------|-----------------|-------|
-| Activation extraction | 8-12h | Extract all layers for 3 models |
-| Probe training | 4-6h | Train probes, compute AUROC |
-| Steering experiments | 20-30h | Full α sweep, 5 samples each |
-| Activation patching | 10-15h | Layer-by-layer patching |
-| SAE training | 20-40h | 2-4 SAEs per model (optional) |
-| Scaling models | 4-6h | Gemma-2B, Gemma-9B |
-| **Total** | **66-109h** | **~$100-165** |
+| Machine | Specs | Covers |
+|---------|-------|--------|
+| **RTX A4000** | 16GB VRAM | Gemma-2-2B everything (DFA, patching, circuit-tracer), probes, prototyping, analysis, figures |
+| **DGX Spark** | GB10, 128GB unified memory | Gemma-2-9B / Llama-8B in BF16; Gemma-27B / Qwen-32B in BF16; Llama-70B in 8-bit. Slow per-token — run sweeps overnight. Verify ARM (aarch64) builds of TransformerLens/SAELens/NNsight in week 1. |
 
-### Local Machine Tasks (No GPU needed)
-- Data consolidation
-- Result analysis
-- Figure generation
-- Paper writing
+### GH200 96GB rental (~$1.49/hr) — now optional
+
+| Phase | Cloud hours | Notes |
+|-------|-------------|-------|
+| 27B/32B attribution-patching sweeps | 0–20h | Only if Spark overnight runs are too slow |
+| 70B throughput work | 0–10h | Layer patching + weight-edit eval otherwise on Spark 8-bit |
+| ~~SAE training~~ | **0h** | ❌ Cut — using pretrained Gemma Scope / Llama Scope |
+| Buffer / reruns | 0–25h | |
+| **Total** | **0–55h ≈ $0–85** | Was 66–109h ≈ $100–165 |
+
+### CPU-only tasks
+- Data consolidation, weight readout analysis (pure linear algebra on state dicts)
+- Result analysis, figure generation, paper writing
 
 ---
 
 ## Priority Order (Recommended)
 
 ### Must-Have for NeurIPS (Priority 1)
-1. [ ] Task 1.1: Build final v2 dataset
-2. [ ] Task 1.2: Activation extraction script
-3. [ ] Task 2.1: Linear probes on open-source models
-4. [ ] Task 2.2: Cross-model probe transfer
-5. [ ] Task 3.1: Comprehensive steering
-6. [ ] Task 5.2: Scaling law figure
+1. [x] Task 1.1: Build final v2 dataset
+2. [x] Task 1.2: Activation extraction script
+3. [x] Task 2.1: Linear probes on open-source models
+4. [x] Task 2.2: Cross-model probe transfer
+5. [ ] Task 4.0 + 4.1: DFA + component-level patching on Gemma-2-9B (Plan Phase A)
+6. [ ] Task 4.5: Targeted weight orthogonalization (Plan Phase C2 — the headline)
+7. [ ] Task 4.3: Sparse feature circuits via pretrained SAEs + faithfulness (Plan Phases B2/B4)
 
 ### High Impact (Priority 2)
-7. [ ] Task 4.1: Activation patching (causal cluster)
-8. [ ] Task 4.2: Component ablation
-9. [ ] Task 5.3: Cross-family geometric analysis
+8. [ ] Task 4.3 confound controls: task-focus vs empathy (Plan Phase B5)
+9. [ ] Task 4.5 base-vs-IT weight diffing (Plan Phase C3)
+10. [ ] Task 3.1: Comprehensive steering on V2 models
+11. [ ] Task 5.2: Scaling figure — now "circuit sparsity vs size", not AUROC (which saturates)
+12. [ ] Task 5.3: Cross-family analysis — upgraded to circuit-level comparison
 
 ### Optional but Impressive (Priority 3)
-10. [ ] Task 4.3: SAE training
-11. [ ] Task 4.4: Path patching
-12. [ ] Task 3.3: Cross-model steering transfer
+13. [ ] Task 4.4: Path patching
+14. [ ] Task 3.3: Cross-model steering transfer
+15. [ ] Mechanistic account of steering asymmetry (Plan Phase C4)
 
 ---
 
@@ -340,7 +377,7 @@ python src/activation_patching.py --model llama-70b
 
 ## Notes
 
-- **FP8 vs BF16**: Use BF16 for all interpretability experiments (not FP8)
-- **Storage**: 100TB available, store all activations liberally
+- **FP8 vs BF16**: Use BF16 for all interpretability experiments (not FP8). 8-bit acceptable only for 70B coarse validation.
+- **Storage**: store all activations liberally
 - **Checkpointing**: Save intermediate results frequently
-- **Instance**: Keep H100 running until all experiments complete
+- **Compute**: default to local (A4000 → prototype, DGX Spark → sweeps); rent GH200 only when throughput-bound

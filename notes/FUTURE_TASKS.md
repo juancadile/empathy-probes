@@ -213,6 +213,7 @@ Test whether Dolphin's asymmetry generalizes to other uncensored models:
 3. **Scaling laws**: How does probe quality change with model size?
 4. **Training dynamics**: When does linear separability emerge during training?
 5. **Human-AI alignment metrics**: Use EIA as testbed for alignment evaluation
+6. **[V2] Weight-level tracing (stronger evidence standard)**: No quedarse solo con que un probe detecta el feature en las activaciones — rastrear la vía en los pesos que lo produce (p.ej. circuit/path tracing desde el feature hasta las weights causantes), que es un estándar de evidencia bastante más fuerte que la sola detección vía activaciones. Análogo al trabajo de empatía/virtud: ir de "el probe lo detecta" a "podemos localizar/rastrear el circuito en los pesos que lo genera".
 
 ### Applications
 1. **Alignment auditing**: Use probes to detect value changes post-training
