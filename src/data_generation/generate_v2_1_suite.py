@@ -258,6 +258,8 @@ def count_calls(cells, selected):
 def main():
     p = argparse.ArgumentParser()
     p.add_argument("--cells", nargs="+", default=["A", "B", "D", "E", "F", "G", "H", "S"])
+    p.add_argument("--models", nargs="+", default=list(MODELS), choices=list(MODELS),
+                   help="subset of providers (claude cells are cheaper via generate_v2_1_claude_batch.py)")
     p.add_argument("--dry-run", action="store_true")
     args = p.parse_args()
 
@@ -286,8 +288,8 @@ def main():
                 run_pair_cell(cid, cells[cid], fmt, model_key)
         log.info("=== %s complete ===", model_key)
 
-    with ThreadPoolExecutor(max_workers=len(MODELS)) as ex:
-        list(ex.map(run_model, MODELS.keys()))
+    with ThreadPoolExecutor(max_workers=len(args.models)) as ex:
+        list(ex.map(run_model, args.models))
 
     if "R" in selected:
         run_robustness_cell(cells["R"])
