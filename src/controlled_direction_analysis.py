@@ -72,6 +72,19 @@ def auroc(pos, neg, direction, indices=None):
     return float(roc_auc_score(labels, scores))
 
 
+def normalized(vector):
+    norm = np.linalg.norm(vector)
+    if norm == 0:
+        raise ValueError("zero-norm vector")
+    return vector / norm
+
+
+def remove_subspace(direction, basis_vectors):
+    basis = np.stack(basis_vectors, axis=1)
+    q, _ = np.linalg.qr(basis)
+    return normalized(direction - q @ (q.T @ direction))
+
+
 @torch.no_grad()
 def extract_cell(model, tokenizer, pairs, batch_size, max_tokens, device):
     texts, prefixes = [], []
@@ -169,7 +182,7 @@ def analyze(activations, train_fraction, seed, selected_blocks, out):
                     "auroc": auroc(pos, neg, layer_directions[source], indices),
                 })
 
-    cross_auroc, cosine = {}, {}
+    cross_auroc, cosine, purified_candidates = {}, {}, {}
     for block in selected_blocks:
         cross_auroc[str(block)] = {}
         cosine[str(block)] = {}
@@ -188,6 +201,38 @@ def analyze(activations, train_fraction, seed, selected_blocks, out):
                 cosine[str(block)][source][target] = float(
                     direction @ directions[target][block]
                 )
+        action_consensus = normalized(
+            directions["M"][block] + directions["F"][block]
+        )
+        candidates = {
+            "M": directions["M"][block],
+            "M_task_orthogonal": remove_subspace(
+                directions["M"][block],
+                [directions["E"][block], directions["T"][block]],
+            ),
+            "MF_consensus": action_consensus,
+            "MF_consensus_task_orthogonal": remove_subspace(
+                action_consensus,
+                [directions["E"][block], directions["T"][block]],
+            ),
+        }
+        purified_candidates[str(block)] = {}
+        for name, direction in candidates.items():
+            np.save(out / f"direction_{name}_block{block}.npy", direction)
+            purified_candidates[str(block)][name] = {
+                "cross_cell_auroc": {
+                    target: auroc(
+                        activations[target]["pos"][block + 1],
+                        activations[target]["neg"][block + 1],
+                        direction,
+                    )
+                    for target in cells
+                },
+                "cosine_to_cell_directions": {
+                    target: float(direction @ directions[target][block])
+                    for target in cells
+                },
+            }
 
     return {
         "cell_meanings": CELL_MEANINGS,
@@ -204,6 +249,7 @@ def analyze(activations, train_fraction, seed, selected_blocks, out):
         "cross_cell_layer_sweep": cross_sweep,
         "cross_cell_auroc": cross_auroc,
         "direction_cosine": cosine,
+        "purified_action_candidates": purified_candidates,
     }
 
 
