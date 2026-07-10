@@ -41,6 +41,14 @@
    - Concrete upgrade for Stage B: define a high-level causal model of empathy-in-action (PerceiveNeed → WeighCost → Decide) and test alignment with interchange intervention accuracy (IIA); successors DAS / Boundless DAS (ran on Alpaca-7B → feasible at our Tier 1 scale) + `pyvene` library
    - Turns "layer 12 is causal" into "the model realizes a causal abstraction in which a wellbeing variable mediates action selection" — a much better-defined claim
 
+9. **Verbalizable Representations Form a Global Workspace in Language Models** (Gurnee, Sofroniew, Pearce, Piotrowski, Kauvar et al., Anthropic, July 2026)
+   https://transformer-circuits.pub/2026/workspace/index.html
+   - **Jacobian Lens (J-lens)**: averaged linearized effect of activations on vocab logits → identifies a small "J-space" (~10% of variance, 10–25 concurrent concepts) with conscious-access-like properties: verbalizable, instruction-modulated, mediates flexible reasoning but NOT automatic processing; broadcast-composes with downstream weights
+   - **Our question: is d_empathy in the J-space?** In → empathy operates as deliberative, reportable weighing (Lazar's *analytical* competence); out → habituated automatic disposition (virtue as character, not deliberation). Publishable either way and directly tests the Lazar framing
+   - Predicts a resolution to steering asymmetry (C4): suppression of workspace states "reduces but doesn't eliminate" — and broadcast-composed states have many downstream consumers, so subtracting one may break many circuits at once
+   - Method is implementable on Gemma-2-9B (linearized logit effects, averaged over corpus) — Spark-feasible
+   - Caveats: linear approximation, single-token concepts; their results are on Claude models (Sonnet/Haiku/Opus 4.5+), transfer to Gemma unverified
+
 ## Already Reviewed
 
 - **Scoring Empathy with Large Language Models** (December 2024)
