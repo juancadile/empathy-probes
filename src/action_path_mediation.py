@@ -48,14 +48,14 @@ def mean_ablation_hook(component, means_z, means_mlp):
     if head is None:
         mean = means_mlp[layer]
 
-        def hook(value, _hook):
+        def hook(value, hook):
             value[:] = mean.to(value.dtype)
             return value
 
         return f"blocks.{layer}.hook_mlp_out", hook
     mean = means_z[layer][head]
 
-    def hook(value, _hook):
+    def hook(value, hook):
         value[:, :, head, :] = mean.to(value.dtype)
         return value
 
@@ -65,13 +65,13 @@ def mean_ablation_hook(component, means_z, means_mlp):
 def restore_hook(component, baseline):
     layer, head = component
     if head is None:
-        def hook(value, _hook):
+        def hook(value, hook):
             value[:] = baseline.to(value.dtype)
             return value
 
         return f"blocks.{layer}.hook_mlp_out", hook
 
-    def hook(value, _hook):
+    def hook(value, hook):
         value[:, :, head, :] = baseline[:, :, head, :].to(value.dtype)
         return value
 
