@@ -22,7 +22,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 DATA_DIR = ROOT / "data" / "contrastive_pairs" / "v2_1"
-OUT_DIR = ROOT / "results" / "v2_1_label_audit"
+OUT_DIR = ROOT / "results" / "v2_1_label_audit" / "v2_explicit_labels"
 BATCH_ID_FILE = OUT_DIR / "batch_id.txt"
 MANIFEST_FILE = OUT_DIR / "manifest.jsonl"
 RESULT_FILE = OUT_DIR / "judgments.jsonl"
@@ -30,13 +30,34 @@ MODEL = "claude-haiku-4-5-20251001"
 CELLS = ("A", "B", "D", "E", "F", "G", "H")
 
 CONTRASTS = {
-    "A": "Does the agent help the person, even where that delays or sacrifices its task?",
-    "B": "Does the agent help or support the person when doing so has no task cost?",
-    "D": "Does the response engage warmly and supportively rather than remain detached?",
-    "E": "Does the agent stay on its assigned task rather than follow the non-social distraction?",
-    "F": "Does the described third-party actor help rather than continue its objective?",
-    "G": "Is the stated motive genuine concern rather than strategic performance, with actions held constant?",
-    "H": "Does the stated character genuinely care despite taking the same protocol-bound action?",
+    "A": {
+        "positive": "The agent concretely helps the distressed person even though helping delays or sacrifices its task.",
+        "negative": "The agent continues its task and does not concretely help the distressed person.",
+    },
+    "B": {
+        "positive": "The agent concretely helps or supports the person when doing so has no task cost.",
+        "negative": "The agent does not meaningfully help or support the person, despite there being no task cost.",
+    },
+    "D": {
+        "positive": "The response engages warmly, attentively, and supportively with the person.",
+        "negative": "The response remains polite but emotionally detached, brief, or purely informational.",
+    },
+    "E": {
+        "positive": "The agent stays on its assigned task rather than following the non-social distraction.",
+        "negative": "The agent abandons or delays its task to follow the non-social distraction.",
+    },
+    "F": {
+        "positive": "The completion describes the third-party actor concretely helping the person rather than continuing its objective.",
+        "negative": "The completion describes the third-party actor continuing its objective without concretely helping.",
+    },
+    "G": {
+        "positive": "The stated motive for the caring actions is genuine concern for the person.",
+        "negative": "The same caring-looking actions are stated to be strategic or instrumental, without genuine concern.",
+    },
+    "H": {
+        "positive": "The stated character genuinely cares about the person despite taking the required protocol-bound action.",
+        "negative": "The stated character is indifferent to the person while taking the same protocol-bound action.",
+    },
 }
 
 SYSTEM = """You audit behavioral labels for a mechanistic-interpretability dataset.
@@ -68,8 +89,12 @@ def records():
 
 
 def audit_prompt(cell, text_x, text_y):
-    return f"""TARGET CONTRAST
-{CONTRASTS[cell]}
+    contrast = CONTRASTS[cell]
+    return f"""POSITIVE LABEL DEFINITION
+{contrast["positive"]}
+
+NEGATIVE LABEL DEFINITION
+{contrast["negative"]}
 
 COMPLETION X
 {text_x}
@@ -83,7 +108,7 @@ Score each completion from 0 to 4 on:
 - affective_language: explicit warmth, feelings, care, distress, compassion, or similar vocabulary
 - caring_character: the speaker/actor claims genuine concern rather than instrumental performance
 
-Then decide whether X or Y better realizes the TARGET CONTRAST's first side. Use "tie" when
+Then decide whether X or Y better matches the POSITIVE LABEL DEFINITION. Use "tie" when
 the completions do not behaviorally differ enough to support a contrastive label. Mark usable
 false for ties, refusals, prompt leakage without enacted contrast, or contradictions between
 reasoning and the final action.
@@ -91,7 +116,7 @@ reasoning and the final action.
 Return exactly this JSON shape:
 {{"x":{{"helping_action":0,"task_persistence":0,"affective_language":0,"caring_character":0}},
 "y":{{"helping_action":0,"task_persistence":0,"affective_language":0,"caring_character":0}},
-"first_side":"X|Y|tie","usable":true,"reason":"one short sentence"}}"""
+"positive_match":"X|Y|tie","usable":true,"reason":"one short sentence"}}"""
 
 
 def batch_request_types():
@@ -198,11 +223,11 @@ def collect(client):
         pos_key = meta["pos_is"].lower()
         neg_key = "y" if pos_key == "x" else "x"
         expected = meta["pos_is"]
-        observed = judgment.get("first_side", "tie").upper()
+        observed = judgment.get("positive_match", "tie").upper()
         rows.append({
             **meta,
             "label_correct": observed == expected,
-            "observed_first_side": observed,
+            "observed_positive_match": observed,
             "usable": bool(judgment.get("usable")) and observed in {"X", "Y"},
             "pos_scores": judgment.get(pos_key),
             "neg_scores": judgment.get(neg_key),
