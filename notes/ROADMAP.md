@@ -40,6 +40,8 @@ Stage A (components) needs no SAEs — it works directly on heads/MLPs via the p
 
 Direct feature attribution (who *writes* the direction) → activation patching / mean-ablation at head/MLP granularity (who is *causally necessary*) → validation gate (the two must agree). Attribution patching (AtP*) extends head-level maps to 27B/32B.
 
+**A5 — lexical stress battery** (#33, priority-1 after the DFA found ~11% embedding-stream contribution): shuffled-token control, lexical-direction regression, matched-lexicon minimal pairs (mini-cell M), and prospective probing (predict the action from prompt-final activations, before any output text exists — via the original EIA harness, see below). Gates the interpretation of everything downstream.
+
 Models: Gemma-2-2B, **Gemma-2-9B base+it**, Llama-3.1-8B. Hardware: A4000 + Spark.
 
 **🔀 FORK 1:** circuit sparse (≈tens of components carry ≥80%) → circuit story, proceed to B.
@@ -70,9 +72,9 @@ Diffuse (hundreds) → pivot: "linearly decodable but not localizable" negative-
 
 Component signature replication: 2B → 9B → 27B → 32B → 70B (head-level via attribution patching; 70B layer-level, 8-bit). Scaling figure = **circuit sparsity vs size** (not AUROC — it saturates). Cross-family circuit comparison (Gemma/Llama/Qwen motifs).
 
-## Stage E — Action-space EIA demo *(stretch)* — issue #29
+## Stage E — Action-space EIA *(promoted from "build" to "adapt")* — issue #29
 
-ASCII gridworld; model outputs only moves; empathic policy = costly detour to help NPC. Probe fires at decision tokens with zero lexical signature; steering flips paths. Strongest style-confound rebuttal + closest to the original "in-action" spirit. Prototype anytime on A4000/2B — it's a demo layer, not a dependency.
+**The environment already exists**: the original EIA repo (`deprecated-empathy-in-action-main/empathy/core/`) is a runnable game harness — unicode maps, `move/open_door/pay_door/say/shoot/report_user` actions, latent (never-explicit) empathy pressure, 0–2 action-based scoring. Adapt it to drive Gemma-2-9B locally and capture activations at action-selection tokens (zero lexical signature). Also powers A5's prospective-probing test. The EIA paper's **intention–action gap** (self-predicted empathy vs enacted 0 — e.g. gpt-oss-20b) is Lazar's analytical/practical split measured behaviorally; our probe can locate where the gap lives mechanistically.
 
 ## Steering track *(interleaved, mostly Stage D-adjacent)* — issues #8, #9, #10, #20, #6, #7
 
