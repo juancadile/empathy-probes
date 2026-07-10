@@ -48,6 +48,7 @@ Diffuse (hundreds) → pivot: "linearly decodable but not localizable" negative-
 - B1 attribution graphs (`circuit-tracer`, 2B) · B2 sparse feature circuits (Gemma Scope, 9B) · B3 path patching on top heads · B4 faithfulness/completeness (ablate-outside vs ablate-circuit)
 - **B5 confound resolution** (#27): run the circuit on V2.1 cells — task-cost 2×2, no-task, task-focus-only
 - **B6 concept-vs-persona** (#28): third-person cells, character×content crossings, explicit persona-vector comparison (Chen et al. pipeline), tonic-vs-phasic token analysis
+- **B7 activation-oracle readout** (#30, Karvonen et al. 2025): pretrained AOs exist for Gemma-2/Llama-3 (our Tier 1). Validate the AO on labeled cells, then (i) ask it the prediction-matrix questions on V2.1 activations, (ii) interrogate steered activations ("what changed?") — the fastest direct query for Fork 2, (iii) re-use in Stage C to verify edited models at the representation level. Correlational readout, not causal evidence — triangulation, not a ladder rung.
 
 **🔀 FORK 2 (framing):** empathy concept / task-focus / persona — determines the paper's central claim. All three outcomes are publishable; persona outcome reframes as prosocial persona-vector monitoring + "breaking character" account of V1's steering collapse.
 

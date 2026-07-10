@@ -27,6 +27,13 @@
    - Claude Sonnet 4.5 has emotion-concept representations that generalize across contexts and causally influence behavior (incl. misalignment rates) — "functional emotions" without implied subjective experience
    - Gives us the discrimination criteria: concept representations should generalize across contexts and track *content*; persona directions should track *who the model is being*
 
+7. **Activation Oracles: Generalist LatentQA models** (Karvonen, Chua, Dumas, ..., Evans, Marks, 2025)
+   https://arxiv.org/abs/2512.15674 · code+weights: https://github.com/adamkarvonen/activation_oracles
+   - LLMs trained to accept activations as input and answer arbitrary natural-language questions about them; generalize far OOD, recover fine-tuned-in propensities never seen in training
+   - **Pretrained oracles available for Gemma-2 and Llama-3 families — our exact Tier 1 models**; inference runs on a T4 (→ our A4000)
+   - Use as a third discrimination instrument (Stage B): ask the oracle directly whether activations reflect wellbeing-prioritization vs task-focus vs a caring persona; interrogate steered activations ("what changed?"); verify weight-edited models at the representation level (Stage C)
+   - Caveat: still activation-level and correlational — a richer *readout*, not causal evidence; can confabulate, so validate on cells with known labels first
+
 ## Already Reviewed
 
 - **Scoring Empathy with Large Language Models** (December 2024)
