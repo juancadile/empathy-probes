@@ -29,10 +29,13 @@ Stage A (components) needs no SAEs — it works directly on heads/MLPs via the p
 | # | Task | Where | Status |
 |---|------|-------|--------|
 | 0.1 | V2 dataset consolidated (6,702 pairs), repo reorg, PR #23 merged | — | ✅ |
-| 0.2 | DFA script written + launched on DGX Spark (gemma-2-9b-it) | Spark | 🔄 running |
-| 0.3 | **V2.1 stimulus suite**: design doc + cell templates + generation via small API models (haiku / 4o-mini / flash) | API only | 🔲 drafting |
-| 0.4 | Normalize `source_model` labels in merged dataset; note Yi-34B absent | local | 🔲 |
-| 0.5 | Verify ARM builds: TransformerLens / SAELens / circuit-tracer on Spark | Spark | 🔲 (torch+CUDA ✅) |
+| 0.2 | DFA on gemma-2-9b-it: L8 + L20 readouts, semi-sparse, directions rotate (cos 0.45) | Spark | ✅ (#25) |
+| 0.3 | **V2.1 stimulus suite**: all cells × 3 providers complete (+ cell M templated); R in progress | API | ✅ |
+| 0.4 | Normalize `source_model` labels in merged dataset (978 rows, 14→11) | local | ✅ |
+| 0.5 | Verify ARM builds: TransformerLens / SAELens on Spark (`empathy` conda env) | Spark | 🔄 building |
+| 0.6 | **A5 lexical battery tests 1–3**: dataset lexically saturated (shuffled AUROC 0.99/0.90); L8 ≈ lexical echo; **L20 carries real decision signal (cell M decision-tokens AUROC 0.80)** | Spark | ✅ (#33) |
+
+**Standing conclusion (from 0.6):** headline AUROCs on the V2 contrastive dataset are not evidence of behavioral representation (lexical ceiling ~0.99). All causal work targets the **block-20 direction**; a purified decision direction from cell M + controlled cells is the preferred probe going forward.
 
 **Decision gate:** none — 0.3 unblocks B5/#27 and #28 later; generate while GPUs do Stage A.
 
