@@ -11,6 +11,7 @@ Usage:
 """
 
 import argparse
+from collections import defaultdict
 import json
 import os
 import random
@@ -152,6 +153,25 @@ def parse_json(text):
     return json.loads(match.group(0))
 
 
+def grouped_summary(rows, key):
+    groups = defaultdict(list)
+    for row in rows:
+        groups[row[key]].append(row)
+    summary = {}
+    for name, items in sorted(groups.items()):
+        usable = [row for row in items if row["usable"]]
+        correct = [row for row in usable if row["label_correct"]]
+        summary[name] = {
+            "n": len(items),
+            "usable": len(usable),
+            "usable_rate": len(usable) / len(items),
+            "label_accuracy_among_usable": (
+                len(correct) / len(usable) if usable else None
+            ),
+        }
+    return summary
+
+
 def collect(client):
     batch_id = BATCH_ID_FILE.read_text().strip()
     batch = client.messages.batches.retrieve(batch_id)
@@ -191,13 +211,17 @@ def collect(client):
     RESULT_FILE.write_text("".join(json.dumps(row) + "\n" for row in rows))
     usable = [row for row in rows if row["usable"]]
     correct = [row for row in usable if row["label_correct"]]
-    print(json.dumps({
+    summary = {
         "collected": len(rows),
         "parse_or_api_errors": errors,
         "usable": len(usable),
         "usable_rate": len(usable) / len(rows) if rows else 0,
         "label_accuracy_among_usable": len(correct) / len(usable) if usable else 0,
-    }, indent=2))
+        "by_cell": grouped_summary(rows, "cell"),
+        "by_source_model": grouped_summary(rows, "source_model"),
+    }
+    (OUT_DIR / "summary.json").write_text(json.dumps(summary, indent=2) + "\n")
+    print(json.dumps(summary, indent=2))
 
 
 def main():
