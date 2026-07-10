@@ -70,6 +70,23 @@ def build_choice_prompt(item, flip):
     )
 
 
+def batches(items, batch_size):
+    for start in range(0, len(items), batch_size):
+        yield start, items[start:start + batch_size]
+
+
+def tokenize_batch(model, texts):
+    """Right-padded TL tokens plus an explicit attention mask and lengths."""
+    model.tokenizer.padding_side = "right"
+    tokens = model.to_tokens(texts)
+    lengths = torch.tensor(
+        [model.to_tokens(text).shape[1] for text in texts], device=tokens.device
+    )
+    positions = torch.arange(tokens.shape[1], device=tokens.device)[None, :]
+    mask = positions < lengths[:, None]
+    return tokens, mask, lengths
+
+
 class Ablator:
     """Mean-ablation hooks for one component at a time."""
 
@@ -97,47 +114,69 @@ class Ablator:
 
 
 @torch.no_grad()
-def run_metrics(model, ablator, m_items, choice_prompts, choice_flips, d_vec, tok_a, tok_b, prefix_lens):
+def run_metrics(model, ablator, m_items, choice_prompts, choice_flips, d_vec,
+                tok_a, tok_b, prefix_lens, batch_size):
     """Returns (separation, behavior) under the current ablation setting."""
-    diffs = []
-    for i, item in enumerate(m_items):
-        projs = {}
-        for side in ("pos_text", "neg_text"):
+    projs = {"pos_text": [None] * len(m_items), "neg_text": [None] * len(m_items)}
+    for side in ("pos_text", "neg_text"):
+        texts = [item[side] for item in m_items]
+        for start, chunk in batches(texts, batch_size):
+            tokens, mask, lengths = tokenize_batch(model, chunk)
             with model.hooks(fwd_hooks=ablator.hooks()):
                 _, cache = model.run_with_cache(
-                    item[side],
+                    tokens,
+                    attention_mask=mask,
                     names_filter=f"blocks.{READOUT_BLOCK}.hook_resid_post",
                     return_type=None,
                 )
-            h = cache[f"blocks.{READOUT_BLOCK}.hook_resid_post"][0].float()
-            cut = min(prefix_lens[i] - 2, h.shape[0] - 1)
-            projs[side] = float(h[cut:].mean(0) @ d_vec)
-        diffs.append(projs["pos_text"] - projs["neg_text"])
+            hidden = cache[f"blocks.{READOUT_BLOCK}.hook_resid_post"].float()
+            for offset, length in enumerate(lengths.tolist()):
+                index = start + offset
+                cut = min(prefix_lens[index] - 2, length - 1)
+                projs[side][index] = float(hidden[offset, cut:length].mean(0) @ d_vec)
+    diffs = [pos - neg for pos, neg in zip(projs["pos_text"], projs["neg_text"])]
     separation = float(np.mean(diffs))
 
     logit_diffs = []
-    for prompt, flip in zip(choice_prompts, choice_flips):
-        logits = model.run_with_hooks(prompt, fwd_hooks=ablator.hooks(), return_type="logits")
-        la, lb = float(logits[0, -1, tok_a]), float(logits[0, -1, tok_b])
-        help_minus_task = (lb - la) if flip else (la - lb)
-        logit_diffs.append(help_minus_task)
+    indexed_prompts = list(zip(choice_prompts, choice_flips))
+    for _, chunk in batches(indexed_prompts, batch_size):
+        prompts = [prompt for prompt, _ in chunk]
+        tokens, mask, lengths = tokenize_batch(model, prompts)
+        logits = model.run_with_hooks(
+            tokens,
+            attention_mask=mask,
+            fwd_hooks=ablator.hooks(),
+            return_type="logits",
+        )
+        for offset, ((_, flip), length) in enumerate(zip(chunk, lengths.tolist())):
+            la = float(logits[offset, length - 1, tok_a])
+            lb = float(logits[offset, length - 1, tok_b])
+            logit_diffs.append((lb - la) if flip else (la - lb))
     behavior = float(np.mean(logit_diffs))
     return separation, behavior
 
 
 @torch.no_grad()
-def compute_means(model, texts, n_layers):
+def compute_means(model, texts, n_layers, batch_size):
     """Dataset-mean z per (layer, head) and mlp_out per layer, pooled over positions."""
     sums_z, sums_mlp, count = {}, {}, 0
-    names = lambda n: n.endswith("attn.hook_z") or n.endswith("hook_mlp_out")
-    for t in texts:
-        _, cache = model.run_with_cache(t, names_filter=names, return_type=None)
+    def names(name):
+        if not (name.endswith("attn.hook_z") or name.endswith("hook_mlp_out")):
+            return False
+        return int(name.split(".")[1]) < n_layers
+
+    for _, chunk in batches(texts, batch_size):
+        tokens, mask, _ = tokenize_batch(model, chunk)
+        _, cache = model.run_with_cache(
+            tokens, attention_mask=mask, names_filter=names, return_type=None
+        )
+        token_mask = mask.float()
         for L in range(n_layers):
-            z = cache[f"blocks.{L}.attn.hook_z"][0].float()      # (pos, head, d_head)
-            m = cache[f"blocks.{L}.hook_mlp_out"][0].float()     # (pos, d_model)
-            sums_z[L] = sums_z.get(L, 0) + z.sum(0)
-            sums_mlp[L] = sums_mlp.get(L, 0) + m.sum(0)
-        count += z.shape[0]
+            z = cache[f"blocks.{L}.attn.hook_z"].float()
+            m = cache[f"blocks.{L}.hook_mlp_out"].float()
+            sums_z[L] = sums_z.get(L, 0) + (z * token_mask[:, :, None, None]).sum((0, 1))
+            sums_mlp[L] = sums_mlp.get(L, 0) + (m * token_mask[:, :, None]).sum((0, 1))
+        count += int(mask.sum())
     return ({L: (s / count) for L, s in sums_z.items()},
             {L: (s / count) for L, s in sums_mlp.items()})
 
@@ -150,6 +189,7 @@ def main():
     p.add_argument("--direction", required=True)
     p.add_argument("--top-k", type=int, default=20)
     p.add_argument("--n-random", type=int, default=10)
+    p.add_argument("--batch-size", type=int, default=16)
     p.add_argument("--seed", type=int, default=42)
     p.add_argument("--out", default="results/patching_gemma2_9b_it")
     args = p.parse_args()
@@ -184,19 +224,23 @@ def main():
 
     all_texts = [t for it in m_items for t in (it["pos_text"], it["neg_text"])]
     log.info("computing dataset means over %d texts x %d blocks", len(all_texts), READOUT_BLOCK + 1)
-    means_z, means_mlp = compute_means(model, all_texts, READOUT_BLOCK + 1)
+    means_z, means_mlp = compute_means(
+        model, all_texts, READOUT_BLOCK + 1, args.batch_size
+    )
     ablator = Ablator(model, means_z, means_mlp)
 
     log.info("baseline (no ablation)")
     base_sep, base_beh = run_metrics(model, ablator, m_items, choice_prompts,
-                                     choice_flips, d_vec, tok_a, tok_b, prefix_lens)
+                                     choice_flips, d_vec, tok_a, tok_b, prefix_lens,
+                                     args.batch_size)
     log.info("baseline: separation %.4f | behavior(help-task logit diff) %.4f", base_sep, base_beh)
 
     results = []
     for i, c in enumerate(comps):
         ablator.active = (c["layer"], c["head"])
         sep, beh = run_metrics(model, ablator, m_items, choice_prompts,
-                               choice_flips, d_vec, tok_a, tok_b, prefix_lens)
+                               choice_flips, d_vec, tok_a, tok_b, prefix_lens,
+                               args.batch_size)
         name = f"L{c['layer']}" + ("MLP" if c["head"] is None else f"H{c['head']}")
         rec = {"component": name, **c,
                "separation": sep, "delta_separation": sep - base_sep,
