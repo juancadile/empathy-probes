@@ -99,3 +99,6 @@ paper/arxiv_submission_final.tar.gz
 paper/arxiv_submission_v2.tar.gz
 paper/arxiv_submission_v3.tar.gz
 paper/arxiv_submission_v4.tar.gz
+
+*.zip
+v2_consolidated/
