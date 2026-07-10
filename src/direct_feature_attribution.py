@@ -55,7 +55,17 @@ def load_pairs(path: Path, n_pairs: int, seed: int) -> list[dict]:
         for line in f:
             d = json.loads(line)
             if d.get("empathic_text") and d.get("non_empathic_text"):
-                pairs.append(d)
+                pairs.append({
+                    **d,
+                    "positive_text": d["empathic_text"],
+                    "negative_text": d["non_empathic_text"],
+                })
+            elif d.get("pos_text") and d.get("neg_text"):
+                pairs.append({
+                    **d,
+                    "positive_text": d["pos_text"],
+                    "negative_text": d["neg_text"],
+                })
     random.Random(seed).shuffle(pairs)
     return pairs[:n_pairs]
 
@@ -166,7 +176,8 @@ class DFAHooks:
 
 
 @torch.no_grad()
-def run_dfa(model, tok, texts, direction, best_layer, batch_size, max_tokens, device):
+def run_dfa(model, tok, texts, direction, best_layer, batch_size, max_tokens,
+            device, prefixes=None):
     d_vec = torch.tensor(direction, dtype=torch.float32, device=device)
     hooks = DFAHooks(model, d_vec, best_layer)
     hooks.attach()
@@ -174,16 +185,31 @@ def run_dfa(model, tok, texts, direction, best_layer, batch_size, max_tokens, de
     all_heads, all_attn, all_mlp, all_embed, all_resid = [], [], [], [], []
     try:
         for i in range(0, len(texts), batch_size):
-            batch = tok(
+            batch_prefixes = prefixes[i:i + batch_size] if prefixes is not None else None
+            encoded = tok(
                 texts[i : i + batch_size],
                 return_tensors="pt",
                 padding=True,
                 truncation=True,
                 max_length=max_tokens,
-            ).to(device)
-            hooks.set_mask(batch["attention_mask"])
+                return_offsets_mapping=batch_prefixes is not None,
+            )
+            offsets = encoded.pop("offset_mapping", None)
+            batch = encoded.to(device)
+            pool_mask = batch["attention_mask"].bool()
+            if batch_prefixes is not None:
+                for row, prefix in enumerate(batch_prefixes):
+                    if prefix is None:
+                        continue
+                    candidate = (
+                        (offsets[row, :, 1] > len(prefix))
+                        & batch["attention_mask"][row].cpu().bool()
+                    )
+                    if candidate.any():
+                        pool_mask[row] = candidate.to(device)
+            hooks.set_mask(pool_mask)
             hs = model(**batch, output_hidden_states=True).hidden_states
-            mask = batch["attention_mask"].unsqueeze(-1).float()
+            mask = pool_mask.unsqueeze(-1).float()
             denom = mask.sum(dim=1)
             embed_pool = (hs[0].float() * mask).sum(dim=1) / denom
             resid_pool = (hs[best_layer + 1].float() * mask).sum(dim=1) / denom
@@ -230,6 +256,12 @@ def main():
     p.add_argument("--train-frac", type=float, default=0.8)
     p.add_argument("--seed", type=int, default=42)
     p.add_argument("--layer", type=int, default=None, help="force readout layer (skip sweep choice)")
+    p.add_argument("--direction", help="external direction .npy; requires --layer")
+    p.add_argument(
+        "--decision-tail",
+        action="store_true",
+        help="pool only text after each pair's shared_prefix during DFA",
+    )
     p.add_argument("--out", default="results/dfa")
     args = p.parse_args()
 
@@ -248,32 +280,43 @@ def main():
 
     pairs = load_pairs(Path(args.pairs), args.n_pairs, args.seed)
     log.info("loaded %d pairs", len(pairs))
-    texts = []
-    for pr in pairs:  # even index = empathic, odd = non-empathic
-        texts.append(pr["empathic_text"])
-        texts.append(pr["non_empathic_text"])
+    texts, prefixes = [], []
+    for pr in pairs:  # even index = positive, odd = negative
+        texts.extend([pr["positive_text"], pr["negative_text"]])
+        prefixes.extend([pr.get("shared_prefix"), pr.get("shared_prefix")])
 
-    log.info("stage 1: layer sweep over %d texts", len(texts))
-    acts = pooled_hidden_states(model, tok, texts, args.batch_size, args.max_tokens, device)
-    sweep, (train_idx, _) = layer_sweep(acts, len(pairs), args.train_frac, args.seed)
-    # hidden_states[0] is the (scaled) embedding stream; block L is index L+1
-    block_sweep = sweep[1:]
-    best = max(block_sweep, key=lambda r: r["auroc"])
-    best_layer = args.layer if args.layer is not None else best["layer"] - 1
-    best_auroc = next(r["auroc"] for r in block_sweep if r["layer"] - 1 == best_layer)
-    log.info("best readout block L*=%d (test AUROC %.4f)", best_layer, best_auroc)
+    if args.direction:
+        if args.layer is None:
+            p.error("--direction requires --layer")
+        direction = np.load(args.direction).astype(np.float32)
+        direction /= np.linalg.norm(direction)
+        block_sweep = []
+        best_layer = args.layer
+        best_auroc = None
+        log.info("using external direction at block %d", best_layer)
+    else:
+        log.info("stage 1: layer sweep over %d texts", len(texts))
+        acts = pooled_hidden_states(model, tok, texts, args.batch_size, args.max_tokens, device)
+        sweep, (train_idx, _) = layer_sweep(acts, len(pairs), args.train_frac, args.seed)
+        # hidden_states[0] is the (scaled) embedding stream; block L is index L+1
+        block_sweep = sweep[1:]
+        best = max(block_sweep, key=lambda r: r["auroc"])
+        best_layer = args.layer if args.layer is not None else best["layer"] - 1
+        best_auroc = next(r["auroc"] for r in block_sweep if r["layer"] - 1 == best_layer)
+        log.info("best readout block L*=%d (test AUROC %.4f)", best_layer, best_auroc)
 
-    emp = acts[best_layer + 1, [2 * i for i in train_idx]]
-    non = acts[best_layer + 1, [2 * i + 1 for i in train_idx]]
-    direction = emp.mean(0) - non.mean(0)
-    direction /= np.linalg.norm(direction)
+        emp = acts[best_layer + 1, [2 * i for i in train_idx]]
+        non = acts[best_layer + 1, [2 * i + 1 for i in train_idx]]
+        direction = emp.mean(0) - non.mean(0)
+        direction /= np.linalg.norm(direction)
     np.save(out / f"empathy_direction_layer{best_layer}.npy", direction)
 
     dfa_pairs = pairs[: args.dfa_pairs]
     dfa_texts = texts[: 2 * len(dfa_pairs)]
     log.info("stage 2: DFA over %d texts, components at blocks 0..%d", len(dfa_texts), best_layer)
     heads, attn_ln, mlp, embed, resid = run_dfa(
-        model, tok, dfa_texts, direction, best_layer, args.batch_size, args.max_tokens, device
+        model, tok, dfa_texts, direction, best_layer, args.batch_size, args.max_tokens,
+        device, prefixes[:len(dfa_texts)] if args.decision_tail else None,
     )
 
     # sanity 1: per-head decomposition sums to the exact block-level attn add
@@ -315,6 +358,8 @@ def main():
         "n_pairs_sweep": len(pairs),
         "n_pairs_dfa": len(dfa_pairs),
         "seed": args.seed,
+        "direction_source": args.direction or "estimated_from_pairs",
+        "pooling": "decision_tail" if args.decision_tail else "masked_mean_all_tokens",
         "layer_sweep": [{"block": r["layer"] - 1, "auroc": r["auroc"]} for r in block_sweep],
         "best_layer": best_layer,
         "best_layer_auroc": best_auroc,
