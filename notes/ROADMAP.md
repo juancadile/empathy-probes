@@ -30,9 +30,9 @@ Stage A (components) needs no SAEs — it works directly on heads/MLPs via the p
 |---|------|-------|--------|
 | 0.1 | V2 dataset consolidated (6,702 pairs), repo reorg, PR #23 merged | — | ✅ |
 | 0.2 | DFA on gemma-2-9b-it: L8 + L20 readouts, semi-sparse, directions rotate (cos 0.45) | Spark | ✅ (#25) |
-| 0.3 | **V2.1 stimulus suite**: all cells × 3 providers complete (+ cell M templated); R in progress | API | ✅ |
+| 0.3 | **V2.1 stimulus suite**: all cells × 3 providers complete (+ cells M and R) | API | ✅ |
 | 0.4 | Normalize `source_model` labels in merged dataset (978 rows, 14→11) | local | ✅ |
-| 0.5 | Verify ARM builds: TransformerLens / SAELens on Spark (`empathy` conda env) | Spark | 🔄 building |
+| 0.5 | Verify ARM builds: TransformerLens / SAELens on Spark (`empathy` conda env); TL↔HF residual cosine 1.000 | Spark | ✅ |
 | 0.6 | **A5 lexical battery tests 1–3**: dataset lexically saturated (shuffled AUROC 0.99/0.90); L8 ≈ lexical echo; **L20 carries real decision signal (cell M decision-tokens AUROC 0.80)** | Spark | ✅ (#33) |
 
 **Standing conclusion (from 0.6):** headline AUROCs on the V2 contrastive dataset are not evidence of behavioral representation (lexical ceiling ~0.99). All causal work targets the **block-20 direction**; a purified decision direction from cell M + controlled cells is the preferred probe going forward.
@@ -42,6 +42,10 @@ Stage A (components) needs no SAEs — it works directly on heads/MLPs via the p
 ## Stage A — Component localization *(weeks 1–2)* — issues #25, #11, #12
 
 Direct feature attribution (who *writes* the direction) → activation patching / mean-ablation at head/MLP granularity (who is *causally necessary*) → validation gate (the two must agree). Attribution patching (AtP*) extends head-level maps to 27B/32B.
+
+**A1/A2 result (Gemma-2-9B-it, block 20, Cell M):** the representation is causally localized but does not map one-to-one onto behavior. Mean-ablation of L18H3 and L20H7 reduced controlled decision separation by 1.17 and 1.10 respectively (>7 SD beyond random controls), while L8MLP and L19H5 reduced both separation and helping-choice preference. DFA writer strength only weakly predicted causal necessity (r=0.26). Some late components changed behavior without changing the probe projection, including random L19MLP, so no component is yet empathy-specific.
+
+**A2.5 specificity gate (next):** test the shortlist against matched non-social task choices (Cell E-derived), neutral forced-choice prompts, and capability/logit controls; increase random controls and bootstrap per-example effects. Promote a component to Stage B only if its empathic-decision effect exceeds these controls. In parallel, audit V2.1 generated labels before training the purified controlled direction; do not treat generation-prompt polarity as ground truth.
 
 **A5 — lexical stress battery** (#33, priority-1 after the DFA found ~11% embedding-stream contribution): shuffled-token control, lexical-direction regression, matched-lexicon minimal pairs (mini-cell M), and prospective probing (predict the action from prompt-final activations, before any output text exists — via the original EIA harness, see below). Gates the interpretation of everything downstream.
 
