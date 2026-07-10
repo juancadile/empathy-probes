@@ -103,12 +103,12 @@ def run_metrics(model, ablator, m_items, choice_prompts, choice_flips, d_vec, to
     for i, item in enumerate(m_items):
         projs = {}
         for side in ("pos_text", "neg_text"):
-            _, cache = model.run_with_cache(
-                item[side],
-                names_filter=f"blocks.{READOUT_BLOCK}.hook_resid_post",
-                fwd_hooks=ablator.hooks(),
-                return_type=None,
-            )
+            with model.hooks(fwd_hooks=ablator.hooks()):
+                _, cache = model.run_with_cache(
+                    item[side],
+                    names_filter=f"blocks.{READOUT_BLOCK}.hook_resid_post",
+                    return_type=None,
+                )
             h = cache[f"blocks.{READOUT_BLOCK}.hook_resid_post"][0].float()
             cut = min(prefix_lens[i] - 2, h.shape[0] - 1)
             projs[side] = float(h[cut:].mean(0) @ d_vec)
