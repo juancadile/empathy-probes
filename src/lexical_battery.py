@@ -124,7 +124,7 @@ def main():
         cos_lex = float(d_orig @ (lex_dirs[0] / np.linalg.norm(lex_dirs[0])))
 
         # logit lens: top tokens of W_U @ d (Gemma ties embeddings; use embed_tokens)
-        W = model.get_input_embeddings().weight.float()  # (V, d)
+        W = model.get_input_embeddings().weight.detach().float()  # (V, d)
         logits = W.cpu().numpy() @ d_orig
         top = np.argsort(-logits)[:20]
         bot = np.argsort(logits)[:20]
