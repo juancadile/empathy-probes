@@ -1,0 +1,4029 @@
+{
+  "model": "google/gemma-2-9b-it",
+  "direction": "results/controlled_directions_gemma2_9b_it/direction_M_block20.npy",
+  "heads": [
+    "L17H13",
+    "L18H13",
+    "L19H12",
+    "L20H15",
+    "L15H15",
+    "L18H3",
+    "L19H5"
+  ],
+  "n_pairs": 40,
+  "attention": {
+    "L17H13": {
+      "positive": {
+        "n": 40,
+        "mean_prefix_attention": 0.23665739893913268,
+        "mean_tail_attention": 0.7633624702692032,
+        "mean_help_token_attention": 0.02178843348447117,
+        "mean_task_token_attention": 0.016262923905742355,
+        "top_source_tokens": [
+          {
+            "token": "<bos>",
+            "attention_per_example": 0.08277112701907754
+          },
+          {
+            "token": "i",
+            "attention_per_example": 0.07461822080658749
+          },
+          {
+            "token": "the",
+            "attention_per_example": 0.05329610225162469
+          },
+          {
+            "token": "to",
+            "attention_per_example": 0.03215839510812657
+          },
+          {
+            "token": "will",
+            "attention_per_example": 0.03056413014419377
+          },
+          {
+            "token": "going",
+            "attention_per_example": 0.027978231350425632
+          },
+          {
+            "token": "my",
+            "attention_per_example": 0.027078182878904046
+          },
+          {
+            "token": "and",
+            "attention_per_example": 0.02686566208030854
+          },
+          {
+            "token": "now",
+            "attention_per_example": 0.026096963445888834
+          },
+          {
+            "token": "is",
+            "attention_per_example": 0.021552538343894413
+          },
+          {
+            "token": "am",
+            "attention_per_example": 0.020670708606485278
+          },
+          {
+            "token": "that",
+            "attention_per_example": 0.018898921423533464
+          },
+          {
+            "token": "for",
+            "attention_per_example": 0.015658041997085093
+          },
+          {
+            "token": "before",
+            "attention_per_example": 0.01539065199540346
+          },
+          {
+            "token": "turn",
+            "attention_per_example": 0.015326496353372932
+          },
+          {
+            "token": "this",
+            "attention_per_example": 0.013580313356942496
+          },
+          {
+            "token": "do",
+            "attention_per_example": 0.012186744017526507
+          },
+          {
+            "token": "what",
+            "attention_per_example": 0.01216782419505762
+          },
+          {
+            "token": "decision",
+            "attention_per_example": 0.011255692550912499
+          },
+          {
+            "token": "next",
+            "attention_per_example": 0.011173849213810172
+          },
+          {
+            "token": "wait",
+            "attention_per_example": 0.01083505740389228
+          },
+          {
+            "token": "pause",
+            "attention_per_example": 0.010426858207210898
+          },
+          {
+            "token": "first",
+            "attention_per_example": 0.009748957486590371
+          },
+          {
+            "token": "walk",
+            "attention_per_example": 0.009591063437983393
+          },
+          {
+            "token": "through",
+            "attention_per_example": 0.009196019044611602
+          }
+        ],
+        "top_content_source_tokens": [
+          {
+            "token": "going",
+            "attention_per_example": 0.027978231350425632
+          },
+          {
+            "token": "turn",
+            "attention_per_example": 0.015326496353372932
+          },
+          {
+            "token": "do",
+            "attention_per_example": 0.012186744017526507
+          },
+          {
+            "token": "what",
+            "attention_per_example": 0.01216782419505762
+          },
+          {
+            "token": "decision",
+            "attention_per_example": 0.011255692550912499
+          },
+          {
+            "token": "next",
+            "attention_per_example": 0.011173849213810172
+          },
+          {
+            "token": "wait",
+            "attention_per_example": 0.01083505740389228
+          },
+          {
+            "token": "pause",
+            "attention_per_example": 0.010426858207210898
+          },
+          {
+            "token": "first",
+            "attention_per_example": 0.009748957486590371
+          },
+          {
+            "token": "walk",
+            "attention_per_example": 0.009591063437983393
+          },
+          {
+            "token": "through",
+            "attention_per_example": 0.009196019044611602
+          },
+          {
+            "token": "other",
+            "attention_per_example": 0.009182532053091563
+          },
+          {
+            "token": "their",
+            "attention_per_example": 0.008118632924742996
+          },
+          {
+            "token": "step",
+            "attention_per_example": 0.007773270783945918
+          },
+          {
+            "token": "messages",
+            "attention_per_example": 0.006207986162917223
+          },
+          {
+            "token": "minutes",
+            "attention_per_example": 0.005844963307026774
+          },
+          {
+            "token": "sit",
+            "attention_per_example": 0.005725853265903425
+          },
+          {
+            "token": "over",
+            "attention_per_example": 0.0056772575248032805
+          },
+          {
+            "token": "player",
+            "attention_per_example": 0.005641166524583241
+          },
+          {
+            "token": "down",
+            "attention_per_example": 0.005544388051202986
+          },
+          {
+            "token": "remaining",
+            "attention_per_example": 0.0055169510189443825
+          },
+          {
+            "token": "answer",
+            "attention_per_example": 0.00549149364233017
+          },
+          {
+            "token": "route",
+            "attention_per_example": 0.00547245773486793
+          },
+          {
+            "token": "user",
+            "attention_per_example": 0.005469058123708237
+          },
+          {
+            "token": "schedule",
+            "attention_per_example": 0.005428475901135243
+          }
+        ]
+      },
+      "negative": {
+        "n": 40,
+        "mean_prefix_attention": 0.2418829295784235,
+        "mean_tail_attention": 0.7580414339900017,
+        "mean_help_token_attention": 0.01246045744192088,
+        "mean_task_token_attention": 0.035136143282579725,
+        "top_source_tokens": [
+          {
+            "token": "<bos>",
+            "attention_per_example": 0.0858808832243085
+          },
+          {
+            "token": "i",
+            "attention_per_example": 0.0744900182588026
+          },
+          {
+            "token": "the",
+            "attention_per_example": 0.05525433267466724
+          },
+          {
+            "token": "to",
+            "attention_per_example": 0.03650437896285439
+          },
+          {
+            "token": "will",
+            "attention_per_example": 0.02943273847922683
+          },
+          {
+            "token": "and",
+            "attention_per_example": 0.029168944297998677
+          },
+          {
+            "token": "my",
+            "attention_per_example": 0.02814303191844374
+          },
+          {
+            "token": "going",
+            "attention_per_example": 0.028002097411081193
+          },
+          {
+            "token": "now",
+            "attention_per_example": 0.02686056990060024
+          },
+          {
+            "token": "is",
+            "attention_per_example": 0.023386107087571873
+          },
+          {
+            "token": "am",
+            "attention_per_example": 0.021073822709149682
+          },
+          {
+            "token": "that",
+            "attention_per_example": 0.01825521302234847
+          },
+          {
+            "token": "before",
+            "attention_per_example": 0.015634424323798156
+          },
+          {
+            "token": "s",
+            "attention_per_example": 0.01448458102531731
+          },
+          {
+            "token": "anything",
+            "attention_per_example": 0.014028129493817687
+          },
+          {
+            "token": "this",
+            "attention_per_example": 0.013713828206527978
+          },
+          {
+            "token": "what",
+            "attention_per_example": 0.013078394503099843
+          },
+          {
+            "token": "else",
+            "attention_per_example": 0.012298118509352206
+          },
+          {
+            "token": "do",
+            "attention_per_example": 0.012187192868441343
+          },
+          {
+            "token": "their",
+            "attention_per_example": 0.012116265171789565
+          },
+          {
+            "token": "decision",
+            "attention_per_example": 0.011509808804839849
+          },
+          {
+            "token": "next",
+            "attention_per_example": 0.010842443909496069
+          },
+          {
+            "token": "for",
+            "attention_per_example": 0.01074149501073407
+          },
+          {
+            "token": "turn",
+            "attention_per_example": 0.010453838203102351
+          },
+          {
+            "token": "wait",
+            "attention_per_example": 0.009957723505795001
+          }
+        ],
+        "top_content_source_tokens": [
+          {
+            "token": "going",
+            "attention_per_example": 0.028002097411081193
+          },
+          {
+            "token": "anything",
+            "attention_per_example": 0.014028129493817687
+          },
+          {
+            "token": "what",
+            "attention_per_example": 0.013078394503099843
+          },
+          {
+            "token": "else",
+            "attention_per_example": 0.012298118509352206
+          },
+          {
+            "token": "do",
+            "attention_per_example": 0.012187192868441343
+          },
+          {
+            "token": "their",
+            "attention_per_example": 0.012116265171789565
+          },
+          {
+            "token": "decision",
+            "attention_per_example": 0.011509808804839849
+          },
+          {
+            "token": "next",
+            "attention_per_example": 0.010842443909496069
+          },
+          {
+            "token": "turn",
+            "attention_per_example": 0.010453838203102351
+          },
+          {
+            "token": "wait",
+            "attention_per_example": 0.009957723505795001
+          },
+          {
+            "token": "keep",
+            "attention_per_example": 0.009809842007234693
+          },
+          {
+            "token": "finish",
+            "attention_per_example": 0.009591588098555804
+          },
+          {
+            "token": "out",
+            "attention_per_example": 0.005982323848002125
+          },
+          {
+            "token": "messages",
+            "attention_per_example": 0.005955873864877503
+          },
+          {
+            "token": "preparing",
+            "attention_per_example": 0.005932258022949099
+          },
+          {
+            "token": "plates",
+            "attention_per_example": 0.005779422412160784
+          },
+          {
+            "token": "pass",
+            "attention_per_example": 0.005568157695233822
+          },
+          {
+            "token": "moment",
+            "attention_per_example": 0.005561875179409981
+          },
+          {
+            "token": "user",
+            "attention_per_example": 0.005558932671556249
+          },
+          {
+            "token": "pause",
+            "attention_per_example": 0.005555492453277111
+          },
+          {
+            "token": "there",
+            "attention_per_example": 0.005484443937893957
+          },
+          {
+            "token": "route",
+            "attention_per_example": 0.0054162921849638225
+          },
+          {
+            "token": "properly",
+            "attention_per_example": 0.0054101789835840465
+          },
+          {
+            "token": "duel",
+            "attention_per_example": 0.005357701495813672
+          },
+          {
+            "token": "through",
+            "attention_per_example": 0.005342882518743863
+          }
+        ]
+      },
+      "positive_minus_negative_prefix_attention": -0.005225530639290821,
+      "content_token_differential": [
+        {
+          "token": "keep",
+          "positive_minus_negative_attention": -0.009809842007234693
+        },
+        {
+          "token": "finish",
+          "positive_minus_negative_attention": -0.009591588098555804
+        },
+        {
+          "token": "walk",
+          "positive_minus_negative_attention": 0.009591063437983393
+        },
+        {
+          "token": "anything",
+          "positive_minus_negative_attention": -0.008757011173292993
+        },
+        {
+          "token": "else",
+          "positive_minus_negative_attention": -0.008696357905864715
+        },
+        {
+          "token": "step",
+          "positive_minus_negative_attention": 0.007773270783945918
+        },
+        {
+          "token": "preparing",
+          "positive_minus_negative_attention": -0.005867679326911457
+        },
+        {
+          "token": "out",
+          "positive_minus_negative_attention": -0.005817341642978135
+        },
+        {
+          "token": "over",
+          "positive_minus_negative_attention": 0.0056772575248032805
+        },
+        {
+          "token": "pass",
+          "positive_minus_negative_attention": -0.005568157695233822
+        },
+        {
+          "token": "moment",
+          "positive_minus_negative_attention": -0.005561875179409981
+        },
+        {
+          "token": "answer",
+          "positive_minus_negative_attention": 0.00549149364233017
+        },
+        {
+          "token": "down",
+          "positive_minus_negative_attention": 0.005487725733837578
+        },
+        {
+          "token": "minutes",
+          "positive_minus_negative_attention": 0.005467476221383549
+        },
+        {
+          "token": "sit",
+          "positive_minus_negative_attention": 0.005420226670685225
+        },
+        {
+          "token": "continuing",
+          "positive_minus_negative_attention": 0.005296732345595956
+        },
+        {
+          "token": "flex",
+          "positive_minus_negative_attention": 0.0051353526767343284
+        },
+        {
+          "token": "aside",
+          "positive_minus_negative_attention": 0.005103082768619061
+        },
+        {
+          "token": "door",
+          "positive_minus_negative_attention": 0.005031634820625186
+        },
+        {
+          "token": "back",
+          "positive_minus_negative_attention": 0.005008823703974485
+        },
+        {
+          "token": "ticket",
+          "positive_minus_negative_attention": -0.004900234517117496
+        },
+        {
+          "token": "turn",
+          "positive_minus_negative_attention": 0.004872658150270581
+        },
+        {
+          "token": "pause",
+          "positive_minus_negative_attention": 0.004871365753933788
+        },
+        {
+          "token": "put",
+          "positive_minus_negative_attention": 0.004858225025236607
+        },
+        {
+          "token": "other",
+          "positive_minus_negative_attention": 0.004829272045753895
+        }
+      ]
+    },
+    "L18H13": {
+      "positive": {
+        "n": 40,
+        "mean_prefix_attention": 0.06350344736129046,
+        "mean_tail_attention": 0.9365179628133774,
+        "mean_help_token_attention": 0.02424917387379537,
+        "mean_task_token_attention": 0.01747887281835574,
+        "top_source_tokens": [
+          {
+            "token": "i",
+            "attention_per_example": 0.06797338905162179
+          },
+          {
+            "token": "the",
+            "attention_per_example": 0.051425058596760206
+          },
+          {
+            "token": "to",
+            "attention_per_example": 0.038563973448344765
+          },
+          {
+            "token": "will",
+            "attention_per_example": 0.038003930309787395
+          },
+          {
+            "token": "now",
+            "attention_per_example": 0.03178269449417712
+          },
+          {
+            "token": "my",
+            "attention_per_example": 0.031327508098183895
+          },
+          {
+            "token": "is",
+            "attention_per_example": 0.030939412246743812
+          },
+          {
+            "token": "going",
+            "attention_per_example": 0.030881983545259572
+          },
+          {
+            "token": "am",
+            "attention_per_example": 0.028055780079739634
+          },
+          {
+            "token": "and",
+            "attention_per_example": 0.02620509036319163
+          },
+          {
+            "token": "that",
+            "attention_per_example": 0.024266112845316455
+          },
+          {
+            "token": "turn",
+            "attention_per_example": 0.0197377803735435
+          },
+          {
+            "token": "for",
+            "attention_per_example": 0.01956023909160649
+          },
+          {
+            "token": "before",
+            "attention_per_example": 0.018123032587936905
+          },
+          {
+            "token": "this",
+            "attention_per_example": 0.016581854598916833
+          },
+          {
+            "token": "decision",
+            "attention_per_example": 0.014738324377685786
+          },
+          {
+            "token": "do",
+            "attention_per_example": 0.014442178560420871
+          },
+          {
+            "token": "what",
+            "attention_per_example": 0.014428343063264038
+          },
+          {
+            "token": "next",
+            "attention_per_example": 0.01389537896720867
+          },
+          {
+            "token": "pause",
+            "attention_per_example": 0.012082829186692835
+          },
+          {
+            "token": "other",
+            "attention_per_example": 0.011210065140767255
+          },
+          {
+            "token": "walk",
+            "attention_per_example": 0.011074142530560493
+          },
+          {
+            "token": "first",
+            "attention_per_example": 0.010859283035460975
+          },
+          {
+            "token": "through",
+            "attention_per_example": 0.01038310436881602
+          },
+          {
+            "token": "wait",
+            "attention_per_example": 0.01009544669650495
+          }
+        ],
+        "top_content_source_tokens": [
+          {
+            "token": "going",
+            "attention_per_example": 0.030881983545259572
+          },
+          {
+            "token": "turn",
+            "attention_per_example": 0.0197377803735435
+          },
+          {
+            "token": "decision",
+            "attention_per_example": 0.014738324377685786
+          },
+          {
+            "token": "do",
+            "attention_per_example": 0.014442178560420871
+          },
+          {
+            "token": "what",
+            "attention_per_example": 0.014428343063264038
+          },
+          {
+            "token": "next",
+            "attention_per_example": 0.01389537896720867
+          },
+          {
+            "token": "pause",
+            "attention_per_example": 0.012082829186692835
+          },
+          {
+            "token": "other",
+            "attention_per_example": 0.011210065140767255
+          },
+          {
+            "token": "walk",
+            "attention_per_example": 0.011074142530560493
+          },
+          {
+            "token": "first",
+            "attention_per_example": 0.010859283035460975
+          },
+          {
+            "token": "through",
+            "attention_per_example": 0.01038310436881602
+          },
+          {
+            "token": "wait",
+            "attention_per_example": 0.01009544669650495
+          },
+          {
+            "token": "step",
+            "attention_per_example": 0.00910700629465282
+          },
+          {
+            "token": "their",
+            "attention_per_example": 0.006712273603625363
+          },
+          {
+            "token": "colleague",
+            "attention_per_example": 0.006359973999860813
+          },
+          {
+            "token": "messages",
+            "attention_per_example": 0.006323231341684732
+          },
+          {
+            "token": "can",
+            "attention_per_example": 0.006305290572345257
+          },
+          {
+            "token": "answer",
+            "attention_per_example": 0.006266696657985449
+          },
+          {
+            "token": "still",
+            "attention_per_example": 0.006200360506772995
+          },
+          {
+            "token": "properly",
+            "attention_per_example": 0.006194530567154288
+          },
+          {
+            "token": "doing",
+            "attention_per_example": 0.0061938079539686445
+          },
+          {
+            "token": "remaining",
+            "attention_per_example": 0.006102800136432052
+          },
+          {
+            "token": "continuing",
+            "attention_per_example": 0.006062590563669801
+          },
+          {
+            "token": "exit",
+            "attention_per_example": 0.006018589381710626
+          },
+          {
+            "token": "player",
+            "attention_per_example": 0.0059693470073398204
+          }
+        ]
+      },
+      "negative": {
+        "n": 40,
+        "mean_prefix_attention": 0.060792827140539886,
+        "mean_tail_attention": 0.9391547948122024,
+        "mean_help_token_attention": 0.011251394951705152,
+        "mean_task_token_attention": 0.041454291117133835,
+        "top_source_tokens": [
+          {
+            "token": "i",
+            "attention_per_example": 0.06756850000092526
+          },
+          {
+            "token": "the",
+            "attention_per_example": 0.04867101520867436
+          },
+          {
+            "token": "to",
+            "attention_per_example": 0.046230118459607186
+          },
+          {
+            "token": "will",
+            "attention_per_example": 0.037060201587155464
+          },
+          {
+            "token": "my",
+            "attention_per_example": 0.03123716115951538
+          },
+          {
+            "token": "going",
+            "attention_per_example": 0.030782284342058118
+          },
+          {
+            "token": "now",
+            "attention_per_example": 0.030070796104337206
+          },
+          {
+            "token": "is",
+            "attention_per_example": 0.029889941825604182
+          },
+          {
+            "token": "and",
+            "attention_per_example": 0.02911371266159222
+          },
+          {
+            "token": "am",
+            "attention_per_example": 0.028257887660583948
+          },
+          {
+            "token": "that",
+            "attention_per_example": 0.026758278030183647
+          },
+          {
+            "token": "else",
+            "attention_per_example": 0.018332511745393278
+          },
+          {
+            "token": "anything",
+            "attention_per_example": 0.01794570842757821
+          },
+          {
+            "token": "before",
+            "attention_per_example": 0.017944739156519063
+          },
+          {
+            "token": "this",
+            "attention_per_example": 0.017838370979006868
+          },
+          {
+            "token": "s",
+            "attention_per_example": 0.01654989770613611
+          },
+          {
+            "token": "decision",
+            "attention_per_example": 0.015453608240932226
+          },
+          {
+            "token": "do",
+            "attention_per_example": 0.01464982912875712
+          },
+          {
+            "token": "turn",
+            "attention_per_example": 0.01426176712848246
+          },
+          {
+            "token": "what",
+            "attention_per_example": 0.014202650194715716
+          },
+          {
+            "token": "for",
+            "attention_per_example": 0.013831251565852654
+          },
+          {
+            "token": "next",
+            "attention_per_example": 0.013653095491463318
+          },
+          {
+            "token": "keep",
+            "attention_per_example": 0.01227851673029363
+          },
+          {
+            "token": "their",
+            "attention_per_example": 0.012031066535655555
+          },
+          {
+            "token": "finish",
+            "attention_per_example": 0.011613759212195873
+          }
+        ],
+        "top_content_source_tokens": [
+          {
+            "token": "going",
+            "attention_per_example": 0.030782284342058118
+          },
+          {
+            "token": "else",
+            "attention_per_example": 0.018332511745393278
+          },
+          {
+            "token": "anything",
+            "attention_per_example": 0.01794570842757821
+          },
+          {
+            "token": "decision",
+            "attention_per_example": 0.015453608240932226
+          },
+          {
+            "token": "do",
+            "attention_per_example": 0.01464982912875712
+          },
+          {
+            "token": "turn",
+            "attention_per_example": 0.01426176712848246
+          },
+          {
+            "token": "what",
+            "attention_per_example": 0.014202650194715716
+          },
+          {
+            "token": "next",
+            "attention_per_example": 0.013653095491463318
+          },
+          {
+            "token": "keep",
+            "attention_per_example": 0.01227851673029363
+          },
+          {
+            "token": "their",
+            "attention_per_example": 0.012031066535655555
+          },
+          {
+            "token": "finish",
+            "attention_per_example": 0.011613759212195873
+          },
+          {
+            "token": "wait",
+            "attention_per_example": 0.010245125414803625
+          },
+          {
+            "token": "play",
+            "attention_per_example": 0.006502847000956535
+          },
+          {
+            "token": "colleague",
+            "attention_per_example": 0.006295963400043547
+          },
+          {
+            "token": "out",
+            "attention_per_example": 0.006260807238868437
+          },
+          {
+            "token": "can",
+            "attention_per_example": 0.006216668291017413
+          },
+          {
+            "token": "messages",
+            "attention_per_example": 0.006174727999950847
+          },
+          {
+            "token": "first",
+            "attention_per_example": 0.006094682740331337
+          },
+          {
+            "token": "pause",
+            "attention_per_example": 0.006023561023175717
+          },
+          {
+            "token": "properly",
+            "attention_per_example": 0.006011833343654871
+          },
+          {
+            "token": "preparing",
+            "attention_per_example": 0.006001330772414803
+          },
+          {
+            "token": "remaining",
+            "attention_per_example": 0.005961182899773121
+          },
+          {
+            "token": "moment",
+            "attention_per_example": 0.0059175987262278795
+          },
+          {
+            "token": "hold",
+            "attention_per_example": 0.005916331149637699
+          },
+          {
+            "token": "there",
+            "attention_per_example": 0.005912223950144835
+          }
+        ]
+      },
+      "positive_minus_negative_prefix_attention": 0.0027106202207505745,
+      "content_token_differential": [
+        {
+          "token": "else",
+          "positive_minus_negative_attention": -0.012657478032633663
+        },
+        {
+          "token": "keep",
+          "positive_minus_negative_attention": -0.01227851673029363
+        },
+        {
+          "token": "anything",
+          "positive_minus_negative_attention": -0.012209041882306336
+        },
+        {
+          "token": "finish",
+          "positive_minus_negative_attention": -0.011613759212195873
+        },
+        {
+          "token": "walk",
+          "positive_minus_negative_attention": 0.011074142530560493
+        },
+        {
+          "token": "step",
+          "positive_minus_negative_attention": 0.00910700629465282
+        },
+        {
+          "token": "answer",
+          "positive_minus_negative_attention": 0.006266696657985449
+        },
+        {
+          "token": "out",
+          "positive_minus_negative_attention": -0.006237845953000942
+        },
+        {
+          "token": "doing",
+          "positive_minus_negative_attention": 0.0061938079539686445
+        },
+        {
+          "token": "continuing",
+          "positive_minus_negative_attention": 0.006062590563669801
+        },
+        {
+          "token": "pause",
+          "positive_minus_negative_attention": 0.006059268163517118
+        },
+        {
+          "token": "water",
+          "positive_minus_negative_attention": 0.005946171113373566
+        },
+        {
+          "token": "preparing",
+          "positive_minus_negative_attention": -0.005934215716115431
+        },
+        {
+          "token": "moment",
+          "positive_minus_negative_attention": -0.0059175987262278795
+        },
+        {
+          "token": "flex",
+          "positive_minus_negative_attention": 0.005878863390535116
+        },
+        {
+          "token": "set",
+          "positive_minus_negative_attention": 0.0057813884690403935
+        },
+        {
+          "token": "straight",
+          "positive_minus_negative_attention": -0.005719119124114514
+        },
+        {
+          "token": "minutes",
+          "positive_minus_negative_attention": 0.005685313391859381
+        },
+        {
+          "token": "over",
+          "positive_minus_negative_attention": 0.005630688089877367
+        },
+        {
+          "token": "we",
+          "positive_minus_negative_attention": 0.005605850182473659
+        },
+        {
+          "token": "level",
+          "positive_minus_negative_attention": -0.005559030473523307
+        },
+        {
+          "token": "pass",
+          "positive_minus_negative_attention": -0.005528174713253975
+        },
+        {
+          "token": "situation",
+          "positive_minus_negative_attention": -0.005508977081626653
+        },
+        {
+          "token": "work",
+          "positive_minus_negative_attention": -0.0054876803886145355
+        },
+        {
+          "token": "sit",
+          "positive_minus_negative_attention": 0.005482928151286614
+        }
+      ]
+    },
+    "L19H12": {
+      "positive": {
+        "n": 40,
+        "mean_prefix_attention": 0.08385887127369643,
+        "mean_tail_attention": 0.9161117494106292,
+        "mean_help_token_attention": 0.024735337084894126,
+        "mean_task_token_attention": 0.01813956778278225,
+        "top_source_tokens": [
+          {
+            "token": "i",
+            "attention_per_example": 0.05337459818692878
+          },
+          {
+            "token": "the",
+            "attention_per_example": 0.048830980815546356
+          },
+          {
+            "token": "to",
+            "attention_per_example": 0.03554546243722143
+          },
+          {
+            "token": "will",
+            "attention_per_example": 0.03534083324484527
+          },
+          {
+            "token": "my",
+            "attention_per_example": 0.03193958800911787
+          },
+          {
+            "token": "<bos>",
+            "attention_per_example": 0.03157277265563607
+          },
+          {
+            "token": "and",
+            "attention_per_example": 0.029739224289915
+          },
+          {
+            "token": "now",
+            "attention_per_example": 0.029205067742623214
+          },
+          {
+            "token": "is",
+            "attention_per_example": 0.029069160093968094
+          },
+          {
+            "token": "am",
+            "attention_per_example": 0.027838804530983908
+          },
+          {
+            "token": "going",
+            "attention_per_example": 0.027357752283569424
+          },
+          {
+            "token": "that",
+            "attention_per_example": 0.02322589512114064
+          },
+          {
+            "token": "turn",
+            "attention_per_example": 0.018982748221606015
+          },
+          {
+            "token": "for",
+            "attention_per_example": 0.018678501603244514
+          },
+          {
+            "token": "this",
+            "attention_per_example": 0.01780783095236984
+          },
+          {
+            "token": "before",
+            "attention_per_example": 0.016872082814370516
+          },
+          {
+            "token": "what",
+            "attention_per_example": 0.013649501742474968
+          },
+          {
+            "token": "next",
+            "attention_per_example": 0.013619823845510836
+          },
+          {
+            "token": "do",
+            "attention_per_example": 0.013496105233207345
+          },
+          {
+            "token": "decision",
+            "attention_per_example": 0.012945958413183689
+          },
+          {
+            "token": "pause",
+            "attention_per_example": 0.01214787820354104
+          },
+          {
+            "token": "wait",
+            "attention_per_example": 0.011643605632707476
+          },
+          {
+            "token": "walk",
+            "attention_per_example": 0.011317580379545689
+          },
+          {
+            "token": "through",
+            "attention_per_example": 0.010703209931307356
+          },
+          {
+            "token": "first",
+            "attention_per_example": 0.010617813489807304
+          }
+        ],
+        "top_content_source_tokens": [
+          {
+            "token": "going",
+            "attention_per_example": 0.027357752283569424
+          },
+          {
+            "token": "turn",
+            "attention_per_example": 0.018982748221606015
+          },
+          {
+            "token": "what",
+            "attention_per_example": 0.013649501742474968
+          },
+          {
+            "token": "next",
+            "attention_per_example": 0.013619823845510836
+          },
+          {
+            "token": "do",
+            "attention_per_example": 0.013496105233207345
+          },
+          {
+            "token": "decision",
+            "attention_per_example": 0.012945958413183689
+          },
+          {
+            "token": "pause",
+            "attention_per_example": 0.01214787820354104
+          },
+          {
+            "token": "wait",
+            "attention_per_example": 0.011643605632707476
+          },
+          {
+            "token": "walk",
+            "attention_per_example": 0.011317580379545689
+          },
+          {
+            "token": "through",
+            "attention_per_example": 0.010703209931307356
+          },
+          {
+            "token": "first",
+            "attention_per_example": 0.010617813489807304
+          },
+          {
+            "token": "other",
+            "attention_per_example": 0.010583136519562686
+          },
+          {
+            "token": "step",
+            "attention_per_example": 0.009963723039254547
+          },
+          {
+            "token": "their",
+            "attention_per_example": 0.006679755940785981
+          },
+          {
+            "token": "messages",
+            "attention_per_example": 0.006570596161145659
+          },
+          {
+            "token": "properly",
+            "attention_per_example": 0.006484383158385754
+          },
+          {
+            "token": "play",
+            "attention_per_example": 0.006469654943794012
+          },
+          {
+            "token": "attack",
+            "attention_per_example": 0.006394494976848364
+          },
+          {
+            "token": "duel",
+            "attention_per_example": 0.006382047857550787
+          },
+          {
+            "token": "we",
+            "attention_per_example": 0.006375641934573651
+          },
+          {
+            "token": "answer",
+            "attention_per_example": 0.00634739613160491
+          },
+          {
+            "token": "else",
+            "attention_per_example": 0.006274075806140899
+          },
+          {
+            "token": "exit",
+            "attention_per_example": 0.006238367821788415
+          },
+          {
+            "token": "flex",
+            "attention_per_example": 0.0062343918718397616
+          },
+          {
+            "token": "can",
+            "attention_per_example": 0.006184048810973763
+          }
+        ]
+      },
+      "negative": {
+        "n": 40,
+        "mean_prefix_attention": 0.08789200372993947,
+        "mean_tail_attention": 0.9120781183242798,
+        "mean_help_token_attention": 0.012990047869243427,
+        "mean_task_token_attention": 0.041580960262399456,
+        "top_source_tokens": [
+          {
+            "token": "i",
+            "attention_per_example": 0.05492328837281093
+          },
+          {
+            "token": "the",
+            "attention_per_example": 0.04759382911761349
+          },
+          {
+            "token": "to",
+            "attention_per_example": 0.042051983490455316
+          },
+          {
+            "token": "will",
+            "attention_per_example": 0.03448904096148908
+          },
+          {
+            "token": "<bos>",
+            "attention_per_example": 0.03443448273465037
+          },
+          {
+            "token": "my",
+            "attention_per_example": 0.032013600700884125
+          },
+          {
+            "token": "and",
+            "attention_per_example": 0.030663536267456947
+          },
+          {
+            "token": "now",
+            "attention_per_example": 0.028968868538504465
+          },
+          {
+            "token": "am",
+            "attention_per_example": 0.02816768206685083
+          },
+          {
+            "token": "is",
+            "attention_per_example": 0.028000992082525045
+          },
+          {
+            "token": "going",
+            "attention_per_example": 0.0276336497918237
+          },
+          {
+            "token": "that",
+            "attention_per_example": 0.023509513024146146
+          },
+          {
+            "token": "anything",
+            "attention_per_example": 0.018473679898306727
+          },
+          {
+            "token": "else",
+            "attention_per_example": 0.018054185016080738
+          },
+          {
+            "token": "this",
+            "attention_per_example": 0.017524193523422583
+          },
+          {
+            "token": "before",
+            "attention_per_example": 0.016316844110406237
+          },
+          {
+            "token": "s",
+            "attention_per_example": 0.015117289597401395
+          },
+          {
+            "token": "turn",
+            "attention_per_example": 0.013868461921811103
+          },
+          {
+            "token": "next",
+            "attention_per_example": 0.013786881044507027
+          },
+          {
+            "token": "what",
+            "attention_per_example": 0.013264451461145655
+          },
+          {
+            "token": "do",
+            "attention_per_example": 0.013181223766878247
+          },
+          {
+            "token": "for",
+            "attention_per_example": 0.013139727537418367
+          },
+          {
+            "token": "decision",
+            "attention_per_example": 0.012681454047560691
+          },
+          {
+            "token": "finish",
+            "attention_per_example": 0.012144824350252747
+          },
+          {
+            "token": "their",
+            "attention_per_example": 0.011423316356740543
+          }
+        ],
+        "top_content_source_tokens": [
+          {
+            "token": "going",
+            "attention_per_example": 0.0276336497918237
+          },
+          {
+            "token": "anything",
+            "attention_per_example": 0.018473679898306727
+          },
+          {
+            "token": "else",
+            "attention_per_example": 0.018054185016080738
+          },
+          {
+            "token": "turn",
+            "attention_per_example": 0.013868461921811103
+          },
+          {
+            "token": "next",
+            "attention_per_example": 0.013786881044507027
+          },
+          {
+            "token": "what",
+            "attention_per_example": 0.013264451461145655
+          },
+          {
+            "token": "do",
+            "attention_per_example": 0.013181223766878247
+          },
+          {
+            "token": "decision",
+            "attention_per_example": 0.012681454047560691
+          },
+          {
+            "token": "finish",
+            "attention_per_example": 0.012144824350252747
+          },
+          {
+            "token": "their",
+            "attention_per_example": 0.011423316356740543
+          },
+          {
+            "token": "keep",
+            "attention_per_example": 0.011407328490167856
+          },
+          {
+            "token": "wait",
+            "attention_per_example": 0.011298296600580215
+          },
+          {
+            "token": "properly",
+            "attention_per_example": 0.006899489182978868
+          },
+          {
+            "token": "hold",
+            "attention_per_example": 0.006632584426552057
+          },
+          {
+            "token": "play",
+            "attention_per_example": 0.006535810325294733
+          },
+          {
+            "token": "first",
+            "attention_per_example": 0.00651486974893487
+          },
+          {
+            "token": "attack",
+            "attention_per_example": 0.006471332535147667
+          },
+          {
+            "token": "preparing",
+            "attention_per_example": 0.006456749042263255
+          },
+          {
+            "token": "out",
+            "attention_per_example": 0.006452825290034525
+          },
+          {
+            "token": "duel",
+            "attention_per_example": 0.006427850246836897
+          },
+          {
+            "token": "plates",
+            "attention_per_example": 0.006366323994006962
+          },
+          {
+            "token": "deliveries",
+            "attention_per_example": 0.006332502960140119
+          },
+          {
+            "token": "messages",
+            "attention_per_example": 0.0062667356944075435
+          },
+          {
+            "token": "moment",
+            "attention_per_example": 0.006193763390183449
+          },
+          {
+            "token": "pause",
+            "attention_per_example": 0.006190801411867142
+          }
+        ]
+      },
+      "positive_minus_negative_prefix_attention": -0.004033132456243038,
+      "content_token_differential": [
+        {
+          "token": "anything",
+          "positive_minus_negative_attention": -0.013094480615109205
+        },
+        {
+          "token": "finish",
+          "positive_minus_negative_attention": -0.012144824350252747
+        },
+        {
+          "token": "else",
+          "positive_minus_negative_attention": -0.011780109209939838
+        },
+        {
+          "token": "keep",
+          "positive_minus_negative_attention": -0.011407328490167856
+        },
+        {
+          "token": "walk",
+          "positive_minus_negative_attention": 0.011317580379545689
+        },
+        {
+          "token": "step",
+          "positive_minus_negative_attention": 0.009963723039254547
+        },
+        {
+          "token": "preparing",
+          "positive_minus_negative_attention": -0.0064209103104076355
+        },
+        {
+          "token": "out",
+          "positive_minus_negative_attention": -0.00638292515577632
+        },
+        {
+          "token": "we",
+          "positive_minus_negative_attention": 0.006375641934573651
+        },
+        {
+          "token": "answer",
+          "positive_minus_negative_attention": 0.00634739613160491
+        },
+        {
+          "token": "flex",
+          "positive_minus_negative_attention": 0.0062343918718397616
+        },
+        {
+          "token": "moment",
+          "positive_minus_negative_attention": -0.006193763390183449
+        },
+        {
+          "token": "down",
+          "positive_minus_negative_attention": 0.006091586598267895
+        },
+        {
+          "token": "sit",
+          "positive_minus_negative_attention": 0.006059521888528253
+        },
+        {
+          "token": "continuing",
+          "positive_minus_negative_attention": 0.00597727089188993
+        },
+        {
+          "token": "pause",
+          "positive_minus_negative_attention": 0.005957076791673899
+        },
+        {
+          "token": "over",
+          "positive_minus_negative_attention": 0.005933245411142707
+        },
+        {
+          "token": "pass",
+          "positive_minus_negative_attention": -0.005911700427532196
+        },
+        {
+          "token": "back",
+          "positive_minus_negative_attention": 0.0059111025650054215
+        },
+        {
+          "token": "put",
+          "positive_minus_negative_attention": 0.005890021426603198
+        },
+        {
+          "token": "water",
+          "positive_minus_negative_attention": 0.005834895306179533
+        },
+        {
+          "token": "level",
+          "positive_minus_negative_attention": -0.005798087229777593
+        },
+        {
+          "token": "doing",
+          "positive_minus_negative_attention": 0.005772860767319798
+        },
+        {
+          "token": "situation",
+          "positive_minus_negative_attention": -0.005677669774740934
+        },
+        {
+          "token": "minutes",
+          "positive_minus_negative_attention": 0.005672748760116519
+        }
+      ]
+    },
+    "L20H15": {
+      "positive": {
+        "n": 40,
+        "mean_prefix_attention": 0.5967378944158555,
+        "mean_tail_attention": 0.4032803185284138,
+        "mean_help_token_attention": 0.01891760046055424,
+        "mean_task_token_attention": 0.0034032170638965908,
+        "top_source_tokens": [
+          {
+            "token": "<bos>",
+            "attention_per_example": 0.1321267331019044
+          },
+          {
+            "token": "i",
+            "attention_per_example": 0.06252411943132756
+          },
+          {
+            "token": "the",
+            "attention_per_example": 0.05031110349264054
+          },
+          {
+            "token": "and",
+            "attention_per_example": 0.04500331688832375
+          },
+          {
+            "token": "to",
+            "attention_per_example": 0.04384436824075237
+          },
+          {
+            "token": "now",
+            "attention_per_example": 0.036883616779232395
+          },
+          {
+            "token": "that",
+            "attention_per_example": 0.019866798752264003
+          },
+          {
+            "token": "before",
+            "attention_per_example": 0.01939012763905339
+          },
+          {
+            "token": "first",
+            "attention_per_example": 0.015484773099888115
+          },
+          {
+            "token": "going",
+            "attention_per_example": 0.011349651939235627
+          },
+          {
+            "token": "it",
+            "attention_per_example": 0.010500553535530343
+          },
+          {
+            "token": "am",
+            "attention_per_example": 0.010425710742129012
+          },
+          {
+            "token": "me",
+            "attention_per_example": 0.010049275704659522
+          },
+          {
+            "token": "minutes",
+            "attention_per_example": 0.009741875715553761
+          },
+          {
+            "token": "turns",
+            "attention_per_example": 0.009462745953351259
+          },
+          {
+            "token": "back",
+            "attention_per_example": 0.009295352827757597
+          },
+          {
+            "token": "through",
+            "attention_per_example": 0.008237269969322369
+          },
+          {
+            "token": "there",
+            "attention_per_example": 0.008213329377758783
+          },
+          {
+            "token": "they",
+            "attention_per_example": 0.007355120591819286
+          },
+          {
+            "token": "pause",
+            "attention_per_example": 0.006940606876742095
+          },
+          {
+            "token": "player",
+            "attention_per_example": 0.006826154320151545
+          },
+          {
+            "token": "what",
+            "attention_per_example": 0.006586796174269693
+          },
+          {
+            "token": "a",
+            "attention_per_example": 0.006528732413426041
+          },
+          {
+            "token": "their",
+            "attention_per_example": 0.006395554411574267
+          },
+          {
+            "token": "shift",
+            "attention_per_example": 0.006206964235752821
+          }
+        ],
+        "top_content_source_tokens": [
+          {
+            "token": "first",
+            "attention_per_example": 0.015484773099888115
+          },
+          {
+            "token": "going",
+            "attention_per_example": 0.011349651939235627
+          },
+          {
+            "token": "me",
+            "attention_per_example": 0.010049275704659522
+          },
+          {
+            "token": "minutes",
+            "attention_per_example": 0.009741875715553761
+          },
+          {
+            "token": "turns",
+            "attention_per_example": 0.009462745953351259
+          },
+          {
+            "token": "back",
+            "attention_per_example": 0.009295352827757597
+          },
+          {
+            "token": "through",
+            "attention_per_example": 0.008237269969322369
+          },
+          {
+            "token": "there",
+            "attention_per_example": 0.008213329377758783
+          },
+          {
+            "token": "they",
+            "attention_per_example": 0.007355120591819286
+          },
+          {
+            "token": "pause",
+            "attention_per_example": 0.006940606876742095
+          },
+          {
+            "token": "player",
+            "attention_per_example": 0.006826154320151545
+          },
+          {
+            "token": "what",
+            "attention_per_example": 0.006586796174269693
+          },
+          {
+            "token": "their",
+            "attention_per_example": 0.006395554411574267
+          },
+          {
+            "token": "shift",
+            "attention_per_example": 0.006206964235752821
+          },
+          {
+            "token": "directly",
+            "attention_per_example": 0.005876642977818846
+          },
+          {
+            "token": "messages",
+            "attention_per_example": 0.005844904590048827
+          },
+          {
+            "token": "few",
+            "attention_per_example": 0.005540096387267113
+          },
+          {
+            "token": "left",
+            "attention_per_example": 0.005451709707267582
+          },
+          {
+            "token": "kind",
+            "attention_per_example": 0.005383384165543248
+          },
+          {
+            "token": "feel",
+            "attention_per_example": 0.005078311380930245
+          },
+          {
+            "token": "user",
+            "attention_per_example": 0.004959133418742568
+          },
+          {
+            "token": "two",
+            "attention_per_example": 0.004946610827391851
+          },
+          {
+            "token": "anyone",
+            "attention_per_example": 0.004679629357997328
+          },
+          {
+            "token": "care",
+            "attention_per_example": 0.004621049907291308
+          },
+          {
+            "token": "turn",
+            "attention_per_example": 0.004419641860295087
+          }
+        ]
+      },
+      "negative": {
+        "n": 40,
+        "mean_prefix_attention": 0.6083460956811905,
+        "mean_tail_attention": 0.39167833626270293,
+        "mean_help_token_attention": 0.009395410534489201,
+        "mean_task_token_attention": 0.01370364780741511,
+        "top_source_tokens": [
+          {
+            "token": "<bos>",
+            "attention_per_example": 0.17901724595576524
+          },
+          {
+            "token": "i",
+            "attention_per_example": 0.06739738807518733
+          },
+          {
+            "token": "to",
+            "attention_per_example": 0.04420424634226947
+          },
+          {
+            "token": "the",
+            "attention_per_example": 0.03771591337426798
+          },
+          {
+            "token": "now",
+            "attention_per_example": 0.03413328835740685
+          },
+          {
+            "token": "and",
+            "attention_per_example": 0.028541542828497767
+          },
+          {
+            "token": "that",
+            "attention_per_example": 0.022737394982868864
+          },
+          {
+            "token": "before",
+            "attention_per_example": 0.022569705406203865
+          },
+          {
+            "token": "else",
+            "attention_per_example": 0.016597353294491766
+          },
+          {
+            "token": "am",
+            "attention_per_example": 0.013359847385436297
+          },
+          {
+            "token": "going",
+            "attention_per_example": 0.011000607295136433
+          },
+          {
+            "token": "me",
+            "attention_per_example": 0.01028649255167693
+          },
+          {
+            "token": "first",
+            "attention_per_example": 0.009758890024386346
+          },
+          {
+            "token": "it",
+            "attention_per_example": 0.009652907088457141
+          },
+          {
+            "token": "minutes",
+            "attention_per_example": 0.009586861031129957
+          },
+          {
+            "token": "queue",
+            "attention_per_example": 0.008786479639820755
+          },
+          {
+            "token": "out",
+            "attention_per_example": 0.008636695407039952
+          },
+          {
+            "token": "shift",
+            "attention_per_example": 0.007643605582416058
+          },
+          {
+            "token": "order",
+            "attention_per_example": 0.00763918561860919
+          },
+          {
+            "token": "keep",
+            "attention_per_example": 0.007308100955560804
+          },
+          {
+            "token": "left",
+            "attention_per_example": 0.007194208609871566
+          },
+          {
+            "token": "through",
+            "attention_per_example": 0.006428013242111774
+          },
+          {
+            "token": "is",
+            "attention_per_example": 0.006424761920061428
+          },
+          {
+            "token": "there",
+            "attention_per_example": 0.006360872276127338
+          },
+          {
+            "token": "what",
+            "attention_per_example": 0.006347830374761543
+          }
+        ],
+        "top_content_source_tokens": [
+          {
+            "token": "else",
+            "attention_per_example": 0.016597353294491766
+          },
+          {
+            "token": "going",
+            "attention_per_example": 0.011000607295136433
+          },
+          {
+            "token": "me",
+            "attention_per_example": 0.01028649255167693
+          },
+          {
+            "token": "first",
+            "attention_per_example": 0.009758890024386346
+          },
+          {
+            "token": "minutes",
+            "attention_per_example": 0.009586861031129957
+          },
+          {
+            "token": "queue",
+            "attention_per_example": 0.008786479639820755
+          },
+          {
+            "token": "out",
+            "attention_per_example": 0.008636695407039952
+          },
+          {
+            "token": "shift",
+            "attention_per_example": 0.007643605582416058
+          },
+          {
+            "token": "order",
+            "attention_per_example": 0.00763918561860919
+          },
+          {
+            "token": "keep",
+            "attention_per_example": 0.007308100955560804
+          },
+          {
+            "token": "left",
+            "attention_per_example": 0.007194208609871566
+          },
+          {
+            "token": "through",
+            "attention_per_example": 0.006428013242111774
+          },
+          {
+            "token": "there",
+            "attention_per_example": 0.006360872276127338
+          },
+          {
+            "token": "what",
+            "attention_per_example": 0.006347830374761543
+          },
+          {
+            "token": "level",
+            "attention_per_example": 0.0059306526265572755
+          },
+          {
+            "token": "they",
+            "attention_per_example": 0.005902473843889311
+          },
+          {
+            "token": "exit",
+            "attention_per_example": 0.005806913448031992
+          },
+          {
+            "token": "kind",
+            "attention_per_example": 0.005803193049905531
+          },
+          {
+            "token": "feel",
+            "attention_per_example": 0.00576711529865861
+          },
+          {
+            "token": "turns",
+            "attention_per_example": 0.00543862481135875
+          },
+          {
+            "token": "their",
+            "attention_per_example": 0.005371487556840293
+          },
+          {
+            "token": "ends",
+            "attention_per_example": 0.005245492560788989
+          },
+          {
+            "token": "messages",
+            "attention_per_example": 0.005139177248929627
+          },
+          {
+            "token": "two",
+            "attention_per_example": 0.004928554625439574
+          },
+          {
+            "token": "player",
+            "attention_per_example": 0.004400961779174395
+          }
+        ]
+      },
+      "positive_minus_negative_prefix_attention": -0.011608201265335016,
+      "content_token_differential": [
+        {
+          "token": "else",
+          "positive_minus_negative_attention": -0.013709439639933405
+        },
+        {
+          "token": "back",
+          "positive_minus_negative_attention": 0.009295352827757597
+        },
+        {
+          "token": "out",
+          "positive_minus_negative_attention": -0.008341584620939103
+        },
+        {
+          "token": "order",
+          "positive_minus_negative_attention": -0.00763918561860919
+        },
+        {
+          "token": "keep",
+          "positive_minus_negative_attention": -0.007308100955560804
+        },
+        {
+          "token": "pause",
+          "positive_minus_negative_attention": 0.00630414616316557
+        },
+        {
+          "token": "directly",
+          "positive_minus_negative_attention": 0.005876642977818846
+        },
+        {
+          "token": "first",
+          "positive_minus_negative_attention": 0.005725883075501769
+        },
+        {
+          "token": "few",
+          "positive_minus_negative_attention": 0.005540096387267113
+        },
+        {
+          "token": "level",
+          "positive_minus_negative_attention": -0.005115208850475028
+        },
+        {
+          "token": "queue",
+          "positive_minus_negative_attention": -0.0047919090953655544
+        },
+        {
+          "token": "exit",
+          "positive_minus_negative_attention": -0.004262470387766371
+        },
+        {
+          "token": "finish",
+          "positive_minus_negative_attention": -0.004097097460180521
+        },
+        {
+          "token": "turns",
+          "positive_minus_negative_attention": 0.004024121141992509
+        },
+        {
+          "token": "put",
+          "positive_minus_negative_attention": 0.0035892782500013707
+        },
+        {
+          "token": "door",
+          "positive_minus_negative_attention": 0.003381482255645096
+        },
+        {
+          "token": "reach",
+          "positive_minus_negative_attention": -0.0033572879154235126
+        },
+        {
+          "token": "call",
+          "positive_minus_negative_attention": 0.0032593192299827933
+        },
+        {
+          "token": "sit",
+          "positive_minus_negative_attention": 0.0030485949595458806
+        },
+        {
+          "token": "walk",
+          "positive_minus_negative_attention": 0.0030204125039745124
+        },
+        {
+          "token": "round",
+          "positive_minus_negative_attention": -0.002620171080343425
+        },
+        {
+          "token": "continuing",
+          "positive_minus_negative_attention": 0.002581711346283555
+        },
+        {
+          "token": "player",
+          "positive_minus_negative_attention": 0.00242519254097715
+        },
+        {
+          "token": "pass",
+          "positive_minus_negative_attention": -0.002406036853790283
+        },
+        {
+          "token": "them",
+          "positive_minus_negative_attention": 0.0023847274365834895
+        }
+      ]
+    },
+    "L15H15": {
+      "positive": {
+        "n": 40,
+        "mean_prefix_attention": 0.01179359231609851,
+        "mean_tail_attention": 0.9882330551743508,
+        "mean_help_token_attention": 0.02482710922308797,
+        "mean_task_token_attention": 0.018340792710660025,
+        "top_source_tokens": [
+          {
+            "token": "the",
+            "attention_per_example": 0.0534261616834101
+          },
+          {
+            "token": "i",
+            "attention_per_example": 0.043097500817748366
+          },
+          {
+            "token": "to",
+            "attention_per_example": 0.04132491652644603
+          },
+          {
+            "token": "will",
+            "attention_per_example": 0.0378458296880126
+          },
+          {
+            "token": "my",
+            "attention_per_example": 0.03297629525695811
+          },
+          {
+            "token": "am",
+            "attention_per_example": 0.031090012715139892
+          },
+          {
+            "token": "is",
+            "attention_per_example": 0.029975360073058253
+          },
+          {
+            "token": "and",
+            "attention_per_example": 0.029960978615167732
+          },
+          {
+            "token": "now",
+            "attention_per_example": 0.029628678459994263
+          },
+          {
+            "token": "that",
+            "attention_per_example": 0.0286251846289133
+          },
+          {
+            "token": "going",
+            "attention_per_example": 0.028310299734584987
+          },
+          {
+            "token": "for",
+            "attention_per_example": 0.020785353852943445
+          },
+          {
+            "token": "turn",
+            "attention_per_example": 0.020749202743172646
+          },
+          {
+            "token": "this",
+            "attention_per_example": 0.019583420431536068
+          },
+          {
+            "token": "before",
+            "attention_per_example": 0.018314396148934976
+          },
+          {
+            "token": "decision",
+            "attention_per_example": 0.015038368664681912
+          },
+          {
+            "token": "do",
+            "attention_per_example": 0.01495064520277083
+          },
+          {
+            "token": "what",
+            "attention_per_example": 0.014897479822229798
+          },
+          {
+            "token": "next",
+            "attention_per_example": 0.014363767709983221
+          },
+          {
+            "token": "pause",
+            "attention_per_example": 0.012555459840223193
+          },
+          {
+            "token": "first",
+            "attention_per_example": 0.011808958756591891
+          },
+          {
+            "token": "wait",
+            "attention_per_example": 0.01137978076003492
+          },
+          {
+            "token": "walk",
+            "attention_per_example": 0.011281434260308743
+          },
+          {
+            "token": "through",
+            "attention_per_example": 0.011162072833940329
+          },
+          {
+            "token": "other",
+            "attention_per_example": 0.0111011100201722
+          }
+        ],
+        "top_content_source_tokens": [
+          {
+            "token": "going",
+            "attention_per_example": 0.028310299734584987
+          },
+          {
+            "token": "turn",
+            "attention_per_example": 0.020749202743172646
+          },
+          {
+            "token": "decision",
+            "attention_per_example": 0.015038368664681912
+          },
+          {
+            "token": "do",
+            "attention_per_example": 0.01495064520277083
+          },
+          {
+            "token": "what",
+            "attention_per_example": 0.014897479822229798
+          },
+          {
+            "token": "next",
+            "attention_per_example": 0.014363767709983221
+          },
+          {
+            "token": "pause",
+            "attention_per_example": 0.012555459840223193
+          },
+          {
+            "token": "first",
+            "attention_per_example": 0.011808958756591891
+          },
+          {
+            "token": "wait",
+            "attention_per_example": 0.01137978076003492
+          },
+          {
+            "token": "walk",
+            "attention_per_example": 0.011281434260308743
+          },
+          {
+            "token": "through",
+            "attention_per_example": 0.011162072833940329
+          },
+          {
+            "token": "other",
+            "attention_per_example": 0.0111011100201722
+          },
+          {
+            "token": "step",
+            "attention_per_example": 0.010751148080453276
+          },
+          {
+            "token": "messages",
+            "attention_per_example": 0.006557070356529948
+          },
+          {
+            "token": "duel",
+            "attention_per_example": 0.006501172383650555
+          },
+          {
+            "token": "their",
+            "attention_per_example": 0.0064728301232662485
+          },
+          {
+            "token": "attack",
+            "attention_per_example": 0.006462059821933508
+          },
+          {
+            "token": "answer",
+            "attention_per_example": 0.006447410956025123
+          },
+          {
+            "token": "we",
+            "attention_per_example": 0.006445049867033958
+          },
+          {
+            "token": "can",
+            "attention_per_example": 0.006426866538822651
+          },
+          {
+            "token": "play",
+            "attention_per_example": 0.0064255532808601854
+          },
+          {
+            "token": "hold",
+            "attention_per_example": 0.006404112093150616
+          },
+          {
+            "token": "properly",
+            "attention_per_example": 0.006355440430343151
+          },
+          {
+            "token": "put",
+            "attention_per_example": 0.006308934092521668
+          },
+          {
+            "token": "remaining",
+            "attention_per_example": 0.006175852194428444
+          }
+        ]
+      },
+      "negative": {
+        "n": 40,
+        "mean_prefix_attention": 0.011867477814666927,
+        "mean_tail_attention": 0.9880906909704208,
+        "mean_help_token_attention": 0.012705336699400504,
+        "mean_task_token_attention": 0.04241696228091314,
+        "top_source_tokens": [
+          {
+            "token": "to",
+            "attention_per_example": 0.04867657671809411
+          },
+          {
+            "token": "the",
+            "attention_per_example": 0.0482353308808797
+          },
+          {
+            "token": "i",
+            "attention_per_example": 0.043642439113318686
+          },
+          {
+            "token": "will",
+            "attention_per_example": 0.03847740460187197
+          },
+          {
+            "token": "my",
+            "attention_per_example": 0.03307781130242802
+          },
+          {
+            "token": "am",
+            "attention_per_example": 0.03135203499623458
+          },
+          {
+            "token": "is",
+            "attention_per_example": 0.030345928307406213
+          },
+          {
+            "token": "and",
+            "attention_per_example": 0.030308499643842877
+          },
+          {
+            "token": "now",
+            "attention_per_example": 0.030180905218094266
+          },
+          {
+            "token": "that",
+            "attention_per_example": 0.029753089072892182
+          },
+          {
+            "token": "going",
+            "attention_per_example": 0.02868253502765583
+          },
+          {
+            "token": "this",
+            "attention_per_example": 0.019858300735722877
+          },
+          {
+            "token": "anything",
+            "attention_per_example": 0.01852783216163516
+          },
+          {
+            "token": "before",
+            "attention_per_example": 0.018388810660189846
+          },
+          {
+            "token": "else",
+            "attention_per_example": 0.01832800908014178
+          },
+          {
+            "token": "s",
+            "attention_per_example": 0.017658775773634262
+          },
+          {
+            "token": "decision",
+            "attention_per_example": 0.015159624023362994
+          },
+          {
+            "token": "do",
+            "attention_per_example": 0.015111907059326768
+          },
+          {
+            "token": "what",
+            "attention_per_example": 0.015106208403540222
+          },
+          {
+            "token": "turn",
+            "attention_per_example": 0.015011803479865193
+          },
+          {
+            "token": "for",
+            "attention_per_example": 0.014791338088843985
+          },
+          {
+            "token": "next",
+            "attention_per_example": 0.014670797757935361
+          },
+          {
+            "token": "keep",
+            "attention_per_example": 0.01236097509972751
+          },
+          {
+            "token": "their",
+            "attention_per_example": 0.012107302096592321
+          },
+          {
+            "token": "finish",
+            "attention_per_example": 0.011891065677627922
+          }
+        ],
+        "top_content_source_tokens": [
+          {
+            "token": "going",
+            "attention_per_example": 0.02868253502765583
+          },
+          {
+            "token": "anything",
+            "attention_per_example": 0.01852783216163516
+          },
+          {
+            "token": "else",
+            "attention_per_example": 0.01832800908014178
+          },
+          {
+            "token": "decision",
+            "attention_per_example": 0.015159624023362994
+          },
+          {
+            "token": "do",
+            "attention_per_example": 0.015111907059326768
+          },
+          {
+            "token": "what",
+            "attention_per_example": 0.015106208403540222
+          },
+          {
+            "token": "turn",
+            "attention_per_example": 0.015011803479865193
+          },
+          {
+            "token": "next",
+            "attention_per_example": 0.014670797757935361
+          },
+          {
+            "token": "keep",
+            "attention_per_example": 0.01236097509972751
+          },
+          {
+            "token": "their",
+            "attention_per_example": 0.012107302096592321
+          },
+          {
+            "token": "finish",
+            "attention_per_example": 0.011891065677627922
+          },
+          {
+            "token": "wait",
+            "attention_per_example": 0.01150706121698022
+          },
+          {
+            "token": "messages",
+            "attention_per_example": 0.006557205764602258
+          },
+          {
+            "token": "take",
+            "attention_per_example": 0.006553100608289242
+          },
+          {
+            "token": "duel",
+            "attention_per_example": 0.0065172744587471245
+          },
+          {
+            "token": "attack",
+            "attention_per_example": 0.006503526587039232
+          },
+          {
+            "token": "preparing",
+            "attention_per_example": 0.00647113531595096
+          },
+          {
+            "token": "properly",
+            "attention_per_example": 0.006422765459865332
+          },
+          {
+            "token": "play",
+            "attention_per_example": 0.006403585523366928
+          },
+          {
+            "token": "out",
+            "attention_per_example": 0.0063999490511150725
+          },
+          {
+            "token": "can",
+            "attention_per_example": 0.006356183905154467
+          },
+          {
+            "token": "colleague",
+            "attention_per_example": 0.006282811392156873
+          },
+          {
+            "token": "first",
+            "attention_per_example": 0.006272225572320167
+          },
+          {
+            "token": "plates",
+            "attention_per_example": 0.006264696155994898
+          },
+          {
+            "token": "moment",
+            "attention_per_example": 0.006240421859547496
+          }
+        ]
+      },
+      "positive_minus_negative_prefix_attention": -7.388549856841668e-05,
+      "content_token_differential": [
+        {
+          "token": "anything",
+          "positive_minus_negative_attention": -0.012463776394724846
+        },
+        {
+          "token": "keep",
+          "positive_minus_negative_attention": -0.01236097509972751
+        },
+        {
+          "token": "else",
+          "positive_minus_negative_attention": -0.012270843004807828
+        },
+        {
+          "token": "finish",
+          "positive_minus_negative_attention": -0.011891065677627922
+        },
+        {
+          "token": "walk",
+          "positive_minus_negative_attention": 0.011281434260308743
+        },
+        {
+          "token": "step",
+          "positive_minus_negative_attention": 0.010751148080453276
+        },
+        {
+          "token": "pause",
+          "positive_minus_negative_attention": 0.006659225886687636
+        },
+        {
+          "token": "answer",
+          "positive_minus_negative_attention": 0.006447410956025123
+        },
+        {
+          "token": "preparing",
+          "positive_minus_negative_attention": -0.006447403173115163
+        },
+        {
+          "token": "we",
+          "positive_minus_negative_attention": 0.006445049867033958
+        },
+        {
+          "token": "out",
+          "positive_minus_negative_attention": -0.006379776087783284
+        },
+        {
+          "token": "put",
+          "positive_minus_negative_attention": 0.006308934092521668
+        },
+        {
+          "token": "moment",
+          "positive_minus_negative_attention": -0.006240421859547496
+        },
+        {
+          "token": "pass",
+          "positive_minus_negative_attention": -0.006237385421991348
+        },
+        {
+          "token": "over",
+          "positive_minus_negative_attention": 0.006127455458045006
+        },
+        {
+          "token": "minutes",
+          "positive_minus_negative_attention": 0.006070083913982671
+        },
+        {
+          "token": "few",
+          "positive_minus_negative_attention": 0.0060695691499859095
+        },
+        {
+          "token": "water",
+          "positive_minus_negative_attention": 0.006059998263299349
+        },
+        {
+          "token": "sit",
+          "positive_minus_negative_attention": 0.006037408481824968
+        },
+        {
+          "token": "doing",
+          "positive_minus_negative_attention": 0.006028179777786136
+        },
+        {
+          "token": "situation",
+          "positive_minus_negative_attention": -0.006024423614144325
+        },
+        {
+          "token": "back",
+          "positive_minus_negative_attention": 0.006015523616224527
+        },
+        {
+          "token": "push",
+          "positive_minus_negative_attention": -0.005957913165912032
+        },
+        {
+          "token": "flex",
+          "positive_minus_negative_attention": 0.005932959914207459
+        },
+        {
+          "token": "continuing",
+          "positive_minus_negative_attention": 0.005912002269178629
+        }
+      ]
+    },
+    "L18H3": {
+      "positive": {
+        "n": 40,
+        "mean_prefix_attention": 0.7075150266289711,
+        "mean_tail_attention": 0.2924727015197277,
+        "mean_help_token_attention": 0.023462532411213034,
+        "mean_task_token_attention": 0.005998351199377794,
+        "top_source_tokens": [
+          {
+            "token": "<bos>",
+            "attention_per_example": 0.16597776692360638
+          },
+          {
+            "token": "i",
+            "attention_per_example": 0.055145810218164115
+          },
+          {
+            "token": "and",
+            "attention_per_example": 0.03917835605243454
+          },
+          {
+            "token": "before",
+            "attention_per_example": 0.023555765207856894
+          },
+          {
+            "token": "the",
+            "attention_per_example": 0.017668961697199847
+          },
+          {
+            "token": "messages",
+            "attention_per_example": 0.016452520407619887
+          },
+          {
+            "token": "d",
+            "attention_per_example": 0.01573382500500884
+          },
+          {
+            "token": "care",
+            "attention_per_example": 0.014970905240625143
+          },
+          {
+            "token": "now",
+            "attention_per_example": 0.014326126151718199
+          },
+          {
+            "token": "for",
+            "attention_per_example": 0.013456173273152672
+          },
+          {
+            "token": "they",
+            "attention_per_example": 0.012765181830036453
+          },
+          {
+            "token": "it",
+            "attention_per_example": 0.012194632986211217
+          },
+          {
+            "token": "to",
+            "attention_per_example": 0.010973573161754758
+          },
+          {
+            "token": "there",
+            "attention_per_example": 0.010670619127631653
+          },
+          {
+            "token": "player",
+            "attention_per_example": 0.010584289429243655
+          },
+          {
+            "token": "with",
+            "attention_per_example": 0.01019192694366211
+          },
+          {
+            "token": "a",
+            "attention_per_example": 0.009950765047688038
+          },
+          {
+            "token": "exit",
+            "attention_per_example": 0.008136062312405556
+          },
+          {
+            "token": "through",
+            "attention_per_example": 0.00813504416582873
+          },
+          {
+            "token": "continuing",
+            "attention_per_example": 0.00795566039159894
+          },
+          {
+            "token": "that",
+            "attention_per_example": 0.007781568801146932
+          },
+          {
+            "token": "door",
+            "attention_per_example": 0.007501585455611348
+          },
+          {
+            "token": "me",
+            "attention_per_example": 0.007289310678606853
+          },
+          {
+            "token": "them",
+            "attention_per_example": 0.007130362407770008
+          },
+          {
+            "token": "queue",
+            "attention_per_example": 0.006844776822254062
+          }
+        ],
+        "top_content_source_tokens": [
+          {
+            "token": "messages",
+            "attention_per_example": 0.016452520407619887
+          },
+          {
+            "token": "care",
+            "attention_per_example": 0.014970905240625143
+          },
+          {
+            "token": "they",
+            "attention_per_example": 0.012765181830036453
+          },
+          {
+            "token": "there",
+            "attention_per_example": 0.010670619127631653
+          },
+          {
+            "token": "player",
+            "attention_per_example": 0.010584289429243655
+          },
+          {
+            "token": "exit",
+            "attention_per_example": 0.008136062312405556
+          },
+          {
+            "token": "through",
+            "attention_per_example": 0.00813504416582873
+          },
+          {
+            "token": "continuing",
+            "attention_per_example": 0.00795566039159894
+          },
+          {
+            "token": "door",
+            "attention_per_example": 0.007501585455611348
+          },
+          {
+            "token": "me",
+            "attention_per_example": 0.007289310678606853
+          },
+          {
+            "token": "them",
+            "attention_per_example": 0.007130362407770008
+          },
+          {
+            "token": "queue",
+            "attention_per_example": 0.006844776822254062
+          },
+          {
+            "token": "going",
+            "attention_per_example": 0.006520734733203426
+          },
+          {
+            "token": "back",
+            "attention_per_example": 0.006447068322449923
+          },
+          {
+            "token": "colleague",
+            "attention_per_example": 0.006259250009316019
+          },
+          {
+            "token": "concern",
+            "attention_per_example": 0.00594961061142385
+          },
+          {
+            "token": "user",
+            "attention_per_example": 0.005873343226267025
+          },
+          {
+            "token": "their",
+            "attention_per_example": 0.005661500143469311
+          },
+          {
+            "token": "first",
+            "attention_per_example": 0.005536712586763315
+          },
+          {
+            "token": "call",
+            "attention_per_example": 0.005357665009796619
+          },
+          {
+            "token": "doors",
+            "attention_per_example": 0.00490604848600924
+          },
+          {
+            "token": "compassion",
+            "attention_per_example": 0.004578616004437208
+          },
+          {
+            "token": "pause",
+            "attention_per_example": 0.004341006220784038
+          },
+          {
+            "token": "has",
+            "attention_per_example": 0.004327307726634899
+          },
+          {
+            "token": "feel",
+            "attention_per_example": 0.004243308294098825
+          }
+        ]
+      },
+      "negative": {
+        "n": 40,
+        "mean_prefix_attention": 0.6493300169706344,
+        "mean_tail_attention": 0.3507330514490604,
+        "mean_help_token_attention": 0.018182166162296197,
+        "mean_task_token_attention": 0.027168748690746723,
+        "top_source_tokens": [
+          {
+            "token": "<bos>",
+            "attention_per_example": 0.15014940425753592
+          },
+          {
+            "token": "and",
+            "attention_per_example": 0.05372811331762932
+          },
+          {
+            "token": "i",
+            "attention_per_example": 0.05159106018618331
+          },
+          {
+            "token": "now",
+            "attention_per_example": 0.029349451733287422
+          },
+          {
+            "token": "the",
+            "attention_per_example": 0.025626942430972122
+          },
+          {
+            "token": "before",
+            "attention_per_example": 0.02470450142864138
+          },
+          {
+            "token": "through",
+            "attention_per_example": 0.01476931266079191
+          },
+          {
+            "token": "queue",
+            "attention_per_example": 0.013666605297476053
+          },
+          {
+            "token": "exit",
+            "attention_per_example": 0.01349792517721653
+          },
+          {
+            "token": "route",
+            "attention_per_example": 0.012827612459659576
+          },
+          {
+            "token": "order",
+            "attention_per_example": 0.011110922694206238
+          },
+          {
+            "token": "care",
+            "attention_per_example": 0.010132468678057194
+          },
+          {
+            "token": "going",
+            "attention_per_example": 0.009540331974858419
+          },
+          {
+            "token": "to",
+            "attention_per_example": 0.009510294292704202
+          },
+          {
+            "token": "preparing",
+            "attention_per_example": 0.009258455596864223
+          },
+          {
+            "token": "for",
+            "attention_per_example": 0.009067051668534987
+          },
+          {
+            "token": "that",
+            "attention_per_example": 0.00893813495786162
+          },
+          {
+            "token": "attack",
+            "attention_per_example": 0.00883506890386343
+          },
+          {
+            "token": "there",
+            "attention_per_example": 0.008703755820170045
+          },
+          {
+            "token": "with",
+            "attention_per_example": 0.00833058767602779
+          },
+          {
+            "token": "it",
+            "attention_per_example": 0.007685057350317948
+          },
+          {
+            "token": "messages",
+            "attention_per_example": 0.007644330782932229
+          },
+          {
+            "token": "they",
+            "attention_per_example": 0.0074972196074668315
+          },
+          {
+            "token": "schedule",
+            "attention_per_example": 0.006989873200654984
+          },
+          {
+            "token": "on",
+            "attention_per_example": 0.006802643698756583
+          }
+        ],
+        "top_content_source_tokens": [
+          {
+            "token": "through",
+            "attention_per_example": 0.01476931266079191
+          },
+          {
+            "token": "queue",
+            "attention_per_example": 0.013666605297476053
+          },
+          {
+            "token": "exit",
+            "attention_per_example": 0.01349792517721653
+          },
+          {
+            "token": "route",
+            "attention_per_example": 0.012827612459659576
+          },
+          {
+            "token": "order",
+            "attention_per_example": 0.011110922694206238
+          },
+          {
+            "token": "care",
+            "attention_per_example": 0.010132468678057194
+          },
+          {
+            "token": "going",
+            "attention_per_example": 0.009540331974858419
+          },
+          {
+            "token": "preparing",
+            "attention_per_example": 0.009258455596864223
+          },
+          {
+            "token": "attack",
+            "attention_per_example": 0.00883506890386343
+          },
+          {
+            "token": "there",
+            "attention_per_example": 0.008703755820170045
+          },
+          {
+            "token": "messages",
+            "attention_per_example": 0.007644330782932229
+          },
+          {
+            "token": "they",
+            "attention_per_example": 0.0074972196074668315
+          },
+          {
+            "token": "schedule",
+            "attention_per_example": 0.006989873200654984
+          },
+          {
+            "token": "pass",
+            "attention_per_example": 0.006638622283935547
+          },
+          {
+            "token": "deliveries",
+            "attention_per_example": 0.006025562761351466
+          },
+          {
+            "token": "me",
+            "attention_per_example": 0.005809689397574402
+          },
+          {
+            "token": "distress",
+            "attention_per_example": 0.00550929713062942
+          },
+          {
+            "token": "duel",
+            "attention_per_example": 0.005457075976300985
+          },
+          {
+            "token": "out",
+            "attention_per_example": 0.005227118224138394
+          },
+          {
+            "token": "else",
+            "attention_per_example": 0.005009483726462349
+          },
+          {
+            "token": "their",
+            "attention_per_example": 0.004877967575157527
+          },
+          {
+            "token": "concern",
+            "attention_per_example": 0.004535511136054993
+          },
+          {
+            "token": "finish",
+            "attention_per_example": 0.00451029660180211
+          },
+          {
+            "token": "user",
+            "attention_per_example": 0.004473429302015575
+          },
+          {
+            "token": "first",
+            "attention_per_example": 0.004381089529488236
+          }
+        ]
+      },
+      "positive_minus_negative_prefix_attention": 0.05818500965833673,
+      "content_token_differential": [
+        {
+          "token": "route",
+          "positive_minus_negative_attention": -0.011126648331992329
+        },
+        {
+          "token": "order",
+          "positive_minus_negative_attention": -0.011110922694206238
+        },
+        {
+          "token": "messages",
+          "positive_minus_negative_attention": 0.008808189624687658
+        },
+        {
+          "token": "preparing",
+          "positive_minus_negative_attention": -0.008564283506711946
+        },
+        {
+          "token": "continuing",
+          "positive_minus_negative_attention": 0.00795566039159894
+        },
+        {
+          "token": "door",
+          "positive_minus_negative_attention": 0.007501585455611348
+        },
+        {
+          "token": "player",
+          "positive_minus_negative_attention": 0.0071774316747905695
+        },
+        {
+          "token": "queue",
+          "positive_minus_negative_attention": -0.0068218284752219905
+        },
+        {
+          "token": "pass",
+          "positive_minus_negative_attention": -0.006638622283935547
+        },
+        {
+          "token": "through",
+          "positive_minus_negative_attention": -0.00663426849496318
+        },
+        {
+          "token": "back",
+          "positive_minus_negative_attention": 0.006447068322449923
+        },
+        {
+          "token": "attack",
+          "positive_minus_negative_attention": -0.006086002173833549
+        },
+        {
+          "token": "schedule",
+          "positive_minus_negative_attention": -0.005416622213670053
+        },
+        {
+          "token": "exit",
+          "positive_minus_negative_attention": -0.005361862864810975
+        },
+        {
+          "token": "call",
+          "positive_minus_negative_attention": 0.005357665009796619
+        },
+        {
+          "token": "they",
+          "positive_minus_negative_attention": 0.005267962222569622
+        },
+        {
+          "token": "care",
+          "positive_minus_negative_attention": 0.004838436562567949
+        },
+        {
+          "token": "out",
+          "positive_minus_negative_attention": -0.004594712832476943
+        },
+        {
+          "token": "colleague",
+          "positive_minus_negative_attention": 0.004513840304571203
+        },
+        {
+          "token": "finish",
+          "positive_minus_negative_attention": -0.00451029660180211
+        },
+        {
+          "token": "aside",
+          "positive_minus_negative_attention": 0.004131881287321448
+        },
+        {
+          "token": "directly",
+          "positive_minus_negative_attention": 0.003803258342668414
+        },
+        {
+          "token": "them",
+          "positive_minus_negative_attention": 0.0036109167500399057
+        },
+        {
+          "token": "answer",
+          "positive_minus_negative_attention": 0.003240437596105039
+        },
+        {
+          "token": "going",
+          "positive_minus_negative_attention": -0.0030195972416549926
+        }
+      ]
+    },
+    "L19H5": {
+      "positive": {
+        "n": 40,
+        "mean_prefix_attention": 0.544486715644598,
+        "mean_tail_attention": 0.45551016852259635,
+        "mean_help_token_attention": 0.01465269656455348,
+        "mean_task_token_attention": 0.003011297786360956,
+        "top_source_tokens": [
+          {
+            "token": "<bos>",
+            "attention_per_example": 0.24661596715450287
+          },
+          {
+            "token": "i",
+            "attention_per_example": 0.1649835183576215
+          },
+          {
+            "token": "to",
+            "attention_per_example": 0.09600964554501842
+          },
+          {
+            "token": "the",
+            "attention_per_example": 0.07858108645978064
+          },
+          {
+            "token": "and",
+            "attention_per_example": 0.04829978150964962
+          },
+          {
+            "token": "am",
+            "attention_per_example": 0.03263985484372824
+          },
+          {
+            "token": "now",
+            "attention_per_example": 0.027016418330458692
+          },
+          {
+            "token": "going",
+            "attention_per_example": 0.012484131383098429
+          },
+          {
+            "token": "that",
+            "attention_per_example": 0.011244086744773086
+          },
+          {
+            "token": "kind",
+            "attention_per_example": 0.00956158992376004
+          },
+          {
+            "token": "pause",
+            "attention_per_example": 0.009296871049446053
+          },
+          {
+            "token": "me",
+            "attention_per_example": 0.008102364061051049
+          },
+          {
+            "token": "is",
+            "attention_per_example": 0.007494929114727711
+          },
+          {
+            "token": "before",
+            "attention_per_example": 0.007338904059179185
+          },
+          {
+            "token": "walk",
+            "attention_per_example": 0.006123139779083431
+          },
+          {
+            "token": "set",
+            "attention_per_example": 0.006015422334894538
+          },
+          {
+            "token": "decision",
+            "attention_per_example": 0.006001449713949114
+          },
+          {
+            "token": "my",
+            "attention_per_example": 0.0054884482902707536
+          },
+          {
+            "token": "answer",
+            "attention_per_example": 0.005010817898437381
+          },
+          {
+            "token": "what",
+            "attention_per_example": 0.0047451657989768135
+          },
+          {
+            "token": "few",
+            "attention_per_example": 0.004557361034676433
+          },
+          {
+            "token": "it",
+            "attention_per_example": 0.004513892392424168
+          },
+          {
+            "token": "hold",
+            "attention_per_example": 0.004414730705320835
+          },
+          {
+            "token": "player",
+            "attention_per_example": 0.0043787238566437734
+          },
+          {
+            "token": "still",
+            "attention_per_example": 0.004371241247281432
+          }
+        ],
+        "top_content_source_tokens": [
+          {
+            "token": "going",
+            "attention_per_example": 0.012484131383098429
+          },
+          {
+            "token": "kind",
+            "attention_per_example": 0.00956158992376004
+          },
+          {
+            "token": "pause",
+            "attention_per_example": 0.009296871049446053
+          },
+          {
+            "token": "me",
+            "attention_per_example": 0.008102364061051049
+          },
+          {
+            "token": "walk",
+            "attention_per_example": 0.006123139779083431
+          },
+          {
+            "token": "set",
+            "attention_per_example": 0.006015422334894538
+          },
+          {
+            "token": "decision",
+            "attention_per_example": 0.006001449713949114
+          },
+          {
+            "token": "answer",
+            "attention_per_example": 0.005010817898437381
+          },
+          {
+            "token": "what",
+            "attention_per_example": 0.0047451657989768135
+          },
+          {
+            "token": "few",
+            "attention_per_example": 0.004557361034676433
+          },
+          {
+            "token": "hold",
+            "attention_per_example": 0.004414730705320835
+          },
+          {
+            "token": "player",
+            "attention_per_example": 0.0043787238566437734
+          },
+          {
+            "token": "still",
+            "attention_per_example": 0.004371241247281432
+          },
+          {
+            "token": "turn",
+            "attention_per_example": 0.0038024702334951144
+          },
+          {
+            "token": "call",
+            "attention_per_example": 0.0037475818302482367
+          },
+          {
+            "token": "put",
+            "attention_per_example": 0.003570473566651344
+          },
+          {
+            "token": "through",
+            "attention_per_example": 0.003548424711698317
+          },
+          {
+            "token": "anyone",
+            "attention_per_example": 0.0033801202662289143
+          },
+          {
+            "token": "take",
+            "attention_per_example": 0.003336861729621887
+          },
+          {
+            "token": "directly",
+            "attention_per_example": 0.0030863757245242597
+          },
+          {
+            "token": "back",
+            "attention_per_example": 0.0030050094472244384
+          },
+          {
+            "token": "there",
+            "attention_per_example": 0.0029058508487651126
+          },
+          {
+            "token": "other",
+            "attention_per_example": 0.0027784512349171564
+          },
+          {
+            "token": "sit",
+            "attention_per_example": 0.0027059448355430506
+          },
+          {
+            "token": "notice",
+            "attention_per_example": 0.002266883780248463
+          }
+        ]
+      },
+      "negative": {
+        "n": 40,
+        "mean_prefix_attention": 0.5409684754908085,
+        "mean_tail_attention": 0.45901249423623086,
+        "mean_help_token_attention": 0.003550361603993224,
+        "mean_task_token_attention": 0.018450489568203922,
+        "top_source_tokens": [
+          {
+            "token": "<bos>",
+            "attention_per_example": 0.24375720359385014
+          },
+          {
+            "token": "i",
+            "attention_per_example": 0.1656880622234894
+          },
+          {
+            "token": "to",
+            "attention_per_example": 0.10884814375622227
+          },
+          {
+            "token": "the",
+            "attention_per_example": 0.04046280856891826
+          },
+          {
+            "token": "and",
+            "attention_per_example": 0.03501160598816568
+          },
+          {
+            "token": "am",
+            "attention_per_example": 0.03498021725099534
+          },
+          {
+            "token": "now",
+            "attention_per_example": 0.027683138370048255
+          },
+          {
+            "token": "that",
+            "attention_per_example": 0.020459160677910405
+          },
+          {
+            "token": "keep",
+            "attention_per_example": 0.013882656069472431
+          },
+          {
+            "token": "before",
+            "attention_per_example": 0.010920749139040708
+          },
+          {
+            "token": "kind",
+            "attention_per_example": 0.009769187919664546
+          },
+          {
+            "token": "going",
+            "attention_per_example": 0.008835170316160657
+          },
+          {
+            "token": "me",
+            "attention_per_example": 0.008533728012116626
+          },
+          {
+            "token": "my",
+            "attention_per_example": 0.007805434442707338
+          },
+          {
+            "token": "decision",
+            "attention_per_example": 0.007354454416781664
+          },
+          {
+            "token": "is",
+            "attention_per_example": 0.006257400909271382
+          },
+          {
+            "token": "reach",
+            "attention_per_example": 0.0062300596386194226
+          },
+          {
+            "token": "what",
+            "attention_per_example": 0.005013132357908035
+          },
+          {
+            "token": "else",
+            "attention_per_example": 0.004834236591705121
+          },
+          {
+            "token": "their",
+            "attention_per_example": 0.00471154303268122
+          },
+          {
+            "token": "in",
+            "attention_per_example": 0.004578284138142407
+          },
+          {
+            "token": "through",
+            "attention_per_example": 0.003741872675527702
+          },
+          {
+            "token": "anyone",
+            "attention_per_example": 0.003567170328460634
+          },
+          {
+            "token": "on",
+            "attention_per_example": 0.0035652206719532843
+          },
+          {
+            "token": "it",
+            "attention_per_example": 0.0035498682354955235
+          }
+        ],
+        "top_content_source_tokens": [
+          {
+            "token": "keep",
+            "attention_per_example": 0.013882656069472431
+          },
+          {
+            "token": "kind",
+            "attention_per_example": 0.009769187919664546
+          },
+          {
+            "token": "going",
+            "attention_per_example": 0.008835170316160657
+          },
+          {
+            "token": "me",
+            "attention_per_example": 0.008533728012116626
+          },
+          {
+            "token": "decision",
+            "attention_per_example": 0.007354454416781664
+          },
+          {
+            "token": "reach",
+            "attention_per_example": 0.0062300596386194226
+          },
+          {
+            "token": "what",
+            "attention_per_example": 0.005013132357908035
+          },
+          {
+            "token": "else",
+            "attention_per_example": 0.004834236591705121
+          },
+          {
+            "token": "their",
+            "attention_per_example": 0.00471154303268122
+          },
+          {
+            "token": "through",
+            "attention_per_example": 0.003741872675527702
+          },
+          {
+            "token": "anyone",
+            "attention_per_example": 0.003567170328460634
+          },
+          {
+            "token": "there",
+            "attention_per_example": 0.0030725418066140263
+          },
+          {
+            "token": "player",
+            "attention_per_example": 0.0029313916515093298
+          },
+          {
+            "token": "first",
+            "attention_per_example": 0.0026852980852709154
+          },
+          {
+            "token": "finish",
+            "attention_per_example": 0.0026087594218552113
+          },
+          {
+            "token": "notice",
+            "attention_per_example": 0.0025940219988115133
+          },
+          {
+            "token": "queue",
+            "attention_per_example": 0.002554931984923314
+          },
+          {
+            "token": "feel",
+            "attention_per_example": 0.002243450123933144
+          },
+          {
+            "token": "order",
+            "attention_per_example": 0.0021938069025054575
+          },
+          {
+            "token": "instead",
+            "attention_per_example": 0.002010148554109037
+          },
+          {
+            "token": "take",
+            "attention_per_example": 0.0019238860113546252
+          },
+          {
+            "token": "exit",
+            "attention_per_example": 0.0018042777606751769
+          },
+          {
+            "token": "properly",
+            "attention_per_example": 0.0017776612541638315
+          },
+          {
+            "token": "straight",
+            "attention_per_example": 0.0017645933665335178
+          },
+          {
+            "token": "play",
+            "attention_per_example": 0.0017510642996057869
+          }
+        ]
+      },
+      "positive_minus_negative_prefix_attention": 0.0035182401537895425,
+      "content_token_differential": [
+        {
+          "token": "keep",
+          "positive_minus_negative_attention": -0.013882656069472431
+        },
+        {
+          "token": "pause",
+          "positive_minus_negative_attention": 0.009088729706127195
+        },
+        {
+          "token": "reach",
+          "positive_minus_negative_attention": -0.0062300596386194226
+        },
+        {
+          "token": "walk",
+          "positive_minus_negative_attention": 0.006123139779083431
+        },
+        {
+          "token": "set",
+          "positive_minus_negative_attention": 0.006015422334894538
+        },
+        {
+          "token": "answer",
+          "positive_minus_negative_attention": 0.005010817898437381
+        },
+        {
+          "token": "few",
+          "positive_minus_negative_attention": 0.004557361034676433
+        },
+        {
+          "token": "else",
+          "positive_minus_negative_attention": -0.003944941077497788
+        },
+        {
+          "token": "call",
+          "positive_minus_negative_attention": 0.0037475818302482367
+        },
+        {
+          "token": "going",
+          "positive_minus_negative_attention": 0.003648961066937772
+        },
+        {
+          "token": "put",
+          "positive_minus_negative_attention": 0.003570473566651344
+        },
+        {
+          "token": "turn",
+          "positive_minus_negative_attention": 0.0033510702320199925
+        },
+        {
+          "token": "their",
+          "positive_minus_negative_attention": -0.0031694327295554102
+        },
+        {
+          "token": "directly",
+          "positive_minus_negative_attention": 0.0030863757245242597
+        },
+        {
+          "token": "still",
+          "positive_minus_negative_attention": 0.003066206758376211
+        },
+        {
+          "token": "back",
+          "positive_minus_negative_attention": 0.0030050094472244384
+        },
+        {
+          "token": "hold",
+          "positive_minus_negative_attention": 0.002736613340675831
+        },
+        {
+          "token": "sit",
+          "positive_minus_negative_attention": 0.0026513905977481045
+        },
+        {
+          "token": "finish",
+          "positive_minus_negative_attention": -0.0026087594218552113
+        },
+        {
+          "token": "order",
+          "positive_minus_negative_attention": -0.0021938069025054575
+        },
+        {
+          "token": "other",
+          "positive_minus_negative_attention": 0.0018414246416796232
+        },
+        {
+          "token": "straight",
+          "positive_minus_negative_attention": -0.0017645933665335178
+        },
+        {
+          "token": "queue",
+          "positive_minus_negative_attention": -0.0017016228586726355
+        },
+        {
+          "token": "remaining",
+          "positive_minus_negative_attention": 0.0016247919193119742
+        },
+        {
+          "token": "push",
+          "positive_minus_negative_attention": -0.0015919689554721116
+        }
+      ]
+    }
+  },
+  "weights": {
+    "selected_heads": {
+      "L17H13": {
+        "component": "L17H13",
+        "layer": 17,
+        "head": 13,
+        "projection_fraction": 0.08445432782173157,
+        "normalized_write_gain": 0.022408340126276016,
+        "projection_fraction_percentile": 48.75,
+        "write_gain_percentile": 95.23809523809523
+      },
+      "L18H13": {
+        "component": "L18H13",
+        "layer": 18,
+        "head": 13,
+        "projection_fraction": 0.17652291059494019,
+        "normalized_write_gain": 0.03023391216993332,
+        "projection_fraction_percentile": 95.0,
+        "write_gain_percentile": 99.10714285714286
+      },
+      "L19H12": {
+        "component": "L19H12",
+        "layer": 19,
+        "head": 12,
+        "projection_fraction": 0.123105488717556,
+        "normalized_write_gain": 0.02648681402206421,
+        "projection_fraction_percentile": 86.25,
+        "write_gain_percentile": 97.91666666666666
+      },
+      "L20H15": {
+        "component": "L20H15",
+        "layer": 20,
+        "head": 15,
+        "projection_fraction": 0.12597471475601196,
+        "normalized_write_gain": 0.02352987416088581,
+        "projection_fraction_percentile": 88.75,
+        "write_gain_percentile": 96.42857142857143
+      },
+      "L15H15": {
+        "component": "L15H15",
+        "layer": 15,
+        "head": 15,
+        "projection_fraction": 0.1014641597867012,
+        "normalized_write_gain": 0.02225281111896038,
+        "projection_fraction_percentile": 75.0,
+        "write_gain_percentile": 94.94047619047619
+      },
+      "L18H3": {
+        "component": "L18H3",
+        "layer": 18,
+        "head": 3,
+        "projection_fraction": 0.20972901582717896,
+        "normalized_write_gain": 0.03377217426896095,
+        "projection_fraction_percentile": 98.75,
+        "write_gain_percentile": 99.70238095238095
+      },
+      "L19H5": {
+        "component": "L19H5",
+        "layer": 19,
+        "head": 5,
+        "projection_fraction": 0.1126987412571907,
+        "normalized_write_gain": 0.022422809153795242,
+        "projection_fraction_percentile": 83.75,
+        "write_gain_percentile": 95.53571428571429
+      }
+    },
+    "mlp": {
+      "component": "L19MLP",
+      "top10_abs_alignment_share": 0.005970391774546274,
+      "top50_abs_alignment_share": 0.0216822812813161,
+      "top_output_channels": [
+        {
+          "channel": 9016,
+          "signed_output_alignment": 0.05486577749252319,
+          "abs_alignment": 0.05486577749252319
+        },
+        {
+          "channel": 11422,
+          "signed_output_alignment": 0.0528930127620697,
+          "abs_alignment": 0.0528930127620697
+        },
+        {
+          "channel": 1609,
+          "signed_output_alignment": -0.04597676917910576,
+          "abs_alignment": 0.04597676917910576
+        },
+        {
+          "channel": 2069,
+          "signed_output_alignment": -0.04265682026743889,
+          "abs_alignment": 0.04265682026743889
+        },
+        {
+          "channel": 5202,
+          "signed_output_alignment": -0.04229520261287689,
+          "abs_alignment": 0.04229520261287689
+        },
+        {
+          "channel": 4222,
+          "signed_output_alignment": -0.04149167239665985,
+          "abs_alignment": 0.04149167239665985
+        },
+        {
+          "channel": 4583,
+          "signed_output_alignment": 0.03862573951482773,
+          "abs_alignment": 0.03862573951482773
+        },
+        {
+          "channel": 13822,
+          "signed_output_alignment": 0.038531143218278885,
+          "abs_alignment": 0.038531143218278885
+        },
+        {
+          "channel": 9651,
+          "signed_output_alignment": -0.03493264690041542,
+          "abs_alignment": 0.03493264690041542
+        },
+        {
+          "channel": 274,
+          "signed_output_alignment": 0.03463827818632126,
+          "abs_alignment": 0.03463827818632126
+        },
+        {
+          "channel": 924,
+          "signed_output_alignment": 0.034586869180202484,
+          "abs_alignment": 0.034586869180202484
+        },
+        {
+          "channel": 6684,
+          "signed_output_alignment": -0.03359852731227875,
+          "abs_alignment": 0.03359852731227875
+        },
+        {
+          "channel": 13210,
+          "signed_output_alignment": -0.03323862701654434,
+          "abs_alignment": 0.03323862701654434
+        },
+        {
+          "channel": 9115,
+          "signed_output_alignment": -0.03237050026655197,
+          "abs_alignment": 0.03237050026655197
+        },
+        {
+          "channel": 2758,
+          "signed_output_alignment": 0.03176449239253998,
+          "abs_alignment": 0.03176449239253998
+        },
+        {
+          "channel": 8977,
+          "signed_output_alignment": -0.03130305930972099,
+          "abs_alignment": 0.03130305930972099
+        },
+        {
+          "channel": 12345,
+          "signed_output_alignment": 0.0312887504696846,
+          "abs_alignment": 0.0312887504696846
+        },
+        {
+          "channel": 5520,
+          "signed_output_alignment": 0.031239353120326996,
+          "abs_alignment": 0.031239353120326996
+        },
+        {
+          "channel": 12274,
+          "signed_output_alignment": -0.03109019622206688,
+          "abs_alignment": 0.03109019622206688
+        },
+        {
+          "channel": 11365,
+          "signed_output_alignment": -0.030637085437774658,
+          "abs_alignment": 0.030637085437774658
+        },
+        {
+          "channel": 13647,
+          "signed_output_alignment": 0.02991931512951851,
+          "abs_alignment": 0.02991931512951851
+        },
+        {
+          "channel": 339,
+          "signed_output_alignment": -0.029527533799409866,
+          "abs_alignment": 0.029527533799409866
+        },
+        {
+          "channel": 5754,
+          "signed_output_alignment": -0.02928318828344345,
+          "abs_alignment": 0.02928318828344345
+        },
+        {
+          "channel": 12974,
+          "signed_output_alignment": 0.0290917307138443,
+          "abs_alignment": 0.0290917307138443
+        },
+        {
+          "channel": 5811,
+          "signed_output_alignment": 0.02872580662369728,
+          "abs_alignment": 0.02872580662369728
+        },
+        {
+          "channel": 12151,
+          "signed_output_alignment": -0.028713233768939972,
+          "abs_alignment": 0.028713233768939972
+        },
+        {
+          "channel": 1189,
+          "signed_output_alignment": -0.027992520481348038,
+          "abs_alignment": 0.027992520481348038
+        },
+        {
+          "channel": 4734,
+          "signed_output_alignment": 0.027898520231246948,
+          "abs_alignment": 0.027898520231246948
+        },
+        {
+          "channel": 9080,
+          "signed_output_alignment": -0.027074094861745834,
+          "abs_alignment": 0.027074094861745834
+        },
+        {
+          "channel": 3035,
+          "signed_output_alignment": 0.026975441724061966,
+          "abs_alignment": 0.026975441724061966
+        },
+        {
+          "channel": 10295,
+          "signed_output_alignment": 0.026956260204315186,
+          "abs_alignment": 0.026956260204315186
+        },
+        {
+          "channel": 9019,
+          "signed_output_alignment": 0.02686646208167076,
+          "abs_alignment": 0.02686646208167076
+        },
+        {
+          "channel": 12774,
+          "signed_output_alignment": 0.026852799579501152,
+          "abs_alignment": 0.026852799579501152
+        },
+        {
+          "channel": 11460,
+          "signed_output_alignment": -0.026665113866329193,
+          "abs_alignment": 0.026665113866329193
+        },
+        {
+          "channel": 6563,
+          "signed_output_alignment": -0.0266474150121212,
+          "abs_alignment": 0.0266474150121212
+        },
+        {
+          "channel": 3722,
+          "signed_output_alignment": -0.026596257463097572,
+          "abs_alignment": 0.026596257463097572
+        },
+        {
+          "channel": 9680,
+          "signed_output_alignment": 0.02653438039124012,
+          "abs_alignment": 0.02653438039124012
+        },
+        {
+          "channel": 6718,
+          "signed_output_alignment": 0.026334146037697792,
+          "abs_alignment": 0.026334146037697792
+        },
+        {
+          "channel": 10899,
+          "signed_output_alignment": 0.026267461478710175,
+          "abs_alignment": 0.026267461478710175
+        },
+        {
+          "channel": 2457,
+          "signed_output_alignment": 0.025969183072447777,
+          "abs_alignment": 0.025969183072447777
+        },
+        {
+          "channel": 621,
+          "signed_output_alignment": -0.02586982771754265,
+          "abs_alignment": 0.02586982771754265
+        },
+        {
+          "channel": 11332,
+          "signed_output_alignment": -0.025685139000415802,
+          "abs_alignment": 0.025685139000415802
+        },
+        {
+          "channel": 6400,
+          "signed_output_alignment": 0.02557201310992241,
+          "abs_alignment": 0.02557201310992241
+        },
+        {
+          "channel": 8914,
+          "signed_output_alignment": -0.025518929585814476,
+          "abs_alignment": 0.025518929585814476
+        },
+        {
+          "channel": 4139,
+          "signed_output_alignment": -0.025335079059004784,
+          "abs_alignment": 0.025335079059004784
+        },
+        {
+          "channel": 10723,
+          "signed_output_alignment": 0.0249921977519989,
+          "abs_alignment": 0.0249921977519989
+        },
+        {
+          "channel": 14284,
+          "signed_output_alignment": 0.024773243814706802,
+          "abs_alignment": 0.024773243814706802
+        },
+        {
+          "channel": 9418,
+          "signed_output_alignment": -0.0247481781989336,
+          "abs_alignment": 0.0247481781989336
+        },
+        {
+          "channel": 5304,
+          "signed_output_alignment": -0.024542182683944702,
+          "abs_alignment": 0.024542182683944702
+        },
+        {
+          "channel": 11464,
+          "signed_output_alignment": 0.024418354034423828,
+          "abs_alignment": 0.024418354034423828
+        }
+      ]
+    }
+  }
+}
