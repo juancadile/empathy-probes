@@ -15,6 +15,13 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(mess
 log = logging.getLogger("inspect-components")
 
 DEFAULT_HEADS = "17:13,18:13,19:12,20:15,15:15"
+STOPWORDS = {
+    "<bos>", "a", "am", "an", "and", "as", "at", "be", "before", "but",
+    "by", "for", "from", "i", "in", "is", "it", "my", "now", "of", "on",
+    "or", "that", "the", "this", "to", "will", "with",
+}
+HELP_STEMS = ("help", "assist", "pause", "support", "care", "water", "stop", "take")
+TASK_STEMS = ("continue", "finish", "route", "deliver", "objective", "remain", "keep", "task")
 
 
 def parse_heads(value):
@@ -35,6 +42,22 @@ def summarize_token_scores(scores, n_examples, limit=25):
     return sorted(rows, key=lambda row: row["attention_per_example"], reverse=True)[:limit]
 
 
+def token_differential(positive, negative, positive_n, negative_n, limit=25):
+    tokens = set(positive) | set(negative)
+    rows = [
+        {
+            "token": token,
+            "positive_minus_negative_attention": (
+                positive.get(token, 0) / positive_n
+                - negative.get(token, 0) / negative_n
+            ),
+        }
+        for token in tokens
+    ]
+    rows.sort(key=lambda row: abs(row["positive_minus_negative_attention"]), reverse=True)
+    return rows[:limit]
+
+
 @torch.no_grad()
 def inspect_attention(model, pairs, heads, max_tokens):
     layers = sorted({layer for layer, _ in heads})
@@ -45,7 +68,10 @@ def inspect_attention(model, pairs, heads, max_tokens):
                 "n": 0,
                 "prefix_mass": [],
                 "tail_mass": [],
+                "help_token_mass": [],
+                "task_token_mass": [],
                 "tokens": defaultdict(float),
+                "content_tokens": defaultdict(float),
             }
             for side in ("positive", "negative")
         }
@@ -85,10 +111,19 @@ def inspect_attention(model, pairs, heads, max_tokens):
                 record["n"] += 1
                 record["prefix_mass"].append(float(key_attention[prefix_keys].sum()))
                 record["tail_mass"].append(float(key_attention[tail].sum()))
+                help_mass, task_mass = 0.0, 0.0
                 for position, score in enumerate(key_attention.tolist()):
                     token = clean_token(model.tokenizer, token_ids[position])
                     if token:
                         record["tokens"][token] += score
+                        if token not in STOPWORDS and len(token) > 1:
+                            record["content_tokens"][token] += score
+                        if any(stem in token for stem in HELP_STEMS):
+                            help_mass += score
+                        if any(stem in token for stem in TASK_STEMS):
+                            task_mass += score
+                record["help_token_mass"].append(help_mass)
+                record["task_token_mass"].append(task_mass)
         if (pair_index + 1) % 10 == 0:
             log.info("attention %d/%d pairs", pair_index + 1, len(pairs))
 
@@ -100,13 +135,24 @@ def inspect_attention(model, pairs, heads, max_tokens):
                 "n": record["n"],
                 "mean_prefix_attention": float(np.mean(record["prefix_mass"])),
                 "mean_tail_attention": float(np.mean(record["tail_mass"])),
+                "mean_help_token_attention": float(np.mean(record["help_token_mass"])),
+                "mean_task_token_attention": float(np.mean(record["task_token_mass"])),
                 "top_source_tokens": summarize_token_scores(
                     record["tokens"], record["n"]
+                ),
+                "top_content_source_tokens": summarize_token_scores(
+                    record["content_tokens"], record["n"]
                 ),
             }
         summary[key]["positive_minus_negative_prefix_attention"] = (
             summary[key]["positive"]["mean_prefix_attention"]
             - summary[key]["negative"]["mean_prefix_attention"]
+        )
+        summary[key]["content_token_differential"] = token_differential(
+            sides["positive"]["content_tokens"],
+            sides["negative"]["content_tokens"],
+            sides["positive"]["n"],
+            sides["negative"]["n"],
         )
     return summary
 
