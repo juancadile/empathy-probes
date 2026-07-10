@@ -1,0 +1,94 @@
+# V2 Project Roadmap — Empathy-in-Action: from Probes to Weights
+
+**Created:** 2026-07-10 · **Living document — check items off here.**
+Companion docs: `v2-lowlevel-interp-plan.md` (methods detail), `v2-tasks-list.md` (per-task breakdown), `v2_1-stimulus-suite-design.md` (dataset design).
+
+## North star
+
+Upgrade the evidence standard from *"a probe detects the feature in activations"* to *"we can trace the pathway in the weights that produces it"* — and along the way determine **what the direction actually is**: empathy concept, task-focus, or empathetic persona.
+
+**Evidence ladder:** (1) linear decodability ✅ V1 → (2) steering ✅ V1 → (3) causal components → (4) circuits → (5) weights.
+
+**Framing anchor (Lazar, [Cosmos Institute essay](https://blog.cosmos-institute.org/p/the-construction-of-moral-character)):** the detection–steering gap is an *analytical vs practical competence* split — the model represents the morally relevant features without reliably acting on them. Our probe is a mechanistic **sensitivity** instrument (local competence); cross-context generalization of the direction measures **coherence** (global competence). The stimulus suite cells map onto this taxonomy explicitly.
+
+## Where do SAEs live? → Stage B
+
+Sparse autoencoders are **Stage B (circuits)**, and we do **not train any** — we use pretrained suites:
+- **Gemma Scope** (Gemma-2-2B/9B all layers, partial 27B) — sparse feature circuits, Marks et al. method
+- **Llama Scope** (Llama-3.1-8B)
+- **Transcoders + `circuit-tracer`** (Gemma-2-2B) — attribution graphs
+
+Stage A (components) needs no SAEs — it works directly on heads/MLPs via the probe direction. SAEs enter when we need *named, interpretable features* inside the circuit and feature-level ablation.
+
+---
+
+## Stage 0 — Foundations & stimulus suite *(now, parallel tracks)*
+
+| # | Task | Where | Status |
+|---|------|-------|--------|
+| 0.1 | V2 dataset consolidated (6,702 pairs), repo reorg, PR #23 merged | — | ✅ |
+| 0.2 | DFA script written + launched on DGX Spark (gemma-2-9b-it) | Spark | 🔄 running |
+| 0.3 | **V2.1 stimulus suite**: design doc + cell templates + generation via small API models (haiku / 4o-mini / flash) | API only | 🔲 drafting |
+| 0.4 | Normalize `source_model` labels in merged dataset; note Yi-34B absent | local | 🔲 |
+| 0.5 | Verify ARM builds: TransformerLens / SAELens / circuit-tracer on Spark | Spark | 🔲 (torch+CUDA ✅) |
+
+**Decision gate:** none — 0.3 unblocks B5/#27 and #28 later; generate while GPUs do Stage A.
+
+## Stage A — Component localization *(weeks 1–2)* — issues #25, #11, #12
+
+Direct feature attribution (who *writes* the direction) → activation patching / mean-ablation at head/MLP granularity (who is *causally necessary*) → validation gate (the two must agree). Attribution patching (AtP*) extends head-level maps to 27B/32B.
+
+Models: Gemma-2-2B, **Gemma-2-9B base+it**, Llama-3.1-8B. Hardware: A4000 + Spark.
+
+**🔀 FORK 1:** circuit sparse (≈tens of components carry ≥80%) → circuit story, proceed to B.
+Diffuse (hundreds) → pivot: "linearly decodable but not localizable" negative-result paper; C2 dose-response quantifies it; skip B2/B3.
+
+## Stage B — Circuits + what-is-it discrimination *(weeks 2–4)* — issues #13, #14, #27, #28
+
+- B1 attribution graphs (`circuit-tracer`, 2B) · B2 sparse feature circuits (Gemma Scope, 9B) · B3 path patching on top heads · B4 faithfulness/completeness (ablate-outside vs ablate-circuit)
+- **B5 confound resolution** (#27): run the circuit on V2.1 cells — task-cost 2×2, no-task, task-focus-only
+- **B6 concept-vs-persona** (#28): third-person cells, character×content crossings, explicit persona-vector comparison (Chen et al. pipeline), tonic-vs-phasic token analysis
+
+**🔀 FORK 2 (framing):** empathy concept / task-focus / persona — determines the paper's central claim. All three outcomes are publishable; persona outcome reframes as prosocial persona-vector monitoring + "breaking character" account of V1's steering collapse.
+
+## Stage C — Weight level *(weeks 4–6)* — issue #26 · **the headline**
+
+- C1 weight readout (SVD of W_out/W_OV vs direction; W_QK of attending heads) — CPU
+- C2 **targeted weight orthogonalization**: rank-1 edits of top-k components (Arditi et al. precedent); dose-response over k vs random-component edits; eval probe AUROC + EIA behavior + capability retention
+- C3 base-vs-IT weight diffing (Gemma-2-9B): does alignment training move weights along the direction?
+- C4 (stretch) mechanistic account of asymmetric steerability (#20)
+- Eval option: serve edited models via vLLM OpenAI-compatible endpoint → **Petri** auditor-style behavioral audit
+
+**🔀 FORK 3:** if editing ~10 specific matrices selectively removes the behavior with <2% capability loss → "traced the pathway in the weights" headline, whatever Fork 2 named it.
+
+## Stage D — Scale & family validation *(weeks 6–8)* — issues #15, #16, #17
+
+Component signature replication: 2B → 9B → 27B → 32B → 70B (head-level via attribution patching; 70B layer-level, 8-bit). Scaling figure = **circuit sparsity vs size** (not AUROC — it saturates). Cross-family circuit comparison (Gemma/Llama/Qwen motifs).
+
+## Stage E — Action-space EIA demo *(stretch)* — issue #29
+
+ASCII gridworld; model outputs only moves; empathic policy = costly detour to help NPC. Probe fires at decision tokens with zero lexical signature; steering flips paths. Strongest style-confound rebuttal + closest to the original "in-action" spirit. Prototype anytime on A4000/2B — it's a demo layer, not a dependency.
+
+## Steering track *(interleaved, mostly Stage D-adjacent)* — issues #8, #9, #10, #20, #6, #7
+
+V2-model steering sweeps, dose-response, asymmetry; random-baseline & EIA-correlation re-runs. Feeds C4.
+
+---
+
+## Compute & cost map
+
+| Resource | Used for | Est. cost |
+|----------|----------|-----------|
+| RTX A4000 (local) | 2B work, prototyping, analysis | $0 |
+| DGX Spark 128GB | 8B/9B BF16, 27B/32B BF16 overnight, 70B 8-bit | $0 |
+| GH200 rental | only if Spark too slow (27B/32B sweeps, 70B) | $0–85 |
+| APIs (Anthropic/OpenAI/Gemini ✅ validated; OpenRouter optional) | V2.1 suite (small models), persona-vector pipeline, judging | ~$10–50 |
+
+## Paper claim ladder (target)
+
+1. Empathy-in-action is linearly represented across families *(V1/V2 ✅)*
+2. It is written by an identifiable sparse set of components *(A)*
+3. Those components form a faithful circuit whose features show it is ⟨empathy | task-focus | persona⟩ *(B — Fork 2)*
+4. Editing the specific weights that implement it selectively removes the behavior *(C — headline)*
+5. The mechanism replicates across scale and family; alignment training modifies it at the parameter level *(C3+D)*
+6. (demo) The direction governs *action selection*, not narrative style *(E)*
