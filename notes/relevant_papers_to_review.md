@@ -34,6 +34,13 @@
    - Use as a third discrimination instrument (Stage B): ask the oracle directly whether activations reflect wellbeing-prioritization vs task-focus vs a caring persona; interrogate steered activations ("what changed?"); verify weight-edited models at the representation level (Stage C)
    - Caveat: still activation-level and correlational — a richer *readout*, not causal evidence; can confabulate, so validate on cells with known labels first
 
+8. **Causal Abstractions of Neural Networks** (Geiger, Lu, Icard, Potts, NeurIPS 2021)
+   https://proceedings.neurips.cc/paper_files/paper/2021/file/4f5c422f4d49a5a807eda27434231040-Paper.pdf
+   - THE theoretical foundation for our evidence ladder: align neural representations with variables of a high-level causal model, verify via **interchange interventions**; a network "realizes" the causal model if intervened network and intervened model agree counterfactually
+   - §2 constructs a network where probes read out information perfectly yet the representation is **causally inert** — the formal version of the V1 critique; cite in the paper's intro
+   - Concrete upgrade for Stage B: define a high-level causal model of empathy-in-action (PerceiveNeed → WeighCost → Decide) and test alignment with interchange intervention accuracy (IIA); successors DAS / Boundless DAS (ran on Alpaca-7B → feasible at our Tier 1 scale) + `pyvene` library
+   - Turns "layer 12 is causal" into "the model realizes a causal abstraction in which a wellbeing variable mediates action selection" — a much better-defined claim
+
 ## Already Reviewed
 
 - **Scoring Empathy with Large Language Models** (December 2024)

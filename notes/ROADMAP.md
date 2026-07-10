@@ -9,6 +9,8 @@ Upgrade the evidence standard from *"a probe detects the feature in activations"
 
 **Evidence ladder:** (1) linear decodability ✅ V1 → (2) steering ✅ V1 → (3) causal components → (4) circuits → (5) weights.
 
+**Theoretical frame (Geiger et al. 2021, causal abstraction):** rung 1's insufficiency is formal — a representation can be perfectly decodable yet causally inert (their §2 counterexample). Rungs 3–4 are interchange interventions; rung 4's strongest form is a **causal abstraction test**: hypothesize a high-level causal model of empathy-in-action (PerceiveNeed → WeighCost → Decide) and measure interchange intervention accuracy (see B8).
+
 **Framing anchor (Lazar, [Cosmos Institute essay](https://blog.cosmos-institute.org/p/the-construction-of-moral-character)):** the detection–steering gap is an *analytical vs practical competence* split — the model represents the morally relevant features without reliably acting on them. Our probe is a mechanistic **sensitivity** instrument (local competence); cross-context generalization of the direction measures **coherence** (global competence). The stimulus suite cells map onto this taxonomy explicitly.
 
 ## Where do SAEs live? → Stage B
@@ -49,6 +51,7 @@ Diffuse (hundreds) → pivot: "linearly decodable but not localizable" negative-
 - **B5 confound resolution** (#27): run the circuit on V2.1 cells — task-cost 2×2, no-task, task-focus-only
 - **B6 concept-vs-persona** (#28): third-person cells, character×content crossings, explicit persona-vector comparison (Chen et al. pipeline), tonic-vs-phasic token analysis
 - **B7 activation-oracle readout** (#30, Karvonen et al. 2025): pretrained AOs exist for Gemma-2/Llama-3 (our Tier 1). Validate the AO on labeled cells, then (i) ask it the prediction-matrix questions on V2.1 activations, (ii) interrogate steered activations ("what changed?") — the fastest direct query for Fork 2, (iii) re-use in Stage C to verify edited models at the representation level. Correlational readout, not causal evidence — triangulation, not a ladder rung.
+- **B8 causal abstraction test** (#31, Geiger et al. 2021 / DAS): hypothesize a minimal high-level causal model of empathy-in-action — e.g. PerceiveNeed → WeighCost → Decide(help|task) — search for an alignment (DAS/`pyvene`, feasible at 9B), and report **interchange intervention accuracy**. The V2.1 cells double as the intervention bases (cell B = WeighCost clamped to zero-cost; cell E = PerceiveNeed absent). Upgrades the paper's central claim from "these components are causal" to "the model realizes this causal model of empathic decision-making". Stretch if time-constrained; the framing is free either way.
 
 **🔀 FORK 2 (framing):** empathy concept / task-focus / persona — determines the paper's central claim. All three outcomes are publishable; persona outcome reframes as prosocial persona-vector monitoring + "breaking character" account of V1's steering collapse.
 
