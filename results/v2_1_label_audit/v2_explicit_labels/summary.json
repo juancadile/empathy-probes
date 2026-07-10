@@ -1,0 +1,71 @@
+{
+  "collected": 528,
+  "parse_or_api_errors": 0,
+  "usable": 370,
+  "usable_rate": 0.7007575757575758,
+  "label_accuracy_among_usable": 0.9243243243243243,
+  "by_cell": {
+    "A": {
+      "n": 90,
+      "usable": 38,
+      "usable_rate": 0.4222222222222222,
+      "label_accuracy_among_usable": 0.8947368421052632
+    },
+    "B": {
+      "n": 90,
+      "usable": 40,
+      "usable_rate": 0.4444444444444444,
+      "label_accuracy_among_usable": 0.675
+    },
+    "D": {
+      "n": 90,
+      "usable": 88,
+      "usable_rate": 0.9777777777777777,
+      "label_accuracy_among_usable": 0.9431818181818182
+    },
+    "E": {
+      "n": 90,
+      "usable": 68,
+      "usable_rate": 0.7555555555555555,
+      "label_accuracy_among_usable": 0.9558823529411765
+    },
+    "F": {
+      "n": 60,
+      "usable": 44,
+      "usable_rate": 0.7333333333333333,
+      "label_accuracy_among_usable": 0.9772727272727273
+    },
+    "G": {
+      "n": 54,
+      "usable": 54,
+      "usable_rate": 1.0,
+      "label_accuracy_among_usable": 1.0
+    },
+    "H": {
+      "n": 54,
+      "usable": 38,
+      "usable_rate": 0.7037037037037037,
+      "label_accuracy_among_usable": 0.9473684210526315
+    }
+  },
+  "by_source_model": {
+    "claude-haiku-4-5-20251001": {
+      "n": 176,
+      "usable": 120,
+      "usable_rate": 0.6818181818181818,
+      "label_accuracy_among_usable": 0.95
+    },
+    "gemini-2.5-flash": {
+      "n": 176,
+      "usable": 106,
+      "usable_rate": 0.6022727272727273,
+      "label_accuracy_among_usable": 0.8867924528301887
+    },
+    "gpt-4o-mini": {
+      "n": 176,
+      "usable": 144,
+      "usable_rate": 0.8181818181818182,
+      "label_accuracy_among_usable": 0.9305555555555556
+    }
+  }
+}
