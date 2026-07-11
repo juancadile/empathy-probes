@@ -74,7 +74,12 @@ Model under study unless noted: **google/gemma-2-9b-it**, on the DGX Spark. Assi
 - Same components, delta-norm-matched, random directions, 10 seeds/set: null −0.0045 ± 0.0044 (positive writers) and −0.0126 ± 0.0037 (suppressors) → targeted effects at **z = −45 / +75**. Equal-magnitude random damage to the same weights does ~nothing.
 - **Caveat:** run's baseline helping (1.09) differs from pilot print (4.28) — loading/aggregation difference unresolved; script now recomputes targeted deltas in-run (rerun queued) so z-scores are like-with-like. Conclusion robust to any plausible rescaling.
 
-### E15 · Capability benchmark under edits (gate 2) [C] — RERUNNING (MMLU fix)
+### E15 · Capability benchmark under edits (gate 2) [C] — ✅ COMPLETE
+- **Final (generation-based MMLU, 400 Qs, balanced predictions ~100/letter, 1 unparsed):** baseline 0.6625; positive-writers Δ −0.0025 CI[−0.0125,+0.0050]; suppressors Δ +0.0075 CI[+0.0000,+0.0175]; targeted-k6 Δ +0.0050 CI[+0.0000,+0.0125]. Wikitext ppl ratios 0.999–1.003.
+- **Interpretation:** general capability is statistically unchanged under all edit conditions (every MMLU CI includes or grazes zero; ppl drift ≤0.3%) while helping behavior moves ±0.2–0.26 (E13/E14). Selectivity claim fully instrumented.
+- Method history below kept as a record of two invalid attempts and their diagnostic tells.
+
+#### E15 method history (two discarded attempts)
 - **Script:** `src/capability_eval.py` · **Data:** `results/capability_eval_gemma2_9b_it/` (`capability_eval_broken_mmlu.json` = first attempt)
 - 400 MMLU + wikitext-2 ppl under baseline / positive-writers / suppressors / targeted-k6.
 - **Perplexity result (valid from first run): edits move wikitext ppl ≤ 0.4%** (13.096 baseline → 13.082 / 13.135 / 13.131). Consistent with selectivity.
