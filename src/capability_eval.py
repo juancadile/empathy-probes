@@ -68,39 +68,34 @@ def mmlu_prompt(item, tokenizer):
     )
 
 
-def letter_variant_ids(tokenizer):
-    """Single-token encodings for each letter, with and without leading space."""
-    variants = []
-    for letter in LETTERS:
-        ids = set()
-        for form in (letter, " " + letter):
-            enc = tokenizer.encode(form, add_special_tokens=False)
-            if len(enc) == 1:
-                ids.add(enc[0])
-        variants.append(sorted(ids))
-    return variants
-
-
 @torch.no_grad()
 def mmlu_accuracy(model, tokenizer, items, batch_size, max_tokens, device):
-    variants = letter_variant_ids(tokenizer)
+    """Greedy short generation + first-letter parse (robust for IT models)."""
+    import re
+
     correct, preds = [], []
     prompts = [mmlu_prompt(it, tokenizer) for it in items]
+    tokenizer.padding_side = "left"  # required for batched generation
+    examples_logged = 0
     for start in range(0, len(prompts), batch_size):
         chunk = prompts[start:start + batch_size]
         enc = tokenizer(chunk, return_tensors="pt", padding=True, truncation=True,
                         max_length=max_tokens, add_special_tokens=False).to(device)
-        logits = model(**enc, use_cache=False).logits.float()
-        lengths = enc["attention_mask"].sum(1)
-        for row, length in enumerate(lengths.tolist()):
-            logprobs = torch.log_softmax(logits[row, length - 1], dim=-1)
-            option_scores = [
-                float(torch.logsumexp(logprobs[ids], dim=0)) for ids in variants
-            ]
-            pred = int(np.argmax(option_scores))
+        out = model.generate(**enc, max_new_tokens=8, do_sample=False,
+                             pad_token_id=tokenizer.eos_token_id)
+        completions = tokenizer.batch_decode(out[:, enc["input_ids"].shape[1]:],
+                                             skip_special_tokens=True)
+        for row, completion in enumerate(completions):
+            if examples_logged < 2:
+                log.info("example completion: %r", completion)
+                examples_logged += 1
+            match = re.search(r"[ABCD]", completion)
+            pred = LETTERS.index(match.group(0)) if match else -1
             preds.append(pred)
             correct.append(pred == items[start + row]["answer"])
+    tokenizer.padding_side = "right"
     pred_counts = {LETTERS[i]: preds.count(i) for i in range(4)}
+    pred_counts["unparsed"] = preds.count(-1)
     log.info("prediction distribution: %s", pred_counts)
     return float(np.mean(correct)), correct
 
