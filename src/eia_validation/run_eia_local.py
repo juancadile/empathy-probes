@@ -64,17 +64,18 @@ class LocalPlayer:
 
         self.calls += 1
         text = (system + "\n\n" if system else "") + query
-        chat = self.tokenizer.apply_chat_template(
+        inputs = self.tokenizer.apply_chat_template(
             [{"role": "user", "content": text}],
-            add_generation_prompt=True, return_tensors="pt",
+            add_generation_prompt=True, return_tensors="pt", return_dict=True,
         ).to(self.device)
         torch.manual_seed((seed or 0) * 100003 + self.calls)
         out = self.model.generate(
-            chat, max_new_tokens=self.max_new_tokens, do_sample=True,
+            **inputs, max_new_tokens=self.max_new_tokens, do_sample=True,
             temperature=0.7, top_p=0.95,
             pad_token_id=self.tokenizer.eos_token_id,
         )
-        completion = self.tokenizer.decode(out[0, chat.shape[1]:], skip_special_tokens=True)
+        n_prompt = inputs["input_ids"].shape[1]
+        completion = self.tokenizer.decode(out[0, n_prompt:], skip_special_tokens=True)
         parsed = _extract_json_from_text(completion)
         return parsed if parsed is not None else {"raw": completion}
 
