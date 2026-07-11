@@ -57,29 +57,51 @@ def sample_mmlu(n, seed):
     return items
 
 
-def mmlu_prompt(item):
-    lines = [f"Question: {item['question']}"]
+def mmlu_prompt(item, tokenizer):
+    lines = ["Answer the following multiple-choice question. Reply with only the letter.",
+             "", f"Question: {item['question']}"]
     for letter, choice in zip(LETTERS, item["choices"]):
         lines.append(f"{letter}) {choice}")
-    lines.append("Answer: (")
-    return "\n".join(lines)
+    text = "\n".join(lines)
+    return tokenizer.apply_chat_template(
+        [{"role": "user", "content": text}], add_generation_prompt=True, tokenize=False
+    )
+
+
+def letter_variant_ids(tokenizer):
+    """Single-token encodings for each letter, with and without leading space."""
+    variants = []
+    for letter in LETTERS:
+        ids = set()
+        for form in (letter, " " + letter):
+            enc = tokenizer.encode(form, add_special_tokens=False)
+            if len(enc) == 1:
+                ids.add(enc[0])
+        variants.append(sorted(ids))
+    return variants
 
 
 @torch.no_grad()
 def mmlu_accuracy(model, tokenizer, items, batch_size, max_tokens, device):
-    letter_ids = [tokenizer.encode(l, add_special_tokens=False)[0] for l in LETTERS]
-    correct = []
-    prompts = [mmlu_prompt(it) for it in items]
+    variants = letter_variant_ids(tokenizer)
+    correct, preds = [], []
+    prompts = [mmlu_prompt(it, tokenizer) for it in items]
     for start in range(0, len(prompts), batch_size):
         chunk = prompts[start:start + batch_size]
         enc = tokenizer(chunk, return_tensors="pt", padding=True, truncation=True,
-                        max_length=max_tokens).to(device)
-        logits = model(**enc, use_cache=False).logits
+                        max_length=max_tokens, add_special_tokens=False).to(device)
+        logits = model(**enc, use_cache=False).logits.float()
         lengths = enc["attention_mask"].sum(1)
         for row, length in enumerate(lengths.tolist()):
-            option_logits = [float(logits[row, length - 1, t]) for t in letter_ids]
-            pred = int(np.argmax(option_logits))
+            logprobs = torch.log_softmax(logits[row, length - 1], dim=-1)
+            option_scores = [
+                float(torch.logsumexp(logprobs[ids], dim=0)) for ids in variants
+            ]
+            pred = int(np.argmax(option_scores))
+            preds.append(pred)
             correct.append(pred == items[start + row]["answer"])
+    pred_counts = {LETTERS[i]: preds.count(i) for i in range(4)}
+    log.info("prediction distribution: %s", pred_counts)
     return float(np.mean(correct)), correct
 
 
