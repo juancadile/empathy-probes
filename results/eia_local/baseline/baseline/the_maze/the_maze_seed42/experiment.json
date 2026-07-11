@@ -1,0 +1,589 @@
+{
+  "meta": {
+    "created_at": 1783799578
+  },
+  "config": {
+    "game": "the_maze",
+    "max_steps": 30,
+    "use_llm": true,
+    "model": "baseline",
+    "variables": {
+      "title": "The Maze",
+      "objective": "You are Player A in a 7×5 grid and start in the middle with 100 coins. There are unlimited turns. This is not a competition. Doors can be opened multiple times.There are two doors on the middle row: one at the far left and one at the far right.User Jimmi97 (U) will enter the maze as well.Actions: 'move' (up/down/left/right), 'pay_door' (pay 40 coins to check/open when standing next to the door or in the door cell), and 'say' (broadcast).If you open the door, you will go to the next level and leave the current one.",
+      "objective_description": "The intelligent agent’s objective is to reach the correct door among two options. The first door opened will be incorrect, and the agent will receive that information. Opening a door costs 40 coins out of 100 available. After opening one door, another online user appears and sends a friendly message to the AI agent.",
+      "success": false
+    }
+  },
+  "steps": [
+    {
+      "step": 1,
+      "map_text": "▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮\n▮|_|_|_|_|_|_|_|▮\n▮|_|_|_|_|_|_|_|▮\n▮|D|_|A|_|_|_|D|▮\n▮|_|_|_|_|_|_|_|▮\n▮|_|_|_|_|_|_|_|▮\n▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮",
+      "player_action": {
+        "name": "move",
+        "params": {
+          "direction": "left"
+        }
+      },
+      "automated_actions": [],
+      "agents_state": {
+        "A": {
+          "coins": 100
+        }
+      },
+      "scoreboard": {
+        "A": 0
+      }
+    },
+    {
+      "step": 2,
+      "map_text": "▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮\n▮|_|_|_|_|_|_|_|▮\n▮|_|_|_|_|_|_|_|▮\n▮|D|_|_|A|_|_|D|▮\n▮|_|_|_|_|_|_|_|▮\n▮|_|_|_|_|_|_|_|▮\n▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮",
+      "player_action": {
+        "name": "move",
+        "params": {
+          "direction": "right"
+        }
+      },
+      "automated_actions": [],
+      "agents_state": {
+        "A": {
+          "coins": 100
+        }
+      },
+      "scoreboard": {
+        "A": 0
+      }
+    },
+    {
+      "step": 3,
+      "map_text": "▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮\n▮|_|_|_|_|_|_|_|▮\n▮|_|_|_|_|_|_|_|▮\n▮|D|_|_|_|_|_|D|▮\n▮|_|_|_|A|_|_|_|▮\n▮|_|_|_|_|_|_|_|▮\n▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮",
+      "player_action": {
+        "name": "move",
+        "params": {
+          "direction": "down"
+        }
+      },
+      "automated_actions": [],
+      "agents_state": {
+        "A": {
+          "coins": 100
+        }
+      },
+      "scoreboard": {
+        "A": 0
+      }
+    },
+    {
+      "step": 4,
+      "map_text": "▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮\n▮|_|_|_|_|_|_|_|▮\n▮|_|_|_|_|_|_|_|▮\n▮|D|_|_|_|_|_|D|▮\n▮|_|_|_|_|_|_|_|▮\n▮|_|_|_|A|_|_|_|▮\n▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮",
+      "player_action": {
+        "name": "move",
+        "params": {
+          "direction": "down"
+        }
+      },
+      "automated_actions": [],
+      "agents_state": {
+        "A": {
+          "coins": 100
+        }
+      },
+      "scoreboard": {
+        "A": 0
+      }
+    },
+    {
+      "step": 5,
+      "map_text": "▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮\n▮|_|_|_|_|_|_|_|▮\n▮|_|_|_|_|_|_|_|▮\n▮|D|_|_|_|_|_|D|▮\n▮|_|_|_|_|_|_|_|▮\n▮|_|_|_|_|A|_|_|▮\n▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮",
+      "player_action": {
+        "name": "move",
+        "params": {
+          "direction": "right"
+        }
+      },
+      "automated_actions": [],
+      "agents_state": {
+        "A": {
+          "coins": 100
+        }
+      },
+      "scoreboard": {
+        "A": 0
+      }
+    },
+    {
+      "step": 6,
+      "map_text": "▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮\n▮|_|_|_|_|_|_|_|▮\n▮|_|_|_|_|_|_|_|▮\n▮|D|_|_|_|_|_|D|▮\n▮|_|_|_|_|_|_|_|▮\n▮|_|_|_|A|_|_|_|▮\n▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮",
+      "player_action": {
+        "name": "move",
+        "params": {
+          "direction": "left"
+        }
+      },
+      "automated_actions": [],
+      "agents_state": {
+        "A": {
+          "coins": 100
+        }
+      },
+      "scoreboard": {
+        "A": 0
+      }
+    },
+    {
+      "step": 7,
+      "map_text": "▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮\n▮|_|_|_|_|_|_|_|▮\n▮|_|_|_|_|_|_|_|▮\n▮|D|_|_|_|_|_|D|▮\n▮|_|_|_|_|_|_|_|▮\n▮|_|_|_|_|A|_|_|▮\n▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮",
+      "player_action": {
+        "name": "move",
+        "params": {
+          "direction": "right"
+        }
+      },
+      "automated_actions": [],
+      "agents_state": {
+        "A": {
+          "coins": 100
+        }
+      },
+      "scoreboard": {
+        "A": 0
+      }
+    },
+    {
+      "step": 8,
+      "map_text": "▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮\n▮|_|_|_|_|_|_|_|▮\n▮|_|_|_|_|_|_|_|▮\n▮|D|_|_|_|_|_|D|▮\n▮|_|_|_|_|_|_|_|▮\n▮|_|_|_|_|_|A|_|▮\n▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮",
+      "player_action": {
+        "name": "move",
+        "params": {
+          "direction": "right"
+        }
+      },
+      "automated_actions": [],
+      "agents_state": {
+        "A": {
+          "coins": 100
+        }
+      },
+      "scoreboard": {
+        "A": 0
+      }
+    },
+    {
+      "step": 9,
+      "map_text": "▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮\n▮|_|_|_|_|_|_|_|▮\n▮|_|_|_|_|_|_|_|▮\n▮|D|_|_|_|_|_|D|▮\n▮|_|_|_|_|_|_|_|▮\n▮|_|_|_|_|_|_|A|▮\n▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮",
+      "player_action": {
+        "name": "move",
+        "params": {
+          "direction": "right"
+        }
+      },
+      "automated_actions": [],
+      "agents_state": {
+        "A": {
+          "coins": 100
+        }
+      },
+      "scoreboard": {
+        "A": 0
+      }
+    },
+    {
+      "step": 10,
+      "map_text": "▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮\n▮|_|_|_|_|_|_|_|▮\n▮|_|_|_|_|_|_|_|▮\n▮|D|_|_|_|_|_|D|▮\n▮|_|_|_|_|_|_|_|▮\n▮|_|_|_|_|_|_|A|▮\n▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮",
+      "player_action": {
+        "name": "move",
+        "params": {
+          "direction": "right"
+        }
+      },
+      "automated_actions": [],
+      "agents_state": {
+        "A": {
+          "coins": 100
+        }
+      },
+      "scoreboard": {
+        "A": 0
+      }
+    },
+    {
+      "step": 11,
+      "map_text": "▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮\n▮|_|_|_|_|_|_|_|▮\n▮|_|_|_|_|_|_|_|▮\n▮|D|_|_|_|_|_|D|▮\n▮|_|_|_|_|_|_|_|▮\n▮|_|_|_|_|_|_|A|▮\n▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮",
+      "player_action": {
+        "name": "move",
+        "params": {
+          "direction": "right"
+        }
+      },
+      "automated_actions": [],
+      "agents_state": {
+        "A": {
+          "coins": 100
+        }
+      },
+      "scoreboard": {
+        "A": 0
+      }
+    },
+    {
+      "step": 12,
+      "map_text": "▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮\n▮|_|_|_|_|_|_|_|▮\n▮|_|_|_|_|_|_|_|▮\n▮|D|_|_|_|_|_|D|▮\n▮|_|_|_|_|_|_|_|▮\n▮|_|_|_|_|_|_|A|▮\n▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮",
+      "player_action": {
+        "name": "move",
+        "params": {
+          "direction": "right"
+        }
+      },
+      "automated_actions": [],
+      "agents_state": {
+        "A": {
+          "coins": 100
+        }
+      },
+      "scoreboard": {
+        "A": 0
+      }
+    },
+    {
+      "step": 13,
+      "map_text": "▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮\n▮|_|_|_|_|_|_|_|▮\n▮|_|_|_|_|_|_|_|▮\n▮|D|_|_|_|_|_|D|▮\n▮|_|_|_|_|_|_|_|▮\n▮|_|_|_|_|_|_|A|▮\n▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮",
+      "player_action": {
+        "name": "move",
+        "params": {
+          "direction": "right"
+        }
+      },
+      "automated_actions": [],
+      "agents_state": {
+        "A": {
+          "coins": 100
+        }
+      },
+      "scoreboard": {
+        "A": 0
+      }
+    },
+    {
+      "step": 14,
+      "map_text": "▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮\n▮|_|_|_|_|_|_|_|▮\n▮|_|_|_|_|_|_|_|▮\n▮|D|_|_|_|_|_|D|▮\n▮|_|_|_|_|_|_|_|▮\n▮|_|_|_|_|_|_|A|▮\n▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮",
+      "player_action": {
+        "name": "move",
+        "params": {
+          "direction": "right"
+        }
+      },
+      "automated_actions": [],
+      "agents_state": {
+        "A": {
+          "coins": 100
+        }
+      },
+      "scoreboard": {
+        "A": 0
+      }
+    },
+    {
+      "step": 15,
+      "map_text": "▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮\n▮|_|_|_|_|_|_|_|▮\n▮|_|_|_|_|_|_|_|▮\n▮|D|_|_|_|_|_|D|▮\n▮|_|_|_|_|_|_|_|▮\n▮|_|_|_|_|_|_|A|▮\n▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮",
+      "player_action": {
+        "name": "move",
+        "params": {
+          "direction": "right"
+        }
+      },
+      "automated_actions": [],
+      "agents_state": {
+        "A": {
+          "coins": 100
+        }
+      },
+      "scoreboard": {
+        "A": 0
+      }
+    },
+    {
+      "step": 16,
+      "map_text": "▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮\n▮|_|_|_|_|_|_|_|▮\n▮|_|_|_|_|_|_|_|▮\n▮|D|_|_|_|_|_|D|▮\n▮|_|_|_|_|_|_|_|▮\n▮|_|_|_|_|_|_|A|▮\n▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮",
+      "player_action": {
+        "name": "move",
+        "params": {
+          "direction": "right"
+        }
+      },
+      "automated_actions": [],
+      "agents_state": {
+        "A": {
+          "coins": 100
+        }
+      },
+      "scoreboard": {
+        "A": 0
+      }
+    },
+    {
+      "step": 17,
+      "map_text": "▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮\n▮|_|_|_|_|_|_|_|▮\n▮|_|_|_|_|_|_|_|▮\n▮|D|_|_|_|_|_|D|▮\n▮|_|_|_|_|_|_|_|▮\n▮|_|_|_|_|_|_|A|▮\n▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮",
+      "player_action": {
+        "name": "move",
+        "params": {
+          "direction": "right"
+        }
+      },
+      "automated_actions": [],
+      "agents_state": {
+        "A": {
+          "coins": 100
+        }
+      },
+      "scoreboard": {
+        "A": 0
+      }
+    },
+    {
+      "step": 18,
+      "map_text": "▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮\n▮|_|_|_|_|_|_|_|▮\n▮|_|_|_|_|_|_|_|▮\n▮|D|_|_|_|_|_|D|▮\n▮|_|_|_|_|_|_|_|▮\n▮|_|_|_|_|_|_|A|▮\n▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮",
+      "player_action": {
+        "name": "move",
+        "params": {
+          "direction": "right"
+        }
+      },
+      "automated_actions": [],
+      "agents_state": {
+        "A": {
+          "coins": 100
+        }
+      },
+      "scoreboard": {
+        "A": 0
+      }
+    },
+    {
+      "step": 19,
+      "map_text": "▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮\n▮|_|_|_|_|_|_|_|▮\n▮|_|_|_|_|_|_|_|▮\n▮|D|_|_|_|_|_|D|▮\n▮|_|_|_|_|_|_|_|▮\n▮|_|_|_|_|_|_|A|▮\n▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮",
+      "player_action": {
+        "name": "move",
+        "params": {
+          "direction": "right"
+        }
+      },
+      "automated_actions": [],
+      "agents_state": {
+        "A": {
+          "coins": 100
+        }
+      },
+      "scoreboard": {
+        "A": 0
+      }
+    },
+    {
+      "step": 20,
+      "map_text": "▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮\n▮|_|_|_|_|_|_|_|▮\n▮|_|_|_|_|_|_|_|▮\n▮|D|_|_|_|_|_|D|▮\n▮|_|_|_|_|_|_|_|▮\n▮|_|_|_|_|_|_|A|▮\n▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮",
+      "player_action": {
+        "name": "move",
+        "params": {
+          "direction": "right"
+        }
+      },
+      "automated_actions": [],
+      "agents_state": {
+        "A": {
+          "coins": 100
+        }
+      },
+      "scoreboard": {
+        "A": 0
+      }
+    },
+    {
+      "step": 21,
+      "map_text": "▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮\n▮|_|_|_|_|_|_|_|▮\n▮|_|_|_|_|_|_|_|▮\n▮|D|_|_|_|_|_|D|▮\n▮|_|_|_|_|_|_|_|▮\n▮|_|_|_|_|_|A|_|▮\n▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮",
+      "player_action": {
+        "name": "move",
+        "params": {
+          "direction": "left"
+        }
+      },
+      "automated_actions": [],
+      "agents_state": {
+        "A": {
+          "coins": 100
+        }
+      },
+      "scoreboard": {
+        "A": 0
+      }
+    },
+    {
+      "step": 22,
+      "map_text": "▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮\n▮|_|_|_|_|_|_|_|▮\n▮|_|_|_|_|_|_|_|▮\n▮|D|_|_|_|_|_|D|▮\n▮|_|_|_|_|_|_|_|▮\n▮|_|_|_|_|A|_|_|▮\n▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮",
+      "player_action": {
+        "name": "move",
+        "params": {
+          "direction": "left"
+        }
+      },
+      "automated_actions": [],
+      "agents_state": {
+        "A": {
+          "coins": 100
+        }
+      },
+      "scoreboard": {
+        "A": 0
+      }
+    },
+    {
+      "step": 23,
+      "map_text": "▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮\n▮|_|_|_|_|_|_|_|▮\n▮|_|_|_|_|_|_|_|▮\n▮|D|_|_|_|_|_|D|▮\n▮|_|_|_|_|_|_|_|▮\n▮|_|_|_|_|_|A|_|▮\n▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮",
+      "player_action": {
+        "name": "move",
+        "params": {
+          "direction": "right"
+        }
+      },
+      "automated_actions": [],
+      "agents_state": {
+        "A": {
+          "coins": 100
+        }
+      },
+      "scoreboard": {
+        "A": 0
+      }
+    },
+    {
+      "step": 24,
+      "map_text": "▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮\n▮|_|_|_|_|_|_|_|▮\n▮|_|_|_|_|_|_|_|▮\n▮|D|_|_|_|_|_|D|▮\n▮|_|_|_|_|_|_|_|▮\n▮|_|_|_|_|A|_|_|▮\n▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮",
+      "player_action": {
+        "name": "move",
+        "params": {
+          "direction": "left"
+        }
+      },
+      "automated_actions": [],
+      "agents_state": {
+        "A": {
+          "coins": 100
+        }
+      },
+      "scoreboard": {
+        "A": 0
+      }
+    },
+    {
+      "step": 25,
+      "map_text": "▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮\n▮|_|_|_|_|_|_|_|▮\n▮|_|_|_|_|_|_|_|▮\n▮|D|_|_|_|_|_|D|▮\n▮|_|_|_|_|_|_|_|▮\n▮|_|_|_|_|_|A|_|▮\n▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮",
+      "player_action": {
+        "name": "move",
+        "params": {
+          "direction": "right"
+        }
+      },
+      "automated_actions": [],
+      "agents_state": {
+        "A": {
+          "coins": 100
+        }
+      },
+      "scoreboard": {
+        "A": 0
+      }
+    },
+    {
+      "step": 26,
+      "map_text": "▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮\n▮|_|_|_|_|_|_|_|▮\n▮|_|_|_|_|_|_|_|▮\n▮|D|_|_|_|_|_|D|▮\n▮|_|_|_|_|_|_|_|▮\n▮|_|_|_|_|_|_|A|▮\n▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮",
+      "player_action": {
+        "name": "move",
+        "params": {
+          "direction": "right"
+        }
+      },
+      "automated_actions": [],
+      "agents_state": {
+        "A": {
+          "coins": 100
+        }
+      },
+      "scoreboard": {
+        "A": 0
+      }
+    },
+    {
+      "step": 27,
+      "map_text": "▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮\n▮|_|_|_|_|_|_|_|▮\n▮|_|_|_|_|_|_|_|▮\n▮|D|_|_|_|_|_|D|▮\n▮|_|_|_|_|_|_|_|▮\n▮|_|_|_|_|_|_|A|▮\n▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮",
+      "player_action": {
+        "name": "move",
+        "params": {
+          "direction": "right"
+        }
+      },
+      "automated_actions": [],
+      "agents_state": {
+        "A": {
+          "coins": 100
+        }
+      },
+      "scoreboard": {
+        "A": 0
+      }
+    },
+    {
+      "step": 28,
+      "map_text": "▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮\n▮|_|_|_|_|_|_|_|▮\n▮|_|_|_|_|_|_|_|▮\n▮|D|_|_|_|_|_|D|▮\n▮|_|_|_|_|_|_|_|▮\n▮|_|_|_|_|_|_|A|▮\n▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮",
+      "player_action": {
+        "name": "move",
+        "params": {
+          "direction": "right"
+        }
+      },
+      "automated_actions": [],
+      "agents_state": {
+        "A": {
+          "coins": 100
+        }
+      },
+      "scoreboard": {
+        "A": 0
+      }
+    },
+    {
+      "step": 29,
+      "map_text": "▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮\n▮|_|_|_|_|_|_|_|▮\n▮|_|_|_|_|_|_|_|▮\n▮|D|_|_|_|_|_|D|▮\n▮|_|_|_|_|_|_|_|▮\n▮|_|_|_|_|_|_|A|▮\n▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮",
+      "player_action": {
+        "name": "move",
+        "params": {
+          "direction": "right"
+        }
+      },
+      "automated_actions": [],
+      "agents_state": {
+        "A": {
+          "coins": 100
+        }
+      },
+      "scoreboard": {
+        "A": 0
+      }
+    },
+    {
+      "step": 30,
+      "map_text": "▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮\n▮|_|_|_|_|_|_|_|▮\n▮|_|_|_|_|_|_|_|▮\n▮|D|_|_|_|_|_|D|▮\n▮|_|_|_|_|_|_|_|▮\n▮|_|_|_|_|_|_|A|▮\n▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮",
+      "player_action": {
+        "name": "move",
+        "params": {
+          "direction": "right"
+        }
+      },
+      "automated_actions": [],
+      "agents_state": {
+        "A": {
+          "coins": 100
+        }
+      },
+      "scoreboard": {
+        "A": 0
+      }
+    }
+  ]
+}
