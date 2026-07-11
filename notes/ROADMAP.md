@@ -77,6 +77,8 @@ Diffuse (hundreds) → pivot: "linearly decodable but not localizable" negative-
 - C4 (stretch) mechanistic account of asymmetric steerability (#20)
 - Eval option: serve edited models via vLLM OpenAI-compatible endpoint → **Petri** auditor-style behavioral audit
 
+**C2 pilot result (Gemma-2-9B-it):** rank-1 edits account for Gemma's post-component RMSNorm and produce the predicted bidirectional policy effect. Removing the two positive writers (L19MLP + L20H15) reduces helping-choice logit difference by 0.206 (paired 95% CI [-0.259, -0.156]) while task choice changes -0.022 (CI includes zero), purified separation drops 4.69, neutral KL is 0.00090, and all 12 neutral top tokens are preserved. Removing four suppressor-direction writes increases helping by 0.263 (CI [0.167, 0.377]) with task change -0.053. Six random-component edits change helping -0.073 and separation -0.12. This is parameter-level causal evidence for a push-pull costly-helping policy, but not yet the final headline: expand capability evaluation, use edit-delta-norm-matched random controls, validate in the original EIA action harness, and replicate on another model before claiming surgical removal.
+
 **🔀 FORK 3:** if editing ~10 specific matrices selectively removes the behavior with <2% capability loss → "traced the pathway in the weights" headline, whatever Fork 2 named it.
 
 ## Stage D — Scale & family validation *(weeks 6–8)* — issues #15, #16, #17
