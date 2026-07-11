@@ -20,6 +20,8 @@ log = logging.getLogger("weight-edit")
 
 TARGETED = "L19MLP,L19H12,L15H15,L17H13,L18H13,L20H15"
 RANDOM = "L1MLP,L19H7,L15H9,L17H5,L18H12,L20H12"
+POSITIVE_WRITERS = "L19MLP,L20H15"
+SUPPRESSORS = "L19H12,L15H15,L17H13,L18H13"
 NEUTRAL_PROMPTS = [
     "The capital city of France is",
     "Water freezes at a temperature of",
@@ -247,12 +249,35 @@ def run_sequence(name, sequence, model, tokenizer, m_pairs, t_pairs, direction,
     return conditions
 
 
+def run_individuals(name, sequence, model, tokenizer, m_pairs, t_pairs, direction,
+                    neutral_baseline, batch_size, max_tokens, seed, device):
+    conditions = []
+    for index, component in enumerate(sequence, start=1):
+        snapshots = snapshot_weights(model, [component])
+        try:
+            edit = orthogonalize_component(model, component, direction)
+            log.info("%s: %s", name, component["name"])
+            conditions.append({
+                "component": component["name"],
+                "edit": edit,
+                "metrics": evaluate(
+                    model, tokenizer, m_pairs, t_pairs, direction, neutral_baseline,
+                    batch_size, max_tokens, seed, device,
+                ),
+            })
+        finally:
+            restore_weights(snapshots)
+    return conditions
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--model", default="google/gemma-2-9b-it")
     parser.add_argument("--direction", required=True)
     parser.add_argument("--targeted", default=TARGETED)
     parser.add_argument("--random", default=RANDOM)
+    parser.add_argument("--positive-writers", default=POSITIVE_WRITERS)
+    parser.add_argument("--suppressors", default=SUPPRESSORS)
     parser.add_argument("--m-pairs", default="data/contrastive_pairs/v2_1/M_templated.jsonl")
     parser.add_argument("--t-pairs", default="data/contrastive_pairs/v2_1/T_templated.jsonl")
     parser.add_argument("--batch-size", type=int, default=16)
@@ -282,6 +307,8 @@ def main():
     )
     targeted = [parse_component(value) for value in args.targeted.split(",")]
     random_components = [parse_component(value) for value in args.random.split(",")]
+    positive_writers = [parse_component(value) for value in args.positive_writers.split(",")]
+    suppressors = [parse_component(value) for value in args.suppressors.split(",")]
     summary = {
         "model": args.model,
         "direction": args.direction,
@@ -294,6 +321,21 @@ def main():
         "random": run_sequence(
             "random", random_components, model, tokenizer, m_pairs, t_pairs, direction,
             neutral_baseline, args.batch_size, args.max_tokens, args.seed, device,
+        ),
+        "targeted_individual": run_individuals(
+            "targeted_individual", targeted, model, tokenizer, m_pairs, t_pairs,
+            direction, neutral_baseline, args.batch_size, args.max_tokens,
+            args.seed, device,
+        ),
+        "positive_writers": run_sequence(
+            "positive_writers", positive_writers, model, tokenizer, m_pairs,
+            t_pairs, direction, neutral_baseline, args.batch_size,
+            args.max_tokens, args.seed, device,
+        ),
+        "suppressors": run_sequence(
+            "suppressors", suppressors, model, tokenizer, m_pairs, t_pairs,
+            direction, neutral_baseline, args.batch_size, args.max_tokens,
+            args.seed, device,
         ),
     }
     out = Path(args.out)
