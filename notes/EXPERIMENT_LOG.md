@@ -86,3 +86,4 @@ Model under study unless noted: **google/gemma-2-9b-it**, on the DGX Spark. Assi
 
 ### Remaining gates
 - E17 (planned): cross-model replication on Llama-3.1-8B.
+- E18 (planned): factorial decomposition of the edited mechanism — Need × Cost × Alternative-claim grid (`notes/v2_2-factorial-design.md`, issue #34); edited models {baseline, positive_writers, suppressors} across graded cost + moral-vs-moral cells; headline figure = helping-rate vs cost dose-response per edit condition.
