@@ -76,7 +76,7 @@ Model under study unless noted: **google/gemma-2-9b-it**, on the DGX Spark. Assi
 
 ### E15 · Capability benchmark under edits (gate 2) [C] — ✅ COMPLETE
 - **Final (generation-based MMLU, 400 Qs, balanced predictions ~100/letter, 1 unparsed):** baseline 0.6625; positive-writers Δ −0.0025 CI[−0.0125,+0.0050]; suppressors Δ +0.0075 CI[+0.0000,+0.0175]; targeted-k6 Δ +0.0050 CI[+0.0000,+0.0125]. Wikitext ppl ratios 0.999–1.003.
-- **Interpretation:** general capability is statistically unchanged under all edit conditions (every MMLU CI includes or grazes zero; ppl drift ≤0.3%) while helping behavior moves ±0.2–0.26 (E13/E14). Selectivity claim fully instrumented.
+- **Interpretation (claim language of record, per Juan/Sol 2026-07-11):** *no detectable MMLU degradation* — the k2 interval rules out losses larger than ~1.25pp; small positive deltas are evaluation noise, not improvements. Selectivity is established **relative to sampled MMLU and the perplexity corpus only**, not all behaviors. The bidirectionality is the key argument against "edits generally damaged the model": general damage doesn't explain suppressor edits *increasing* helping with intact capability. Combined claim now: "targeted edits bidirectionally alter costly-helping behavior without detectable loss on sampled MMLU or LM perplexity." External validity rests on the EIA games (E16); direction-specificity on norm-matched controls (E14/E14b).
 - Method history below kept as a record of two invalid attempts and their diagnostic tells.
 
 #### E15 method history (two discarded attempts)
