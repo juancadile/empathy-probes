@@ -87,7 +87,7 @@ def mmlu_accuracy(model, tokenizer, items, batch_size, max_tokens, device):
 def wikitext_nll(model, tokenizer, device, n_chars=200_000, window=1024):
     from datasets import load_dataset
 
-    ds = load_dataset("wikitext", "wikitext-2-raw-v1", split="test")
+    ds = load_dataset("Salesforce/wikitext", "wikitext-2-raw-v1", split="test")
     text = "\n".join(t for t in ds["text"] if t.strip())[:n_chars]
     ids = tokenizer(text, return_tensors="pt")["input_ids"][0]
     total_nll, total_tokens = 0.0, 0
