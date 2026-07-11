@@ -30,13 +30,15 @@ try:
     from src.weight_orthogonalization import (
         NEUTRAL_PROMPTS, POSITIVE_WRITERS, SUPPRESSORS,
         component_weight, effective_direction, evaluate, final_logits,
-        load_pairs, parse_component, restore_weights, snapshot_weights,
+        load_pairs, orthogonalize_component, parse_component, restore_weights,
+        snapshot_weights,
     )
 except ModuleNotFoundError:
     from weight_orthogonalization import (
         NEUTRAL_PROMPTS, POSITIVE_WRITERS, SUPPRESSORS,
         component_weight, effective_direction, evaluate, final_logits,
-        load_pairs, parse_component, restore_weights, snapshot_weights,
+        load_pairs, orthogonalize_component, parse_component, restore_weights,
+        snapshot_weights,
     )
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
