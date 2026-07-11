@@ -122,13 +122,30 @@ def main():
     log.info("baseline helping %.4f", base_help)
 
     reference = json.load(open(args.reference))
-    ref_deltas = {
+    pilot_deltas = {
         "positive_writers": reference["conditions_vs_baseline"]["positive_writers_k2"]["helping"]["mean"],
         "suppressors": reference["conditions_vs_baseline"]["suppressors_k4"]["helping"]["mean"],
     }
 
     sets = {"positive_writers": [parse_component(v) for v in POSITIVE_WRITERS.split(",")],
             "suppressors": [parse_component(v) for v in SUPPRESSORS.split(",")]}
+
+    # recompute targeted deltas IN-RUN so the z-score compares like with like
+    # (the pilot's baseline may differ in loading config / aggregation)
+    ref_deltas = {}
+    for set_name, components in sets.items():
+        snapshots = snapshot_weights(model, components)
+        try:
+            for c in components:
+                orthogonalize_component(model, c, direction)
+            metrics = evaluate(model, tokenizer, m_pairs, t_pairs, direction,
+                               neutral_baseline, args.batch_size, args.max_tokens,
+                               args.seed, device)
+        finally:
+            restore_weights(snapshots)
+        ref_deltas[set_name] = metrics["helping_choice"]["mean"] - base_help
+        log.info("%s targeted (in-run): helping delta %+.4f (pilot: %+.4f)",
+                 set_name, ref_deltas[set_name], pilot_deltas[set_name])
 
     results = {"baseline_helping": base_help, "n_seeds": args.n_seeds, "sets": {}}
     for set_name, components in sets.items():
@@ -157,6 +174,7 @@ def main():
             log.info("%s seed %d: helping delta %+.4f", set_name, s, delta)
         results["sets"][set_name] = {
             "summary": summarize(set_name, ref_deltas[set_name], null_deltas),
+            "pilot_helping_delta": pilot_deltas[set_name],
             "target_delta_norms": target_norms,
             "conditions": conditions,
         }
