@@ -74,9 +74,11 @@ Model under study unless noted: **google/gemma-2-9b-it**, on the DGX Spark. Assi
 - Same components, delta-norm-matched, random directions, 10 seeds/set: null −0.0045 ± 0.0044 (positive writers) and −0.0126 ± 0.0037 (suppressors) → targeted effects at **z = −45 / +75**. Equal-magnitude random damage to the same weights does ~nothing.
 - **Caveat:** run's baseline helping (1.09) differs from pilot print (4.28) — loading/aggregation difference unresolved; script now recomputes targeted deltas in-run (rerun queued) so z-scores are like-with-like. Conclusion robust to any plausible rescaling.
 
-### E15 · Capability benchmark under edits (gate 2) [C] — RUNNING
-- **Script:** `src/capability_eval.py` · **Data (expected):** `results/capability_eval_gemma2_9b_it/capability_eval.json`
-- 400 MMLU (0-shot letter-logit, paired bootstrap) + wikitext-2 ppl under baseline / positive-writers / suppressors / targeted-k6. First attempt crashed on `datasets` 5.x repo naming; fixed (`Salesforce/wikitext`), rerunning.
+### E15 · Capability benchmark under edits (gate 2) [C] — RERUNNING (MMLU fix)
+- **Script:** `src/capability_eval.py` · **Data:** `results/capability_eval_gemma2_9b_it/` (`capability_eval_broken_mmlu.json` = first attempt)
+- 400 MMLU + wikitext-2 ppl under baseline / positive-writers / suppressors / targeted-k6.
+- **Perplexity result (valid from first run): edits move wikitext ppl ≤ 0.4%** (13.096 baseline → 13.082 / 13.135 / 13.131). Consistent with selectivity.
+- **MMLU harness bug caught:** raw-completion letter readout was degenerate — 0.2575 (exactly chance) identically across all conditions, i.e. a constant letter bias making predictions edit-invariant. Diagnostic tell: *identical* accuracy across conditions is a red flag, not a selectivity result. Fixed with chat-template prompting + logsumexp over space-variant letter tokens; rerunning. Prior crash: `datasets` 5.x requires `Salesforce/wikitext`.
 
 ### E16 · EIA-harness behavioral validation (gate 3) [C] — IN PREPARATION
 - Original EIA game harness vendored to `third_party/eia/empathy/` (MIT). Plan: monkeypatch its single LLM entrypoint (`call_llm_with_prompt`) → local Gemma under {baseline, positive-writers, suppressors} edits; 5 scenarios × 3 seeds; judge calls (hard-coded `provider="openai"`) deferred to offline scoring (Batches API) + rule-based scores from `experiment.json` histories.
