@@ -101,4 +101,9 @@ paper/arxiv_submission_v3.tar.gz
 paper/arxiv_submission_v4.tar.gz
 
 *.zip
-v2_consolidated/
+v2_consolidated/paper-v2/*.aux
+paper-v2/*.log
+paper-v2/*.out
+paper-v2/*.bbl
+paper-v2/*.blg
+paper-v2/paper.pdf

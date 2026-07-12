@@ -1,0 +1,160 @@
+\documentclass{article}
+\usepackage[final]{neurips_2024}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{hyperref,url,booktabs,amsfonts,nicefrac,microtype,xcolor,graphicx,amsmath}
+
+% V2 paper — skeleton drafted 2026-07-12 from notes/EXPERIMENT_LOG.md (E01–E19b)
+% and notes/ROADMAP.md claim ladder. All numbers below are from committed
+% result JSONs; entry references in comments.
+
+\title{A Cost Gate for Costly Helping:\\Editing Value Writing and Cost-Gated Suppression in Gemma-2-9B-it}
+
+\author{%
+  Juan Cadile \\
+  \And
+  (author list TBD)\\
+}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+In \mbox{Gemma-2-9B-it}, we locate and edit two weight-level components of the
+decision to help a person at the expense of an assigned task, and show they
+play distinct functional roles: \emph{writers} carry cost-independent
+prosocial value, while \emph{suppressors} implement cost-gated inhibition of
+welfare-motivated action. On a graded cost axis with a clause-matched
+non-welfare control, suppressor-removal effects grow from $+0.06$ (helping
+free) to $+0.49$--$0.53$ (helping costly; welfare$\times$cost interaction CI
+$[+0.026,+0.169]$), while remaining flat with cost on the non-welfare axis;
+writer removal costs $\approx-0.20$ at every price point,
+welfare-preferentially (interaction CI $[-0.117,-0.070]$). The edits are
+rank-1 orthogonalizations of components selected by direct feature
+attribution from a \emph{moderately distributed} push--pull pattern. On
+held-out scenario families, writer removal reduces forced-choice helping by
+$-0.184$ (CI $[-0.236,-0.133]$; $\ge4.3\times$ selective over four control
+cells; $3.2\times$ the observed random-component leak; $z=-10$ vs.\
+norm-matched random directions on the same weights); suppressor removal
+increases it ($+0.150$) but also moves task persistence — the factorial assay
+above separates its cost gate from that flat engagement component. In the one
+Empathy-in-Action game scenario with behavioral headroom, suppressor — but not
+writer — edits transfer to interactive action allocation: across 13 pooled
+seeds, $0/13$ task completions vs.\ $2/13$ baseline and $+4.92$ supportive
+verbal actions (CI $[+1.92,+7.85]$, sign-test $p=.006$; $9/13$ runs at the
+interaction ceiling), without detectable degradation on a 400-question MMLU
+sample or WikiText perplexity. The underlying direction — derived from
+matched-lexicon minimal pairs at block 20/42 and passing a diagnostic
+surface-form robustness test (AUROC 0.911 vs.\ 0.827 matched reference, 13
+calibrated sources) — carries $\sim$88\% of baseline choice separation under
+full ablation on this assay. The same dependence does not replicate unchanged
+in \mbox{Llama-3.1-8B-Instruct}: an M-derived direction is perfectly decodable
+on held-out families but fails the warmth/persona specificity profile, full
+ablation erases only $\sim$5.5\% of choice separation (linear fractional dose
+curves, null random-direction controls, task control quiet), selected writer
+edits produce a smaller, format-sensitive effect ($\approx$18--20\% of the
+full-direction effect) and suppressor edits are null. We report the
+chronological audit trail and pre-registered confirmatory amendments,
+including 3--4$\times$ in-sample inflation observed directly in the Llama
+replication — and its absence ($\sim$14\% shrinkage) for Gemma's writer edit.
+\end{abstract}
+
+\section{Introduction}
+% Framing: V1 (activation probes/steering) -> V2 question: is the probe reading
+% a mechanism or an echo? Evidence standard upgrade: "we can trace the pathway
+% in the weights that produces it." Lexical-saturation lesson (E04) as motivation
+% for matched-lexicon design.
+\paragraph{Contributions.}
+\begin{enumerate}
+  \item A functional decomposition of a costly-helping mechanism:
+        cost-independent prosocial value (writers) vs.\ cost-gated inhibition
+        (suppressors), established by a graded cost axis with a clause-matched
+        non-welfare control (E18).
+  \item Held-out weight-edit effects with their differing selectivity
+        profiles: a writer effect $3.2\times$ larger than the observed
+        random-component leak, passing a four-cell selectivity criterion;
+        a suppressor effect that transfers to behavior but carries a
+        non-selective engagement footprint (E13, E14b, E14c, E15).
+  \item One-sided interactive transfer: suppressor (not writer) edits change
+        action allocation in the single EIA scenario with behavioral headroom;
+        the self-assessment measure is invariant (zero variance), giving an
+        intention--action dissociation of limited evidential weight
+        (E16, E16b).
+  \item A purified direction with a controlled transfer profile and
+        diagnostic-grade surface-form robustness on 13 calibrated sources
+        (E08, E19b).
+  \item An assay-bounded cross-model dependence contrast (full-direction
+        ablation erases $\sim$88\% of choice separation in Gemma vs.\
+        $\sim$5.5\% in Llama; linear fractional dose curves, random-direction
+        controls null), with a partial, format-sensitive Llama writer effect
+        and a null suppressor replication (E17, E17b, E18b).
+  \item A chronological audit trail with pre-registered confirmatory
+        amendments: in-sample inflation observed directly in the Llama
+        replication (3--4$\times$) and absent for Gemma's writer edit
+        ($\sim$14\% shrinkage); a stimulus-artifact robustness cell caught and
+        regenerated with a strict decision-audit pipeline (E19, E19b).
+\end{enumerate}
+
+\section{Related work}
+% activation steering / representation engineering; Arditi et al. refusal
+% orthogonalization; DFA-style attribution; EIA benchmark; Lazar criteria;
+% pre-registration in interp.
+
+\section{Methods}
+\subsection{Stimulus suite and matched-lexicon design}  % E03, E04, E05, E10
+\subsection{Direction derivation and grouped selection} % E08, grouped_block_selection
+\subsection{Direct feature attribution}                 % E01/E02/E09; frozen-RMS for Gemma-2, direct for Llama
+\subsection{Targeted weight orthogonalization}          % E13; effective-direction handling per family
+\subsection{Confirmatory evaluation design}             % amendments v2/v3: fresh families, selectivity margins, clustered bootstrap
+\subsection{EIA game harness adaptation}                % E16 driver; deferred judging
+
+\section{Results}
+\subsection{A purified, robust costly-helping direction}         % E08, E19b
+\subsection{Writers and suppressors: bidirectional weight edits} % E13, E14b, E14c, E15
+% Table: confirmatory deltas + selectivity ratios + controls
+\subsection{The mechanism decomposed: value writing vs.\ cost gating} % E18
+% Figure: dose-response curves (cost axis vs non-social axis, per condition)
+\subsection{From weights to actions: EIA games}                  % E16, E16b
+% Table: listener n_says + door rates; intention-action gap
+\subsection{Cross-model scope: same direction, different reliance} % E17, E17b, E18b
+% Figure: fractional ablation curves both models
+\subsection{What the confirmatory design caught}                 % E17 in-sample inflation; E19 artifact
+
+\section{Limitations}
+\begin{itemize}
+  \item \textbf{Component specificity is bounded, not absolute.} Removing the
+        direction from six arbitrary components moves the primary outcome
+        $-0.057$; the writer effect is $3.2\times$ larger. The E18 random
+        interaction is likewise nonzero ($+0.018$), $\sim$5$\times$ smaller
+        than targeted interactions.
+  \item \textbf{Game evidence is one-sided and scenario-local.} The
+        pre-registered composite across five scenarios was null (three lacked
+        dynamic range; the official judge rubric scored every listener run
+        2/2 — the reported signal is below rubric resolution). Writers were
+        null in games; $9/13$ suppressor runs hit the say-count ceiling;
+        semantic repetitiveness and miscalibrated over-support are not ruled
+        out (``supportive verbal action,'' not ``better help'').
+  \item \textbf{Mechanism claims concern one model.} The Llama replication
+        yields a partial, format-sensitive writer effect and a null suppressor
+        effect; two models differing in architecture and training cannot
+        localize the cause of the difference.
+  \item \textbf{Robustness is diagnostic-grade.} 13 source pairs, one
+        perturbation set, one model/block; not an equivalence claim. A strict
+        immediate-action audit retained only 13/34 original cell-A sources,
+        weakening unfiltered cell-A transfer numbers.
+  \item \textbf{Capability scope.} Only a 400-question MMLU sample and
+        WikiText perplexity were tested; the writer-edit interval rules out
+        losses larger than $\sim$1.25pp on that sample.
+  \item \textbf{Dependence is not mediation.} Gemma's full-direction ablation
+        also moves task persistence ($+0.58$); the 88\% figure is an
+        assay-bounded dependence estimate, not strict mediation or a fully
+        selective intervention.
+\end{itemize}
+
+\section{Conclusion}
+
+\bibliographystyle{plain}
+\bibliography{references}
+
+\end{document}
