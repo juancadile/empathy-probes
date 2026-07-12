@@ -84,18 +84,19 @@ def choice_scores_fmt(model, tokenizer, pairs, seed, batch_size, max_tokens,
 
 
 class DirectionAblator:
-    """Removes the direction component from a block's output at every position."""
+    """Removes fraction*projection onto `direction` from a block's output."""
 
-    def __init__(self, model, block, direction):
+    def __init__(self, model, block, direction, fraction=1.0):
         self.handle = None
         self.model, self.block = model, block
         self.d = direction  # unit, float32, on device
+        self.f = fraction
 
     def __enter__(self):
         def hook(_m, _i, output):
             h = output[0] if isinstance(output, tuple) else output
             proj = (h.float() @ self.d)[..., None] * self.d  # (b,s,d)
-            h_new = (h.float() - proj).to(h.dtype)
+            h_new = (h.float() - self.f * proj).to(h.dtype)
             if isinstance(output, tuple):
                 return (h_new,) + tuple(output[1:])
             return h_new
@@ -128,6 +129,8 @@ def main():
     ap.add_argument("--batch-size", type=int, default=16)
     ap.add_argument("--max-tokens", type=int, default=1024)
     ap.add_argument("--seed", type=int, default=42)
+    ap.add_argument("--ablate-fractions", type=float, nargs="+", default=None,
+                    help="test 3: fractional ablation curve at --block (+3 random-dir controls at f=1)")
     ap.add_argument("--skip-test1", action="store_true",
                     help="only run activation ablation (e.g. cross-model normalization)")
     ap.add_argument("--out", default="results/e17b_null_audit_llama31_8b_it")
@@ -202,6 +205,32 @@ def main():
                  deltas["M_confirm"]["mean"], deltas["M_confirm"]["ci95"],
                  deltas["T_confirm"]["mean"])
     results["test2_activation_ablation"] = test2
+
+    # ---- test 3: fractional ablation dose curve + random-direction controls ----
+    if args.ablate_fractions:
+        test3 = {}
+        for f in args.ablate_fractions:
+            with DirectionAblator(model, args.block, direction, fraction=f):
+                deltas = {}
+                for n, pairs in pair_sets.items():
+                    s = choice_scores_fmt(model, tokenizer, pairs, args.seed,
+                                          args.batch_size, args.max_tokens, device, False)
+                    deltas[n] = clustered_delta(s, base_raw[n], fams[n], seed=args.seed)
+            test3[f"fraction_{f}"] = deltas
+            log.info("[frac %.2f] dM %+0.4f CI %s | dT %+0.4f", f,
+                     deltas["M_confirm"]["mean"], deltas["M_confirm"]["ci95"],
+                     deltas["T_confirm"]["mean"])
+        for s_i in range(3):
+            gen = torch.Generator(device="cpu").manual_seed(args.seed * 100 + s_i)
+            rd = torch.randn(direction.shape[0], generator=gen).to(device)
+            rd /= torch.linalg.vector_norm(rd)
+            with DirectionAblator(model, args.block, rd, fraction=1.0):
+                s = choice_scores_fmt(model, tokenizer, pair_sets["M_confirm"], args.seed,
+                                      args.batch_size, args.max_tokens, device, False)
+            d = clustered_delta(s, base_raw["M_confirm"], fams["M_confirm"], seed=args.seed)
+            test3[f"random_dir_{s_i}"] = d
+            log.info("[random-dir %d] dM %+0.4f CI %s", s_i, d["mean"], d["ci95"])
+        results["test3_fractional_ablation"] = test3
 
     (out / "e17b.json").write_text(json.dumps(results, indent=2))
     log.info("wrote %s", out / "e17b.json")
