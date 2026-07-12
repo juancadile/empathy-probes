@@ -304,6 +304,10 @@ def main():
                 activation_dir / f"cell_{cell}.npz",
                 pos=pos,
                 neg=neg,
+                # row-order provenance: NPZ rows are positional; downstream grouped
+                # analyses must not trust an independently re-read jsonl
+                scenario_ids=np.array([p.get("scenario_id", "") for p in pairs]),
+                pair_indices=np.array([p.get("pair_index", -1) for p in pairs]),
             )
             activations[cell] = {"pos": pos, "neg": neg}
 
