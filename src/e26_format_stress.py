@@ -48,13 +48,12 @@ T_CONFIRM = "data/contrastive_pairs/v2_1/T_confirm_templated.jsonl"
 # deterministic paraphrases of the confirm cells' decision-clause STEMS.
 # Applied by string replacement to pos/neg texts; pairs whose clauses don't
 # match the expected stems are skipped (counted).
+# Both M_confirm branches start "I am going to " (the contrast is the action,
+# not negation); one stem substitution applies to both sides.
 PARAPHRASES = {
-    "p1": [("I am going to ", "I have decided to "),
-           ("I am not going to ", "I have decided not to ")],
-    "p2": [("I am going to ", "My choice is to "),
-           ("I am not going to ", "My choice is not to ")],
-    "p3": [("I am going to ", "Right now I will "),
-           ("I am not going to ", "Right now I will not ")],
+    "p1": ("I am going to ", "I have decided to "),
+    "p2": ("I am going to ", "My choice is to "),
+    "p3": ("I am going to ", "Right now I will "),
 }
 
 
@@ -106,19 +105,17 @@ def continuation_scores(model, tok, pairs, batch, max_tokens, device):
     return pos - neg
 
 
-def paraphrase_pairs(pairs, subs):
+def paraphrase_pairs(pairs, sub):
     out, skipped = [], 0
+    old_stem, new_stem = sub
     for p in pairs:
-        q = copy.deepcopy(p)
-        ok = True
-        pos_sub, neg_sub = subs
-        if pos_sub[0] in q["pos_text"] and neg_sub[0] in q["neg_text"]:
-            q["pos_text"] = q["pos_text"].replace(pos_sub[0], pos_sub[1], 1)
-            q["neg_text"] = q["neg_text"].replace(neg_sub[0], neg_sub[1], 1)
+        if old_stem in p["pos_text"] and old_stem in p["neg_text"]:
+            q = copy.deepcopy(p)
+            q["pos_text"] = q["pos_text"].replace(old_stem, new_stem, 1)
+            q["neg_text"] = q["neg_text"].replace(old_stem, new_stem, 1)
+            out.append(q)
         else:
-            ok = False
-        (out.append(q) if ok else None)
-        skipped += (0 if ok else 1)
+            skipped += 1
     return out, skipped
 
 
@@ -169,8 +166,9 @@ def main():
               "continuation": lambda prs: continuation_scores(model, tok, prs,
                                                               args.batch_size, args.max_tokens, device)}
     para_sets = {}
-    for name, subs in PARAPHRASES.items():
-        prs, skipped = paraphrase_pairs(m_pairs, subs)
+    for name, sub in PARAPHRASES.items():
+        prs, skipped = paraphrase_pairs(m_pairs, sub)
+        assert prs, f"paraphrase {name} matched zero pairs"
         para_sets[name] = prs
         print(f"paraphrase {name}: {len(prs)} pairs ({skipped} skipped)")
 
