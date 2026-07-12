@@ -148,7 +148,9 @@ def main():
         d = {n: edited[n] - base[n] for n in cells}
         for n in cells:
             fams, cost = meta[n]["fams"], np.asarray(meta[n]["cost"])
-            entry[n] = {"delta_overall": clustered_ci(d[n], fams, args.seed),
+            entry[n] = {"per_pair_delta": d[n].tolist(),
+                        "families": list(fams),
+                        "delta_overall": clustered_ci(d[n], fams, args.seed),
                         "delta_by_cost": {c: clustered_ci(d[n][cost == c],
                                                           np.asarray(fams)[cost == c], args.seed)
                                           for c in COST_LEVELS}}
