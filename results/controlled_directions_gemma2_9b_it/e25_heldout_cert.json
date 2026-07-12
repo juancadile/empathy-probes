@@ -1,0 +1,22 @@
+{
+  "direction": "results/controlled_directions_gemma2_9b_it/direction_M_resid_block20.npy",
+  "block": 20,
+  "sets": {
+    "M_confirm": {
+      "n_pairs": 48,
+      "auroc": 1.0,
+      "two_sided": 1.0,
+      "inverse": false,
+      "gate": "positive>=0.65",
+      "pass": true
+    },
+    "T_confirm": {
+      "n_pairs": 40,
+      "auroc": 0.21,
+      "two_sided": 0.79,
+      "inverse": true,
+      "gate": "quiet_two_sided<=0.10",
+      "pass": false
+    }
+  }
+}
