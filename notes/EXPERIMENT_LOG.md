@@ -317,3 +317,8 @@ Codex reviewed commits 41af3f4..HEAD; all findings verified in code before actin
 5. Mediums adopted: whole-response exact-label parsing + abort on any UNKNOWN; E18 step now passes the composition-matched `--random-components` (was silently using the stale 1-MLP+5-head set).
 - Codex independently recomputed E25 from cached activations (d_resid fails only G at 0.746; d_did fails B/D/E/G/T; chosen=None confirmed) and verified the E26 z/n_more_extreme numbers, format-stress baseline matching, DiD algebra, sign test, and message-pool matching (excited 8/143, resolved 8/142 vs distress 8/142).
 - **Chain:** `scripts/run_rescue3b.sh` = step5c (nulls + overlap) → step6 (games, fixed) → step7 (capability) → step8 (E18). Steps 1–5b results stand.
+
+#### E26b addendum · full-universe writer rank test (rescue step 5c; 2026-07-12 ~18:45 EDT)
+- **Data:** `results/e26_matched_nulls_gemma/matched_nulls.json` (rerun with `--include-overlap`).
+- **Targeted L19MLP+L20MLP is the most extreme of ALL C(8,2)=28 two-MLP sets in layers 16–23 (0/27 as extreme) → genuine exact permutation p = 1/28 = 0.036** (codex-corrected inference; the earlier 15-set version supported only a disjoint-control comparison at min p 1/16).
+- The 12 half-overlapping sets (one targeted MLP + one band MLP) also fall short of −0.289 — neither targeted MLP paired with an arbitrary band neighbor reproduces the effect; the specific L19+L20 conjunction is required for the maximum.

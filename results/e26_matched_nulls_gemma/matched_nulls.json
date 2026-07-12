@@ -193,7 +193,146 @@
         0.08463541666666696
       ],
       "z": -3.0169599418341404,
-      "n_null_more_extreme": 0
+      "n_null_more_extreme": 0,
+      "overlap_sets": [
+        {
+          "set": [
+            "L16MLP",
+            "L19MLP"
+          ],
+          "delta": -0.21614583333333304,
+          "delta_norms": {
+            "L16MLP": 0.686,
+            "L19MLP": 0.826
+          }
+        },
+        {
+          "set": [
+            "L16MLP",
+            "L20MLP"
+          ],
+          "delta": -0.16536458333333304,
+          "delta_norms": {
+            "L16MLP": 0.686,
+            "L20MLP": 0.852
+          }
+        },
+        {
+          "set": [
+            "L17MLP",
+            "L19MLP"
+          ],
+          "delta": -0.2578125,
+          "delta_norms": {
+            "L17MLP": 0.749,
+            "L19MLP": 0.826
+          }
+        },
+        {
+          "set": [
+            "L17MLP",
+            "L20MLP"
+          ],
+          "delta": -0.21223958333333304,
+          "delta_norms": {
+            "L17MLP": 0.749,
+            "L20MLP": 0.852
+          }
+        },
+        {
+          "set": [
+            "L18MLP",
+            "L19MLP"
+          ],
+          "delta": -0.21744791666666607,
+          "delta_norms": {
+            "L18MLP": 0.779,
+            "L19MLP": 0.826
+          }
+        },
+        {
+          "set": [
+            "L18MLP",
+            "L20MLP"
+          ],
+          "delta": -0.16927083333333304,
+          "delta_norms": {
+            "L18MLP": 0.779,
+            "L20MLP": 0.852
+          }
+        },
+        {
+          "set": [
+            "L19MLP",
+            "L21MLP"
+          ],
+          "delta": -0.12890625,
+          "delta_norms": {
+            "L19MLP": 0.826,
+            "L21MLP": 0.79
+          }
+        },
+        {
+          "set": [
+            "L19MLP",
+            "L22MLP"
+          ],
+          "delta": -0.10286458333333304,
+          "delta_norms": {
+            "L19MLP": 0.826,
+            "L22MLP": 0.746
+          }
+        },
+        {
+          "set": [
+            "L19MLP",
+            "L23MLP"
+          ],
+          "delta": -0.12890625,
+          "delta_norms": {
+            "L19MLP": 0.826,
+            "L23MLP": 0.715
+          }
+        },
+        {
+          "set": [
+            "L20MLP",
+            "L21MLP"
+          ],
+          "delta": -0.12109375,
+          "delta_norms": {
+            "L20MLP": 0.852,
+            "L21MLP": 0.79
+          }
+        },
+        {
+          "set": [
+            "L20MLP",
+            "L22MLP"
+          ],
+          "delta": -0.07291666666666607,
+          "delta_norms": {
+            "L20MLP": 0.852,
+            "L22MLP": 0.746
+          }
+        },
+        {
+          "set": [
+            "L20MLP",
+            "L23MLP"
+          ],
+          "delta": -0.11848958333333304,
+          "delta_norms": {
+            "L20MLP": 0.852,
+            "L23MLP": 0.715
+          }
+        }
+      ],
+      "full_universe_rank": {
+        "n_universe": 28,
+        "n_as_extreme": 0,
+        "exact_p": 0.03571428571428571
+      }
     },
     "suppressor_matched": {
       "targeted_set": [
