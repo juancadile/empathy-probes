@@ -104,11 +104,15 @@ V2-model steering sweeps, dose-response, asymmetry; random-baseline & EIA-correl
 | GH200 rental | only if Spark too slow (27B/32B sweeps, 70B) | $0–85 |
 | APIs (Anthropic/OpenAI/Gemini ✅ validated; OpenRouter optional) | V2.1 suite (small models), persona-vector pipeline, judging | ~$10–50 |
 
-## Paper claim ladder (target)
+## Paper claim ladder (state of evidence as of 2026-07-12; details in EXPERIMENT_LOG E14c/E16b/E17)
 
-1. Empathy-in-action is linearly represented across families *(V1/V2 ✅)*
-2. It is written by an identifiable sparse set of components *(A)*
-3. Those components form a faithful circuit whose features show it is ⟨empathy | task-focus | persona⟩ *(B — Fork 2)*
-4. Editing the specific weights that implement it selectively removes the behavior *(C — headline)*
-5. The mechanism replicates across scale and family; alignment training modifies it at the parameter level *(C3+D)*
-6. (demo) The direction governs *action selection*, not narrative style *(E)*
+1. Empathy-in-action is linearly represented across families *(V1/V2 ✅; also true in Llama-3.1-8B — gate A AUROC 1.0 on held-out families)*
+2. It is written by an identifiable sparse set of components *(A ✅ Gemma; Llama DFA finds a parallel profile but see 4b)*
+3. Those components form a faithful circuit… *(B — partially superseded by the E14c decomposition below)*
+4. Weight-edit causal control — **now two distinct axes** *(C, revised)*:
+   - **4a. Writer edits (L19MLP+L20H15) selectively reduce costly-helping choice, out-of-family** (E14c: −0.184*, all selectivity ratios ≥4.3, no in-sample inflation). The helping-specific claim of record.
+   - **4b. Suppressor edits increase alternative-uptake NON-selectively** (E14c: helping +0.150* but task-persistence cell co-moves −0.177*). Best current reading (codex-sparred): suppressors stabilize the incumbent policy against salient alternatives; welfare-specificity undetermined → E18 interaction test (cost axis vs matched non-social axis, stimuli built).
+5. Cross-model replication: **FAILED on Llama-3.1-8B at the confirmatory level** (E17: representation transfers, causal control doesn't; suppressor side null; writer side in-sample-only). Gemma mechanism is real but not architecture-general. E17b (format/ablation audit) running.
+6. The direction governs *action selection* in the original EIA games *(E16/E16b ✅ one-sided: suppressor edits — 0/13 door completions, +4.9 supportive messages, p=.006; wording "away from task persistence toward supportive verbal action" remains exactly calibrated under the 4b rereading)*
+
+**Honest paper shape:** a Gemma-2 case study with (i) a helping-specific writer mechanism validated out-of-family, (ii) a policy-stabilization axis whose removal enacts task-abandonment-for-helping in real games, (iii) a documented cross-model replication failure with the diagnosis of why (in-sample inflation caught by confirmatory design), and (iv) the E18 interaction as the decomposition test. The methodological arc (pre-registration + adversarial review catching circularity before it shipped) is itself a contribution.
