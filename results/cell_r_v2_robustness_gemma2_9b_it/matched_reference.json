@@ -2,5 +2,5 @@
  "matched_rows": 15,
  "n_unique_keys": 10,
  "matched_reference_auroc": 0.8266666666666667,
- "note": "pair_index not unique per scenario; join matched 15 rows for 13 keys; per-row AUROC"
+ "note": "R_v2 has 13 calibrated source pairs but (scenario_id, pair_index) is not a unique key in cell A: 10 unique keys matched 15 A rows. AUROC is per-row over those 15; treat source count as 13 pairs / 10 join keys."
 }
