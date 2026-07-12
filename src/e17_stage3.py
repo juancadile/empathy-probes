@@ -176,6 +176,15 @@ def main():
     direction /= torch.linalg.vector_norm(direction)
 
     pair_sets = {name: load_pairs(path) for name, path in EVAL_SETS.items()}
+    # free-form cells (D/G/H) lack shared_prefix; build_choice_prompt slices by
+    # it, so synthesize the longest common prefix backed off to a word boundary
+    # (empty prefix -> options are the full texts, which is the intended format)
+    import os.path
+    for pairs in pair_sets.values():
+        for p in pairs:
+            if "shared_prefix" not in p:
+                lcp = os.path.commonprefix([p["pos_text"], p["neg_text"]])
+                p["shared_prefix"] = lcp[:lcp.rfind(" ") + 1] if " " in lcp else ""
     families = {name: [p.get("scenario_id", str(i)) for i, p in enumerate(pairs)]
                 for name, pairs in pair_sets.items()}
     for name, pairs in pair_sets.items():
