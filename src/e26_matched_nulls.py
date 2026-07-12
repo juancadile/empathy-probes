@@ -156,7 +156,7 @@ def main():
         f = results["families"][fam]
         print(f"{fam}: targeted {f['targeted_delta']:+.4f} | null "
               f"{f['null_mean']:+.4f}±{f['null_std']:.4f} | z={f['z']:+.1f} | "
-              f"{f['n_null_more_extreme']}/{args.n_sets} as extreme")
+              f"{f['n_null_more_extreme']}/{len(null_names)} as extreme")
 
     (out / "matched_nulls.json").write_text(json.dumps(results, indent=2))
     print(f"wrote {out}/matched_nulls.json")
