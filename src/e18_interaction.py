@@ -94,6 +94,8 @@ def main():
     ap.add_argument("--batch-size", type=int, default=16)
     ap.add_argument("--max-tokens", type=int, default=1024)
     ap.add_argument("--seed", type=int, default=42)
+    ap.add_argument("--cells", nargs="+", default=None,
+                    help="name=path overrides for CELLS")
     ap.add_argument("--out", default="results/e18_interaction_gemma2_9b_it")
     args = ap.parse_args()
 
@@ -113,7 +115,8 @@ def main():
     direction = torch.tensor(np.load(args.direction), dtype=torch.float32, device=device)
     direction /= torch.linalg.vector_norm(direction)
 
-    cells = {n: load_pairs(p) for n, p in CELLS.items()}
+    cell_paths = (dict(s.split("=", 1) for s in args.cells) if args.cells else CELLS)
+    cells = {n: load_pairs(p) for n, p in cell_paths.items()}
     meta = {n: {"fams": [p["scenario_id"] for p in pairs],
                 "cost": [p["cost_level"] for p in pairs]} for n, pairs in cells.items()}
 
