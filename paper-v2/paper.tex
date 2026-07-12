@@ -114,11 +114,35 @@ replication — and its absence ($\sim$14\% shrinkage) for Gemma's writer edit.
 \subsection{Writers and suppressors: bidirectional weight edits} % E13, E14b, E14c, E15
 % Table: confirmatory deltas + selectivity ratios + controls
 \subsection{The mechanism decomposed: value writing vs.\ cost gating} % E18
-% Figure: dose-response curves (cost axis vs non-social axis, per condition)
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{figures/fig1_cost_gate.pdf}
+  \caption{Weight-edit effects vs.\ helping cost (Gemma-2-9B-it). Suppressor
+  removal (red) is cost-gated on the welfare axis (slope $+0.17$) and shows no
+  monotone cost trend on the clause-matched non-welfare axis (slope $-0.002$);
+  writer removal (blue) shows no monotone cost trend and is
+  welfare-preferential; random-component edits (grey) stay within $\pm0.03$.
+  Points are family-clustered means with bootstrap 95\% CIs (10 scenario
+  families per axis). Data: \texttt{results/e18\_interaction\_gemma2\_9b\_it/e18.json}.}
+  \label{fig:costgate}
+\end{figure}
 \subsection{From weights to actions: EIA games}                  % E16, E16b
 % Table: listener n_says + door rates; intention-action gap
 \subsection{Cross-model scope: same direction, different reliance} % E17, E17b, E18b
-% Figure: fractional ablation curves both models
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=0.72\linewidth]{figures/fig2_fractional_ablation.pdf}
+  \caption{Fractional ablation of the frozen direction at B\textsuperscript{*}
+  (raw format, confirmatory M). Both models show approximately linear,
+  monotone dose responses; random-direction controls ($\times$, with CIs) are
+  near-zero relative to the targeted effect ($|\Delta|\le0.03$; two of three
+  Gemma random CIs exclude zero). Full removal moves the choice logit $-3.94$
+  against a baseline separation of $+4.47$ in Gemma ($\sim$88\%) vs.\
+  $-0.160$ against $+2.93$ in Llama ($\sim$5.5\%; inset: own scale).
+  Assay-bounded dependence, not strict mediation (Gemma full ablation also
+  moves the task control $+0.58$).}
+  \label{fig:fractional}
+\end{figure}
 \subsection{What the confirmatory design caught}                 % E17 in-sample inflation; E19 artifact
 
 \section{Limitations}
