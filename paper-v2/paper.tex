@@ -179,8 +179,12 @@ edited model and scores pre-registered rule-based outcomes.
 \section{Results}
 \subsection{A purified, diagnostically robust direction}
 The block-20 direction transfers to costly-helping and third-person cells
-(A 0.73, F 0.90) while remaining near chance on task persistence (T 0.05,
-E 0.52), warmth (D 0.24), motive (G 0.55), and character (H 0.17). It
+(A 0.73, F 0.90). \textbf{Correction (E24):} cells we originally reported as
+``near chance'' are in fact strongly \emph{inversely} separated — two-sided
+separability T 0.98, H 0.83, D 0.76 — i.e., the direction also tracks task
+interruption with reversed polarity and is not welfare-purified; all
+mechanism names in this draft are provisional pending the residualized
+re-derivation (\S\ref{sec:resid}). It
 separates contrast-preserving paraphrase, name-swap, and register-shift
 perturbations at AUROC 0.911 vs.\ a matched unperturbed reference of 0.827
 (diagnostic grade: 13 calibrated source pairs (10 unique join keys; see artifact note)). Full ablation of the direction
@@ -188,7 +192,7 @@ erases $\sim$88\% of baseline choice separation (Fig.~\ref{fig:fractional}),
 establishing assay-level dependence, though not selective mediation (the task
 control moves $+0.58$ under full ablation).
 
-\subsection{Held-out weight-edit effects}
+\subsection{Held-out weight-edit effects}\label{sec:resid}
 On confirmatory families, writer removal shifts helping choice $-0.184$
 (CI $[-0.236,-0.133]$), with every control-cell effect at least $4.3\times$ smaller (D $-0.043$ and H $+0.030$ are small but nonzero) and only $\sim$14\% shrinkage from the development set.
 Suppressor removal shifts helping $+0.150$ $[+0.087,+0.214]$ but co-moves

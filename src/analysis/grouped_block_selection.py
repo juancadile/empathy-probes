@@ -125,9 +125,11 @@ def main():
     for cell, lo in [("A", 0.65), ("F", 0.65)]:
         if cell in transfer:
             gates[f"M_to_{cell}_ge_{lo}"] = transfer[cell] >= lo
-    for cell in ["E", "T", "G", "H"]:
+    # TWO-SIDED quiet gate (E24): AUROC near 0 is near-perfect INVERSE
+    # separation, not silence. Quiet means |auroc - 0.5| <= 0.10.
+    for cell in ["E", "T", "G", "H", "D", "B"]:
         if cell in transfer:
-            gates[f"M_to_{cell}_le_0.60"] = transfer[cell] <= 0.60
+            gates[f"M_to_{cell}_quiet_two_sided"] = abs(transfer[cell] - 0.5) <= 0.10
     print("transfer at B*:", {c: round(a, 3) for c, a in sorted(transfer.items())})
     print("gates:", gates)
 
