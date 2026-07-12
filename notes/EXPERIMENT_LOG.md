@@ -329,3 +329,7 @@ Codex reviewed commits 41af3f4..HEAD; all findings verified in code before actin
 - Suppressor specificity calibrated to "outlier among 12 sampled composition-matched sets (min direct p 1/13)".
 - Log wording corrected in the E25b/E26 entries: continuation T control is NOT quiet (CI excludes 0); "T quiet on all three assays" retracted.
 - Remaining blockers for the strong interpretation (agreed, queued for rescue3c + local analyses): fresh random-DIRECTION controls on the new components; E18c slope-interaction estimand on the new E18 output; fresh E21 need-axis for new sets; E22 boundary rerun before reuse of that claim.
+
+#### E26b addendum 2 · edit-norm covariate analysis (local, from recorded delta_norms; 2026-07-12 ~19:50 EDT)
+- **Writers — codex's norm confound partially bites:** the targeted pair has the LARGEST summed rank-1 edit norm of all 28 band sets (1.678; 0/27 alternatives ≥), and |Δ| correlates with norm r=+0.40 among alternatives. Norm-adjusted (linear residual) rank: targeted over-performs its norm prediction by +0.113 but drops to 2nd of 28 → **adjusted p ≈ 0.071 vs unadjusted 0.036**. Report both; "most consequential per unit norm" belongs to a neighbor (L17+L19).
+- **Suppressors — norm concern refuted with evidence:** norm↔|Δ| correlation −0.05 among sampled sets; targeted remains the top residual outlier (0/12) → adjusted p ≈ 0.077, unchanged. The suppressor outlier status is not a norm artifact.
