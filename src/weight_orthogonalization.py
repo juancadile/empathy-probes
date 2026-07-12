@@ -218,11 +218,11 @@ def restore_weights(snapshots):
 
 @torch.no_grad()
 def evaluate(model, tokenizer, m_pairs, t_pairs, direction, neutral_baseline,
-             batch_size, max_tokens, seed, device):
+             batch_size, max_tokens, seed, device, block=20):
     m_scores = choice_scores(model, tokenizer, m_pairs, seed, batch_size, max_tokens, device)
     t_scores = choice_scores(model, tokenizer, t_pairs, seed, batch_size, max_tokens, device)
     separation = decision_separation(
-        model, tokenizer, m_pairs, direction, 20, batch_size, max_tokens, device
+        model, tokenizer, m_pairs, direction, block, batch_size, max_tokens, device
     )
     neutral = final_logits(
         model, tokenizer, NEUTRAL_PROMPTS, batch_size, max_tokens, device
@@ -236,7 +236,7 @@ def evaluate(model, tokenizer, m_pairs, t_pairs, direction, neutral_baseline,
 
 
 def run_sequence(name, sequence, model, tokenizer, m_pairs, t_pairs, direction,
-                 neutral_baseline, batch_size, max_tokens, seed, device):
+                 neutral_baseline, batch_size, max_tokens, seed, device, block=20):
     snapshots = snapshot_weights(model, sequence)
     conditions, edits = [], []
     try:
@@ -249,7 +249,7 @@ def run_sequence(name, sequence, model, tokenizer, m_pairs, t_pairs, direction,
                 "edits": list(edits),
                 "metrics": evaluate(
                     model, tokenizer, m_pairs, t_pairs, direction, neutral_baseline,
-                    batch_size, max_tokens, seed, device,
+                    batch_size, max_tokens, seed, device, block=block,
                 ),
             })
     finally:
@@ -258,7 +258,7 @@ def run_sequence(name, sequence, model, tokenizer, m_pairs, t_pairs, direction,
 
 
 def run_individuals(name, sequence, model, tokenizer, m_pairs, t_pairs, direction,
-                    neutral_baseline, batch_size, max_tokens, seed, device):
+                    neutral_baseline, batch_size, max_tokens, seed, device, block=20):
     conditions = []
     for index, component in enumerate(sequence, start=1):
         snapshots = snapshot_weights(model, [component])
@@ -270,7 +270,7 @@ def run_individuals(name, sequence, model, tokenizer, m_pairs, t_pairs, directio
                 "edit": edit,
                 "metrics": evaluate(
                     model, tokenizer, m_pairs, t_pairs, direction, neutral_baseline,
-                    batch_size, max_tokens, seed, device,
+                    batch_size, max_tokens, seed, device, block=block,
                 ),
             })
         finally:
@@ -291,6 +291,8 @@ def main():
     parser.add_argument("--batch-size", type=int, default=16)
     parser.add_argument("--max-tokens", type=int, default=512)
     parser.add_argument("--seed", type=int, default=42)
+    parser.add_argument("--block", type=int, default=20,
+                        help="readout block for decision_separation (B* for the model)")
     parser.add_argument("--out", default="results/weight_orthogonalization_gemma2_9b_it")
     args = parser.parse_args()
 
@@ -313,7 +315,7 @@ def main():
     )
     baseline = evaluate(
         model, tokenizer, m_pairs, t_pairs, direction, neutral_baseline,
-        args.batch_size, args.max_tokens, args.seed, device,
+        args.batch_size, args.max_tokens, args.seed, device, block=args.block,
     )
     targeted = [parse_component(value) for value in args.targeted.split(",")]
     random_components = [parse_component(value) for value in args.random.split(",")]
@@ -327,15 +329,17 @@ def main():
         "targeted": run_sequence(
             "targeted", targeted, model, tokenizer, m_pairs, t_pairs, direction,
             neutral_baseline, args.batch_size, args.max_tokens, args.seed, device,
+            block=args.block,
         ),
         "random": run_sequence(
             "random", random_components, model, tokenizer, m_pairs, t_pairs, direction,
             neutral_baseline, args.batch_size, args.max_tokens, args.seed, device,
+            block=args.block,
         ),
         "targeted_individual": run_individuals(
             "targeted_individual", targeted, model, tokenizer, m_pairs, t_pairs,
             direction, neutral_baseline, args.batch_size, args.max_tokens,
-            args.seed, device,
+            args.seed, device, block=args.block,
         ),
         "positive_writers": run_sequence(
             "positive_writers", positive_writers, model, tokenizer, m_pairs,
@@ -345,7 +349,7 @@ def main():
         "suppressors": run_sequence(
             "suppressors", suppressors, model, tokenizer, m_pairs, t_pairs,
             direction, neutral_baseline, args.batch_size, args.max_tokens,
-            args.seed, device,
+            args.seed, device, block=args.block,
         ),
     }
     out = Path(args.out)

@@ -97,6 +97,7 @@ def main():
     parser.add_argument("--batch-size", type=int, default=16)
     parser.add_argument("--max-tokens", type=int, default=512)
     parser.add_argument("--seed", type=int, default=42)
+    parser.add_argument("--block", type=int, default=20)
     parser.add_argument("--reference", default="results/weight_orthogonalization_gemma2_9b_it/analysis.json")
     parser.add_argument("--out", default="results/norm_matched_controls_gemma2_9b_it")
     args = parser.parse_args()
@@ -121,7 +122,7 @@ def main():
     neutral_baseline = final_logits(model, tokenizer, NEUTRAL_PROMPTS,
                                     args.batch_size, args.max_tokens, device)
     baseline = evaluate(model, tokenizer, m_pairs, t_pairs, direction, neutral_baseline,
-                        args.batch_size, args.max_tokens, args.seed, device)
+                        args.batch_size, args.max_tokens, args.seed, device, block=args.block)
     base_help = baseline["helping_choice"]["mean"]
     log.info("baseline helping %.4f", base_help)
 
@@ -144,7 +145,7 @@ def main():
                 orthogonalize_component(model, c, direction)
             metrics = evaluate(model, tokenizer, m_pairs, t_pairs, direction,
                                neutral_baseline, args.batch_size, args.max_tokens,
-                               args.seed, device)
+                               args.seed, device, block=args.block)
         finally:
             restore_weights(snapshots)
         ref_deltas[set_name] = metrics["helping_choice"]["mean"] - base_help
@@ -166,7 +167,7 @@ def main():
                          for c in components]
                 metrics = evaluate(model, tokenizer, m_pairs, t_pairs, direction,
                                    neutral_baseline, args.batch_size, args.max_tokens,
-                                   args.seed, device)
+                                   args.seed, device, block=args.block)
             finally:
                 restore_weights(snapshots)
             delta = metrics["helping_choice"]["mean"] - base_help
