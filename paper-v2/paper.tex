@@ -2,11 +2,10 @@
 \usepackage[final]{neurips_2024}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage{hyperref,url,booktabs,amsfonts,nicefrac,microtype,xcolor,graphicx,amsmath}
+\usepackage{hyperref,url,booktabs,amsfonts,amssymb,nicefrac,microtype,xcolor,graphicx,amsmath}
 
-% V2 paper — skeleton drafted 2026-07-12 from notes/EXPERIMENT_LOG.md (E01–E19b)
-% and notes/ROADMAP.md claim ladder. All numbers below are from committed
-% result JSONs; entry references in comments.
+% V2 paper — prose draft 2026-07-12, post stress-test (log E23). Every number
+% traces to a JSON under results/ (sha256 in results/PROVENANCE.json).
 
 \title{A Cost Gate for Costly Helping:\\Editing Value Writing and Cost-Gated Suppression in Gemma-2-9B-it}
 
@@ -21,162 +20,302 @@
 \maketitle
 
 \begin{abstract}
-In \mbox{Gemma-2-9B-it}, we locate and edit two weight-level components of the
-decision to help a person at the expense of an assigned task, and show they
-play distinct functional roles: \emph{writers} carry cost-independent
-prosocial value, while \emph{suppressors} implement cost-gated inhibition of
-welfare-motivated action. On a graded cost axis with a clause-matched
-non-welfare control, suppressor-removal effects grow from $+0.06$ (helping
-free) to $+0.49$--$0.53$ (helping costly; welfare$\times$cost interaction CI
-$[+0.026,+0.169]$), while remaining flat with cost on the non-welfare axis;
-writer removal costs $\approx-0.20$ at every price point,
-welfare-preferentially (interaction CI $[-0.117,-0.070]$). The edits are
-rank-1 orthogonalizations of components selected by direct feature
-attribution from a \emph{moderately distributed} push--pull pattern. On
-held-out scenario families, writer removal reduces forced-choice helping by
-$-0.184$ (CI $[-0.236,-0.133]$; $\ge4.3\times$ selective over four control
-cells; $3.2\times$ the observed random-component leak; $z=-10$ vs.\
-norm-matched random directions on the same weights); suppressor removal
-increases it ($+0.150$) but also moves task persistence — the factorial assay
-above separates its cost gate from that flat engagement component. In the one
-Empathy-in-Action game scenario with behavioral headroom, suppressor — but not
-writer — edits transfer to interactive action allocation: across 13 pooled
-seeds, $0/13$ task completions vs.\ $2/13$ baseline and $+4.92$ supportive
-verbal actions (CI $[+1.92,+7.85]$, sign-test $p=.006$; $9/13$ runs at the
-interaction ceiling), without detectable degradation on a 400-question MMLU
-sample or WikiText perplexity. The underlying direction — derived from
-matched-lexicon minimal pairs at block 20/42 and passing a diagnostic
-surface-form robustness test (AUROC 0.911 vs.\ 0.827 matched reference, 13
-calibrated sources) — carries $\sim$88\% of baseline choice separation under
-full ablation on this assay. The same dependence does not replicate unchanged
-in \mbox{Llama-3.1-8B-Instruct}: an M-derived direction is perfectly decodable
-on held-out families but fails the warmth/persona specificity profile, full
-ablation erases only $\sim$5.5\% of choice separation (linear fractional dose
-curves, null random-direction controls, task control quiet), selected writer
-edits produce a smaller, format-sensitive effect ($\approx$18--20\% of the
-full-direction effect) and suppressor edits are null. We report the
-chronological audit trail and pre-registered confirmatory amendments,
-including 3--4$\times$ in-sample inflation observed directly in the Llama
-replication — and its absence ($\sim$14\% shrinkage) for Gemma's writer edit.
+In \mbox{Gemma-2-9B-it}, we locate and edit two weight-level component sets
+implicated in the decision to help a person at the expense of an assigned
+task, and show they exhibit distinct intervention profiles: a \emph{writer}
+set behaving like a source of welfare value, and a \emph{suppressor} set
+behaving like a need- and cost-dependent gate on welfare-motivated action.
+On a graded cost axis with a clause-matched non-welfare control, removing the
+suppressor set produces effects whose cost slope exceeds the non-welfare
+axis's by $+0.172$ (family-bootstrap CI $[+0.129,+0.220]$; positive in 10/10
+scenario families); a graded need axis shows this cost gating is
+\emph{conjunctive on need}, with the cost slope rising from $-0.03$ (need
+resolved) through $+0.06$ (mild) to $+0.17$ (urgent). Removing the writer set
+costs $\approx-0.20$ at every price point within a need level,
+welfare-preferentially (slope difference $-0.059$ $[-0.081,-0.039]$, negative
+in 10/10 families), and its effect vanishes at zero current need. The edits
+are rank-1 orthogonalizations of components selected by direct feature
+attribution from a moderately distributed push--pull pattern. On held-out
+scenario families, writer removal reduces forced-choice helping by $-0.184$
+(CI $[-0.236,-0.133]$; $\ge4.3\times$ selective over four control cells);
+suppressor removal increases it ($+0.150$) while also moving task
+persistence — the factorial assays above separate its gate from that flat
+engagement component. In the one Empathy-in-Action game scenario with
+behavioral headroom, suppressor — but not writer — edits transfer to
+interactive action allocation: $+5.0$ supportive verbal actions on ten seeds
+untouched by scenario discovery (CI $[+1.1,+8.7]$, sign-test $p=.039$),
+without detectable degradation on a 400-question MMLU sample or WikiText
+perplexity. The underlying direction, derived from matched-lexicon minimal
+pairs at block 20/42, carries $\sim$88\% of baseline choice separation under
+full ablation on this assay, versus $\sim$5.5\% for the analogous direction
+in \mbox{Llama-3.1-8B-Instruct} (linear fractional dose curves; near-zero
+random-direction controls) — where selected writer edits produce a smaller,
+format-sensitive effect and suppressor edits are null. We report the
+chronological audit trail: pre-registered confirmatory designs that caught
+in-sample inflation directly (3--4$\times$ in the Llama replication; $\sim$14\%
+shrinkage for Gemma's writer edit), a stimulus-artifact robustness cell
+caught and regenerated, and an estimand error and a mis-indexed readout caught by adversarial review
+and control reruns before publication.
 \end{abstract}
 
 \section{Introduction}
-% Framing: V1 (activation probes/steering) -> V2 question: is the probe reading
-% a mechanism or an echo? Evidence standard upgrade: "we can trace the pathway
-% in the weights that produces it." Lexical-saturation lesson (E04) as motivation
-% for matched-lexicon design.
+Language models routinely face a small dilemma with large implications: a
+user in the middle of a task signals that a person needs attention. Whether
+the model treats the assigned objective or the person as the stronger claim
+is a behavioral disposition with obvious deployment consequences, and prior
+work (including our own) has shown that dispositions of this family are
+linearly decodable from activations. Decodability, however, is cheap: a probe
+can read a lexical echo as easily as a decision. This paper asks the harder
+question — whether an identifiable, editable mechanism in the \emph{weights}
+produces the choice — and, if so, what that mechanism computes.
+
+Our approach upgrades the evidence standard in three steps. First, we
+construct matched-lexicon minimal pairs whose two branches share every
+emotion word and differ only in the enacted decision, after demonstrating
+that a naive contrastive dataset is lexically saturated (a shuffled-token
+control reaches AUROC 0.90--0.99). Second, we trace the resulting purified
+direction to components via exact residual-stream attribution and edit those
+components with rank-1 weight orthogonalization, under norm-matched
+random-direction, random-component, capability, and held-out-family controls.
+Third — and this is the part we would most encourage other groups to copy —
+we subjected every stage to pre-registration and adversarial review, which
+caught a circular evaluation design, an estimand error, and a
+stimulus-generation artifact before any of them reached a claim.
+
+What emerges is a two-part mechanism whose parts are legible in behavioral
+coordinates. One component set behaves like a source of \emph{welfare value}:
+removing it lowers the model's preference for helping a person in need at
+every price point, does not detectably move four control dispositions, and
+has no effect when the person needs nothing. The other behaves like a
+\emph{gate}: removing it disinhibits helping in proportion to both the cost
+of helping and the need of the person — a conjunctive cost$\times$need gate —
+while also loosening a smaller, need-insensitive hold on engagement generally.
+The gate's removal transfers out of text pairs entirely: in the original
+Empathy-in-Action games, gate-edited models allocate their actions toward a
+distressed user at the expense of their objective.
+
 \paragraph{Contributions.}
 \begin{enumerate}
-  \item A functional decomposition of a costly-helping mechanism:
-        cost-independent prosocial value (writers) vs.\ cost-gated inhibition
-        (suppressors), established by a graded cost axis with a clause-matched
-        non-welfare control (E18).
-  \item Held-out weight-edit effects with their differing selectivity
-        profiles: a writer effect $3.2\times$ larger than the observed
-        random-component leak, passing a four-cell selectivity criterion;
-        a suppressor effect that transfers to behavior but carries a
-        non-selective engagement footprint (E13, E14b, E14c, E15).
-  \item One-sided interactive transfer: suppressor (not writer) edits change
-        action allocation in the single EIA scenario with behavioral headroom;
-        the self-assessment measure is invariant (zero variance), giving an
-        intention--action dissociation of limited evidential weight
-        (E16, E16b).
-  \item A purified direction with a controlled transfer profile and
-        diagnostic-grade surface-form robustness on 13 calibrated sources
-        (E08, E19b).
-  \item An assay-bounded cross-model dependence contrast (full-direction
+  \item A functional decomposition of a costly-helping mechanism into
+        writer-like (welfare value) and gate-like (need$\times$cost
+        conjunctive suppression) component sets, established by graded cost,
+        need, and moral-allocation axes with clause-matched controls
+        (E18/E21/E22; Fig.~\ref{fig:costgate}).
+  \item Held-out weight-edit effects with differing selectivity profiles:
+        a writer effect passing a four-cell selectivity criterion; a
+        suppressor effect that transfers to behavior but carries a
+        non-selective engagement footprint.
+  \item One-sided interactive transfer with a message-allocation effect that
+        survives on seeds untouched by scenario discovery.
+  \item An assay-bounded cross-model dependence contrast: full-direction
         ablation erases $\sim$88\% of choice separation in Gemma vs.\
-        $\sim$5.5\% in Llama; linear fractional dose curves, random-direction
-        controls null), with a partial, format-sensitive Llama writer effect
-        and a null suppressor replication (E17, E17b, E18b).
-  \item A chronological audit trail with pre-registered confirmatory
-        amendments: in-sample inflation observed directly in the Llama
-        replication (3--4$\times$) and absent for Gemma's writer edit
-        ($\sim$14\% shrinkage); a stimulus-artifact robustness cell caught and
-        regenerated with a strict decision-audit pipeline (E19, E19b).
+        $\sim$5.5\% in Llama (Fig.~\ref{fig:fractional}), with partial,
+        format-sensitive writer replication and null suppressor replication.
+  \item A documented audit trail in which pre-registered confirmatory design
+        and adversarial review each caught errors that would otherwise have
+        shipped: in-sample inflation, a mislabeled estimand, discovery-data
+        pooling, and an invalid robustness cell.
 \end{enumerate}
 
 \section{Related work}
-% activation steering / representation engineering; Arditi et al. refusal
-% orthogonalization; DFA-style attribution; EIA benchmark; Lazar criteria;
-% pre-registration in interp.
+\paragraph{Activation steering and representation engineering.} Linear
+directions that decode and steer high-level dispositions are well established;
+our V1 study found empathy-in-action directions with AUROC $\ge$0.996 across
+three model families but also revealed architecture-specific implementations.
+The present work differs in evidential target: parameter-level causation with
+held-out behavioral validation.
+\paragraph{Weight orthogonalization.} Our edit is the rank-1 removal of a
+direction from component output weights in the style of refusal-direction
+orthogonalization (Arditi et al.), applied selectively to attributed
+components rather than globally, with the Gemma-2 sandwich-norm rescaling
+handled explicitly.
+\paragraph{Attribution and SAEs.} Component selection uses exact
+residual-stream decomposition (frozen-RMS direct feature attribution);
+GemmaScope sparse autoencoders provide exploratory feature naming only.
+\paragraph{Behavioral benchmarks.} Interactive validation uses the original
+Empathy-in-Action gridworld games; our forced-choice metric is deliberately
+finer-grained than the EIA rubric, which saturates on our scenarios.
+\paragraph{Evaluation of prosocial competence.} We map our tests onto Lazar's
+criteria (sensitivity, robustness, coherence, consistency, practical vs.\
+analytical competence) and report which are satisfied at which grade.
 
 \section{Methods}
-\subsection{Stimulus suite and matched-lexicon design}  % E03, E04, E05, E10
-\subsection{Direction derivation and grouped selection} % E08, grouped_block_selection
-\subsection{Direct feature attribution}                 % E01/E02/E09; frozen-RMS for Gemma-2, direct for Llama
-\subsection{Targeted weight orthogonalization}          % E13; effective-direction handling per family
-\subsection{Confirmatory evaluation design}             % amendments v2/v3: fresh families, selectivity margins, clustered bootstrap
-\subsection{EIA game harness adaptation}                % E16 driver; deferred judging
+\subsection{Matched-lexicon stimuli}
+All causal claims rest on cells where both branches of a pair share an
+identical context and an identical emotion-bearing acknowledgment, and differ
+only in a decision clause (cell M; 5 scenario families $\times$ 8 templated
+variants for development, 6 fresh families for confirmation, plus matched
+task-persistence controls T). The V2.2 factorial extends this discipline to
+graded axes: a cost axis (4 consequence-stem levels), a need axis
+(resolved/mild/urgent, judge-validated 2.0/3.4/4.5 before any model run), a
+clause-matched non-welfare salience control, and a moral-vs-moral allocation
+axis (judge-validated claim-strength gradient). Between-arm differences are
+confined to single clauses; decision clauses are byte-identical across arms
+and (for V2.2) across scenarios.
+
+\subsection{Direction, attribution, and edits}
+The direction of record is the cell-M mean difference at block 20 (of 42),
+tail-pooled over decision tokens, selected by leave-one-family-out AUROC with
+a pre-registered depth anchor. Direct feature attribution decomposes the
+residual projection exactly into per-head and per-MLP contributions
+(sandwich-norm-aware for Gemma-2; verified to reconstruction error
+$\le 4\times10^{-4}$), yielding a moderately distributed push--pull pattern
+(56 components carry 80\%). We edit $k{=}2$ positive writers
+(L19MLP, L20H15) and $k{=}4$ negative-attribution components (L19H12, L15H15,
+L17H13, L18H13) by rank-1 orthogonalization of their output weights against
+the direction, with realized-delta and idempotence checks.
+
+\subsection{Outcomes and controls}
+The primary outcome is a forced-choice logit difference between the two
+decision clauses appended to the shared context. Controls: (i) norm-matched
+random-direction edits on the same components; (ii) random-component edits
+against the target direction, including a 12-set sampled null; (iii) four
+non-target cells (task persistence, warmth, motive, character); (iv) a
+400-question MMLU sample and WikiText-2 perplexity; (v) family-clustered
+bootstrap inference with leave-one-family-out sensitivity throughout;
+(vi) confirmatory evaluation on scenario families never used in derivation
+or selection. Interactive validation drives the original EIA games with the
+edited model and scores pre-registered rule-based outcomes.
 
 \section{Results}
-\subsection{A purified, robust costly-helping direction}         % E08, E19b
-\subsection{Writers and suppressors: bidirectional weight edits} % E13, E14b, E14c, E15
-% Table: confirmatory deltas + selectivity ratios + controls
-\subsection{The mechanism decomposed: value writing vs.\ cost gating} % E18
-\begin{figure}[t]
-  \centering
-  \includegraphics[width=\linewidth]{figures/fig1_cost_gate.pdf}
-  \caption{Weight-edit effects vs.\ helping cost (Gemma-2-9B-it). Suppressor
-  removal (red) is cost-gated on the welfare axis (slope $+0.17$) and shows no
-  monotone cost trend on the clause-matched non-welfare axis (slope $-0.002$);
-  writer removal (blue) shows no monotone cost trend and is
-  welfare-preferential; random-component edits (grey) stay within $\pm0.03$.
-  Points are family-clustered means with bootstrap 95\% CIs (10 scenario
-  families per axis). Data: \texttt{results/e18\_interaction\_gemma2\_9b\_it/e18.json}.}
-  \label{fig:costgate}
-\end{figure}
-\subsection{From weights to actions: EIA games}                  % E16, E16b
-% Table: listener n_says + door rates; intention-action gap
-\subsection{Cross-model scope: same direction, different reliance} % E17, E17b, E18b
-\begin{figure}[t]
-  \centering
-  \includegraphics[width=0.72\linewidth]{figures/fig2_fractional_ablation.pdf}
-  \caption{Fractional ablation of the frozen direction at B\textsuperscript{*}
-  (raw format, confirmatory M). Both models show approximately linear,
-  monotone dose responses; random-direction controls ($\times$, with CIs) are
-  near-zero relative to the targeted effect ($|\Delta|\le0.03$; two of three
-  Gemma random CIs exclude zero). Full removal moves the choice logit $-3.94$
-  against a baseline separation of $+4.47$ in Gemma ($\sim$88\%) vs.\
-  $-0.160$ against $+2.93$ in Llama ($\sim$5.5\%; inset: own scale).
-  Assay-bounded dependence, not strict mediation (Gemma full ablation also
-  moves the task control $+0.58$).}
-  \label{fig:fractional}
-\end{figure}
-\subsection{What the confirmatory design caught}                 % E17 in-sample inflation; E19 artifact
+\subsection{A purified, diagnostically robust direction}
+The block-20 direction transfers to costly-helping and third-person cells
+(A 0.73, F 0.90) while remaining near chance on task persistence (T 0.05,
+E 0.52), warmth (D 0.24), motive (G 0.55), and character (H 0.17). It
+separates contrast-preserving paraphrase, name-swap, and register-shift
+perturbations at AUROC 0.911 vs.\ a matched unperturbed reference of 0.827
+(diagnostic grade: 13 calibrated sources). Full ablation of the direction
+erases $\sim$88\% of baseline choice separation (Fig.~\ref{fig:fractional}),
+establishing assay-level dependence, though not selective mediation (the task
+control moves $+0.58$ under full ablation).
+
+\subsection{Held-out weight-edit effects}
+On confirmatory families, writer removal shifts helping choice $-0.184$
+(CI $[-0.236,-0.133]$), with all four control cells quiet (selectivity
+$\ge4.3\times$) and only $\sim$14\% shrinkage from the development set.
+Suppressor removal shifts helping $+0.150$ $[+0.087,+0.214]$ but co-moves
+task persistence ($-0.177$), motivating the factorial decomposition below.
+Random-component edits form a sampled null of $-0.034\pm0.024$ (12 sets;
+the writer and suppressor effects sit at $z=-6.2$ and $z=+7.7$ against it),
+and norm-matched random-direction edits on the same components are null
+under the identical protocol ($z=-10.5$ and $z=+7.7$) — after fixing a
+left-padding readout bug this control rerun surfaced, which had silently
+mis-scaled two earlier control runs. Capability is
+unchanged within measurement (MMLU deltas' CIs include zero; perplexity ratio
+$\le1.003$).
+
+\subsection{The mechanism decomposed: value writing vs.\ conjunctive gating}
+Figure~\ref{fig:costgate} shows edit effects against helping cost on the
+welfare and matched non-welfare axes. The suppressor effect's cost slope
+exceeds its non-welfare slope by $+0.172$ $[+0.129,+0.220]$ (10/10 families);
+the need axis shows the gate is conjunctive — its cost slope is $-0.03$ at
+resolved need, $+0.06$ at mild, $+0.17$ at urgent — and its removal also
+carries a flat $\approx+0.2$ engagement component visible on the non-welfare
+axis and in the task-persistence co-movement. The writer effect is
+approximately cost-flat within each need level (slope difference $-0.059$
+$[-0.081,-0.039]$), scales with need, and vanishes at zero current need
+($+0.019$ at resolved): the writers carry \emph{need-gated welfare value}.
+On the moral-vs-moral axis, the baseline model shows a $\sim$2.5-logit
+incumbency prior at equal need; suppressor removal loosens it uniformly
+(flat-compatible under a pre-registered equivalence bound) at $\sim$8$\times$
+smaller magnitude than in task-vs-welfare cells — the gate defends task
+objectives, not moral incumbencies, and neither edit detectably reweights
+triage between two moral claims (a weak-effect regime where the
+random-component leak is comparable in magnitude; inference rests on the
+pre-registered sign structure).
+
+\subsection{From weights to actions}
+In the one EIA scenario with behavioral headroom (the listener: reach a door
+while a distressed user messages you), suppressor-edited models allocate
+$+4.9$ additional supportive messages (pooled 13 seeds, CI $[+1.9,+7.8]$,
+sign-test $p=.006$); on the ten seeds untouched by scenario discovery the
+effect is $+5.0$ $[+1.1,+8.7]$, $p=.039$. Task completion contrasts (0/13
+vs.\ 2/13 doors) derive entirely from discovery seeds (baseline has no door
+headroom on the new seeds) and are reported as discovery data. Writer edits
+do not transfer to games. Message content remains non-repetitive and
+contextual (unique-message ratio $\approx$1.0); the official EIA rubric
+saturates (2/2 for every condition), placing the effect below its
+resolution. Self-assessments are invariant across conditions (zero variance)
+while enacted allocation moves — an intention--action dissociation of
+limited evidential weight.
+
+\subsection{Cross-model scope}
+In Llama-3.1-8B-Instruct, an analogously derived block-15 direction is
+perfectly decodable on held-out families but fails the warmth/persona
+specificity gates (G 0.82, H 0.65, D 0.91). Fractional ablation
+(Fig.~\ref{fig:fractional}) shows genuine but weak causal use: linear,
+monotone, task-quiet dose curves reaching $-0.160$ $[-0.188,-0.130]$ —
+$\sim$5.5\% of baseline separation vs.\ Gemma's $\sim$88\%. Selected writer
+edits produce a small, format-sensitive effect (raw $-0.017$ to $-0.029$
+across nominally identical runs — a bf16 run-to-run noise band of
+$\sim\pm0.01$ that we report as such — vs.\ $-0.077$ under chat templating);
+suppressor edits are null in both formats. Dev-set writer effects exceeded
+confirmatory effects by 3--4$\times$ — in-sample inflation observed directly,
+and absent in Gemma ($\sim$14\%).
+
+\subsection{Exploratory feature naming}
+Decomposing the Gemma direction through a pretrained GemmaScope SAE yields
+16 features shared between decoder-geometry and decision-tail activation
+rankings; their auto-labels (pausing-activities, personal sacrifice,
+relational care vs.\ ambition/perseverance, competitive outcomes) are
+qualitatively compatible with the welfare-value/task-persistence reading.
+All decoder cosines are small ($\le0.19$); this is correlational naming, not
+feature-level causal evidence.
+
+\section{What the audit trail caught}
+Four errors were intercepted between result and claim: (i) a circular
+evaluation design (edit outcomes originally measured on the pairs that
+derived the direction) — the confirmatory-family redesign then observed the
+predicted in-sample inflation directly in the Llama replication; (ii) an
+estimand mislabel (an axis-mean difference reported as a slope interaction) —
+the corrected statistic is stronger; (iii) discovery-data pooling in the
+game analysis — the message effect survives on untouched seeds, the door
+contrast does not; (iv) a robustness cell whose generation had destroyed its
+own contrast (both branches concluded with helping), caught by inspection
+after a chance-level result and regenerated under a strict decision-audit
+pipeline. We include this section because the errors are ordinary, the
+catches were cheap, and the difference between this paper and a wrong one is
+the audit trail.
 
 \section{Limitations}
 \begin{itemize}
-  \item \textbf{Component specificity is bounded, not absolute.} Removing the
-        direction from six arbitrary components moves the primary outcome
-        $-0.057$; the writer effect is $3.2\times$ larger. The E18 random
-        interaction is likewise nonzero ($+0.018$), $\sim$5$\times$ smaller
-        than targeted interactions.
-  \item \textbf{Game evidence is one-sided and scenario-local.} The
-        pre-registered composite across five scenarios was null (three lacked
-        dynamic range; the official judge rubric scored every listener run
-        2/2 — the reported signal is below rubric resolution). Writers were
-        null in games; $9/13$ suppressor runs hit the say-count ceiling;
-        semantic repetitiveness and miscalibrated over-support are not ruled
-        out (``supportive verbal action,'' not ``better help'').
-  \item \textbf{Mechanism claims concern one model.} The Llama replication
-        yields a partial, format-sensitive writer effect and a null suppressor
-        effect; two models differing in architecture and training cannot
-        localize the cause of the difference.
-  \item \textbf{Robustness is diagnostic-grade.} 13 source pairs, one
-        perturbation set, one model/block; not an equivalence claim. A strict
-        immediate-action audit retained only 13/34 original cell-A sources,
-        weakening unfiltered cell-A transfer numbers.
-  \item \textbf{Capability scope.} Only a 400-question MMLU sample and
-        WikiText perplexity were tested; the writer-edit interval rules out
-        losses larger than $\sim$1.25pp on that sample.
-  \item \textbf{Dependence is not mediation.} Gemma's full-direction ablation
-        also moves task persistence ($+0.58$); the 88\% figure is an
-        assay-bounded dependence estimate, not strict mediation or a fully
-        selective intervention.
+  \item \textbf{Component specificity is bounded, not absolute.} Random
+        components carry a significant leak ($-0.057$ on the primary outcome;
+        sampled null in E14d); the writer effect is $3.2\times$ larger.
+        ``Writer''/``suppressor'' name intervention profiles on these assays,
+        not verified modules.
+  \item \textbf{Forced choice is a proxy.} The A/B logit difference is finer
+        grained than sampled behavior; writer effects do not transfer to
+        free generation in games, and raw-text prompting of instruct models
+        understates format-sensitive effects (Llama writer $\times2.7$ under
+        chat).
+  \item \textbf{Game evidence is one-sided and scenario-local}, below the
+        official rubric's resolution, with say-count ceilings in 9/13 runs.
+  \item \textbf{Template pseudoreplication.} Effective sample sizes are
+        5--10 scenario families per cell, not 40--160 pairs; all inference is
+        family-clustered with LOFO, but percentile coverage with 10 clusters
+        is approximate.
+  \item \textbf{Two models cannot localize why dependence differs}; the
+        88\%/5.5\% contrast is assay-bounded and Gemma's full ablation is not
+        task-selective ($+0.58$ on T).
+  \item \textbf{Construct validity of graded axes} rests on single-family
+        LLM judge pretests; the moral axis's need gradient co-varies with
+        immediacy (2.0/2.6/4.3), as real claims do.
+  \item \textbf{Capability retention} is bounded only on sampled MMLU
+        ($\lesssim$1.25pp) and WikiText perplexity.
 \end{itemize}
 
 \section{Conclusion}
+In one open-weights model we can find, name in behavioral coordinates, and
+selectively edit two component sets that jointly implement a costly-helping
+decision: need-gated welfare value, and a conjunctive need$\times$cost gate
+whose removal makes the model help when helping is expensive — in text
+choices and, one-sidedly, in interactive games — without detectable
+capability cost. The same recipe applied to a second model finds the
+representation but not the editable mechanism, at 16$\times$ lower
+direction-dependence. Both facts, and the audit trail that kept them honest,
+seem to us the right starting point for asking whether prosocial dispositions
+in deployed systems can be measured, and governed, at the level of weights.
 
 \bibliographystyle{plain}
 \bibliography{references}

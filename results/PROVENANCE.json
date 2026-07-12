@@ -1,4 +1,5 @@
 {
+ "results/PROVENANCE.json": "02de573e0e0decc5",
  "results/action_component_inspection_gemma2_9b_it/summary.json": "37ec2658b5a92366",
  "results/action_path_mediation_gemma2_9b_it/summary.json": "5d0ea01ac7d79766",
  "results/action_path_mediation_same_layer_gemma2_9b_it/summary.json": "cdf090ff7c4c4c9a",
@@ -28,6 +29,8 @@
  "results/dfa_gemma2_9b_it_M_block20/dfa_summary.json": "c03f566c92f7c6d6",
  "results/dfa_llama31_8b_it/dfa_summary.json": "de24c8510febf7a0",
  "results/e14c_gemma2_9b_it/stage3.json": "f161f4dbd081df6f",
+ "results/e14d_gemma2_9b_it/random_component_sets.json": "2b0fcffaa3d4461f",
+ "results/e14d_gemma2_9b_it_normmatched_v2/norm_matched_controls.json": "3a81b0e86ff87ed3",
  "results/e17_stage3_llama31_8b_it/stage3.json": "3deb87fda515d929",
  "results/e17b_ablation_gemma2_9b_it/e17b.json": "6aa277e9afe43c39",
  "results/e17b_frac_gemma/e17b.json": "203c296cc18d3ef1",
