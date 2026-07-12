@@ -1,0 +1,177 @@
+{
+  "block": 20,
+  "cos_resid_vs_M": 0.9712660312652588,
+  "cos_did_vs_M": 0.15041741728782654,
+  "cos_did_vs_resid": 0.21544590592384338,
+  "M_original": {
+    "profile": {
+      "A": {
+        "auroc": 0.709,
+        "two_sided": 0.709,
+        "inverse": false
+      },
+      "B": {
+        "auroc": 0.339,
+        "two_sided": 0.661,
+        "inverse": true
+      },
+      "D": {
+        "auroc": 0.244,
+        "two_sided": 0.756,
+        "inverse": true
+      },
+      "E": {
+        "auroc": 0.539,
+        "two_sided": 0.539,
+        "inverse": false
+      },
+      "F": {
+        "auroc": 0.904,
+        "two_sided": 0.904,
+        "inverse": false
+      },
+      "G": {
+        "auroc": 0.53,
+        "two_sided": 0.53,
+        "inverse": false
+      },
+      "H": {
+        "auroc": 0.169,
+        "two_sided": 0.831,
+        "inverse": true
+      },
+      "M": {
+        "auroc": 1.0,
+        "two_sided": 1.0,
+        "inverse": false
+      },
+      "T": {
+        "auroc": 0.023,
+        "two_sided": 0.978,
+        "inverse": true
+      }
+    },
+    "pos_gates": true,
+    "quiet_two_sided": false,
+    "failed_quiet_cells": [
+      "B",
+      "D",
+      "H",
+      "T"
+    ]
+  },
+  "resid": {
+    "profile": {
+      "A": {
+        "auroc": 0.777,
+        "two_sided": 0.777,
+        "inverse": false
+      },
+      "B": {
+        "auroc": 0.569,
+        "two_sided": 0.569,
+        "inverse": false
+      },
+      "D": {
+        "auroc": 0.526,
+        "two_sided": 0.526,
+        "inverse": false
+      },
+      "E": {
+        "auroc": 0.593,
+        "two_sided": 0.593,
+        "inverse": false
+      },
+      "F": {
+        "auroc": 0.966,
+        "two_sided": 0.966,
+        "inverse": false
+      },
+      "G": {
+        "auroc": 0.746,
+        "two_sided": 0.746,
+        "inverse": false
+      },
+      "H": {
+        "auroc": 0.494,
+        "two_sided": 0.506,
+        "inverse": true
+      },
+      "M": {
+        "auroc": 1.0,
+        "two_sided": 1.0,
+        "inverse": false
+      },
+      "T": {
+        "auroc": 0.552,
+        "two_sided": 0.552,
+        "inverse": false
+      }
+    },
+    "pos_gates": true,
+    "quiet_two_sided": false,
+    "failed_quiet_cells": [
+      "G"
+    ]
+  },
+  "did": {
+    "profile": {
+      "A": {
+        "auroc": 0.655,
+        "two_sided": 0.655,
+        "inverse": false
+      },
+      "B": {
+        "auroc": 0.638,
+        "two_sided": 0.638,
+        "inverse": false
+      },
+      "D": {
+        "auroc": 0.753,
+        "two_sided": 0.753,
+        "inverse": false
+      },
+      "E": {
+        "auroc": 0.832,
+        "two_sided": 0.832,
+        "inverse": false
+      },
+      "F": {
+        "auroc": 0.905,
+        "two_sided": 0.905,
+        "inverse": false
+      },
+      "G": {
+        "auroc": 0.765,
+        "two_sided": 0.765,
+        "inverse": false
+      },
+      "H": {
+        "auroc": 0.576,
+        "two_sided": 0.576,
+        "inverse": false
+      },
+      "M": {
+        "auroc": 0.997,
+        "two_sided": 0.997,
+        "inverse": false
+      },
+      "T": {
+        "auroc": 0.97,
+        "two_sided": 0.97,
+        "inverse": false
+      }
+    },
+    "pos_gates": true,
+    "quiet_two_sided": false,
+    "failed_quiet_cells": [
+      "B",
+      "D",
+      "E",
+      "G",
+      "T"
+    ]
+  },
+  "chosen": null,
+  "chosen_note": "Gate verdict recomputed 2026-07-12 over ALL control cells B,D,E,G,H,T (the original run gated only E,T,D,H; Sol review). d_resid fails the G (genuine-vs-instrumental motive) quiet gate at 0.746 two-sided; under the fixed selection rule NO candidate fully passes. d_resid remains the working direction with G-separation reported as an open confound, not a passed gate."
+}

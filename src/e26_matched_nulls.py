@@ -1,12 +1,15 @@
 """E26b: MATCHED random-component nulls (rescue step 5).
 
-The earlier 12-set null (E14d-b) mixed ks, types, and layers. Here nulls are
-sampled to match each targeted set's structure exactly:
-  writer-matched     : k=2 = 1 MLP + 1 head, layers drawn from the targeted
-                       writer layers' range, excluding targeted components
-  suppressor-matched : k=4 = 4 heads, layers from the targeted suppressor range
+The earlier 12-set null (E14d-b) mixed ks, types, and layers. Here each null
+family matches its targeted set's composition EXACTLY (k and MLP/head type
+counts are derived from the targeted set, not hardcoded), with layers drawn
+from the targeted layers' range widened by +/-3 (the exact range can leave
+too few same-type candidates once targeted components are excluded).
+Null sets are distinct; when the whole combination space is <= --n-sets the
+space is enumerated instead, making n_more_extreme an exact permutation count.
 Realized rank-1 delta Frobenius norms are recorded per component so norm
-mismatch is measurable rather than assumed.
+mismatch is measurable rather than assumed. With ~12 draws the primary
+statistic is n_more_extreme; z is reported as a coarse secondary.
 
 Usage (Spark, `empathy` env):
   python -u src/e26_matched_nulls.py \
@@ -38,24 +41,38 @@ except ModuleNotFoundError:
 
 M_CONFIRM = "data/contrastive_pairs/v2_1/M_confirm_templated.jsonl"
 N_HEADS = 16  # gemma-2-9b
+N_LAYERS = 42
+BAND = 3  # widen the targeted layer range by this much on each side
 
 
-def layer_range(names):
-    ls = [parse_component(n)["layer"] for n in names.split(",")]
-    return min(ls), max(ls)
+def matched_spec(names):
+    """k_mlp/k_head derived from the targeted set itself, never hardcoded."""
+    ns = names.split(",")
+    k_mlp = sum(1 for n in ns if n.endswith("MLP"))
+    ls = [parse_component(n)["layer"] for n in ns]
+    lo = max(0, min(ls) - BAND)
+    hi = min(N_LAYERS - 1, max(ls) + BAND)
+    return dict(names=names, k_mlp=k_mlp, k_head=len(ns) - k_mlp, lo=lo, hi=hi)
 
 
-def sample_matched(rng, k_mlp, k_head, lo, hi, exclude):
-    comps = set()
-    while sum(1 for c in comps if c.endswith("MLP")) < k_mlp:
-        c = f"L{rng.randint(lo, hi)}MLP"
-        if c not in exclude:
-            comps.add(c)
-    while len(comps) < k_mlp + k_head:
-        c = f"L{rng.randint(lo, hi)}H{rng.randint(0, N_HEADS - 1)}"
-        if c not in exclude and not c.endswith("MLP"):
-            comps.add(c)
-    return sorted(comps)
+def candidate_sets(rng, k_mlp, k_head, lo, hi, exclude, n_sets):
+    """Distinct type-matched sets; enumerate the space if it is small."""
+    from itertools import combinations
+    from math import comb
+    mlps = [f"L{l}MLP" for l in range(lo, hi + 1) if f"L{l}MLP" not in exclude]
+    heads = [f"L{l}H{h}" for l in range(lo, hi + 1) for h in range(N_HEADS)
+             if f"L{l}H{h}" not in exclude]
+    total = comb(len(mlps), k_mlp) * comb(len(heads), k_head)
+    if total <= max(n_sets, 20):
+        return [sorted(m + h) for m in combinations(mlps, k_mlp)
+                for h in combinations(heads, k_head)], True
+    seen, sets = set(), []
+    while len(sets) < n_sets:
+        s = tuple(sorted(rng.sample(mlps, k_mlp) + rng.sample(heads, k_head)))
+        if s not in seen:
+            seen.add(s)
+            sets.append(list(s))
+    return sets, False
 
 
 def main():
@@ -105,26 +122,31 @@ def main():
     results = {"baseline": base, "direction": args.direction, "families": {}}
 
     specs = {
-        "writer_matched": dict(names=args.writers, k_mlp=1, k_head=1),
-        "suppressor_matched": dict(names=args.suppressors, k_mlp=0, k_head=4),
+        "writer_matched": matched_spec(args.writers),
+        "suppressor_matched": matched_spec(args.suppressors),
     }
     rng = pyrandom.Random(args.seed)
     for fam, spec in specs.items():
         target_names = spec["names"].split(",")
-        lo, hi = layer_range(spec["names"])
+        null_names, exhaustive = candidate_sets(
+            rng, spec["k_mlp"], spec["k_head"], spec["lo"], spec["hi"],
+            set(target_names), args.n_sets)
+        print(f"{fam}: k_mlp={spec['k_mlp']} k_head={spec['k_head']} "
+              f"layers {spec['lo']}-{spec['hi']} | {len(null_names)} null sets"
+              f"{' (exhaustive)' if exhaustive else ''}")
         tgt_m, tgt_norms = run_set(target_names)
         rows = []
-        for i in range(args.n_sets):
-            names = sample_matched(rng, spec["k_mlp"], spec["k_head"], lo, hi,
-                                   set(target_names))
+        for i, names in enumerate(null_names):
             m, norms = run_set(names)
             rows.append({"set": names, "delta": m - base,
                          "delta_norms": {k: round(v, 3) for k, v in norms.items()}})
-            print(f"  {fam} {i+1}/{args.n_sets} {names}: {m - base:+.4f}")
+            print(f"  {fam} {i+1}/{len(null_names)} {names}: {m - base:+.4f}")
         deltas = np.array([r["delta"] for r in rows])
         results["families"][fam] = {
             "targeted_set": target_names, "targeted_delta": tgt_m - base,
             "targeted_delta_norms": {k: round(v, 3) for k, v in tgt_norms.items()},
+            "spec": {k: spec[k] for k in ("k_mlp", "k_head", "lo", "hi")},
+            "exhaustive": exhaustive,
             "null_sets": rows, "null_mean": float(deltas.mean()),
             "null_std": float(deltas.std(ddof=1)),
             "null_range": [float(deltas.min()), float(deltas.max())],

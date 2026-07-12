@@ -133,6 +133,12 @@ def main():
     parser.add_argument("--batch-size", type=int, default=16)
     parser.add_argument("--max-tokens", type=int, default=512)
     parser.add_argument("--seed", type=int, default=42)
+    parser.add_argument("--writers", default=POSITIVE_WRITERS,
+                        help="override positive_writers_k2 component set")
+    parser.add_argument("--suppressors", default=SUPPRESSORS,
+                        help="override suppressors_k4 component set")
+    parser.add_argument("--targeted", default=None,
+                        help="override targeted_k6 set (default: writers+suppressors)")
     parser.add_argument("--out", default="results/capability_eval_gemma2_9b_it")
     args = parser.parse_args()
 
@@ -154,11 +160,12 @@ def main():
     items = sample_mmlu(args.n_mmlu, args.seed)
     log.info("MMLU sample: %d questions", len(items))
 
+    targeted = args.targeted or f"{args.writers},{args.suppressors}"
     conditions = {
         "baseline": [],
-        "positive_writers_k2": [parse_component(v) for v in POSITIVE_WRITERS.split(",")],
-        "suppressors_k4": [parse_component(v) for v in SUPPRESSORS.split(",")],
-        "targeted_k6": [parse_component(v) for v in TARGETED.split(",")],
+        "positive_writers_k2": [parse_component(v) for v in args.writers.split(",")],
+        "suppressors_k4": [parse_component(v) for v in args.suppressors.split(",")],
+        "targeted_k6": [parse_component(v) for v in targeted.split(",")],
     }
 
     results = {"model": args.model, "n_mmlu": len(items), "seed": args.seed, "conditions": {}}

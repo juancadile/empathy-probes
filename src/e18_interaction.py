@@ -94,6 +94,12 @@ def main():
     ap.add_argument("--batch-size", type=int, default=16)
     ap.add_argument("--max-tokens", type=int, default=1024)
     ap.add_argument("--seed", type=int, default=42)
+    ap.add_argument("--writers", default=None,
+                    help="override positive_writers_k2 component set")
+    ap.add_argument("--suppressors", default=None,
+                    help="override suppressors_k4 component set")
+    ap.add_argument("--random-components", default=None,
+                    help="override random_k6 component set")
     ap.add_argument("--cells", nargs="+", default=None,
                     help="name=path overrides for CELLS")
     ap.add_argument("--out", default="results/e18_interaction_gemma2_9b_it")
@@ -135,7 +141,18 @@ def main():
                "conditions": {}}
     log.info("baseline uptake: %s", {n: round(float(v.mean()), 3) for n, v in base.items()})
 
-    for cond, spec in GEMMA_CONDITIONS.items():
+    conditions = dict(GEMMA_CONDITIONS)
+    if args.writers:
+        conditions["positive_writers_k2"] = args.writers
+    if args.suppressors:
+        conditions["suppressors_k4"] = args.suppressors
+    if args.writers and args.suppressors:
+        conditions["targeted_k6"] = f"{args.writers},{args.suppressors}"
+    if args.random_components:
+        conditions["random_k6"] = args.random_components
+    results["conditions_spec"] = conditions
+
+    for cond, spec in conditions.items():
         comps = [parse_component(v) for v in spec.split(",")]
         snap = snapshot_weights(model, comps)
         try:

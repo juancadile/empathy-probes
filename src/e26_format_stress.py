@@ -1,6 +1,7 @@
 """E26: assay-generality stress test for Gemma edits (rescue step 4).
 
-Three independent readouts of the same edits on confirmatory M (+T control):
+Three independent readouts of the same edits on confirmatory M, each with its
+own T control (selectivity and assay generality established together):
   1. raw A/B forced choice (the historical assay)
   2. chat-templated A/B forced choice
   3. continuation likelihood: mean per-token logprob of each branch's decision
@@ -177,7 +178,7 @@ def main():
     results = {"direction": args.direction, "assays": {}, "paraphrases": {}}
 
     base = {a: fn(m_pairs) for a, fn in assays.items()}
-    base_t = {a: fn(t_pairs) for a, fn in assays.items() if a == "raw_ab"}
+    base_t = {a: fn(t_pairs) for a, fn in assays.items()}  # T under ALL assays
     base_para = {n: assays["raw_ab"](prs) for n, prs in para_sets.items()}
     results["baseline_means"] = {a: float(v.mean()) for a, v in base.items()}
     print("baselines:", results["baseline_means"])
@@ -192,8 +193,8 @@ def main():
             for a, fn in assays.items():
                 d = fn(m_pairs) - base[a]
                 entry[a] = clustered(d, fams_m, args.seed)
-            dt = assays["raw_ab"](t_pairs) - base_t["raw_ab"]
-            entry["raw_ab_T_control"] = clustered(dt, fams_t, args.seed)
+                dt = fn(t_pairs) - base_t[a]
+                entry[f"{a}_T_control"] = clustered(dt, fams_t, args.seed)
             for n, prs in para_sets.items():
                 d = assays["raw_ab"](prs) - base_para[n]
                 entry[f"para_{n}"] = clustered(d, [p["scenario_id"] for p in prs], args.seed)

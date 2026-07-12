@@ -10,9 +10,11 @@ Two candidates at Gemma block 20:
             extraction pass over the 320 V2.2 pairs (tail-pooled at B20).
 
 Both are evaluated with TWO-SIDED transfer profiles (|auroc-0.5| <= 0.10 =
-quiet) over all cached cells, plus M grouped LOFO CV. Selection rule (fixed
-before results): prefer d_did if it passes A/F >= 0.65 one-sided and all
-quiet gates two-sided; else d_resid if it does; else report failure.
+quiet) over ALL control cells B,D,E,G,H,T. Selection rule (fixed before
+results): prefer d_did if it passes A/F >= 0.65 one-sided and all quiet gates
+two-sided; else d_resid if it does; else report failure. NOTE: quietness here
+is in-sample (the residualizer saw T/E/D/H); held-out certification on
+confirmatory families is a separate step (certify_direction_heldout.py).
 
 Usage (Spark, `empathy` env):
   python -u src/analysis/build_residualized_direction.py \
@@ -104,10 +106,14 @@ def profile(activation_dir, d, hidden_index, cells="ABDEFGHMT"):
     return out
 
 
+QUIET_CELLS = "BDEGHT"  # ALL control cells, matching E24's two-sided gate set
+
+
 def gates_ok(pr):
     ok_pos = pr["A"]["auroc"] >= 0.65 and pr["F"]["auroc"] >= 0.65
-    quiet = all(abs(pr[c]["auroc"] - 0.5) <= 0.10 for c in "ETDH" if c in pr)
-    return ok_pos, quiet
+    failed = [c for c in QUIET_CELLS if c in pr
+              and abs(pr[c]["auroc"] - 0.5) > 0.10]
+    return ok_pos, not failed, failed
 
 
 def main():
@@ -149,9 +155,10 @@ def main():
               "cos_did_vs_resid": float(d_did @ d_resid)}
     for name, d in [("M_original", d_m), ("resid", d_resid), ("did", d_did)]:
         pr = profile(adir, d, hid)
-        ok_pos, quiet = gates_ok(pr)
-        report[name] = {"profile": pr, "pos_gates": ok_pos, "quiet_two_sided": quiet}
-        print(f"{name}: pos_gates={ok_pos} quiet={quiet} | " +
+        ok_pos, quiet, failed = gates_ok(pr)
+        report[name] = {"profile": pr, "pos_gates": ok_pos,
+                        "quiet_two_sided": quiet, "failed_quiet_cells": failed}
+        print(f"{name}: pos_gates={ok_pos} quiet={quiet} failed={failed} | " +
               " ".join(f"{c}:{v['auroc']}{'ᵢ' if v['inverse'] else ''}" for c, v in pr.items()))
 
     # selection rule
