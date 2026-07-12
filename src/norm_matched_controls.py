@@ -111,6 +111,10 @@ def main():
     tokenizer = AutoTokenizer.from_pretrained(args.model)
     if tokenizer.pad_token is None:  # Llama-3.1 ships without one
         tokenizer.pad_token = tokenizer.eos_token
+    # CRITICAL: choice_scores indexes logits at attention_mask.sum(1)-1, which
+    # is only the final real token under RIGHT padding. Gemma defaults left.
+    # (Absence of this line mis-indexed E14/E14b readouts — see log E23/E14d.)
+    tokenizer.padding_side = "right"
     model = AutoModelForCausalLM.from_pretrained(
         args.model, dtype=torch.bfloat16, attn_implementation="eager"
     ).to(device)
