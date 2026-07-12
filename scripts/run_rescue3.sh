@@ -54,6 +54,7 @@ cuda_ok step7; step step7
 cuda_ok step8; step step8
 "$CONDA" run -n empathy python -u src/e18_interaction.py \
   --direction $DIR --writers $WRITERS --suppressors $SUPPS \
+  --random-components $RAND \
   --out results/e18_interaction_resid_gemma \
   > e28_e18.log 2>&1 || { echo "[rescue3] step8 FAILED"; exit 1; }
 

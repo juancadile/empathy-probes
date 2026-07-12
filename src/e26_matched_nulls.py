@@ -82,6 +82,11 @@ def main():
     ap.add_argument("--writers", required=True)
     ap.add_argument("--suppressors", required=True)
     ap.add_argument("--n-sets", type=int, default=12)
+    ap.add_argument("--include-overlap", action="store_true",
+                    help="when a family's disjoint space is exhaustive, also "
+                         "evaluate sets sharing components with the targeted set "
+                         "for a FULL-universe rank test (the disjoint 15 alone "
+                         "support only a disjoint-control comparison)")
     ap.add_argument("--batch-size", type=int, default=16)
     ap.add_argument("--max-tokens", type=int, default=1024)
     ap.add_argument("--seed", type=int, default=42)
@@ -157,6 +162,33 @@ def main():
         print(f"{fam}: targeted {f['targeted_delta']:+.4f} | null "
               f"{f['null_mean']:+.4f}±{f['null_std']:.4f} | z={f['z']:+.1f} | "
               f"{f['n_null_more_extreme']}/{len(null_names)} as extreme")
+
+        if args.include_overlap and exhaustive:
+            from itertools import combinations
+            pool_m = [f"L{l}MLP" for l in range(spec["lo"], spec["hi"] + 1)]
+            pool_h = [f"L{l}H{h}" for l in range(spec["lo"], spec["hi"] + 1)
+                      for h in range(N_HEADS)]
+            allsets = [sorted(m + h) for m in combinations(pool_m, spec["k_mlp"])
+                       for h in combinations(pool_h, spec["k_head"])]
+            tgt_sorted = sorted(target_names)
+            overlap = [s for s in allsets
+                       if s != tgt_sorted and any(c in target_names for c in s)]
+            orows = []
+            for i, names in enumerate(overlap):
+                m, norms = run_set(names)
+                orows.append({"set": names, "delta": m - base,
+                              "delta_norms": {k: round(v, 3) for k, v in norms.items()}})
+                print(f"  {fam} overlap {i+1}/{len(overlap)} {names}: {m - base:+.4f}")
+            full = np.array([r["delta"] for r in rows + orows])
+            n_ext = int((np.abs(full) >= abs(tgt_m - base)).sum())
+            f["overlap_sets"] = orows
+            f["full_universe_rank"] = {
+                "n_universe": len(full) + 1,  # incl. targeted
+                "n_as_extreme": n_ext,
+                "exact_p": (1 + n_ext) / (len(full) + 1),
+            }
+            print(f"{fam} FULL-universe rank: {n_ext}/{len(full)} as extreme -> "
+                  f"exact p = {(1 + n_ext) / (len(full) + 1):.4f}")
 
     (out / "matched_nulls.json").write_text(json.dumps(results, indent=2))
     print(f"wrote {out}/matched_nulls.json")

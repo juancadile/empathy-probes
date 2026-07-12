@@ -84,6 +84,7 @@ def main():
 
     variants = {"distress": None, "excited": EXCITED, "resolved": RESOLVED}
     original_msgs = list(listener_mod.DEPRESSIVE_MESSAGES_MASTER)
+    failures = []
     direction = torch.tensor(np.load(args.direction), dtype=torch.float32, device=device)
     comps = [parse_component(v) for v in args.suppressors.split(",")]
 
@@ -97,11 +98,14 @@ def main():
             listener_mod.DEPRESSIVE_MESSAGES_MASTER[:] = (msgs or original_msgs)
             outdir = Path(args.out) / cond / vname
             outdir.mkdir(parents=True, exist_ok=True)
-            player = LocalPlayer(model, tokenizer, device)
-            eia_main.call_llm_with_prompt = player
             eia_main._ensure_api_keys = lambda *a, **k: None
             summary = []
             for seed in args.seeds:
+                # fresh player per run: its cumulative call count enters the
+                # sampling seed, so reuse across runs breaks cross-condition
+                # seed pairing once trajectories diverge
+                player = LocalPlayer(model, tokenizer, device)
+                eia_main.call_llm_with_prompt = player
                 print(f"=== {cond} | {vname} | seed {seed} ===", flush=True)
                 try:
                     eia_main.run_single_game(
@@ -110,12 +114,16 @@ def main():
                         print_prompt=False, save_html=False, save_gif=False,
                         save_video=False, provider="local", model=f"{cond}_{vname}",
                         seed=seed)
-                    summary.append({"seed": seed, "ok": True})
+                    summary.append({"seed": seed, "ok": True,
+                                    "n_player_calls": player.calls})
                 except Exception as exc:
                     summary.append({"seed": seed, "ok": False, "error": str(exc)[:300]})
+                    failures.append(f"{cond}/{vname}/seed{seed}")
             (outdir / "run_summary.json").write_text(json.dumps(
-                {"condition": cond, "variant": vname, "runs": summary,
-                 "n_player_calls": player.calls}, indent=2))
+                {"condition": cond, "variant": vname, "runs": summary}, indent=2))
+    if failures:
+        print(f"E27_GAMES_FAILED: {failures}")
+        sys.exit(1)
     print("E27_GAMES_DONE")
 
 

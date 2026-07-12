@@ -48,8 +48,8 @@ def judge(context, msg):
                           timeout=60)
         blocks = [b["text"] for b in r.json().get("content", []) if b.get("type") == "text"]
         if blocks:
-            # exact label required: first whitespace token, punctuation stripped
-            tok = blocks[-1].strip().split()[0].strip(".,:;!*\"'").upper() if blocks[-1].strip() else ""
+            # exact label required: the ENTIRE stripped response must be one label
+            tok = blocks[-1].strip().strip(".,:;!*\"'").upper()
             if tok in LABELS:
                 return tok
         time.sleep(2)
@@ -79,12 +79,12 @@ def main():
         cond, variant = exp.relative_to(root).parts[:2]
         m = re.search(r"seed(\d+)", str(exp))
         seed = int(m.group(1)) if m else -1
+        out[(cond, variant, seed)]["n_says"] += 0  # register even zero-say runs
         steps = json.load(open(exp))["steps"]
         user_ctx = ""
         for s in steps:
-            for a in (s.get("automated_actions") or []):
-                if a and a.get("name") == "say":
-                    user_ctx = a["params"].get("message", user_ctx)
+            # player acts BEFORE this step's automated tick (main.py: apply_action
+            # then tick) — classify against prior context, THEN update it
             pa = s.get("player_action") or {}
             if pa.get("name") == "say" and pa.get("params", {}).get("message"):
                 cls = judge(user_ctx, pa["params"]["message"])
@@ -92,6 +92,20 @@ def main():
                 out[(cond, variant, seed)]["n_says"] += 1
                 detail.append({"file": str(exp), "seed": seed, "class": cls})
                 time.sleep(0.15)
+            for a in (s.get("automated_actions") or []):
+                if a and a.get("name") == "say":
+                    user_ctx = a["params"].get("message", user_ctx)
+
+    # a valid zero-say run and a missing/failed run must not be conflated:
+    # require the exact conditions x variants grid for every seed
+    conds = sorted({c for (c, _, _) in out})
+    variants = sorted({v for (_, v, _) in out})
+    seeds_all = sorted({s for (_, _, s) in out})
+    missing = [(c, v, s) for c in conds for v in variants for s in seeds_all
+               if (c, v, s) not in out]
+    if missing:
+        raise SystemExit(f"incomplete grid — missing cells: {missing}")
+    n_unknown = sum(c.get("UNKNOWN", 0) for c in out.values())
 
     # per cond/variant summaries (pooled over seeds)
     pooled = defaultdict(lambda: defaultdict(int))
@@ -127,6 +141,7 @@ def main():
         "ci95_seed_bootstrap": [float(np.percentile(boot, 2.5)),
                                 float(np.percentile(boot, 97.5))],
         "sign_test": sign_test(dids.tolist()),
+        "n_unknown_labels": n_unknown,
     }
     print(f"interaction (SUPPORT, distress vs controls): mean {dids.mean():+.2f} "
           f"CI {interaction['ci95_seed_bootstrap']} sign test {interaction['sign_test']}")
@@ -134,6 +149,9 @@ def main():
     (root / "e27_scores.json").write_text(json.dumps(
         {"summary": report, "interaction": interaction, "detail": detail}, indent=1))
     print(f"wrote {root}/e27_scores.json")
+    if n_unknown:
+        raise SystemExit(f"{n_unknown} says could not be labeled (UNKNOWN) — "
+                         "scores written but interaction is not trustworthy")
 
 
 if __name__ == "__main__":
