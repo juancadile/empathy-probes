@@ -1,0 +1,31 @@
+{
+  "n_sources": 34,
+  "calibration": {
+    "fail_posA_negA": 12,
+    "pass": 13,
+    "fail_posB_negB": 7,
+    "fail_posA_negAMBIGUOUS": 2
+  },
+  "per_type": {
+    "name_swap": {
+      "pass": 10,
+      "no_swappable_names": 3
+    },
+    "paraphrase": {
+      "attempt0_fail": 7,
+      "attempt1_fail": 4,
+      "attempt0_pass": 19,
+      "pair_fail": 4,
+      "attempt1_pass": 3,
+      "pair_pass": 9
+    },
+    "register_shift": {
+      "attempt0_pass": 23,
+      "pair_pass": 10,
+      "attempt0_fail": 3,
+      "attempt1_fail": 3,
+      "pair_fail": 3
+    }
+  },
+  "n_output_pairs": 29
+}
