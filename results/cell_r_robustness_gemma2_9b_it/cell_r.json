@@ -1,0 +1,37 @@
+{
+  "model": "google/gemma-2-9b-it",
+  "block": 20,
+  "n_pairs": 60,
+  "reference_cell_A_auroc": 0.7257785467128028,
+  "by_perturbation": {
+    "name_swap": {
+      "auroc": 0.4325,
+      "ci95": [
+        0.315,
+        0.5400624999999991
+      ],
+      "n": 20
+    },
+    "paraphrase": {
+      "auroc": 0.415,
+      "ci95": [
+        0.29,
+        0.5425
+      ],
+      "n": 20
+    },
+    "register_shift": {
+      "auroc": 0.5675,
+      "ci95": [
+        0.4299375,
+        0.6925
+      ],
+      "n": 20
+    }
+  },
+  "overall_auroc": 0.4669444444444445,
+  "overall_ci95": [
+    0.4013888888888889,
+    0.5252777777777777
+  ]
+}
