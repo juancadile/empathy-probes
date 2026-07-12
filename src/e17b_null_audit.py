@@ -128,6 +128,8 @@ def main():
     ap.add_argument("--batch-size", type=int, default=16)
     ap.add_argument("--max-tokens", type=int, default=1024)
     ap.add_argument("--seed", type=int, default=42)
+    ap.add_argument("--skip-test1", action="store_true",
+                    help="only run activation ablation (e.g. cross-model normalization)")
     ap.add_argument("--out", default="results/e17b_null_audit_llama31_8b_it")
     args = ap.parse_args()
 
@@ -159,7 +161,7 @@ def main():
     results = {"model": args.model, "block": args.block}
 
     # ---- test 1: chat-template sensitivity ----
-    for fmt, chat in [("raw", False), ("chat", True)]:
+    for fmt, chat in ([] if args.skip_test1 else [("raw", False), ("chat", True)]):
         base = {n: choice_scores_fmt(model, tokenizer, pairs, args.seed,
                                      args.batch_size, args.max_tokens, device, chat)
                 for n, pairs in pair_sets.items()}
