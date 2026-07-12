@@ -1,0 +1,17 @@
+{
+ "lower": {
+  "need_mean": 2.2,
+  "now_mean": 2,
+  "n": 20
+ },
+ "equal": {
+  "need_mean": 3,
+  "now_mean": 2.6,
+  "n": 20
+ },
+ "higher": {
+  "need_mean": 4.2,
+  "now_mean": 4.3,
+  "n": 20
+ }
+}

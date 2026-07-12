@@ -153,17 +153,17 @@ def main():
                         "delta_overall": clustered_ci(d[n], fams, args.seed),
                         "delta_by_cost": {c: clustered_ci(d[n][cost == c],
                                                           np.asarray(fams)[cost == c], args.seed)
-                                          for c in COST_LEVELS}}
-            ranks = np.array([COST_LEVELS.index(c) for c in cost])
-            entry[n]["dose_slope"] = float(np.polyfit(ranks, d[n], 1)[0])
-        entry["interaction_cost_minus_nonsocial"] = interaction_bootstrap(
-            d["cost_axis"], d["nonsocial_axis"],
-            meta["cost_axis"]["fams"], meta["nonsocial_axis"]["fams"], args.seed)
+                                          for c in COST_LEVELS if (cost == c).any()}}
+            if all((cost == c).any() for c in COST_LEVELS):
+                ranks = np.array([COST_LEVELS.index(c) for c in cost])
+                entry[n]["dose_slope"] = float(np.polyfit(ranks, d[n], 1)[0])
+        if "cost_axis" in d and "nonsocial_axis" in d:
+            entry["interaction_cost_minus_nonsocial"] = interaction_bootstrap(
+                d["cost_axis"], d["nonsocial_axis"],
+                meta["cost_axis"]["fams"], meta["nonsocial_axis"]["fams"], args.seed)
         results["conditions"][cond] = entry
-        log.info("%s: d_cost %+0.4f | d_nonsoc %+0.4f | interaction %+0.4f CI %s",
-                 cond, d["cost_axis"].mean(), d["nonsocial_axis"].mean(),
-                 entry["interaction_cost_minus_nonsocial"]["mean"],
-                 entry["interaction_cost_minus_nonsocial"]["ci95"])
+        log.info("%s: %s", cond,
+                 {n: round(float(d[n].mean()), 4) for n in cells})
 
     (out / "e18.json").write_text(json.dumps(results, indent=2))
     log.info("wrote %s", out / "e18.json")
