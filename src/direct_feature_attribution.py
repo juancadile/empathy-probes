@@ -122,8 +122,11 @@ class DFAHooks:
         self.model = model
         cfg = model.config
         self.n_heads = cfg.num_attention_heads
-        self.head_dim = getattr(cfg, "head_dim", cfg.hidden_size // cfg.num_attention_heads)
+        self.head_dim = getattr(cfg, "head_dim", None) or cfg.hidden_size // cfg.num_attention_heads
         self.eps = cfg.rms_norm_eps
+        # Gemma-2 sandwich norms rescale each block's output before the residual
+        # add; Llama-style pre-norm blocks write o_proj / down_proj outputs directly.
+        self.sandwich = hasattr(model.model.layers[0], "post_feedforward_layernorm")
         self.handles = []
         self.mask = None  # set per batch: (b, s, 1) float
         self.head_dots = {}  # layer -> (b, n_heads)
@@ -135,17 +138,22 @@ class DFAHooks:
 
     def _o_proj_hook(self, layer_idx):
         layer = self.model.model.layers[layer_idx]
-        w_ln = layer.post_attention_layernorm.weight.float()  # Gemma RMSNorm: (1 + w)
-        d_eff = self.d * (1.0 + w_ln)  # (d_model,)
+        if self.sandwich:
+            w_ln = layer.post_attention_layernorm.weight.float()  # Gemma RMSNorm: (1 + w)
+            d_eff = self.d * (1.0 + w_ln)  # (d_model,)
+        else:
+            d_eff = self.d  # Llama: attn_out enters the residual unscaled
         w_o = layer.self_attn.o_proj.weight.float()  # (d_model, n_heads*head_dim)
         per_dim = d_eff @ w_o  # (n_heads*head_dim,)
 
         def hook(module, inputs, output):
             z = inputs[0].float()  # (b, s, n_heads*head_dim)
-            attn_out = output.float()  # (b, s, d_model)
-            r = torch.rsqrt(attn_out.pow(2).mean(-1, keepdim=True) + self.eps)  # (b,s,1)
+            if self.sandwich:
+                attn_out = output.float()  # (b, s, d_model)
+                r = torch.rsqrt(attn_out.pow(2).mean(-1, keepdim=True) + self.eps)  # (b,s,1)
+                z = z * r
             denom = self.mask.sum(dim=1)  # (b,1)
-            z_pooled = (z * r * self.mask).sum(dim=1) / denom  # (b, n_heads*head_dim)
+            z_pooled = (z * self.mask).sum(dim=1) / denom  # (b, n_heads*head_dim)
             dots = (z_pooled * per_dim).view(-1, self.n_heads, self.head_dim).sum(-1)
             self.head_dots[layer_idx] = dots.cpu()
 
@@ -160,7 +168,10 @@ class DFAHooks:
             (self.attn_ln_dots if which == "attn" else self.mlp_dots)[layer_idx] = dots.cpu()
 
         layer = self.model.model.layers[layer_idx]
-        mod = layer.post_attention_layernorm if which == "attn" else layer.post_feedforward_layernorm
+        if self.sandwich:
+            mod = layer.post_attention_layernorm if which == "attn" else layer.post_feedforward_layernorm
+        else:
+            mod = layer.self_attn.o_proj if which == "attn" else layer.mlp.down_proj
         return mod.register_forward_hook(hook)
 
     def attach(self):
@@ -271,6 +282,8 @@ def main():
 
     log.info("loading %s (bf16) on %s", args.model, device)
     tok = AutoTokenizer.from_pretrained(args.model)
+    if tok.pad_token is None:  # Llama-3.1 ships without one
+        tok.pad_token = tok.eos_token
     # eager attention: Gemma-2 uses attention-logit soft-capping, which some fused
     # kernels skip — activations must be exact for attribution
     model = AutoModelForCausalLM.from_pretrained(

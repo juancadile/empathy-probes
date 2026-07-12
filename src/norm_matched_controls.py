@@ -108,6 +108,8 @@ def main():
     out.mkdir(parents=True, exist_ok=True)
 
     tokenizer = AutoTokenizer.from_pretrained(args.model)
+    if tokenizer.pad_token is None:  # Llama-3.1 ships without one
+        tokenizer.pad_token = tokenizer.eos_token
     model = AutoModelForCausalLM.from_pretrained(
         args.model, dtype=torch.bfloat16, attn_implementation="eager"
     ).to(device)

@@ -152,12 +152,19 @@ def neutral_drift(baseline_logits, edited_logits):
 
 def effective_direction(model, component, direction):
     layer = model.model.layers[component["layer"]]
-    norm = (
-        layer.post_feedforward_layernorm
-        if component["head"] is None
-        else layer.post_attention_layernorm
-    )
-    effective = direction * (1.0 + norm.weight.float())
+    if hasattr(layer, "post_feedforward_layernorm"):
+        # Gemma-2 sandwich norms: the component output passes through a post-RMSNorm
+        # before entering the residual, so removing `direction` from the residual
+        # means removing the norm-rescaled preimage from the component output.
+        norm = (
+            layer.post_feedforward_layernorm
+            if component["head"] is None
+            else layer.post_attention_layernorm
+        )
+        effective = direction * (1.0 + norm.weight.float())
+    else:
+        # Llama-style pre-norm: component outputs write directly to the residual.
+        effective = direction.clone()
     return effective / torch.linalg.vector_norm(effective)
 
 
@@ -165,7 +172,8 @@ def component_weight(model, component):
     layer = model.model.layers[component["layer"]]
     if component["head"] is None:
         return layer.mlp.down_proj.weight, None
-    head_dim = model.config.head_dim
+    cfg = model.config
+    head_dim = getattr(cfg, "head_dim", None) or cfg.hidden_size // cfg.num_attention_heads
     start = component["head"] * head_dim
     return layer.self_attn.o_proj.weight, slice(start, start + head_dim)
 
@@ -290,6 +298,8 @@ def main():
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
     tokenizer = AutoTokenizer.from_pretrained(args.model)
+    if tokenizer.pad_token is None:  # Llama-3.1 ships without one
+        tokenizer.pad_token = tokenizer.eos_token
     tokenizer.padding_side = "right"
     model = AutoModelForCausalLM.from_pretrained(
         args.model, dtype=torch.bfloat16, attn_implementation="eager"

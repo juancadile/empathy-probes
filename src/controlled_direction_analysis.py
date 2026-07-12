@@ -281,6 +281,8 @@ def main():
     else:
         device = "cuda" if torch.cuda.is_available() else "cpu"
         tokenizer = AutoTokenizer.from_pretrained(args.model)
+        if tokenizer.pad_token is None:  # Llama-3.1 ships without one
+            tokenizer.pad_token = tokenizer.eos_token
         tokenizer.padding_side = "right"
         model = AutoModelForCausalLM.from_pretrained(
             args.model,
