@@ -1,0 +1,130 @@
+{
+  "m_jsonl": "data/contrastive_pairs/v2_1/M_templated.jsonl",
+  "m_jsonl_sha256": "6e9d32dfdc816afcee43434bf2095a1f78091e2495cdd66d05737b04dedb7d91",
+  "n_pairs": 40,
+  "n_families": 5,
+  "candidate_blocks": [
+    8,
+    12,
+    16,
+    18,
+    20,
+    22,
+    26,
+    31
+  ],
+  "tie_eps": 0.01,
+  "anchor_block": 20.0,
+  "grouped_sweep": {
+    "8": {
+      "grouped_cv_auroc": 1.0,
+      "fold_aurocs": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    "12": {
+      "grouped_cv_auroc": 1.0,
+      "fold_aurocs": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    "16": {
+      "grouped_cv_auroc": 1.0,
+      "fold_aurocs": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    "18": {
+      "grouped_cv_auroc": 1.0,
+      "fold_aurocs": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    "20": {
+      "grouped_cv_auroc": 1.0,
+      "fold_aurocs": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    "22": {
+      "grouped_cv_auroc": 1.0,
+      "fold_aurocs": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    "26": {
+      "grouped_cv_auroc": 1.0,
+      "fold_aurocs": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    "31": {
+      "grouped_cv_auroc": 1.0,
+      "fold_aurocs": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ]
+    }
+  },
+  "ties": [
+    8,
+    12,
+    16,
+    18,
+    20,
+    22,
+    26,
+    31
+  ],
+  "selected_block": 20,
+  "transfer_at_selected": {
+    "A": 0.7093425605536332,
+    "B": 0.3388203017832647,
+    "D": 0.24386703440267093,
+    "E": 0.5386982248520711,
+    "F": 0.9042725797728501,
+    "G": 0.5298353909465021,
+    "H": 0.1689814814814815,
+    "T": 0.022500000000000003
+  },
+  "gates": {
+    "M_to_A_ge_0.65": true,
+    "M_to_F_ge_0.65": true,
+    "M_to_E_le_0.60": true,
+    "M_to_T_le_0.60": true,
+    "M_to_G_le_0.60": true,
+    "M_to_H_le_0.60": true
+  },
+  "direction_role": "development direction, fit on ALL original M pairs at the selected block AFTER grouped selection; frozen for DFA/edit construction. Causal claims come only from the untouched confirmatory M/T sets scored against this frozen direction; the >=0.85 representation gate is certified on confirmatory M, not here."
+}

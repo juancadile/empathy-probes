@@ -1,0 +1,427 @@
+{
+  "model": "meta-llama/Llama-3.1-8B-Instruct",
+  "n_pairs_sweep": 40,
+  "n_pairs_dfa": 40,
+  "seed": 42,
+  "direction_source": "results/controlled_directions_llama31_8b_it/direction_M_block15.npy",
+  "pooling": "decision_tail",
+  "layer_sweep": [],
+  "best_layer": 15,
+  "best_layer_auroc": null,
+  "checks": {
+    "head_sum_abs_err": 5.517154932022095e-05,
+    "resid_recon_rel_err": 0.0004104314430151135
+  },
+  "total_resid_paired_diff": 1.7657444477081299,
+  "embed_paired_diff": 0.001537057221867144,
+  "concentration": {
+    "n_components": 528,
+    "top5_share": 0.21656302371842856,
+    "top10_share": 0.3327063403104295,
+    "top20_share": 0.45431353390424384,
+    "n_for_50pct": 26,
+    "n_for_80pct": 103
+  },
+  "top_components": [
+    {
+      "component": "L15MLP",
+      "type": "mlp",
+      "layer": 15,
+      "head": null,
+      "mean_paired_diff": 0.22398856282234192,
+      "cohens_d": 4.163486003875732
+    },
+    {
+      "component": "L12H4",
+      "type": "head",
+      "layer": 12,
+      "head": 4,
+      "mean_paired_diff": 0.12030760943889618,
+      "cohens_d": 3.763620376586914
+    },
+    {
+      "component": "L13H22",
+      "type": "head",
+      "layer": 13,
+      "head": 22,
+      "mean_paired_diff": 0.11716713011264801,
+      "cohens_d": 3.348116874694824
+    },
+    {
+      "component": "L15H6",
+      "type": "head",
+      "layer": 15,
+      "head": 6,
+      "mean_paired_diff": -0.1031612977385521,
+      "cohens_d": -4.588013648986816
+    },
+    {
+      "component": "L15H7",
+      "type": "head",
+      "layer": 15,
+      "head": 7,
+      "mean_paired_diff": 0.08104468882083893,
+      "cohens_d": 3.5611953735351562
+    },
+    {
+      "component": "L14H24",
+      "type": "head",
+      "layer": 14,
+      "head": 24,
+      "mean_paired_diff": 0.07798131555318832,
+      "cohens_d": 2.616304397583008
+    },
+    {
+      "component": "L14H27",
+      "type": "head",
+      "layer": 14,
+      "head": 27,
+      "mean_paired_diff": -0.07655457407236099,
+      "cohens_d": -2.5500619411468506
+    },
+    {
+      "component": "L12H6",
+      "type": "head",
+      "layer": 12,
+      "head": 6,
+      "mean_paired_diff": 0.07529107481241226,
+      "cohens_d": 1.2042003870010376
+    },
+    {
+      "component": "L14MLP",
+      "type": "mlp",
+      "layer": 14,
+      "head": null,
+      "mean_paired_diff": 0.06877229362726212,
+      "cohens_d": 3.082350015640259
+    },
+    {
+      "component": "L15H4",
+      "type": "head",
+      "layer": 15,
+      "head": 4,
+      "mean_paired_diff": 0.04767487198114395,
+      "cohens_d": 3.2275688648223877
+    },
+    {
+      "component": "L15H5",
+      "type": "head",
+      "layer": 15,
+      "head": 5,
+      "mean_paired_diff": 0.0450601801276207,
+      "cohens_d": 3.1514220237731934
+    },
+    {
+      "component": "L14H2",
+      "type": "head",
+      "layer": 14,
+      "head": 2,
+      "mean_paired_diff": 0.045047175139188766,
+      "cohens_d": 4.224881649017334
+    },
+    {
+      "component": "L15H8",
+      "type": "head",
+      "layer": 15,
+      "head": 8,
+      "mean_paired_diff": 0.04158491641283035,
+      "cohens_d": 3.0323991775512695
+    },
+    {
+      "component": "L14H25",
+      "type": "head",
+      "layer": 14,
+      "head": 25,
+      "mean_paired_diff": 0.04123003035783768,
+      "cohens_d": 2.7811038494110107
+    },
+    {
+      "component": "L13H21",
+      "type": "head",
+      "layer": 13,
+      "head": 21,
+      "mean_paired_diff": 0.038101863116025925,
+      "cohens_d": 3.1149039268493652
+    },
+    {
+      "component": "L15H12",
+      "type": "head",
+      "layer": 15,
+      "head": 12,
+      "mean_paired_diff": 0.036840539425611496,
+      "cohens_d": 2.4889323711395264
+    },
+    {
+      "component": "L12H20",
+      "type": "head",
+      "layer": 12,
+      "head": 20,
+      "mean_paired_diff": -0.03211487457156181,
+      "cohens_d": -2.333984851837158
+    },
+    {
+      "component": "L14H5",
+      "type": "head",
+      "layer": 14,
+      "head": 5,
+      "mean_paired_diff": 0.02937074564397335,
+      "cohens_d": 2.615156888961792
+    },
+    {
+      "component": "L14H26",
+      "type": "head",
+      "layer": 14,
+      "head": 26,
+      "mean_paired_diff": 0.02709927037358284,
+      "cohens_d": 5.121593952178955
+    },
+    {
+      "component": "L12H23",
+      "type": "head",
+      "layer": 12,
+      "head": 23,
+      "mean_paired_diff": 0.026114746928215027,
+      "cohens_d": 3.5616159439086914
+    },
+    {
+      "component": "L11MLP",
+      "type": "mlp",
+      "layer": 11,
+      "head": null,
+      "mean_paired_diff": -0.02594001218676567,
+      "cohens_d": -1.7620524168014526
+    },
+    {
+      "component": "L8H15",
+      "type": "head",
+      "layer": 8,
+      "head": 15,
+      "mean_paired_diff": 0.024982722476124763,
+      "cohens_d": 5.469658374786377
+    },
+    {
+      "component": "L13MLP",
+      "type": "mlp",
+      "layer": 13,
+      "head": null,
+      "mean_paired_diff": 0.02309534326195717,
+      "cohens_d": 0.5422250032424927
+    },
+    {
+      "component": "L12H22",
+      "type": "head",
+      "layer": 12,
+      "head": 22,
+      "mean_paired_diff": 0.022150825709104538,
+      "cohens_d": 2.425630807876587
+    },
+    {
+      "component": "L14H28",
+      "type": "head",
+      "layer": 14,
+      "head": 28,
+      "mean_paired_diff": -0.021486174315214157,
+      "cohens_d": -3.126553535461426
+    },
+    {
+      "component": "L13H7",
+      "type": "head",
+      "layer": 13,
+      "head": 7,
+      "mean_paired_diff": 0.02104823663830757,
+      "cohens_d": 3.4418437480926514
+    },
+    {
+      "component": "L14H31",
+      "type": "head",
+      "layer": 14,
+      "head": 31,
+      "mean_paired_diff": 0.020382463932037354,
+      "cohens_d": 3.8638105392456055
+    },
+    {
+      "component": "L13H29",
+      "type": "head",
+      "layer": 13,
+      "head": 29,
+      "mean_paired_diff": 0.019884979352355003,
+      "cohens_d": 6.323380947113037
+    },
+    {
+      "component": "L12H21",
+      "type": "head",
+      "layer": 12,
+      "head": 21,
+      "mean_paired_diff": 0.019537154585123062,
+      "cohens_d": 1.90635085105896
+    },
+    {
+      "component": "L14H9",
+      "type": "head",
+      "layer": 14,
+      "head": 9,
+      "mean_paired_diff": 0.019013360142707825,
+      "cohens_d": 2.3648016452789307
+    },
+    {
+      "component": "L15H10",
+      "type": "head",
+      "layer": 15,
+      "head": 10,
+      "mean_paired_diff": -0.018338942900300026,
+      "cohens_d": -4.212678909301758
+    },
+    {
+      "component": "L9H28",
+      "type": "head",
+      "layer": 9,
+      "head": 28,
+      "mean_paired_diff": -0.018028205260634422,
+      "cohens_d": -3.0162811279296875
+    },
+    {
+      "component": "L14H14",
+      "type": "head",
+      "layer": 14,
+      "head": 14,
+      "mean_paired_diff": -0.01791119948029518,
+      "cohens_d": -6.6410322189331055
+    },
+    {
+      "component": "L8H12",
+      "type": "head",
+      "layer": 8,
+      "head": 12,
+      "mean_paired_diff": 0.017485829070210457,
+      "cohens_d": 2.470189094543457
+    },
+    {
+      "component": "L10H16",
+      "type": "head",
+      "layer": 10,
+      "head": 16,
+      "mean_paired_diff": 0.016824636608362198,
+      "cohens_d": 4.3569207191467285
+    },
+    {
+      "component": "L13H16",
+      "type": "head",
+      "layer": 13,
+      "head": 16,
+      "mean_paired_diff": -0.016731077805161476,
+      "cohens_d": -5.297977924346924
+    },
+    {
+      "component": "L15H23",
+      "type": "head",
+      "layer": 15,
+      "head": 23,
+      "mean_paired_diff": 0.016359295696020126,
+      "cohens_d": 3.6056182384490967
+    },
+    {
+      "component": "L11H23",
+      "type": "head",
+      "layer": 11,
+      "head": 23,
+      "mean_paired_diff": -0.016338054090738297,
+      "cohens_d": -2.749986171722412
+    },
+    {
+      "component": "L11H17",
+      "type": "head",
+      "layer": 11,
+      "head": 17,
+      "mean_paired_diff": 0.016064386814832687,
+      "cohens_d": 3.7169041633605957
+    },
+    {
+      "component": "L15H0",
+      "type": "head",
+      "layer": 15,
+      "head": 0,
+      "mean_paired_diff": 0.015585405752062798,
+      "cohens_d": 5.636692047119141
+    },
+    {
+      "component": "L15H14",
+      "type": "head",
+      "layer": 15,
+      "head": 14,
+      "mean_paired_diff": 0.015473331324756145,
+      "cohens_d": 2.584660768508911
+    },
+    {
+      "component": "L13H14",
+      "type": "head",
+      "layer": 13,
+      "head": 14,
+      "mean_paired_diff": 0.014977112412452698,
+      "cohens_d": 3.0388052463531494
+    },
+    {
+      "component": "L12H7",
+      "type": "head",
+      "layer": 12,
+      "head": 7,
+      "mean_paired_diff": 0.01469351164996624,
+      "cohens_d": 3.275010585784912
+    },
+    {
+      "component": "L8H13",
+      "type": "head",
+      "layer": 8,
+      "head": 13,
+      "mean_paired_diff": -0.014555811882019043,
+      "cohens_d": -2.00736927986145
+    },
+    {
+      "component": "L13H28",
+      "type": "head",
+      "layer": 13,
+      "head": 28,
+      "mean_paired_diff": -0.014476602897047997,
+      "cohens_d": -1.6710435152053833
+    },
+    {
+      "component": "L13H15",
+      "type": "head",
+      "layer": 13,
+      "head": 15,
+      "mean_paired_diff": 0.01443751435726881,
+      "cohens_d": 1.9472845792770386
+    },
+    {
+      "component": "L14H13",
+      "type": "head",
+      "layer": 14,
+      "head": 13,
+      "mean_paired_diff": 0.014152048155665398,
+      "cohens_d": 1.8252933025360107
+    },
+    {
+      "component": "L12H26",
+      "type": "head",
+      "layer": 12,
+      "head": 26,
+      "mean_paired_diff": 0.014109325595200062,
+      "cohens_d": 3.2768468856811523
+    },
+    {
+      "component": "L13H23",
+      "type": "head",
+      "layer": 13,
+      "head": 23,
+      "mean_paired_diff": 0.01398287434130907,
+      "cohens_d": 1.944760799407959
+    },
+    {
+      "component": "L14H10",
+      "type": "head",
+      "layer": 14,
+      "head": 10,
+      "mean_paired_diff": 0.013833788223564625,
+      "cohens_d": 3.031461715698242
+    }
+  ]
+}

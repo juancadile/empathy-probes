@@ -1,0 +1,18 @@
+{
+  "n_pairs": 40,
+  "model": "google/gemma-2-9b-it",
+  "layers": {
+    "8": {
+      "auroc_full_text": 0.5643750000000001,
+      "auroc_decision_tokens": 0.6581250000000001,
+      "mean_paired_diff_full": 0.2623587310314178,
+      "mean_paired_diff_decision": 0.8690263360738755
+    },
+    "20": {
+      "auroc_full_text": 0.6431250000000001,
+      "auroc_decision_tokens": 0.79875,
+      "mean_paired_diff_full": 1.9514033794403076,
+      "mean_paired_diff_decision": 6.591725635528564
+    }
+  }
+}

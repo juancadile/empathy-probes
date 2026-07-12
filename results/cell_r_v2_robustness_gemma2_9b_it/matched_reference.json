@@ -1,0 +1,6 @@
+{
+ "matched_rows": 15,
+ "n_unique_keys": 10,
+ "matched_reference_auroc": 0.8266666666666667,
+ "note": "pair_index not unique per scenario; join matched 15 rows for 13 keys; per-row AUROC"
+}
