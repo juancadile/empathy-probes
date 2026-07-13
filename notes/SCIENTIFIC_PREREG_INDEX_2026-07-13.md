@@ -70,6 +70,15 @@
 
 ## Gate 2: Construct identification
 
+### Held-out controls and model selection
+
+- Preregistration: `GATE2_CONTROL_MODEL_SELECTION_PREREG_2026-07-13.md`.
+- Requirement: 16 development + 16 sealed WP1 master families, provider-neutral
+  manipulation checks, nested family-CV across frozen linear/subspace classes,
+  and one frozen primary representation per variable.
+- Exit: the selected representation enters WP3/B6 confirmation once, or the
+  linear/low-dimensional separation attempt stops as not certified.
+
 ### Decision-free welfare content
 
 - Preregistration: `WP3_FACTORIAL_PREREG_2026-07-13.md`
