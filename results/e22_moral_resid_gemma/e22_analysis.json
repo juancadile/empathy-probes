@@ -1,0 +1,144 @@
+{
+  "source_run": {
+    "path": "results/e22_moral_resid_gemma/e18.json",
+    "sha256": "95a45cc815ee90c75eda56f31fdca35890d788c82d841a9e98c8da0e5a0a3167"
+  },
+  "scope": "STALE-AXIS DESCRIPTIVE REPLICATION ONLY: this rerun uses the old confounded moral_axis_v1 stimuli. It does NOT clear the E22b blocker and does NOT restore a moral-boundary mechanism claim; E22b clearance requires the redesigned deconfounded axis (E22b.1 gate in notes/ROADMAP.md).",
+  "conditions_spec": {
+    "positive_writers_k2": "L20MLP,L19MLP",
+    "suppressors_k4": "L18H13,L20H10,L19H12,L17H7",
+    "targeted_k6": "L20MLP,L19MLP,L18H13,L20H10,L19H12,L17H7",
+    "random_k6": "L1MLP,L2MLP,L18H8,L20H5,L19H7,L17H2"
+  },
+  "run_provenance": {
+    "cell_files": {
+      "moral": {
+        "path": "data/contrastive_pairs/v2_2/moral_axis_templated.jsonl",
+        "sha256": "b3c6dff3d7d84c49adcc468f5b950c2b48c6064098403e8ac017630cc16225ae"
+      }
+    },
+    "direction": {
+      "path": "results/controlled_directions_gemma2_9b_it/direction_M_resid_block20.npy",
+      "sha256": "1b6d692e0e933d76c15f722fe996d01e1ca2ee8c8b72f19daf2f122cda294b42"
+    }
+  },
+  "moral_axis_file": {
+    "path": "/home/forestzhang001/juan/empathy-probes/data/contrastive_pairs/v2_2/moral_axis_templated.jsonl",
+    "sha256": "b3c6dff3d7d84c49adcc468f5b950c2b48c6064098403e8ac017630cc16225ae"
+  },
+  "equivalence_bound_per_level": 0.05,
+  "conditions": {
+    "positive_writers_k2": {
+      "mean_switching_boost": {
+        "mean": -0.025,
+        "ci95": [
+          -0.04479166666666666,
+          -0.005208333333333333
+        ],
+        "ci90": [
+          -0.041666666666666664,
+          -0.008333333333333333
+        ],
+        "n_families": 10
+      },
+      "relative_need_slope": {
+        "mean": -0.025781250000000006,
+        "ci95": [
+          -0.04453125000000001,
+          -0.010156250000000006
+        ],
+        "ci90": [
+          -0.041406250000000006,
+          -0.0125
+        ],
+        "n_families": 10
+      },
+      "slope_TOST_equivalent_flat": true,
+      "slope_ci_excludes_zero": true
+    },
+    "suppressors_k4": {
+      "mean_switching_boost": {
+        "mean": 0.065625,
+        "ci95": [
+          0.05625,
+          0.07447916666666668
+        ],
+        "ci90": [
+          0.0578125,
+          0.07343749999999999
+        ],
+        "n_families": 10
+      },
+      "relative_need_slope": {
+        "mean": 0.019531250000000007,
+        "ci95": [
+          -0.009374999999999998,
+          0.05
+        ],
+        "ci90": [
+          -0.005468749999999992,
+          0.0453125
+        ],
+        "n_families": 10
+      },
+      "slope_TOST_equivalent_flat": true,
+      "slope_ci_excludes_zero": false
+    },
+    "targeted_k6": {
+      "mean_switching_boost": {
+        "mean": 0.071875,
+        "ci95": [
+          0.0453125,
+          0.09947916666666665
+        ],
+        "ci90": [
+          0.049999999999999996,
+          0.09479166666666666
+        ],
+        "n_families": 10
+      },
+      "relative_need_slope": {
+        "mean": -0.01328125,
+        "ci95": [
+          -0.03828125,
+          0.0140625
+        ],
+        "ci90": [
+          -0.034375,
+          0.009374999999999998
+        ],
+        "n_families": 10
+      },
+      "slope_TOST_equivalent_flat": true,
+      "slope_ci_excludes_zero": false
+    },
+    "random_k6": {
+      "mean_switching_boost": {
+        "mean": -0.020833333333333336,
+        "ci95": [
+          -0.04635416666666667,
+          0.004166666666666667
+        ],
+        "ci90": [
+          -0.0421875,
+          0.0005208333333333335
+        ],
+        "n_families": 10
+      },
+      "relative_need_slope": {
+        "mean": -0.00703125,
+        "ci95": [
+          -0.03359375,
+          0.01953125
+        ],
+        "ci90": [
+          -0.02894531249999997,
+          0.014843750000000003
+        ],
+        "n_families": 10
+      },
+      "slope_TOST_equivalent_flat": true,
+      "slope_ci_excludes_zero": false
+    }
+  }
+}
