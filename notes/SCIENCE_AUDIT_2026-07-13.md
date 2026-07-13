@@ -55,6 +55,14 @@ Head-set localization is supported only if the paired target-minus-null CI exclu
 3. Redesign the moral-moral axis before revalidation: two simultaneous welfare claims, controlled incumbency, independently varied urgency and action cost, byte-matched decision syntax where possible. The stale E22 axis is descriptive method history only.
 4. Treat taskless and no-cost helping as separate cells. "Do whatever you want" still induces an action-selection objective; the scientifically useful distinction is not task/no-task wording but whether helping competes with an externally specified objective, another welfare claim, or nothing measurable.
 
+## Prompt and dataset integrity finding
+
+- `T_templated.jsonl` and `T_confirm_templated.jsonl` each contain 40 rows but only 20 unique text pairs. The builders iterate eight indices while synchronously cycling two openers and four closings, so indices 0-3 repeat at 4-7. Scenario-family disjointness between development and confirmation is intact.
+- Regenerate both cells from the explicit Cartesian product of opener and closing variants, assign stable variant identifiers, and add a no-duplicate assertion to every deterministic cell builder.
+- Before replacing any artifact, re-score the regenerated T-confirm set and report an equivalence table. Exact deduplication should leave deterministic point estimates unchanged; genuinely new opener-closing combinations may move them. Family-clustered conclusions survive only if the new five-family result remains within the original uncertainty interval.
+- Audit code must report both row count and unique-pair count. Existing references to 40 task-control pairs mean 40 weighted rows, not 40 independent stimuli.
+- The V2.2 factorial construction otherwise passes the structural audit: all shared prefixes are valid, all 10 families have four variants at each cost level, and the positive/negative decision tails are byte-identical across welfare, nonsocial, mild-need, and resolved-need axes. A fixed four-word branch-length asymmetry remains and should be counterbalanced in a future syntax-robustness cell.
+
 ## Paper and provenance blockers
 
 - Replace all welfare-value/welfare-pure writer naming with assay-grounded costly-helping language.
@@ -62,4 +70,3 @@ Head-set localization is supported only if the paired target-minus-null CI exclu
 - Replace provisional R1 text with the corrected plus-one Monte Carlo results; z-scores are descriptive only.
 - Add LB1-LB3 only with the claim ceilings above.
 - Regenerate `results/PROVENANCE.json`; it currently omits R1, R2, LB1, LB2, and LB3 artifacts.
-
