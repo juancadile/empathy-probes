@@ -69,11 +69,14 @@ def test_writer_need_gate_requires_both_conditions():
     miss = {"ci95": [-0.1, 0.05], "ci95_excludes_zero": False}
     resolved_null = {"ci95": [-0.02, 0.03]}
     resolved_nonnull = {"ci95": [0.06, 0.12]}
-    assert writer_need_gate(hit, resolved_null)["satisfied"] is True
+    gate = writer_need_gate(hit, resolved_null)
+    assert gate["sensitivity_pattern_satisfied"] is True
+    assert gate["confirmatory_claim_supported"] is False
+    assert gate["status"] == "exploratory_post_audit_sensitivity"
     # contrast significant but resolved effect not practically null -> fail
-    assert writer_need_gate(hit, resolved_nonnull)["satisfied"] is False
+    assert writer_need_gate(hit, resolved_nonnull)["sensitivity_pattern_satisfied"] is False
     # resolved null but contrast CI covers zero -> fail
-    assert writer_need_gate(miss, resolved_null)["satisfied"] is False
+    assert writer_need_gate(miss, resolved_null)["sensitivity_pattern_satisfied"] is False
     # boundary: resolved CI exactly on the equivalence bound counts as within
     at_bound = {"ci95": [-MEAN_EQUIV_BOUND, MEAN_EQUIV_BOUND]}
     assert writer_need_gate(hit, at_bound)[
@@ -83,7 +86,7 @@ def test_writer_need_gate_requires_both_conditions():
         "resolved_mean_ci_within_equivalence_bound"] is False
 
 
-def test_gate_reports_predeclared_bound():
+def test_gate_reports_post_audit_sensitivity_bound():
     g = writer_need_gate({"ci95": [-0.3, -0.1], "ci95_excludes_zero": True},
                          {"ci95": [0.0, 0.01]})
     assert g["equivalence_bound"] == MEAN_EQUIV_BOUND

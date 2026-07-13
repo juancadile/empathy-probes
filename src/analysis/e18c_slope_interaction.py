@@ -16,11 +16,13 @@ persisted per-pair arrays of the E21 run (which includes both E18 axes):
      estimands above — plus family-paired urgent-minus-resolved and
      mild-minus-resolved mean-effect contrasts (bootstrap CIs, sign counts)
 
-Claim gates (predeclared, distinct per set):
-  - WRITER "need-gated level effect" requires the family-paired
+Claim analyses (distinct per set):
+  - WRITER "need-gated level effect" is an EXPLORATORY, post-audit sensitivity
+    analysis because the practical-equivalence bound was introduced after the
+    resolved-effect estimate had been inspected. The pattern requires the family-paired
     urgent-minus-resolved MEAN-EFFECT contrast 95% CI to exclude zero AND the
     resolved-need mean effect to be practically null (95% CI within the
-    predeclared +/-MEAN_EQUIV_BOUND equivalence band). It must NOT be
+    post-audit +/-MEAN_EQUIV_BOUND equivalence band). It must NOT be
     inferred from cost slopes.
   - SUPPRESSOR "conjunctive need x cost" remains the family-paired
     urgent-minus-resolved COST-SLOPE contrast (CI excluding zero).
@@ -47,9 +49,10 @@ COST_RANK = {"free": 0, "low": 1, "medium": 2, "high": 3}
 CONDS = ["positive_writers_k2", "suppressors_k4", "targeted_k6", "random_k6"]
 NEED_CELLS = [("resolved", "need_resolved"), ("mild", "need_mild"),
               ("urgent", "cost_axis")]
-# predeclared equivalence band for "resolved mean effect is practically null"
+# Post-audit sensitivity band for "resolved mean effect is practically null"
 # (choice-score units; ~1/5 of the writers' confirm-battery level effect
-# |-0.28|): the resolved 95% CI must lie entirely within +/- this bound
+# |-0.28|). This threshold was introduced after the resolved-effect estimate
+# had been inspected, so it is not a preregistered/confirmatory equivalence test.
 MEAN_EQUIV_BOUND = 0.05
 
 
@@ -91,10 +94,13 @@ def writer_need_gate(urgent_minus_resolved_mean_stat, resolved_mean_stat,
     contrast_ok = urgent_minus_resolved_mean_stat["ci95_excludes_zero"]
     lo, hi = resolved_mean_stat["ci95"]
     resolved_ok = bool(lo >= -bound and hi <= bound)
+    pattern = bool(contrast_ok and resolved_ok)
     return {"equivalence_bound": bound,
+            "status": "exploratory_post_audit_sensitivity",
+            "confirmatory_claim_supported": False,
             "urgent_minus_resolved_mean_ci_excludes_zero": bool(contrast_ok),
             "resolved_mean_ci_within_equivalence_bound": resolved_ok,
-            "satisfied": bool(contrast_ok and resolved_ok)}
+            "sensitivity_pattern_satisfied": pattern}
 
 
 def boot_family_stat(per_family, n=5000, seed=42):
@@ -131,8 +137,9 @@ def main():
                "writer_need_gated_level_effect":
                    "requires the family-paired mean_effect_urgent_minus_resolved_"
                    "paired (MEAN-EFFECT contrast) 95% CI to EXCLUDE zero AND the "
-                   "resolved mean effect's 95% CI to lie within the predeclared "
-                   f"equivalence band +/-{MEAN_EQUIV_BOUND}; must NOT be inferred "
+                   "resolved mean effect's 95% CI to lie within the post-audit "
+                   f"sensitivity band +/-{MEAN_EQUIV_BOUND}; this is exploratory, "
+                   "not preregistered or confirmatory, and must NOT be inferred "
                    "from cost slopes",
            },
            "conditions": {}}
@@ -196,7 +203,8 @@ def main():
               + f" | paired urgent-resolved MEAN {mr['mean']:+.4f} CI {mr['ci95']} "
               f"({mr['sign_positive_families']}/{mr['n_paired_families']} fams +) "
               f"excludes-zero={mr['ci95_excludes_zero']} | "
-              f"writer level-gate satisfied={wg['satisfied']} "
+              f"writer exploratory sensitivity pattern="
+              f"{wg['sensitivity_pattern_satisfied']} "
               f"(resolved-null={wg['resolved_mean_ci_within_equivalence_bound']}, "
               f"bound ±{MEAN_EQUIV_BOUND})")
 

@@ -13,9 +13,10 @@ null the suppressor slope claim needs. Design (QA-revised):
     the E26b lesson: the targeted set had the largest delta norms). Matching
     by selection is APPROXIMATE, not exact: each null set's ACTUAL realized
     post-bf16 delta norms are recorded, and total-norm mismatch vs the
-    targeted set is computed on both realized and theoretical norms. Exact
-    norm matching is claimed only if every null set's |total realized
-    mismatch| <= NULL_TOTAL_NORM_TOL (predeclared 5%); otherwise the sets are
+    targeted set is computed on both realized and theoretical norms. If every
+    null set's |total realized mismatch| <= NULL_TOTAL_NORM_TOL (predeclared
+    5%), this establishes approximate TOTAL-norm balance, not exact or
+    per-component matching. Otherwise the sets are
     labeled norm-SELECTED only and edit norm must be retained as a
     covariate / stratification variable in any downstream reading.
   - primary inference: two-sided empirical Monte Carlo p =
@@ -38,7 +39,7 @@ Usage (Spark, `empathy` env):
   python -u src/e28b_slope_nulls.py \
     --direction results/controlled_directions_gemma2_9b_it/direction_M_resid_block20.npy \
     --suppressors "L18H13,L20H10,L19H12,L17H7" \
-    --n-sets 24 --n-random-directions 8 --out results/e28b_slope_nulls_gemma
+    --n-sets 24 --n-random-directions 20 --out results/e28b_slope_nulls_gemma
 """
 
 import argparse
@@ -70,8 +71,8 @@ except ModuleNotFoundError:
     )
 
 N_HEADS = 16  # gemma-2-9b
-# predeclared: exact norm matching is claimed for the multiset-matched null
-# ONLY if every null set's |total realized delta norm / targeted - 1| <= this
+# Predeclared tolerance for approximate total realized-norm balance. This does
+# not imply exact or per-component norm matching for random-component sets.
 NULL_TOTAL_NORM_TOL = 0.05
 
 
@@ -243,7 +244,7 @@ def main():
     nd = np.array([r["slope_diff"] for r in rows])
     mis = np.array([abs(r["total_norm_rel_mismatch"]) for r in rows])
     mis_real = np.array([abs(r["total_norm_rel_mismatch_realized"]) for r in rows])
-    exact_match_ok = bool(mis_real.max() <= NULL_TOTAL_NORM_TOL)
+    total_norm_balance_ok = bool(mis_real.max() <= NULL_TOTAL_NORM_TOL)
     k, p = mc_p(nd, tgt_sd)
     res = {
         "direction": {"path": args.direction, "sha256": sha256(args.direction)},
@@ -290,10 +291,13 @@ def main():
             "realized": {"mean_abs_rel_mismatch": float(mis_real.mean()),
                          "max_abs_rel_mismatch": float(mis_real.max())},
             "predeclared_total_norm_tol": NULL_TOTAL_NORM_TOL,
-            "exact_norm_matching": exact_match_ok,
-            "claim": ("all null sets within the predeclared total realized-norm "
-                      f"tolerance ({NULL_TOTAL_NORM_TOL:.0%})" if exact_match_ok else
-                      "NOT exact: null sets are norm-SELECTED (nearest-norm pools) "
+            "total_norm_balance_within_tolerance": total_norm_balance_ok,
+            "exact_norm_matching": False,
+            "claim": ("all null sets are approximately TOTAL-norm balanced within "
+                      "the predeclared realized-norm tolerance "
+                      f"({NULL_TOTAL_NORM_TOL:.0%}); this is not exact or per-component matching"
+                      if total_norm_balance_ok else
+                      "null sets are norm-SELECTED (nearest-norm pools) "
                       "but exceed the predeclared total realized-norm tolerance "
                       f"({NULL_TOTAL_NORM_TOL:.0%}); retain edit norm as a "
                       "covariate / stratify by norm in any downstream inference"),
@@ -305,8 +309,9 @@ def main():
     print(f"targeted {tgt_sd:+.4f} | null {res['null_mean']:+.4f}±{res['null_std']:.4f} "
           f"| {k}/{len(rows)} as extreme | MC p={p:.3f} (min {1/(len(rows)+1):.3f}) "
           f"| norm mismatch (realized) mean {mis_real.mean():.1%} max {mis_real.max():.1%} "
-          f"| exact-matching claim: {exact_match_ok} (tol {NULL_TOTAL_NORM_TOL:.0%})")
-    if not exact_match_ok:
+          f"| approximate total-norm balance: {total_norm_balance_ok} "
+          f"(tol {NULL_TOTAL_NORM_TOL:.0%})")
+    if not total_norm_balance_ok:
         print("WARNING: null-set total realized norms exceed the predeclared "
               f"{NULL_TOTAL_NORM_TOL:.0%} tolerance — do NOT describe the null as "
               "exactly norm-matched; norm-covariate/stratified caveat applies")

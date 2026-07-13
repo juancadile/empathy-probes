@@ -75,7 +75,7 @@ cuda_ok stepR1; step "stepR1 (corrected norm-matched controls)"
 cuda_ok stepB; step stepB
 "$CONDA" run -n empathy python -u src/e28b_slope_nulls.py \
   --direction $DIR --suppressors $SUPPS \
-  --n-sets 24 --pool-size 6 --n-random-directions 8 \
+  --n-sets 24 --pool-size 6 --n-random-directions 20 \
   --out results/e28b_slope_nulls_gemma \
   > r3c_b.log 2>&1 || { echo "[rescue3c-resume2] stepB FAILED"; exit 1; }
 
@@ -122,7 +122,7 @@ fi
 
 # --- commit + push results only; never `git add -A` (preserve unrelated/untracked) ---
 step "commit+push results"
-git add \
+for result_path in \
   results/e21_need_resid_gemma \
   results/norm_matched_resid_gemma_v2 \
   results/e28b_slope_nulls_gemma \
@@ -130,7 +130,9 @@ git add \
   results/lb2_logit_lens_gemma \
   results/lb3_svd_alignment_gemma \
   results/e22_moral_resid_gemma \
-  results/lb4_jlens_gemma 2>/dev/null
+  results/lb4_jlens_gemma; do
+  [ ! -e "$result_path" ] || git add "$result_path"
+done
 git commit -m "rescue3c resume2: corrected R1 (shared rand vec + realized-norm gate), corrected stepB, LB1-LB4, stale-axis D" \
   || echo "[rescue3c-resume2] nothing to commit"
 git push || echo "[rescue3c-resume2] push failed — push manually"

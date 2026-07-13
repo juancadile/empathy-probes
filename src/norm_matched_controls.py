@@ -125,11 +125,16 @@ def apply_norm_matched_random(model, component, direction, target_norm, generato
 def summarize(name, targeted_delta, null_deltas):
     null = np.asarray(null_deltas)
     z = (targeted_delta - null.mean()) / max(null.std(ddof=1), 1e-9)
-    frac_beyond = float(np.mean(np.abs(null) >= abs(targeted_delta)))
+    n_extreme = int(np.sum(np.abs(null) >= abs(targeted_delta)))
+    mc_p = (1 + n_extreme) / (len(null) + 1)
     return {"set": name, "targeted_helping_delta": targeted_delta,
             "null_mean": float(null.mean()), "null_std": float(null.std(ddof=1)),
-            "null_values": null_deltas, "z_score": float(z),
-            "fraction_null_as_extreme": frac_beyond}
+            "null_values": null_deltas,
+            "primary_inference": "two-sided empirical Monte Carlo p with plus-one correction",
+            "n_null_as_extreme": n_extreme,
+            "mc_p_two_sided": mc_p,
+            "min_attainable_p": 1 / (len(null) + 1),
+            "z_score_secondary_descriptive": float(z)}
 
 
 def main():
@@ -262,11 +267,12 @@ def main():
             "shared_random_vector_per_seed": True,
             "conditions": conditions,
         }
-        log.info("%s: targeted %+0.4f | null %+0.4f ± %.4f | z=%.2f",
+        log.info("%s: targeted %+0.4f | null %+0.4f ± %.4f | MC p=%.4f | z=%.2f (descriptive)",
                  set_name, ref_deltas[set_name],
                  results["sets"][set_name]["summary"]["null_mean"],
                  results["sets"][set_name]["summary"]["null_std"],
-                 results["sets"][set_name]["summary"]["z_score"])
+                 results["sets"][set_name]["summary"]["mc_p_two_sided"],
+                 results["sets"][set_name]["summary"]["z_score_secondary_descriptive"])
 
     with open(out / "norm_matched_controls.json", "w") as f:
         json.dump(results, f, indent=2)

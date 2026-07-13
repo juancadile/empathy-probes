@@ -18,7 +18,7 @@ sys.path.insert(0, str(ROOT / "src"))
 
 from norm_matched_controls import (  # noqa: E402
     apply_norm_matched_random, orthogonalize_component_measured,
-    targeted_delta_norm,
+    summarize, targeted_delta_norm,
 )
 from weight_orthogonalization import effective_direction, parse_component  # noqa: E402
 
@@ -174,3 +174,11 @@ def test_realized_norm_within_3pct_and_measured_from_weights():
         assert abs(actual - e["realized_delta_norm"]) < 1e-4 * max(actual, 1.0)
         assert abs(e["realized_delta_norm"] / e["requested_delta_norm"] - 1.0
                    - e["relative_norm_error"]) < 1e-9
+
+
+def test_summary_uses_plus_one_monte_carlo_p():
+    summary = summarize("writers", -1.0, [0.01] * 20)
+    assert summary["n_null_as_extreme"] == 0
+    assert summary["mc_p_two_sided"] == 1 / 21
+    assert summary["min_attainable_p"] == 1 / 21
+    assert "z_score_secondary_descriptive" in summary
