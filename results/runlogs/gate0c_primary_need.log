@@ -1,0 +1,7 @@
+battery need_v2_2: 80 items across 4 arms
+rated 20/80
+rated 40/80
+rated 60/80
+rated 80/80
+[need_now] excited: 2.5 (n=20, unk=0)  mild: 3.55 (n=20, unk=0)  resolved: 1.85 (n=20, unk=0)  urgent: 5.0 (n=20, unk=0)
+wrote /private/tmp/empathy-probes-gate0c-manip/results/gate0c_manipulation_accepted_20260713/primary_need.json

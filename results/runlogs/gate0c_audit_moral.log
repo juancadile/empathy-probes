@@ -1,0 +1,5 @@
+battery moral_v2_2: 30 items across 3 arms
+rated 20/30
+[need_now] equal: 4.0 (n=10, unk=0)  higher: 3.9 (n=10, unk=0)  lower: 2.4 (n=10, unk=0)
+[respond_now] equal: 3.2 (n=10, unk=0)  higher: 3.6 (n=10, unk=0)  lower: 2.2 (n=10, unk=0)
+wrote /private/tmp/empathy-probes-gate0c-manip/results/gate0c_manipulation_accepted_20260713/audit_moral.json

@@ -445,3 +445,41 @@ Full memo: `notes/INTEGRITY_REPAIR_A_2026-07-13.md`. Brief `FABLE_INTEGRITY_REPA
   an outcome-dependent validator that would have discarded a failed accepted
   fractional result; acceptance now requires a complete boolean verdict but
   preserves either outcome. Full suite before execution: 242 passed.
+
+## 2026-07-13 - Gate 0C Part 3 manipulation checks and closure
+
+- **Frozen execution:** four accepted adjudication artifacts were produced from
+  clean commit `929ff6268413b7dec11cc8f9f9655a57293cc063`: OpenAI
+  `gpt-4.1-2025-04-14` on all ten families and Anthropic
+  `claude-haiku-4-5-20251001` on the frozen stratified five-family audit for
+  both the need and moral batteries. All 300 requested ratings are present,
+  with no UNKNOWNs; exact model identity, prompts, raw responses, retries,
+  source hashes, target descriptors, and randomized presentation persist in
+  `results/gate0c_manipulation_accepted_20260713/`.
+- **Need battery:** primary PASS - urgent-mild `+1.45 [1.35,1.50]` (10/10),
+  mild-resolved `+1.70 [1.55,1.85]` (10/10), urgent-excited
+  `+2.50 [2.30,2.70]` (10/10). Independent audit FAIL - urgent-mild and
+  urgent-excited are each only `+0.20 [0.00,0.40]`, positive in 2/5; only
+  mild-resolved passes (`+2.10 [2.00,2.30]`, 5/5). Per the frozen rule, the
+  authored need manipulation is NOT CERTIFIED across adjudicators.
+- **Moral battery:** FAIL for both adjudicators. Primary `need_now`
+  equal-lower passes (`+0.65 [0.20,1.10]`, 8/10), but higher-equal reverses
+  on average (`-0.15 [-0.80,0.45]`, 5/10) and both `respond_now` adjacent
+  gates fail. Audit higher-equal `need_now` is also negative
+  (`-0.10 [-1.40,0.90]`, 3/5). The lower/equal/higher moral ladder is NOT
+  CERTIFIED.
+- **Independent reconstruction audit:** PASS for artifact integrity. All four
+  SHA-256 hashes, clean source bindings, locked inputs/samples, exact response
+  model identities, item/rating counts, and presentation permutations verify;
+  summaries and every family-bootstrap/LOFO gate recompute exactly from raw
+  ratings. Full report: `notes/GATE0C_MANIPULATION_AUDIT_2026-07-13.md`.
+- **Claim ceiling:** these historical prompts may support results about their
+  operationalized task-interruption/response contrasts, not a welfare-pure,
+  need-pure, or moral-priority representation. The opened prompts and gates
+  will not be revised or rerun into a pass. A replacement battery would be a
+  new prospective experiment with new IDs and a new lock.
+- **Gate 0C status: CLOSED.** Part 1 capability reconstruction is complete
+  (individual sets: no detected benchmark degradation; combined set: small
+  detected MMLU cost), Part 2 fractional ablation passed, and Part 3's failed
+  manipulation certification is preserved as a reconstructible result. Gate
+  closure means the audit is complete, not that all scientific gates passed.
