@@ -132,6 +132,20 @@ Acceptance tests:
 - A static/inventory test proves every direct weight-edit CLI is either governed
   by the shared accepted contract or explicitly non-evidential.
 
+Current tracked direction bytes (independently hashed at architect HEAD
+`a8d68c2`) are:
+
+- Gemma pre-correction `direction_M_block20.npy`:
+  `ed4d034fc88fee241e61d90ae106ab6e416758f99fa02dc38f5f564ad5b60a96`;
+- Gemma set-of-record `direction_M_resid_block20.npy`:
+  `1b6d692e0e933d76c15f722fe996d01e1ca2ee8c8b72f19daf2f122cda294b42`;
+- Llama grouped `direction_M_grouped_block15.npy`:
+  `99b4daa965b914ae4aa014991fd47f179441a210a8bb31368cde30bb4458d78a`.
+
+Store these with their immutable registry entries. Tests should use temporary
+fixtures rather than assuming the project result files are present, but the
+live current key must resolve to the second hash when the tracked file exists.
+
 ## Q5. Replace the permissive MMLU answer parser (P1)
 
 `parse_letter` currently searches for any capital A-D character. For example,
