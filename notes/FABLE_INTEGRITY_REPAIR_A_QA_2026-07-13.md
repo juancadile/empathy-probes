@@ -276,7 +276,53 @@ Acceptance tests:
    independent-QA repair addendum; do not rewrite history.
 7. Commit only the QA repair and push `random-direction-control`.
 8. Report unresolved scientific or operational work. Do not start Gate 0B,
-   Spark, GPU, API, or paper work.
+Spark, GPU, API, or paper work.
+
+## Resume Addendum (2026-07-13, independently verified before Fable reset)
+
+Architect HEAD is `f1b846a`; commits after `96571f0` are preregistration and QA
+documents only. The six pre-existing dirty/generated paths remain excluded.
+
+Offline baseline on the local worktree:
+
+- `pytest -q tests` -> `118 passed in 6.13s`;
+- `python3 -c 'import src.eia_validation.run_eia_local'` -> fails because
+  `POSITIVE_WRITERS` was removed but is still imported;
+- `python3 -m src.eia_validation.run_eia_local --help` -> same import failure;
+- `score_e27.py --help` and `manipulation_pretest.py --help` succeed but expose
+  no explicit provider argument and still hardwire Anthropic live transport.
+
+Passing tests therefore do not clear the ten gates. Add tests that fail before
+each repair and exercise the actual CLI/import surfaces.
+
+### Recommended implementation order
+
+1. **Shared evidence-run contract (Q4/Q6):** extend `component_sets.py` and
+   `run_provenance.py` with direction path/hash binding, accepted/exploratory
+   eligibility, immutable revision verification, and atomic no-overwrite output.
+   Migrate every evidence-producing caller, including
+   `norm_matched_controls.py`.
+2. **Game drivers (Q1/Q10):** migrate `run_eia_local.py` and
+   `e27_game_variants.py` to that shared contract; remove stale constants;
+   require an explicit registry key or complete literal specification; add
+   deterministic per-run player RNG and complete manifests.
+3. **Judge transport and target identity (Q2/Q3):** create concrete mocked
+   Anthropic and OpenAI adapters behind one injected interface. Add explicit
+   provider/model CLI fields and schemas, then make moral prompts identify P2.
+4. **E27 design validation (Q9):** validate an explicit 2x3x8 manifest before
+   rendering or transport. Missing whole dimensions, duplicates, unexpected or
+   failed cells, and path/hash disagreement must fail before any API call.
+5. **Capability evaluation (Q5/Q6):** replace `parse_letter`, persist parse
+   status, add all-items and parsed-only analyses, parse rates, and subject-
+   cluster uncertainty; apply accepted-run revisions/output semantics.
+6. **Fractional nulls (Q7):** accepted mode requires the preregistered random
+   count and scores the same M/T/readouts; three draws remain smoke-only.
+7. **Builder sidecars (Q8):** validate every existing sidecar and preserved copy
+   before unchanged return; contradictory provenance fails closed.
+
+Run focused tests after each shared layer, then the full delivery contract.
+Ignore paper/showcase review comments in this batch. Do not resolve scientific
+review threads merely because code compiles.
 
 ## Clearance Rule
 
