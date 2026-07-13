@@ -1,5 +1,11 @@
 # V2 Next Steps - Tuesday Nov 25, 2024
 
+> **HISTORICAL STATUS SNAPSHOT — DO NOT EXECUTE.** Model assignments, dataset
+> counts, compute assumptions, and scientific priorities below predate the
+> 2026 audit. Current execution order and decision gates are defined in
+> `SCIENTIFIC_PREREG_INDEX_2026-07-13.md` and
+> `EXECUTION_ORDER_2026-07-13.md`.
+
 ## Current Status
 
 ### Dataset Generation Complete (or in progress)

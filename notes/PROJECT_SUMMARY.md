@@ -1,5 +1,14 @@
 # Empathy-in-Action Probes - Project Summary
 
+> **HISTORICAL V1 BUILD SUMMARY — NOT CURRENT SCIENTIFIC STATUS.** This
+> November 2024 document records the original pipeline and intended claims.
+> Later lexical, factorial, polarity, and held-out-control audits narrowed
+> those claims substantially. For current execution and claim authority, use
+> `SCIENTIFIC_PREREG_INDEX_2026-07-13.md`,
+> `EXECUTION_ORDER_2026-07-13.md`, and `EXPERIMENT_LOG.md`. In particular,
+> references below to an "empathy direction" are historical labels, not an
+> established construct interpretation.
+
 **Status**: ✅ **COMPLETE** - Ready for execution
 
 **Created**: November 2024

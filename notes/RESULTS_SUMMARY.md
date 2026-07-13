@@ -1,4 +1,13 @@
 # Empathy Probe Extraction - Final Results Summary
+
+> **HISTORICAL V1 RESULTS — SUPERSEDED AS CLAIM LANGUAGE.** The metrics below
+> are retained as an audit trail, but later controls showed that near-perfect
+> AUROC on the original contrastive data can be supported by lexical/task
+> structure and does not by itself identify empathy or a behavioral mechanism.
+> Statements below such as "model-agnostic concept" are retracted as current
+> conclusions. Use `EXPERIMENT_LOG.md` for the chronological claim record and
+> `SCIENTIFIC_PREREG_INDEX_2026-07-13.md` for post-audit experiments.
+
 **Date:** November 14, 2025
 **Project:** Detecting Empathy as a Direction in Activation Space
 
