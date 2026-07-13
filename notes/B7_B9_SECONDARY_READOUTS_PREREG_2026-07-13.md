@@ -242,6 +242,80 @@ deliberation unless the Tier-3 functional tests pass.
 - These analyses never increase the evidence ladder above the causal and
   parameter-level evidence established elsewhere.
 
+## Frozen implementation-adequacy amendment (2026-07-13, before B7/B9 runs)
+
+### B7 compatibility is a hard gate
+
+Before prompt development, verify from the released AO manifest and inference
+code that the oracle checkpoint was trained for the exact target architecture,
+hidden width, activation hook semantics, layer index, normalization, and chat
+format. A merely same-family or same-width checkpoint is not compatible. Run a
+round-trip fixture from the authors' repository and persist its expected and
+observed token IDs/logits. If exact compatibility or the fixture fails, B7
+stops as unavailable for this model; no local adapter/fine-tune is selected on
+the project families under this experiment ID.
+
+### B9 corpus and sparse-solver reproducibility
+
+The two generic fit-corpus samples use master seeds `524533202` and
+`1240794489` (SHA-256 phrases `B9 lens fit corpus sample A v1 2026-07-13` and
+`B9 lens fit corpus sample B v1 2026-07-13`). Sample complete documents without
+replacement from one immutable dataset revision, then take the first eligible
+token span under document order; never sample windows from project stimuli or
+reuse a document across A/B. Freeze eligibility, tokenizer, sequence length,
+and document hashes before Jacobian computation.
+
+The sparse nonnegative solver must either use the authors' exact released code
+and revision or pass all of these implementation fixtures before target
+analysis:
+
+1. exact recovery (cosine at least `.999`, relative residual at most `1e-4`) of
+   synthetic nonnegative combinations with known support no larger than `k`;
+2. rejection of a target outside the synthetic cone rather than forcing unit
+   reconstruction;
+3. identical support/coefficients across batch partitions and two repeated
+   runs; and
+4. agreement with the authors' released reference fixture where available.
+
+For Tier 2, normalize each candidate J-lens vector to unit residual-space norm
+before pursuit and define reconstruction fraction as
+`1 - ||d - d_hat||^2 / ||d||^2`, reported unclipped. Coefficients are
+nonnegative and support size is at most the frozen `k`; stopping early is
+allowed only when the next nonnegative coefficient is numerically zero under a
+fixed `1e-10` tolerance. Persist the complete candidate-token universe,
+selected support/order, coefficients, residual at every pursuit step, and all
+random-control supports. A negative reconstruction fraction is valid evidence
+of a poor approximation, not clipped to zero.
+
+### Tier-3 execution is not yet authorized
+
+The present Tier-3 section states scientific requirements but does not fix a
+report assay, fresh flexible-use families, low-level control task, intervention
+dose, downstream re-entry sites, or clamp operation. Therefore B9 Tier 3 may not
+produce a confirmatory `workspace-like functional role` result under this
+document alone.
+
+After Tier 2 is frozen and without inspecting any Tier-3 outcome, write a
+separate Tier-3 preregistration that must include at least:
+
+- 16 development and 16 sealed confirmation families disjoint from WP3/B6 and
+  all Tier-2 selection data;
+- exact fixed-format report and flexible-policy likelihood outcomes;
+- at least two named low-level control tasks, with manipulation/headroom gates;
+- one development-derived natural intervention norm shared by J component,
+  remainder, full direction, and random decompositions;
+- exact downstream layers/coordinates and algebra for the re-entry clamp;
+- receiver-level norm matching, finite null generation, family estimands, and
+  failure rules; and
+- an explicit test that the clamp itself is quiet without the upstream
+  intervention.
+
+Until that document is committed, Tier 1 may support transported-norm/J-lens
+readout and Tier 2 may support sparse J-space alignment. Neither may be called
+workspace, deliberation, broadcast, conscious access, or habit. A visually
+interesting Tier-2 token list is not permission to design Tier 3 against the
+same confirmation families.
+
 ## Primary sources
 
 - Karvonen et al., *Activation Oracles*:
