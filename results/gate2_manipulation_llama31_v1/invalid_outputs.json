@@ -1,0 +1,167 @@
+{
+  "invalid": [
+    {
+      "request_id": "wp1-wp1_openai_gpt4o_mini_00-D_new-warm",
+      "errors": [
+        "unparseable"
+      ]
+    },
+    {
+      "request_id": "wp1-wp1_openai_gpt4o_mini_00-D_new-terse",
+      "errors": [
+        "unparseable"
+      ]
+    },
+    {
+      "request_id": "wp1-wp1_openai_gpt4o_mini_00-Ctext_new-high",
+      "errors": [
+        "unparseable"
+      ]
+    },
+    {
+      "request_id": "wp1-wp1_openai_gpt4o_mini_03-G_new-genuine",
+      "errors": [
+        "unparseable"
+      ]
+    },
+    {
+      "request_id": "wp1-wp1_openai_gpt41_mini_02-T_new-interrupt",
+      "errors": [
+        "unparseable"
+      ]
+    },
+    {
+      "request_id": "wp1-wp1_openai_gpt41_mini_02-D_new-terse",
+      "errors": [
+        "unparseable"
+      ]
+    },
+    {
+      "request_id": "wp1-wp1_openai_gpt41_mini_02-G_new-genuine",
+      "errors": [
+        "unparseable"
+      ]
+    },
+    {
+      "request_id": "wp1-wp1_openai_gpt41_mini_02-G_new-strategic",
+      "errors": [
+        "unparseable"
+      ]
+    },
+    {
+      "request_id": "wp1-wp1_openai_gpt41_mini_02-R_new-welfare_observation",
+      "errors": [
+        "unparseable"
+      ]
+    },
+    {
+      "request_id": "wp1-wp1_openai_gpt41_mini_02-R_new-nonwelfare_observation",
+      "errors": [
+        "unparseable"
+      ]
+    },
+    {
+      "request_id": "wp1-wp1_openai_gpt41_mini_02-Ctext_new-low",
+      "errors": [
+        "unparseable"
+      ]
+    },
+    {
+      "request_id": "wp1-wp1_openai_gpt41_mini_03-T_new-interrupt",
+      "errors": [
+        "unparseable"
+      ]
+    },
+    {
+      "request_id": "wp1-wp1_openai_gpt41_mini_03-G_new-strategic",
+      "errors": [
+        "unparseable"
+      ]
+    },
+    {
+      "request_id": "wp1-wp1_openai_gpt41_mini_03-B_new-active_zero_cost",
+      "errors": [
+        "unparseable"
+      ]
+    },
+    {
+      "request_id": "wp1-wp1_openai_gpt41_mini_03-R_new-nonwelfare_observation",
+      "errors": [
+        "unparseable"
+      ]
+    },
+    {
+      "request_id": "wp1-wp1_openai_gpt41_mini_03-Ctext_new-zero",
+      "errors": [
+        "unparseable"
+      ]
+    },
+    {
+      "request_id": "wp1-wp1_openai_gpt41_mini_03-Ctext_new-low",
+      "errors": [
+        "unparseable"
+      ]
+    },
+    {
+      "request_id": "wp1-wp1_openai_gpt41_mini_03-Ctext_new-high",
+      "errors": [
+        "unparseable"
+      ]
+    },
+    {
+      "request_id": "wp1-wp1_openai_gpt41_mini_05-D_new-terse",
+      "errors": [
+        "unparseable"
+      ]
+    },
+    {
+      "request_id": "wp1-wp1_google_gemini25_flash_00-Spos_new-neutral",
+      "errors": [
+        "unparseable"
+      ]
+    },
+    {
+      "request_id": "wp1-wp1_google_gemini25_flash_01-D_new-terse",
+      "errors": [
+        "unparseable"
+      ]
+    },
+    {
+      "request_id": "wp1-wp1_google_gemini25_flash_02-Spos_new-positive",
+      "errors": [
+        "unparseable"
+      ]
+    },
+    {
+      "request_id": "wp1-wp1_google_gemini25_flash_02-Spos_new-neutral",
+      "errors": [
+        "unparseable"
+      ]
+    },
+    {
+      "request_id": "wp1-wp1_google_gemini25_flash_02-L_new-current_simulated",
+      "errors": [
+        "unparseable"
+      ]
+    },
+    {
+      "request_id": "wp1-wp1_google_gemini25_flash_05-D_new-terse",
+      "errors": [
+        "unparseable"
+      ]
+    },
+    {
+      "request_id": "wp3-wp3_anthropic_haiku45_01-cost-high",
+      "errors": [
+        "unparseable"
+      ]
+    },
+    {
+      "request_id": "wp3-wp3_anthropic_haiku45_03-observation-archived_actual",
+      "errors": [
+        "response_opportunity_1_to_5"
+      ]
+    }
+  ],
+  "raw_path": "results/gate2_manipulation_llama31_v1/raw_judge_records.json"
+}
