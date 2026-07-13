@@ -1,0 +1,16 @@
+{
+  "schema": "empathy-action-probes/wp2-dev-exploratory-result/1",
+  "experiment_id": "WP2-dev-exploratory-20260713",
+  "role": "discovery-only",
+  "claim_authorized": false,
+  "confirmation_opened": false,
+  "outcome": "no-representation",
+  "artifacts": {
+    "activations/extraction_plan.json": "f4bde3f9ddb1acb7ef8c44370fb5da23b343e866daf712a9d31c3afa82bf3b49",
+    "selection/selection.json": "0b2d2851b317c6aa21741e1dc14ba90a67e4118ce11fb1b248715139d23329ce"
+  },
+  "spark_only_artifacts": {
+    "activations/activations.npz": "6cdefcf0805197c1b16f379fc2b635c1e0949f8c83945a867431cc9c13238554",
+    "activations/rows.jsonl": "32b83438af1265b68f27b662a73b6e2a74f46b144ee9333032fb84df82f230ce"
+  }
+}

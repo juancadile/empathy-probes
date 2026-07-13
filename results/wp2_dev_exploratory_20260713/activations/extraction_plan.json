@@ -1,0 +1,52 @@
+{
+  "schema": "empathy-action-probes/gate2-activation-plan/1",
+  "phase": "dev",
+  "model": "google/gemma-2-9b-it",
+  "revision": "11c9b309abf73637e4b6f9a3fa1e92e615547819",
+  "num_layers": 42,
+  "relative_depth_anchors": [
+    0.33,
+    0.48,
+    0.62
+  ],
+  "blocks": [
+    13,
+    19,
+    25,
+    20
+  ],
+  "historical_block": 20,
+  "row_count": 1568,
+  "prompt_final_rows": 1440,
+  "quote_boundary_rows": 128,
+  "inputs": [
+    {
+      "path": "data/gate_families/gate2_v2/wp1_families.jsonl",
+      "sha256": "831ce9230fba586d127414205bf75881302e87a1c70cb7707aebc58224a713e1"
+    },
+    {
+      "path": "data/gate_families/gate2_v2/wp3_families.jsonl",
+      "sha256": "571a08a318fd7cb6461fd92745b8526b2566cb27050f7ac78491518dc45625fd"
+    }
+  ],
+  "hidden_size": 3584,
+  "code": {
+    "path": "src/analysis/extract_gate2_activations.py",
+    "sha256": "fbdc2e3bd0163036174522d226fccf81f218af53bbca18aa37ae07564f794b53"
+  },
+  "authorization_mode": "exploratory_dev",
+  "claim_authorized": false,
+  "human_gate": null,
+  "exploratory_dev_lock": {
+    "path": "notes/WP2_DEV_EXPLORATORY_LOCK_2026-07-13.json",
+    "sha256": "81b9cc496ceba724dfc0a353c327b0309d29eff51acdb5d3351365225b2dca37",
+    "experiment_id": "WP2-dev-exploratory-20260713"
+  },
+  "selection_lock": null,
+  "artifacts": {
+    "activations": "activations.npz",
+    "activations_sha256": "6cdefcf0805197c1b16f379fc2b635c1e0949f8c83945a867431cc9c13238554",
+    "rows": "rows.jsonl",
+    "rows_sha256": "32b83438af1265b68f27b662a73b6e2a74f46b144ee9333032fb84df82f230ce"
+  }
+}

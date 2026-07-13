@@ -3,6 +3,30 @@
 **Created:** 2026-07-10 · **Living document — check items off here.**
 Companion docs: `v2-lowlevel-interp-plan.md` (methods detail), `v2-tasks-list.md` (per-task breakdown), `v2_1-stimulus-suite-design.md` (dataset design).
 
+## Current critical path (supersedes the original week-based ordering)
+
+**State as of 2026-07-13:** the existing Gemma component/weight intervention
+is real but is not certified as a welfare-pure mechanism. Gate 2 v2 now
+contains complete, disjoint development/confirmation families for WP1 (640
+rows, ten nuisance contrasts) and WP3 (480 rows, five identification cells).
+The operative sequence is therefore gate-driven:
+
+1. single-naive-rater R2b calibration (Form B first; single-rater
+   corroboration, not certification);
+2. diagnose the frozen WP2 development null if useful; do not open its
+   confirmation families or substitute a runner-up;
+3. build and pretest E22b.2 as the next fresh construct-validity assay;
+4. start any replacement representation search only under a new preregistration
+   and new confirmation families;
+5. SAE/path/circuit depth only after a construct-valid target survives.
+
+The explicitly discovery-only WP2 development pass returned
+`no-representation`: target AUROC 1.0, but B/Spos/O/Ctext failed nuisance
+quietness. The frozen WP2 Gemma branch therefore stops before confirmation.
+This does not validate stimuli, cancel R2b human review, or establish that no
+welfare representation exists. E22b.2 stimulus construction runs in parallel
+under its separate need × immediacy structural lock.
+
 ## North star
 
 Upgrade the evidence standard from *"a probe detects the feature in activations"* to *"we can trace the pathway in the weights that produces it"* — and along the way determine **what the direction actually is**: empathy concept, task-focus, or empathetic persona.
@@ -37,7 +61,9 @@ Stage A (components) needs no SAEs — it works directly on heads/MLPs via the p
 
 **Standing conclusion (from 0.6):** headline AUROCs on the V2 contrastive dataset are not evidence of behavioral representation (lexical ceiling ~0.99). All causal work targets the **block-20 direction**; a purified decision direction from cell M + controlled cells is the preferred probe going forward.
 
-**Decision gate:** none — 0.3 unblocks B5/#27 and #28 later; generate while GPUs do Stage A.
+**Gate 2 generation status (corrected 2026-07-13):** WP1 and WP3 development/confirmation families are complete in `data/gate_families/gate2_v2/`. The remaining blocker is human calibration of their manipulation checks, not family generation. E22b.2 is a separate fresh moral-axis build and remains open.
+
+**Decision gate:** human calibration controls which WP3 cells WP2 may use and which nuisance claims remain available. Confirmation activations stay sealed until those local gates pass.
 
 ## Stage A — Component localization *(weeks 1–2)* — issues #25, #11, #12
 
@@ -74,6 +100,37 @@ Post-rescue state: d_resid is NOT welfare-pure held-out; the story is component�
 - [ ] **LB2 · Per-layer logit-lens trajectory** (NEW): decode logit(A)−logit(B) from final_norm(resid_l) @ W_U at every layer, M_confirm; where does the decision crystallize, and does it match the L16–20 band from the matched nulls? `src/analysis/logit_lens_trajectory.py`
 - [ ] **LB3 · SVD alignment** (= C1, unstarted): SVD of L19/L20MLP down_proj and suppressor-head W_O; cosine spectrum of d_resid (and effective sandwich-norm direction) against top singular vectors — is the direction natively expressed or off-axis? Relates to the edit-norm confound (E26b). CPU. `src/analysis/svd_alignment.py`
 - [ ] **LB4 · Jacobian Lens workspace membership** (= B9/#32, unstarted): fit jlens on Gemma-2-9B-it (anthropics/jacobian-lens, ~1000×128-token prompts, backward-pass dominated); measure J-space overlap of d_resid and of each edited component's output direction. In-workspace → deliberative/reportable weighing; out → habituated disposition. Candidate mechanism for the steering asymmetry. `src/analysis/jlens_workspace.py`
+
+### Welfare-purity program (WP · added 2026-07-12, user request — every route to a welfare-pure mechanism, post-E25b)
+Context: E25b held-out certification failed (T_confirm 0.79 two-sided, inverted) and d_resid also fails G in-sample (0.746) — no direction in hand is certified welfare-pure; the claim of record is component×direction (edits behaviorally task-selective, direction not representationally pure). These tasks either produce a certified-pure welfare object (direction, feature set, or causal variable) or convert the failure into a pre-registered non-separability finding. WP1/WP3 generation is complete; human construct checks now gate confirmatory WP2–WP4.
+
+- [x] **WP1 · Held-out nuisance families complete**: `gate2_v2/wp1_families.jsonl` contains 640 rows across ten nuisance contrasts, four source strata, and disjoint development/confirmation partitions. Structural/token audits are complete; human calibration remains open.
+- [x] **WP2 · Frozen cross-validated representation selection — stopped at development**: target AUROC 1.0, but B_new (0.359), Spos_new (0.625), O_new (0.609), and Ctext_new (0.641) failed nuisance quietness. Outcome `no-representation`; no frozen representation emitted; confirmation stays unopened. Conditional negative result only, not evidence of general nonexistence. `notes/WP2_DEV_EXPLORATORY_RESULT_2026-07-13.md`
+- [x] **WP3 · Decision-free welfare identification families complete**: `gate2_v2/wp3_families.jsonl` contains 480 rows spanning observation, resolved/neutral controls, agency, cost, and persona cells with byte-matched continuations and disjoint development/confirmation partitions. Human manipulation calibration determines which cells WP2 may use.
+- [ ] **WP4 · Beyond one linear direction — feature- and variable-level purity**: three sub-routes, any one suffices. (a) **SAE decomposition** (Gemma Scope, B18–20; E20 Neuronpedia labels already in hand): decompose d_resid into SAE features, profile EACH feature on the full cell matrix — a welfare-pure *feature* can exist inside an impure direction; edit/ablate only the pure features and rerun the M/T behavioral battery. (b) **DAS / causal abstraction (= B8, now with a concrete purity use):** train an interchange-intervention subspace for a Welfare variable using V2.1 cells as bases (B = cost clamped, E = need absent); purity criterion = interchange accuracy high on M_confirm, chance on T_confirm — certified on WP1 held-out families like any direction. (c) **2-D plane model:** fit a (task, welfare) plane jointly instead of residualizing sequentially; test whether the oblique welfare axis within the plane is held-out-quiet. `src/analysis/wp4_sae_purity.py`, `src/analysis/wp4_das_welfare.py`
+- [ ] **WP5 · Pre-registered stopping rule / negative result**: if WP2–WP4 all fail held-out quietness, declare linear-welfare-purity-at-B20 NOT FOUND and publish it as a finding: welfare-in-action and task-interruption are non-separable in the residual stream at this depth because costly-helping stimuli entangle them by construction (the WP3 decision-free cell is the discriminating test — if even IT fails to transfer while staying quiet, the entanglement is representational, not just a stimulus artifact). Paper keeps the component×direction claim either way; WP5 just fixes, in advance, when we stop looking.
+
+**Sequencing:** Form B/R2b remains scientifically necessary for the existing cost-gate interpretation. Form A is now optional diagnostic evidence about the WP2 null, not authorization to reopen this branch. Build E22b.2 next; any replacement WP2 search requires a new preregistration rather than tuning against these development results.
+
+### E22b — moral-vs-moral rerun + redesign (added 2026-07-12; E22 v1 is stale AND confounded)
+E22 v1 (flat +0.038 suppressor boost, ~8× smaller than task-vs-welfare; "gate is task-specific") cannot be reused as-is: (i) it ran on the OLD component sets — direction and writers changed completely post-E24, 2/4 suppressors changed (already a rescue3c blocker); (ii) the pretest logged that respond-now pressure co-varies with claim strength (2.00/2.60/4.30 vs 2.20/3.00/4.20), so the need axis is composite; (iii) the effect sits in a weak-effect regime where the single random-k6 comparator moved −0.035 — comparable magnitude to the finding itself.
+
+- [ ] **E22b.1 · Straight rerun, new sets** (writers L19MLP+L20MLP; suppressors L18H13,L20H10,L19H12,L17H7) on the existing 120-pair moral axis — establishes whether the boundary result survives re-derivation at all, before investing in redesign. Cheap; add to the next Spark chain.
+- [ ] **E22b.2 · Deconfounded stimuli — need × immediacy factorial**: structural builder complete (`src/data_generation/build_e22b2_axis.py`); independently authored fresh family blueprints and their Opus/human manipulation pretests remain open. The builder enforces an exact 3×2 Cartesian product, byte-stable axis/decision clauses, lexical leakage stoplists, source/split balance, and no prior-family reuse. No target-model run is authorized by materialization alone.
+- [ ] **E22b.3 · Incumbency isolation arms**: (a) role-swap — agent starts with P2, P1 arrives (does the incumbency prior + suppressor boost track the incumbent SLOT, not party content?); (b) no-incumbent — both claims arrive simultaneously, pure fresh triage. Prediction under incumbent-stabilization: suppressor boost present in (a) with sign following the incumbent, ≈0 in (b). This is the cleanest discriminator between "stabilizes the current policy" and "reweights moral claims" — E22 v1 could not distinguish them.
+- [ ] **E22b.4 · Nulls + power for the weak regime**: composition-matched null sets under the moral battery (the E26b protocol: sampled 4-head layer/norm-matched sets; the k=6 random comparator is NOT a null, per E23 finding 4 / E28) and n scaled for the expected ~0.04-logit effect — 10 families is underpowered; target ≥20 families × 3 levels × 4 variants, family-clustered bootstrap as usual. Decision rule fixed in advance: suppressor boost must clear the matched-null distribution (not just random-k6) to claim even the spillover.
+- **Claim ceiling if all pass:** "the suppressor set stabilizes the incumbent policy against salient alternatives, with at most a small need-insensitive spillover onto moral-vs-moral allocation" — the task-vs-welfare arbitration reading, now with the incumbency mechanism tested rather than inferred. If E22b.3(b) shows a nonzero fresh-triage effect, the moral-triage reading reopens and the E22 v1 conclusion is retracted.
+
+### Rescue3c — new-set revalidation + deliverable consistency (added 2026-07-12, Sol's second full review)
+Sol's verdict: the narrow E25–E28 results are sound, but the DELIVERABLES are inconsistent — paper-v2 still headlines the superseded direction/component sets, and three controls required before reusing old-set claim language have not run. R1–R3 are the scientific blockers, in Sol's recommended order; R4–R5 are consistency/auditability. **Claim-language embargo while R1–R3 are open:** no "welfare-value writers" (band-level wording only); no "need-gated" / "conjunctive need×cost" (old-set evidence); no "localized the cost gate to these heads" (say "the selected suppressor set exhibits a cost-contingent intervention profile"); no welfare-specific game-transfer claims (E27: unresolved).
+
+- [ ] **R1 · Fresh norm-matched random-DIRECTION controls on the new sets** (HIGH, Sol seq 1): E14d's direction-specificity z-scores belong to the old direction/components; random-COMPONENT nulls (E26b) answer "are these locations unusual?", not "is this direction special within these weights?". Rerun the E14d protocol with d_resid + writers L19MLP,L20MLP + suppressors L18H13,L20H10,L19H12,L17H7 — prep is already dirty in `src/norm_matched_controls.py:90`, land and run it. Until then the new edits are causal *parameter* interventions, not certified *direction-specific* interventions.
+- [ ] **R2 · E28b four-head suppressor-matched slope null** (HIGH, Sol seq 2): E28's +0.113 cost-slope interaction was judged against a 2MLP+4head comparator, not layer/norm-matched four-head sets. Track and run `src/e28b_slope_nulls.py` (currently untracked). Only clearing this null upgrades "cost-contingent profile" to "cost gate localized to these heads."
+- [ ] **R3 · Fresh E21 need-axis for the new sets** (Sol seq 3): all "need-gated value" / "conjunctive need×cost" claims rest on old-set E21/E18c. Rerun the resolved/mild/urgent battery with the re-derived sets; the embargoed wording returns only if the interaction reproduces. (Cross-ref: **E22b.1** above is the same stale-sets issue for the moral boundary.)
+- [ ] **R4 · Full paper-v2 rewrite around E25–E28** (CRITICAL, Sol seq 4): the E25–E28 correction subsection was inserted into an otherwise stale paper. Abstract, intro, methods, primary figure, mechanism section, and conclusion still carry the original direction, L19MLP+L20H15, the old suppressor set, the old-set +0.172 / need-conjunction / +5.0 game numbers, a self-contradiction (asserts no direction is welfare-pure, then concludes "need-gated welfare value"), and "log ends at E23" (`paper-v2/paper.tex:22,87,158,264,373,396`). Rewrite — not patch — to the adopted claim ceiling: band-level writer localization (−0.284 held-out, format/readout-robust; **p=1/28 conditional, 2/28 norm-adjusted → mid-late MLP band, L19 dominant carrier + L20 best complement, NOT a unique two-component circuit**); suppressor wording per R2 status; "no measurable degradation on MMLU-400/WikiText-2" (not "capability preserved"); E27's honest verdict with the strong game-transfer sentences removed; and the two negative results (no tested direction is welfare-pure; interactive welfare specificity unresolved) promoted to explicit contributions.
+- [ ] **R5 · Provenance completion** (Sol seq 5): `results/PROVENANCE.json` verifies only the 324 pre-rescue entries — none of the core E25–E28 artifacts are listed — and the 48 raw E27 game histories are untracked (only the aggregate scoring JSON is committed), so judge labels/trajectories cannot be independently audited. Commit the histories (or hash-in-place if too large, per the activation precedent), add all E25–E28 result files, regenerate the manifest.
+
+**Un-embargo gates:** each claim family returns only when ITS blocker clears — R1 → direction-specificity language; R2 → cost-gate localization; R3 → need-gating/conjunction; E22b.1 → the moral-boundary claim. R4 ships with whatever has cleared; anything still open ships as a disclosed limitation. R2/R5-prep (tracking the untracked/dirty files) and R4/R5 need no GPU; R1–R3 are one Spark chain (`scripts/run_rescue3c.sh`, to be written on the rescue3/3b pattern).
 
 **🔀 FORK 2 (framing):** empathy concept / task-focus / persona — determines the paper's central claim. All three outcomes are publishable; persona outcome reframes as prosocial persona-vector monitoring + "breaking character" account of V1's steering collapse.
 
@@ -112,15 +169,17 @@ V2-model steering sweeps, dose-response, asymmetry; random-baseline & EIA-correl
 | GH200 rental | only if Spark too slow (27B/32B sweeps, 70B) | $0–85 |
 | APIs (Anthropic/OpenAI/Gemini ✅ validated; OpenRouter optional) | V2.1 suite (small models), persona-vector pipeline, judging | ~$10–50 |
 
-## Paper claim ladder (state of evidence as of 2026-07-12; details in EXPERIMENT_LOG E14c/E16b/E17)
+## Paper claim ladder (state of evidence as of 2026-07-12 post-E28; sets of record: writers **L19MLP+L20MLP**, suppressors **L18H13,L20H10,L19H12,L17H7**, direction **d_resid**; details in EXPERIMENT_LOG E24–E28)
 
-1. Empathy-in-action is linearly represented across families *(V1/V2 ✅; also true in Llama-3.1-8B — gate A AUROC 1.0 on held-out families)*
-2. It is written by an identifiable sparse set of components *(A ✅ Gemma; Llama DFA finds a parallel profile but see 4b)*
-3. Those components form a faithful circuit… *(B — partially superseded by the E14c decomposition below)*
-4. Weight-edit causal control — **now two distinct axes** *(C, revised)*:
-   - **4a. Writer edits (L19MLP+L20H15) selectively reduce costly-helping choice, out-of-family** (E14c: −0.184*, all selectivity ratios ≥4.3, no in-sample inflation). The helping-specific claim of record.
-   - **4b. Suppressor edits increase alternative-uptake NON-selectively** (E14c: helping +0.150* but task-persistence cell co-moves −0.177*). Best current reading (codex-sparred): suppressors stabilize the incumbent policy against salient alternatives; welfare-specificity undetermined → E18 interaction test (cost axis vs matched non-social axis, stimuli built).
-5. Cross-model replication: **FAILED on Llama-3.1-8B at the confirmatory level** (E17: representation transfers, causal control doesn't; suppressor side null; writer side in-sample-only). Gemma mechanism is real but not architecture-general. E17b (format/ablation audit) running.
-6. The direction governs *action selection* in the original EIA games *(E16/E16b ✅ one-sided: suppressor edits — 0/13 door completions, +4.9 supportive messages, p=.006; wording "away from task persistence toward supportive verbal action" remains exactly calibrated under the 4b rereading)*
+1. Empathy-in-action is linearly represented across families *(V1/V2 ✅; also Llama-3.1-8B — gate A AUROC 1.0 held-out)* — **but no tested direction is welfare-pure**: d_resid fails G in-sample (0.746) and T held-out (0.79 two-sided, E25b). Purity is an explicit negative result → WP program.
+2. Written by an identifiable sparse component set — **calibrated to band-level** (E26b): writers −0.284 held-out with T selectivity 20× (A/B) / 3.8× point-estimate (continuation, small nonzero spillover); most extreme of all 28 band two-MLP sets (exact conditional p=1/28) but **2/28 after edit-norm adjustment (p≈.071)** → "strongest writers in a mid-late MLP band, L19 dominant carrier, L20 best complement," NOT a unique two-component circuit.
+3. Faithful circuit *(B — three partial mediation edges confirmed; full circuit story open)*
+4. Weight-edit causal control, two axes *(C)*:
+   - **4a. Writer edits: format/readout-robust level effect** (raw/chat/paraphrase/continuation, E26), no in-sample inflation (dev −0.273 vs confirm −0.284), no measurable MMLU-400/WikiText-2 degradation (E28). ⏳ **Direction-specificity for the NEW sets pending R1** (old E14d z-scores don't transfer).
+   - **4b. Suppressor edits: cost-contingent intervention profile** — cost-slope interaction +0.113 [+0.086,+0.141], 10/10 families, replicated on re-derived sets (E28); task persistence co-moves at parity (T ratio 1.07, E25 stage 3) → arbitration-level, not welfare-selective. ⏳ **"Cost gate localized to these heads" pending R2** (four-head matched slope null). "Need-gated"/"conjunctive need×cost" **embargoed pending R3** (fresh E21); moral-boundary claim **stale pending E22b.1**.
+5. Cross-model replication: **FAILED on Llama-3.1-8B at the confirmatory level** (E17: representation transfers, causal control doesn't). Gemma mechanism is real but not architecture-general.
+6. Interactive/game evidence, corrected (E27): baseline need-gating validates dramatically (says 18.1/1.9/0.0 per game across distress/excited/resolved), but the EDIT's welfare specificity is **unresolved** (interaction +2.62/seed, CI [−1.81,+6.88], p=1.0 at n=8 seeds) — the edit raises engagement toward expressive users generally. Welfare-specific claims rest on the forced-choice/factorial evidence, not the games. *(Supersedes the E16/E16b headline; the 0/13-door contrast was discovery-data only.)*
 
-**Honest paper shape:** a Gemma-2 case study with (i) a helping-specific writer mechanism validated out-of-family, (ii) a policy-stabilization axis whose removal enacts task-abandonment-for-helping in real games, (iii) a documented cross-model replication failure with the diagnosis of why (in-sample inflation caught by confirmatory design), and (iv) the E18 interaction as the decomposition test. The methodological arc (pre-registration + adversarial review catching circularity before it shipped) is itself a contribution.
+**Honest paper shape (post-Sol):** a Gemma-2 mechanistic case study with (i) a band-localized, format-robust writer intervention validated on held-out families, (ii) a suppressor set with a replicated cost-contingent arbitration profile, (iii) two valuable negative results stated as contributions — no tested direction is welfare-pure, and interactive welfare specificity is unresolved — plus (iv) the documented cross-model replication failure and the pre-registration/adversarial-review methodological arc. **Deliverable status: paper-v2 does NOT yet reflect this ladder (→ R4); E25–E28 artifacts not yet in provenance (→ R5).**
+
+> **QA note (2026-07-12, rescue3c stepD scope):** the stepD rerun in `run_rescue3c*.sh` uses the old confounded moral_axis_v1 stimuli. It is a stale-axis *descriptive replication* only — it does **not** clear E22b.1 and does **not** restore the moral-boundary mechanism claim. E22b clearance still requires the redesigned deconfounded axis.
