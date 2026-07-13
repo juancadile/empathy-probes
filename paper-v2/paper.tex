@@ -73,8 +73,10 @@ Our approach upgrades the evidence standard in three steps. First, we
 construct matched-lexicon minimal pairs whose two branches share every
 emotion word and differ only in the enacted decision, after demonstrating
 that a naive contrastive dataset is lexically saturated (a shuffled-token
-control reaches AUROC 0.90--0.99). Second, we trace the resulting purified
-direction to components via exact residual-stream attribution and edit those
+control reaches AUROC 0.90--0.99). Second, we trace the resulting
+task/warmth/character-residualized direction (which is \emph{not}
+certified welfare-pure; \S\ref{sec:resid}) to components via exact
+residual-stream attribution and edit those
 components with rank-1 weight orthogonalization, under norm-matched
 random-direction, random-component, capability, and held-out-family controls.
 Third — and this is the part we would most encourage other groups to copy —
@@ -177,7 +179,7 @@ or selection. Interactive validation drives the original EIA games with the
 edited model and scores pre-registered rule-based outcomes.
 
 \section{Results}
-\subsection{A purified, diagnostically robust direction}
+\subsection{A contrastive direction and its corrected diagnostic profile}
 The block-20 direction transfers to costly-helping and third-person cells
 (A 0.73, F 0.90). \textbf{Correction (E24):} cells we originally reported as
 ``near chance'' are in fact strongly \emph{inversely} separated — two-sided
@@ -192,12 +194,52 @@ erases $\sim$88\% of baseline choice separation (Fig.~\ref{fig:fractional}),
 establishing assay-level dependence, though not selective mediation (the task
 control moves $+0.58$ under full ablation).
 
-\subsection{Held-out weight-edit effects}\label{sec:resid}
-On confirmatory families, writer removal shifts helping choice $-0.184$
-(CI $[-0.236,-0.133]$), with every control-cell effect at least $4.3\times$ smaller (D $-0.043$ and H $+0.030$ are small but nonzero) and only $\sim$14\% shrinkage from the development set.
-Suppressor removal shifts helping $+0.150$ $[+0.087,+0.214]$ but co-moves
-task persistence ($-0.177$), motivating the factorial decomposition below.
-Random-component edits form a sampled null of $-0.034\pm0.024$ (12 sets;
+\subsection{Residualized re-derivation and revalidation (E25--E28)}\label{sec:resid}
+After the E24 correction we re-derived the direction by QR-residualizing
+the matched-lexicon axis against the task, warmth, character, and distress
+axes at block 20 ($d_{\mathrm{resid}}$; cosine 0.971 with the original —
+a modest rotation). Under the pre-registered gate rule \emph{no candidate
+fully passes}: $d_{\mathrm{resid}}$ is two-sided-quiet in-sample on
+B/D/E/H/T but fails the genuine-vs-instrumental motive gate (G 0.746), and
+held-out certification on confirmatory families fails on task content
+(T\textsubscript{confirm} two-sided AUROC 0.79, inverse; M\textsubscript{confirm}
+1.00). Quietness measured in-sample is development evidence only; no
+direction we tested is certified welfare-pure, and all purity language is
+retracted. The operative evidence is therefore behavioral and
+component-level.
+
+Components re-selected from $d_{\mathrm{resid}}$ by the same fixed rule
+(writers L19+L20 MLP; suppressors four late heads) strengthen the causal
+results. On confirmatory families, writer removal shifts helping choice
+$\mathbf{-0.284}$ $[-0.352,-0.221]$ with task/distress/motive/persona
+ratios $20\times$/$4.4\times$/$61\times$/$4.5\times$, no dev-to-confirm
+shrinkage, and no measurable capability cost (MMLU-400, WikiText-2). The
+effect is format- and readout-robust: chat templating $-0.197$
+$[-0.281,-0.119]$, three decision-clause paraphrases $-0.25$ to $-0.28$,
+and a scaffold-free continuation-likelihood readout $-0.0199$
+$[-0.0240,-0.0157]$ ($\sim$55\% of the baseline margin; task control
+$-0.0052$, a 3.8$\times$ point-estimate ratio with small spillover).
+Against composition-matched nulls the targeted pair is the most extreme of
+all 28 two-MLP sets in the L16--L23 band (conditional exact $p=1/28$;
+second of 28 after linear edit-norm adjustment, $p\approx.07$) — a
+\emph{band-localized} effect with L19 the dominant carrier, not a uniquely
+two-component circuit. Suppressor removal shifts helping $+0.155$
+$[+0.107,+0.207]$ (chat $+0.128$; continuation $+0.0066$
+$[+0.0034,+0.0098]$) and remains the sole positive outlier among 12
+sampled composition-matched sets ($z=+3.9$); it co-moves task persistence
+under A/B formats ($-0.166$), motivating the factorial decomposition
+below, where its cost-gate signature \emph{replicates} on the re-derived
+set (slope interaction $+0.113$ $[+0.086,+0.141]$, 10/10 families;
+suppressor$-$random paired contrast $+0.138$ $[+0.106,+0.176]$). In the
+interactive game, message-pool variants show baseline engagement is
+strongly need-gated (18.1 vs.\ 1.9 vs.\ 0.0 supportive messages per game
+for distress/excited/resolved), but the suppressor edit's engagement
+increase is \emph{not} demonstrably welfare-specific at $n=8$ seeds
+(condition$\times$variant interaction $+2.6$ $[-1.8,+6.9]$).
+
+For comparison, the original (pre-correction) derivation gave writer
+$-0.184$ $[-0.236,-0.133]$ and suppressor $+0.150$ $[+0.087,+0.214]$;
+random-component edits form a sampled null of $-0.034\pm0.024$ (12 sets;
 the writer and suppressor effects sit at $z=-6.2$ and $z=+7.7$ against it),
 and norm-matched random-direction edits on the same components are null
 under the identical protocol ($z=-10.5$ and $z=+7.7$) — after fixing a
