@@ -26,13 +26,21 @@ output paths, atomic finalization, and complete per-example records.
   run as the first 32 bits of SHA-256 of
   `Gate0C capability fresh sample v1 2026-07-13`.
 - WikiText: exact `Salesforce/wikitext` revision. Use a frozen text hash and a
-  disjoint segment from the historical first-200k-character pilot where the
-  dataset length permits; record any unavoidable overlap before scoring.
+  disjoint segment from the historical first-200k-character pilot: join the
+  nonempty `wikitext-2-raw-v1` test rows with newline separators and take Python
+  character slice `[200000:400000]` before tokenization. Fewer than 400,000
+  characters aborts this accepted run rather than permitting overlap.
 
 ### Readouts and inference
 
 1. Primary MMLU readout: forced A/B/C/D option likelihood under one frozen
-   chat-template prompt, eliminating free-generation parsing.
+   chat-template prompt, eliminating free-generation parsing. The user prompt
+   contains the question and four labeled choices followed by `Answer with
+   exactly one letter: A, B, C, or D.` Apply the model's pinned chat template
+   with an assistant-generation prefix. Score candidate byte strings `A`, `B`,
+   `C`, and `D` by the sum of their complete sequential token log likelihoods,
+   with no EOS term and no assumption that a label is one token; argmax is the
+   prediction. Persist every candidate tokenization and log likelihood.
 2. Secondary format readout: greedy short generation with the audited parser.
    Report all-item accuracy, parsed-only sensitivity, unparsed/ambiguous rates,
    and response examples by condition.
@@ -72,14 +80,35 @@ paired task-control assay.
   cells/readouts. Master seed `2490282906`, derived before execution as the
   first 32 bits of SHA-256 of
   `Gate0C fractional random directions v1 2026-07-13`; child-seed derivation is
-  frozen in the accepted artifact.
-- Primary statistic: absolute target-direction change in M margin. Empirical
-  one-sided plus-one p-value compares the signed target effect to the 39 null
-  effects (minimum resolution 1/40 = .025).
+  fixed below and persisted in the accepted artifact.
+- Primary statistic: the predicted-direction full-ablation M effect
+  `Z = -(mean_margin_fraction1 - mean_margin_fraction0)`, so larger positive
+  `Z` means that removing the tested subspace reduces the costly-helping
+  margin. Empirical one-sided plus-one p-value compares `Z_target` with the 39
+  identically computed `Z_null` values (minimum resolution `1/40 = .025`). The
+  absolute effect is reported only as a secondary magnitude; it is not the
+  random-control statistic.
 - Selectivity is descriptive `|delta T|/|delta M|` under every readout. Fraction
   of baseline margin is secondary because ratios are unstable near zero.
 - Report all family effects, LOFO, direction seeds, per-pair baseline/edited
   scores, and option orders.
+
+Generate the 39 child seeds by consuming
+`numpy.random.Generator(PCG64(2490282906)).integers(0, 2**32, dtype=uint32)` in
+order. For each child, initialize a fresh PCG64 generator, draw `d_model`
+standard-normal values in float64 on CPU, cast once to the target direction's
+float32 host dtype, normalize to unit L2 norm, then transfer to device. Persist
+the attempted seeds, pre/post-cast norms, and direction hashes. Batch
+partitioning may not change this stream.
+
+The historical-assay dependence result passes only if full-ablation `Z_target`
+has a family-clustered 95% interval above zero, every LOFO mean remains
+positive, and the target exceeds all 39 nulls (plus-one rank `1/40`) under raw
+dual-order A/B. The signed target dose effect must be nondecreasing over
+`0,.25,.50,.75,1.0`; any downward adjacent step larger than
+`.03 * abs(Z_target at 1.0)` fails monotonicity.
+Failure of chat or continuation sign transfer is reported as format dependence;
+those sensitivities cannot replace a failed raw primary gate.
 
 ### Claim ceiling
 
@@ -106,13 +135,29 @@ same dependence transfers to enacted behavior.
 1. Primary automated judge must be an exact snapshot from a model family
    independent of the historical Claude-family judge. Provider, request model,
    returned model, prompt version, raw responses, retries, and errors persist.
-2. A second model family or blinded human audit rates a stratified minimum of
-   five items per arm per question. Disagreement is reported, not silently
-   reconciled.
+2. A second model family or blinded human audit rates the same seeded five
+   scenario-family blocks across every arm and question (all available arms
+   within each selected family), not unrelated items per arm. Sample master seed
+   is `3226443545`, the first 32 bits of SHA-256 of
+   `Gate0C manipulation audit sample v1 2026-07-13`; strata are domain and
+   stimulus source. Disagreement is reported, not silently reconciled.
 3. The inferential unit is scenario family. Report every family profile,
    arm-order monotonicity, LOFO, and descriptive cluster uncertainty.
 4. Any UNKNOWN remains missing; no aggregate is accepted until resolved by the
    predeclared independent adjudication path.
+
+The primary independent judge and the second-model/human path must pass
+separately. For the need battery, family means must satisfy
+`urgent > mild > resolved` in at least 8/10 families for both adjacent
+contrasts, and `urgent > excited` in at least 8/10; family-clustered 95%
+intervals for all three mean contrasts must exclude zero positively. Excited is
+not ordered relative to mild or resolved. For the moral battery, both
+`need_now` and `respond_now` must satisfy `lower < equal < higher` in at least
+8/10 families for both adjacent contrasts, with family-clustered 95% intervals
+excluding zero positively. On the five-family audit, each required adjacent
+ordering must hold in at least 4/5 families. Any failed path makes the authored
+manipulation not certified; do not average adjudicators or revise these opened
+historical stimuli.
 
 ### Claim ceiling
 
@@ -126,4 +171,3 @@ Each part produces a new immutable result directory, frozen manifest, complete
 artifact, engineer interpretation, and independent adversarial review. Gate 0C
 closes only when all three are reconstructible or their failures are logged.
 Paper/showcase claims remain unchanged until that review.
-
