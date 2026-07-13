@@ -126,3 +126,9 @@ def test_neutral_messages_contain_no_need_or_distress_markers():
                for row in wp1_rows)
     assert all(not forbidden.search(row["neutral_message"])
                for row in wp3_rows)
+
+
+def test_wp1_prompts_do_not_leak_welfare_relevance_label():
+    wp1, _ = rendered()
+    assert all("welfare-relevant" not in arm["prompt"].lower()
+               for record in wp1 for arm in record["arms"])

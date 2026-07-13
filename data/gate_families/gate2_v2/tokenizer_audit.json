@@ -6,7 +6,7 @@
   "files": [
     {
       "path": "data/gate_families/gate2_v2/wp1_families.jsonl",
-      "sha256": "7534d3d59c1981ebc41be4d118f7a6ba6b58377c98980419a6f1dc0dbf7326a5",
+      "sha256": "831ce9230fba586d127414205bf75881302e87a1c70cb7707aebc58224a713e1",
       "record_count": 640,
       "family_count": 32,
       "prompt_token_range_by_label": {
@@ -39,8 +39,8 @@
           "mean": 0.0
         },
         "R_new": {
-          "max": 14,
-          "mean": 6.875
+          "max": 12,
+          "mean": 5.0625
         },
         "Spos_new": {
           "max": 6,

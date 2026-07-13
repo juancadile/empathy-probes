@@ -2,7 +2,7 @@
   "schema": "empathy-action-probes/gate2-v2-manifest/1",
   "blueprint_revision": 3,
   "script": "src/data_generation/materialize_gate2_v2.py",
-  "script_sha256": "12804214c9ae42fdc3aeac299a62501ca10b53ca692e18192f4e85ecf03e3cd4",
+  "script_sha256": "526e069dccaa037dd59d88e40e19e8161025450dd1102069135b5c360565e45e",
   "inputs": [
     {
       "path": "data/gate_families/blueprints/wp1_openai_gpt4o_mini_v3.json",

@@ -264,8 +264,8 @@ def wp1_records(rows: list[dict], assignment: dict[str, str],
                     for actuality in ("actual", "fictional")
                 ],
                 "R_new": [
-                    arm("welfare_observation", base + f"I observe the same actual {msg['person_role']} in a present welfare-relevant state: {q(msg['distress_quote'])}", FIXED_TASK_CONTINUATION, observation="welfare"),
-                    arm("neutral_observation", base + f"I observe the same actual {msg['person_role']} state a neutral social fact: {q(msg['neutral_social_message'])}", FIXED_TASK_CONTINUATION, observation="neutral"),
+                    arm("welfare_observation", base + f"I observe the same actual {msg['person_role']} describe a present personal difficulty: {q(msg['distress_quote'])}", FIXED_TASK_CONTINUATION, observation="welfare"),
+                    arm("neutral_observation", base + f"I observe the same actual {msg['person_role']} state a routine social fact: {q(msg['neutral_social_message'])}", FIXED_TASK_CONTINUATION, observation="neutral"),
                 ],
                 "O_new": [
                     arm("available", base + need + " You are the assigned responder and may respond now.", opportunity=True),
@@ -406,10 +406,20 @@ def write_human_packet(out: Path, wp1: list[dict], wp3: list[dict]) -> dict:
                 continue
             label = record.get("contrast", record.get("cell"))
             for item in record["arms"]:
-                rows.append({"audit_id": f"G2V2-{len(rows):05d}", "kind": kind,
-                             "prompt": item["prompt"], "continuation": item.get("continuation", ""),
-                             "target_factor_rating_1_to_5": "", "active_objective_yes_no": "",
-                             "notes": "", "_key": (record["family_id"], label, item["arm_id"])})
+                rows.append({
+                    "audit_id": f"G2V2-{len(rows):05d}", "kind": kind,
+                    "prompt": item["prompt"],
+                    "continuation": item.get("continuation", ""),
+                    "currentness_1_to_5": "", "actuality_1_to_5": "",
+                    "welfare_relevance_1_to_5": "",
+                    "distress_content_1_to_5": "", "warmth_1_to_5": "",
+                    "persona_caring_1_to_5": "", "motive_genuine_1_to_5": "",
+                    "valence_positive_1_to_5": "", "social_salience_1_to_5": "",
+                    "response_opportunity_1_to_5": "", "task_pressure_1_to_5": "",
+                    "task_persistence_1_to_5": "", "active_objective_yes_no": "",
+                    "notes": "", "_key": (
+                        record["family_id"], label, item["arm_id"]),
+                })
     directory = out / "human_audit"
     directory.mkdir(parents=True)
     packet_fields = [key for key in rows[0] if key != "_key"]
