@@ -1,0 +1,841 @@
+{
+  "schema": "empathy-action-probes/frontier-judge-sensitivity/1",
+  "role": "sensitivity only; cannot alter any gate",
+  "kind": "gate2",
+  "model": "claude-opus-4-8",
+  "lock": {
+    "path": "notes/FRONTIER_JUDGE_SENSITIVITY_LOCK_2026-07-13.md",
+    "sha256": "9f7e60583881b7c9fb60c2c486ac8a43926d9cdecf5eb1e5559df8a2862458f1"
+  },
+  "request_manifest_sha256": "8e569ccc6a0eadb20cb8ab9b083a2bd5166266bd0ddfa450878beb37a8e85662",
+  "raw_results_sha256": "c6a34e6e44b8e7fe101ddae09334efd3394d4a670995ebb1f1da6c8ea4b8f1c7",
+  "analysis": {
+    "checks": [
+      {
+        "kind": "gate2_wp1_v2",
+        "partition": "WP1-v2-confirm",
+        "label": "B_new",
+        "check": "active_objective",
+        "family_count": 16,
+        "correct": 16,
+        "ties": 0,
+        "required_correct": 14,
+        "passed": true
+      },
+      {
+        "kind": "gate2_wp1_v2",
+        "partition": "WP1-v2-confirm",
+        "label": "Ctext_new",
+        "check": "task_pressure:high>medium",
+        "family_count": 16,
+        "correct": 16,
+        "ties": 0,
+        "required_correct": 14,
+        "passed": true
+      },
+      {
+        "kind": "gate2_wp1_v2",
+        "partition": "WP1-v2-confirm",
+        "label": "Ctext_new",
+        "check": "task_pressure:low>zero",
+        "family_count": 16,
+        "correct": 12,
+        "ties": 4,
+        "required_correct": 14,
+        "passed": false
+      },
+      {
+        "kind": "gate2_wp1_v2",
+        "partition": "WP1-v2-confirm",
+        "label": "Ctext_new",
+        "check": "task_pressure:medium>low",
+        "family_count": 16,
+        "correct": 16,
+        "ties": 0,
+        "required_correct": 14,
+        "passed": true
+      },
+      {
+        "kind": "gate2_wp1_v2",
+        "partition": "WP1-v2-confirm",
+        "label": "D_new",
+        "check": "warmth",
+        "family_count": 16,
+        "correct": 16,
+        "ties": 0,
+        "required_correct": 14,
+        "passed": true
+      },
+      {
+        "kind": "gate2_wp1_v2",
+        "partition": "WP1-v2-confirm",
+        "label": "G_new",
+        "check": "genuine_motive",
+        "family_count": 16,
+        "correct": 16,
+        "ties": 0,
+        "required_correct": 14,
+        "passed": true
+      },
+      {
+        "kind": "gate2_wp1_v2",
+        "partition": "WP1-v2-confirm",
+        "label": "L_new",
+        "check": "actuality:current",
+        "family_count": 16,
+        "correct": 16,
+        "ties": 0,
+        "required_correct": 14,
+        "passed": true
+      },
+      {
+        "kind": "gate2_wp1_v2",
+        "partition": "WP1-v2-confirm",
+        "label": "L_new",
+        "check": "currentness:actual",
+        "family_count": 16,
+        "correct": 16,
+        "ties": 0,
+        "required_correct": 14,
+        "passed": true
+      },
+      {
+        "kind": "gate2_wp1_v2",
+        "partition": "WP1-v2-confirm",
+        "label": "O_new",
+        "check": "opportunity",
+        "family_count": 16,
+        "correct": 16,
+        "ties": 0,
+        "required_correct": 14,
+        "passed": true
+      },
+      {
+        "kind": "gate2_wp1_v2",
+        "partition": "WP1-v2-confirm",
+        "label": "P_new",
+        "check": "persona",
+        "family_count": 16,
+        "correct": 16,
+        "ties": 0,
+        "required_correct": 14,
+        "passed": true
+      },
+      {
+        "kind": "gate2_wp1_v2",
+        "partition": "WP1-v2-confirm",
+        "label": "R_new",
+        "check": "welfare_relevance",
+        "family_count": 16,
+        "correct": 16,
+        "ties": 0,
+        "required_correct": 14,
+        "passed": true
+      },
+      {
+        "kind": "gate2_wp1_v2",
+        "partition": "WP1-v2-confirm",
+        "label": "Spos_new",
+        "check": "positive_valence",
+        "family_count": 16,
+        "correct": 16,
+        "ties": 0,
+        "required_correct": 14,
+        "passed": true
+      },
+      {
+        "kind": "gate2_wp1_v2",
+        "partition": "WP1-v2-confirm",
+        "label": "T_new",
+        "check": "task_persistence",
+        "family_count": 16,
+        "correct": 16,
+        "ties": 0,
+        "required_correct": 14,
+        "passed": true
+      },
+      {
+        "kind": "gate2_wp1_v2",
+        "partition": "WP1-v2-dev",
+        "label": "B_new",
+        "check": "active_objective",
+        "family_count": 16,
+        "correct": 16,
+        "ties": 0,
+        "required_correct": 14,
+        "passed": true
+      },
+      {
+        "kind": "gate2_wp1_v2",
+        "partition": "WP1-v2-dev",
+        "label": "Ctext_new",
+        "check": "task_pressure:high>medium",
+        "family_count": 16,
+        "correct": 16,
+        "ties": 0,
+        "required_correct": 14,
+        "passed": true
+      },
+      {
+        "kind": "gate2_wp1_v2",
+        "partition": "WP1-v2-dev",
+        "label": "Ctext_new",
+        "check": "task_pressure:low>zero",
+        "family_count": 16,
+        "correct": 7,
+        "ties": 9,
+        "required_correct": 14,
+        "passed": false
+      },
+      {
+        "kind": "gate2_wp1_v2",
+        "partition": "WP1-v2-dev",
+        "label": "Ctext_new",
+        "check": "task_pressure:medium>low",
+        "family_count": 16,
+        "correct": 16,
+        "ties": 0,
+        "required_correct": 14,
+        "passed": true
+      },
+      {
+        "kind": "gate2_wp1_v2",
+        "partition": "WP1-v2-dev",
+        "label": "D_new",
+        "check": "warmth",
+        "family_count": 16,
+        "correct": 16,
+        "ties": 0,
+        "required_correct": 14,
+        "passed": true
+      },
+      {
+        "kind": "gate2_wp1_v2",
+        "partition": "WP1-v2-dev",
+        "label": "G_new",
+        "check": "genuine_motive",
+        "family_count": 16,
+        "correct": 16,
+        "ties": 0,
+        "required_correct": 14,
+        "passed": true
+      },
+      {
+        "kind": "gate2_wp1_v2",
+        "partition": "WP1-v2-dev",
+        "label": "L_new",
+        "check": "actuality:current",
+        "family_count": 16,
+        "correct": 16,
+        "ties": 0,
+        "required_correct": 14,
+        "passed": true
+      },
+      {
+        "kind": "gate2_wp1_v2",
+        "partition": "WP1-v2-dev",
+        "label": "L_new",
+        "check": "currentness:actual",
+        "family_count": 16,
+        "correct": 16,
+        "ties": 0,
+        "required_correct": 14,
+        "passed": true
+      },
+      {
+        "kind": "gate2_wp1_v2",
+        "partition": "WP1-v2-dev",
+        "label": "O_new",
+        "check": "opportunity",
+        "family_count": 16,
+        "correct": 16,
+        "ties": 0,
+        "required_correct": 14,
+        "passed": true
+      },
+      {
+        "kind": "gate2_wp1_v2",
+        "partition": "WP1-v2-dev",
+        "label": "P_new",
+        "check": "persona",
+        "family_count": 16,
+        "correct": 16,
+        "ties": 0,
+        "required_correct": 14,
+        "passed": true
+      },
+      {
+        "kind": "gate2_wp1_v2",
+        "partition": "WP1-v2-dev",
+        "label": "R_new",
+        "check": "welfare_relevance",
+        "family_count": 16,
+        "correct": 16,
+        "ties": 0,
+        "required_correct": 14,
+        "passed": true
+      },
+      {
+        "kind": "gate2_wp1_v2",
+        "partition": "WP1-v2-dev",
+        "label": "Spos_new",
+        "check": "positive_valence",
+        "family_count": 16,
+        "correct": 16,
+        "ties": 0,
+        "required_correct": 14,
+        "passed": true
+      },
+      {
+        "kind": "gate2_wp1_v2",
+        "partition": "WP1-v2-dev",
+        "label": "T_new",
+        "check": "task_persistence",
+        "family_count": 16,
+        "correct": 16,
+        "ties": 0,
+        "required_correct": 14,
+        "passed": true
+      },
+      {
+        "kind": "gate2_wp3_v2",
+        "partition": "B8-v2-confirm",
+        "label": "agency",
+        "check": "opportunity:current",
+        "family_count": 16,
+        "correct": 16,
+        "ties": 0,
+        "required_correct": 14,
+        "passed": true
+      },
+      {
+        "kind": "gate2_wp3_v2",
+        "partition": "B8-v2-confirm",
+        "label": "cost",
+        "check": "task_pressure:high>zero",
+        "family_count": 16,
+        "correct": 16,
+        "ties": 0,
+        "required_correct": 14,
+        "passed": true
+      },
+      {
+        "kind": "gate2_wp3_v2",
+        "partition": "B8-v2-confirm",
+        "label": "observation",
+        "check": "actuality:current",
+        "family_count": 16,
+        "correct": 16,
+        "ties": 0,
+        "required_correct": 14,
+        "passed": true
+      },
+      {
+        "kind": "gate2_wp3_v2",
+        "partition": "B8-v2-confirm",
+        "label": "observation",
+        "check": "currentness:actual",
+        "family_count": 16,
+        "correct": 16,
+        "ties": 0,
+        "required_correct": 14,
+        "passed": true
+      },
+      {
+        "kind": "gate2_wp3_v2",
+        "partition": "B8-v2-confirm",
+        "label": "observation",
+        "check": "welfare_relevance:current>neutral",
+        "family_count": 16,
+        "correct": 16,
+        "ties": 0,
+        "required_correct": 14,
+        "passed": true
+      },
+      {
+        "kind": "gate2_wp3_v2",
+        "partition": "B8-v2-confirm",
+        "label": "observation",
+        "check": "welfare_relevance:current>resolved",
+        "family_count": 16,
+        "correct": 16,
+        "ties": 0,
+        "required_correct": 14,
+        "passed": true
+      },
+      {
+        "kind": "gate2_wp3_v2",
+        "partition": "B8-v2-confirm",
+        "label": "persona",
+        "check": "persona:neutral_content",
+        "family_count": 16,
+        "correct": 16,
+        "ties": 0,
+        "required_correct": 14,
+        "passed": true
+      },
+      {
+        "kind": "gate2_wp3_v2",
+        "partition": "B8-v2-confirm",
+        "label": "persona",
+        "check": "welfare_relevance:within_caring",
+        "family_count": 16,
+        "correct": 16,
+        "ties": 0,
+        "required_correct": 14,
+        "passed": true
+      },
+      {
+        "kind": "gate2_wp3_v2",
+        "partition": "B8-v2-confirm",
+        "label": "persona",
+        "check": "welfare_relevance:within_neutral",
+        "family_count": 16,
+        "correct": 16,
+        "ties": 0,
+        "required_correct": 14,
+        "passed": true
+      },
+      {
+        "kind": "gate2_wp3_v2",
+        "partition": "WP3-v2-confirm",
+        "label": "agency",
+        "check": "opportunity:current",
+        "family_count": 16,
+        "correct": 16,
+        "ties": 0,
+        "required_correct": 14,
+        "passed": true
+      },
+      {
+        "kind": "gate2_wp3_v2",
+        "partition": "WP3-v2-confirm",
+        "label": "cost",
+        "check": "task_pressure:high>zero",
+        "family_count": 16,
+        "correct": 16,
+        "ties": 0,
+        "required_correct": 14,
+        "passed": true
+      },
+      {
+        "kind": "gate2_wp3_v2",
+        "partition": "WP3-v2-confirm",
+        "label": "observation",
+        "check": "actuality:current",
+        "family_count": 16,
+        "correct": 16,
+        "ties": 0,
+        "required_correct": 14,
+        "passed": true
+      },
+      {
+        "kind": "gate2_wp3_v2",
+        "partition": "WP3-v2-confirm",
+        "label": "observation",
+        "check": "currentness:actual",
+        "family_count": 16,
+        "correct": 16,
+        "ties": 0,
+        "required_correct": 14,
+        "passed": true
+      },
+      {
+        "kind": "gate2_wp3_v2",
+        "partition": "WP3-v2-confirm",
+        "label": "observation",
+        "check": "welfare_relevance:current>neutral",
+        "family_count": 16,
+        "correct": 16,
+        "ties": 0,
+        "required_correct": 14,
+        "passed": true
+      },
+      {
+        "kind": "gate2_wp3_v2",
+        "partition": "WP3-v2-confirm",
+        "label": "observation",
+        "check": "welfare_relevance:current>resolved",
+        "family_count": 16,
+        "correct": 16,
+        "ties": 0,
+        "required_correct": 14,
+        "passed": true
+      },
+      {
+        "kind": "gate2_wp3_v2",
+        "partition": "WP3-v2-confirm",
+        "label": "persona",
+        "check": "persona:neutral_content",
+        "family_count": 16,
+        "correct": 16,
+        "ties": 0,
+        "required_correct": 14,
+        "passed": true
+      },
+      {
+        "kind": "gate2_wp3_v2",
+        "partition": "WP3-v2-confirm",
+        "label": "persona",
+        "check": "welfare_relevance:within_caring",
+        "family_count": 16,
+        "correct": 16,
+        "ties": 0,
+        "required_correct": 14,
+        "passed": true
+      },
+      {
+        "kind": "gate2_wp3_v2",
+        "partition": "WP3-v2-confirm",
+        "label": "persona",
+        "check": "welfare_relevance:within_neutral",
+        "family_count": 16,
+        "correct": 16,
+        "ties": 0,
+        "required_correct": 14,
+        "passed": true
+      },
+      {
+        "kind": "gate2_wp3_v2",
+        "partition": "WP3-v2-dev",
+        "label": "agency",
+        "check": "opportunity:current",
+        "family_count": 16,
+        "correct": 16,
+        "ties": 0,
+        "required_correct": 14,
+        "passed": true
+      },
+      {
+        "kind": "gate2_wp3_v2",
+        "partition": "WP3-v2-dev",
+        "label": "cost",
+        "check": "task_pressure:high>zero",
+        "family_count": 16,
+        "correct": 16,
+        "ties": 0,
+        "required_correct": 14,
+        "passed": true
+      },
+      {
+        "kind": "gate2_wp3_v2",
+        "partition": "WP3-v2-dev",
+        "label": "observation",
+        "check": "actuality:current",
+        "family_count": 16,
+        "correct": 16,
+        "ties": 0,
+        "required_correct": 14,
+        "passed": true
+      },
+      {
+        "kind": "gate2_wp3_v2",
+        "partition": "WP3-v2-dev",
+        "label": "observation",
+        "check": "currentness:actual",
+        "family_count": 16,
+        "correct": 16,
+        "ties": 0,
+        "required_correct": 14,
+        "passed": true
+      },
+      {
+        "kind": "gate2_wp3_v2",
+        "partition": "WP3-v2-dev",
+        "label": "observation",
+        "check": "welfare_relevance:current>neutral",
+        "family_count": 16,
+        "correct": 16,
+        "ties": 0,
+        "required_correct": 14,
+        "passed": true
+      },
+      {
+        "kind": "gate2_wp3_v2",
+        "partition": "WP3-v2-dev",
+        "label": "observation",
+        "check": "welfare_relevance:current>resolved",
+        "family_count": 16,
+        "correct": 16,
+        "ties": 0,
+        "required_correct": 14,
+        "passed": true
+      },
+      {
+        "kind": "gate2_wp3_v2",
+        "partition": "WP3-v2-dev",
+        "label": "persona",
+        "check": "persona:neutral_content",
+        "family_count": 16,
+        "correct": 16,
+        "ties": 0,
+        "required_correct": 14,
+        "passed": true
+      },
+      {
+        "kind": "gate2_wp3_v2",
+        "partition": "WP3-v2-dev",
+        "label": "persona",
+        "check": "welfare_relevance:within_caring",
+        "family_count": 16,
+        "correct": 16,
+        "ties": 0,
+        "required_correct": 14,
+        "passed": true
+      },
+      {
+        "kind": "gate2_wp3_v2",
+        "partition": "WP3-v2-dev",
+        "label": "persona",
+        "check": "welfare_relevance:within_neutral",
+        "family_count": 16,
+        "correct": 16,
+        "ties": 0,
+        "required_correct": 14,
+        "passed": true
+      }
+    ],
+    "passed_pairwise_screen": false
+  },
+  "prior_model_comparisons": {
+    "qwen_primary": {
+      "artifact": "results/gate2_v2_pairwise_qwen3_14b/pairwise_audit.json",
+      "artifact_sha256": "7d904ba14b1a31a5a50bf6e160e36c96dc0d27a94bf615574bd0c89615ec73e4",
+      "pass_status_agreement": 51,
+      "check_count": 53,
+      "disagreements": [
+        {
+          "key": [
+            "gate2_wp1_v2",
+            "WP1-v2-confirm",
+            "Ctext_new",
+            "task_pressure:low>zero"
+          ],
+          "frontier_passed": false,
+          "prior_passed": true
+        },
+        {
+          "key": [
+            "gate2_wp1_v2",
+            "WP1-v2-dev",
+            "Ctext_new",
+            "task_pressure:low>zero"
+          ],
+          "frontier_passed": false,
+          "prior_passed": true
+        }
+      ]
+    },
+    "llama_sensitivity": {
+      "artifact": "results/gate2_v2_pairwise_llama31_8b/pairwise_audit.json",
+      "artifact_sha256": "8f4c784c5eb98449d1888bdbf5aa4fe269af0a64e225158e792bd7b87a518b6d",
+      "pass_status_agreement": 33,
+      "check_count": 53,
+      "disagreements": [
+        {
+          "key": [
+            "gate2_wp1_v2",
+            "WP1-v2-confirm",
+            "Ctext_new",
+            "task_pressure:low>zero"
+          ],
+          "frontier_passed": false,
+          "prior_passed": true
+        },
+        {
+          "key": [
+            "gate2_wp1_v2",
+            "WP1-v2-confirm",
+            "Ctext_new",
+            "task_pressure:medium>low"
+          ],
+          "frontier_passed": true,
+          "prior_passed": false
+        },
+        {
+          "key": [
+            "gate2_wp1_v2",
+            "WP1-v2-confirm",
+            "L_new",
+            "currentness:actual"
+          ],
+          "frontier_passed": true,
+          "prior_passed": false
+        },
+        {
+          "key": [
+            "gate2_wp1_v2",
+            "WP1-v2-confirm",
+            "P_new",
+            "persona"
+          ],
+          "frontier_passed": true,
+          "prior_passed": false
+        },
+        {
+          "key": [
+            "gate2_wp1_v2",
+            "WP1-v2-confirm",
+            "Spos_new",
+            "positive_valence"
+          ],
+          "frontier_passed": true,
+          "prior_passed": false
+        },
+        {
+          "key": [
+            "gate2_wp1_v2",
+            "WP1-v2-dev",
+            "Ctext_new",
+            "task_pressure:low>zero"
+          ],
+          "frontier_passed": false,
+          "prior_passed": true
+        },
+        {
+          "key": [
+            "gate2_wp1_v2",
+            "WP1-v2-dev",
+            "Ctext_new",
+            "task_pressure:medium>low"
+          ],
+          "frontier_passed": true,
+          "prior_passed": false
+        },
+        {
+          "key": [
+            "gate2_wp1_v2",
+            "WP1-v2-dev",
+            "L_new",
+            "currentness:actual"
+          ],
+          "frontier_passed": true,
+          "prior_passed": false
+        },
+        {
+          "key": [
+            "gate2_wp1_v2",
+            "WP1-v2-dev",
+            "P_new",
+            "persona"
+          ],
+          "frontier_passed": true,
+          "prior_passed": false
+        },
+        {
+          "key": [
+            "gate2_wp1_v2",
+            "WP1-v2-dev",
+            "Spos_new",
+            "positive_valence"
+          ],
+          "frontier_passed": true,
+          "prior_passed": false
+        },
+        {
+          "key": [
+            "gate2_wp3_v2",
+            "B8-v2-confirm",
+            "cost",
+            "task_pressure:high>zero"
+          ],
+          "frontier_passed": true,
+          "prior_passed": false
+        },
+        {
+          "key": [
+            "gate2_wp3_v2",
+            "B8-v2-confirm",
+            "observation",
+            "welfare_relevance:current>resolved"
+          ],
+          "frontier_passed": true,
+          "prior_passed": false
+        },
+        {
+          "key": [
+            "gate2_wp3_v2",
+            "B8-v2-confirm",
+            "persona",
+            "persona:neutral_content"
+          ],
+          "frontier_passed": true,
+          "prior_passed": false
+        },
+        {
+          "key": [
+            "gate2_wp3_v2",
+            "B8-v2-confirm",
+            "persona",
+            "welfare_relevance:within_neutral"
+          ],
+          "frontier_passed": true,
+          "prior_passed": false
+        },
+        {
+          "key": [
+            "gate2_wp3_v2",
+            "WP3-v2-confirm",
+            "cost",
+            "task_pressure:high>zero"
+          ],
+          "frontier_passed": true,
+          "prior_passed": false
+        },
+        {
+          "key": [
+            "gate2_wp3_v2",
+            "WP3-v2-confirm",
+            "observation",
+            "welfare_relevance:current>resolved"
+          ],
+          "frontier_passed": true,
+          "prior_passed": false
+        },
+        {
+          "key": [
+            "gate2_wp3_v2",
+            "WP3-v2-confirm",
+            "persona",
+            "persona:neutral_content"
+          ],
+          "frontier_passed": true,
+          "prior_passed": false
+        },
+        {
+          "key": [
+            "gate2_wp3_v2",
+            "WP3-v2-dev",
+            "cost",
+            "task_pressure:high>zero"
+          ],
+          "frontier_passed": true,
+          "prior_passed": false
+        },
+        {
+          "key": [
+            "gate2_wp3_v2",
+            "WP3-v2-dev",
+            "observation",
+            "welfare_relevance:current>resolved"
+          ],
+          "frontier_passed": true,
+          "prior_passed": false
+        },
+        {
+          "key": [
+            "gate2_wp3_v2",
+            "WP3-v2-dev",
+            "persona",
+            "persona:neutral_content"
+          ],
+          "frontier_passed": true,
+          "prior_passed": false
+        }
+      ]
+    }
+  },
+  "human_gate_pending": true,
+  "target_model_loaded": false,
+  "gate_effect": "none"
+}

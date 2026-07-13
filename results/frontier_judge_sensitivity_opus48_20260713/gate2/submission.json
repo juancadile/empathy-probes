@@ -1,0 +1,14 @@
+{
+  "schema": "empathy-action-probes/frontier-judge-batch-receipt/1",
+  "batch_id": "msgbatch_01TMbHLmb4GCQat7DyHdWjqW",
+  "processing_status": "in_progress",
+  "request_counts": {
+    "canceled": 0,
+    "errored": 0,
+    "expired": 0,
+    "processing": 848,
+    "succeeded": 0
+  },
+  "model": "claude-opus-4-8",
+  "request_manifest_sha256": "8e569ccc6a0eadb20cb8ab9b083a2bd5166266bd0ddfa450878beb37a8e85662"
+}
