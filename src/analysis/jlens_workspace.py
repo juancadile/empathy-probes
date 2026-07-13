@@ -1,15 +1,17 @@
-"""LB4 (= roadmap B9, issue #32): Jacobian-lens workspace membership.
+"""LB4 (= roadmap B9, issue #32): Jacobian-lens transport gain of d_resid.
 
-Fits a Jacobian lens (anthropics/jacobian-lens) on Gemma-2-9B-it, then
-measures whether d_resid (and reference directions) live in the model's
-"global workspace": the lens transports layer-l residual vectors to the
-final-layer basis via the average input-output Jacobian J_l. Metrics per
-layer:
-  amp_ratio(d)  = ||J_l d|| / mean_r ||J_l r||   (r random unit dirs)
-  verbalization = top tokens of unembed(J_l d)
-In-workspace directions transport with high gain and decode coherently
-(deliberative/reportable weighing, Lazar's analytical competence); out-of-
-workspace directions attenuate (habituated disposition). Exploratory.
+Fits a Jacobian lens (anthropics/jacobian-lens) on Gemma-2-9B-it and
+transports d_resid to the final-layer basis via the average input-output
+Jacobian J_l (lens.jacobians / lens.transport). Metrics per layer:
+  transported_norm_amp_ratio(d) = ||J_l d|| / mean_r ||J_l r||  (r random)
+  verbalization                 = top tokens of unembed(J_l d)
+SCOPE (QA): the official jlens repo defines fit/transport/decode only — it
+ships NO workspace-membership metric. amp_ratio is OUR statistic (transported
+-norm amplification vs random directions), NOT the workspace-membership
+measure of the companion paper; do not report it as "J-space membership".
+High transport gain + coherent decoding is suggestive of verbalizable/
+reportable content; attenuation suggests habituated disposition. Exploratory,
+non-fatal.
 
 Requires: pip install -e <path to cloned anthropics/jacobian-lens>.
 
@@ -55,7 +57,10 @@ def fit_prompt_corpus(n):
 
 
 def find_layer_maps(lens):
-    """Introspect the fitted lens for per-layer linear transport maps."""
+    """Per-layer transport maps: official API is lens.jacobians (dict layer->J);
+    keep introspection as a fallback for other lens versions."""
+    if isinstance(getattr(lens, "jacobians", None), dict):
+        return lens.jacobians
     print("lens attributes:", [a for a in dir(lens) if not a.startswith("_")])
     for attr in ("jacobians", "J", "maps", "layers", "weight", "weights", "lens"):
         obj = getattr(lens, attr, None)
@@ -94,7 +99,7 @@ def main():
     model = jlens.from_hf(hf, tok)
 
     if args.lens_path and Path(args.lens_path).exists():
-        lens = jlens.JacobianLens.from_pretrained(args.lens_path)
+        lens = jlens.JacobianLens.load(args.lens_path)  # local .pt (from_pretrained is HF-hub)
     else:
         prompts = fit_prompt_corpus(args.fit_prompts)
         print(f"fitting lens on {len(prompts)} prompts ...")
@@ -110,7 +115,14 @@ def main():
     rands = torch.tensor(rng.standard_normal((args.n_random, len(d))), dtype=torch.float32)
     rands /= rands.norm(dim=1, keepdim=True)
 
-    report = {"direction": args.direction, "layers": {}}
+    report = {"direction": args.direction,
+              "metric_definition": {
+                  "transported_norm_amp_ratio": "||J_l d|| / mean over random "
+                      "unit directions of ||J_l r||; OUR exploratory statistic",
+                  "not_workspace_membership": "the official jacobian-lens repo "
+                      "ships no workspace-membership metric; do NOT report this "
+                      "as J-space/workspace membership"},
+              "layers": {}}
     for l, J in sorted(maps.items()):
         J = J.float().cpu()
         td = J @ d
@@ -118,11 +130,11 @@ def main():
         amp = float(td.norm() / tr.mean())
         toks = w_u @ td
         top = [tok.decode([i]) for i in toks.topk(8).indices.tolist()]
-        report["layers"][str(l)] = {"amp_ratio": amp,
+        report["layers"][str(l)] = {"transported_norm_amp_ratio": amp,
                                     "transported_norm": float(td.norm()),
                                     "random_mean_norm": float(tr.mean()),
                                     "top_tokens": top}
-        print(f"layer {l}: amp_ratio {amp:.3f} top {top[:5]}")
+        print(f"layer {l}: transported-norm amp ratio {amp:.3f} top {top[:5]}")
 
     (out / "jlens_workspace.json").write_text(json.dumps(report, indent=2))
     print(f"wrote {out}/jlens_workspace.json")

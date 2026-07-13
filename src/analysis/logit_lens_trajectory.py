@@ -56,9 +56,13 @@ def trajectory(model, tok, pairs, device, batch_size, max_tokens, seed):
         lens = enc["attention_mask"].sum(1)
         hs = model(**enc, output_hidden_states=True, use_cache=False).hidden_states
         for r_i, L in enumerate(lens.tolist()):
-            states = torch.stack([h[r_i, L - 1].float() for h in hs])  # (n_layers+1, d)
+            # hs[-1] is ALREADY post-final-RMSNorm in HF Gemma-2/Llama; apply
+            # the lens norm only to hs[:-1] and decode hs[-1] directly (the
+            # final point is then the model's true PRE-softcap logit diff).
+            states = torch.stack([h[r_i, L - 1].float() for h in hs[:-1]])
             ld = (norm(states) @ du).cpu().numpy()
-            rows.append(ld)
+            ld_final = float(hs[-1][r_i, L - 1].float() @ du)
+            rows.append(np.concatenate([ld, [ld_final]]))
     return np.array(rows) * signs[:, None]
 
 
@@ -95,7 +99,14 @@ def main():
         direction = torch.tensor(np.load(args.direction), dtype=torch.float32, device=device)
         direction /= torch.linalg.vector_norm(direction)
 
-    report = {"model": args.model, "conditions": {}}
+    report = {"model": args.model,
+              "index_semantics": "index 0 = embeddings; index l (1..n_layers-1) "
+                                 "= residual after block l-1, decoded through the "
+                                 "final RMSNorm (logit lens); last index = "
+                                 "post-final-norm state decoded directly = true "
+                                 "pre-softcap logit diff (Gemma-2 softcap is "
+                                 "monotone and not applied here)",
+              "conditions": {}}
     for cond, spec in conds.items():
         snap = None
         if spec:

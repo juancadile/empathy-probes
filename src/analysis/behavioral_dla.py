@@ -47,8 +47,10 @@ SUPPRESSORS = ["L18H13", "L20H10", "L19H12", "L17H7"]
 def run(model, tok, pairs, device, batch_size, max_tokens, seed):
     cfg = model.config
     n_layers = cfg.num_hidden_layers
-    ta = tok.encode("A", add_special_tokens=False)[0]
-    tb = tok.encode("B", add_special_tokens=False)[0]
+    ta_ids = tok.encode("A", add_special_tokens=False)
+    tb_ids = tok.encode("B", add_special_tokens=False)
+    assert len(ta_ids) == 1 and len(tb_ids) == 1, "A/B must be single tokens"
+    ta, tb = ta_ids[0], tb_ids[0]
     w_u = model.get_output_embeddings().weight.float()  # (vocab, d_model)
     du = (w_u[ta] - w_u[tb]).to(device)  # (d_model,)
     w_final = model.model.norm.weight.float().to(device)
@@ -62,7 +64,12 @@ def run(model, tok, pairs, device, batch_size, max_tokens, seed):
 
     hooks = DFAHooks(model, du_scaled, n_layers - 1)
     hooks.attach()
-    H, M, E, LD_true, LD_recon = [], [], [], [], []
+    # HF hidden_states[-1] is POST-final-RMSNorm; the frozen-r linearization
+    # needs the PRE-norm final residual, captured at the norm's input.
+    pre = {}
+    pre_handle = model.model.norm.register_forward_pre_hook(
+        lambda module, inputs: pre.__setitem__("resid", inputs[0].detach()))
+    H, M, E, LD_true, LD_recon, LD_capped = [], [], [], [], [], []
     try:
         for i in range(0, len(prompts), batch_size):
             enc = tok(prompts[i:i + batch_size], return_tensors="pt", padding=True,
@@ -76,16 +83,19 @@ def run(model, tok, pairs, device, batch_size, max_tokens, seed):
             out = model(**enc, output_hidden_states=True, use_cache=False)
             hs = out.hidden_states
             for r_i, L in enumerate(lens.tolist()):
-                resid = hs[-1][r_i, L - 1].float()
+                resid = pre["resid"][r_i, L - 1].float()  # pre-norm final residual
                 r = torch.rsqrt(resid.pow(2).mean() + eps)
                 embed_c = float(hs[0][r_i, L - 1].float() @ du_scaled) * float(r)
                 heads_c = hooks.head_dots  # layer -> (b, n_heads)
                 h_row = np.stack([heads_c[l][r_i].numpy() for l in range(n_layers)]) * float(r)
                 m_row = np.array([float(hooks.mlp_dots[l][r_i]) for l in range(n_layers)]) * float(r)
                 a_row = np.array([float(hooks.attn_ln_dots[l][r_i]) for l in range(n_layers)]) * float(r)
-                la = float(out.logits[r_i, L - 1, ta])
-                lb = float(out.logits[r_i, L - 1, tb])
-                LD_true.append(la - lb)
+                # decomposition target: PRE-softcap logit diff = du @ norm(resid)
+                # (hs[-1] is the post-norm state; lm_head is linear on it).
+                # out.logits are post-tanh-softcap in Gemma-2, kept for reference.
+                LD_true.append(float(hs[-1][r_i, L - 1].float() @ du))
+                LD_capped.append(float(out.logits[r_i, L - 1, ta])
+                                 - float(out.logits[r_i, L - 1, tb]))
                 LD_recon.append(embed_c + a_row.sum() + m_row.sum())
                 H.append(h_row)
                 M.append(m_row)
@@ -93,10 +103,12 @@ def run(model, tok, pairs, device, batch_size, max_tokens, seed):
             print(f"  dla {min(i + batch_size, len(prompts))}/{len(prompts)}", flush=True)
     finally:
         hooks.detach()
+        pre_handle.remove()
     H, M, E = np.array(H), np.array(M), np.array(E)
     signs_col = signs[:, None]
     return (H * signs[:, None, None], M * signs_col, E * signs,
-            np.array(LD_true) * signs, np.array(LD_recon) * signs)
+            np.array(LD_true) * signs, np.array(LD_recon) * signs,
+            np.array(LD_capped) * signs)
 
 
 def main():
@@ -120,11 +132,18 @@ def main():
     n_layers = model.config.num_hidden_layers
     n_heads = model.config.num_attention_heads
 
-    report = {"model": args.model, "sets": {}}
+    report = {"model": args.model,
+              "final_logit_softcapping": getattr(model.config,
+                                                 "final_logit_softcapping", None),
+              "note": "decomposition targets the PRE-softcap logit difference "
+                      "(linear in the residual stream); the behavioral readout "
+                      "(choice_scores) uses post-softcap logits — tanh softcap "
+                      "is monotone, so signs/ordering agree, magnitudes compress",
+              "sets": {}}
     for name, path in SETS.items():
         pairs = load_pairs(path)
-        H, M, E, ld_true, ld_recon = run(model, tok, pairs, device,
-                                         args.batch_size, args.max_tokens, args.seed)
+        H, M, E, ld_true, ld_recon, ld_capped = run(
+            model, tok, pairs, device, args.batch_size, args.max_tokens, args.seed)
         # exactness: frozen-r linearization should reconstruct the true logit diff
         recon_r = float(np.corrcoef(ld_true, ld_recon)[0, 1])
         recon_ratio = float(np.mean(ld_recon) / np.mean(ld_true))
@@ -139,6 +158,7 @@ def main():
         report["sets"][name] = {
             "n_pairs": len(pairs),
             "logit_diff_mean_true": float(ld_true.mean()),
+            "logit_diff_mean_post_softcap": float(ld_capped.mean()),
             "logit_diff_mean_reconstructed": float(ld_recon.mean()),
             "reconstruction_corr": recon_r, "reconstruction_ratio": recon_ratio,
             "embed_mean": float(E.mean()),

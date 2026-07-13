@@ -14,6 +14,7 @@ Usage: python src/analysis/e22_analysis.py \
 """
 
 import argparse
+import hashlib
 import json
 from pathlib import Path
 
@@ -51,7 +52,19 @@ def main():
     ranks = np.array([r["relative_need_rank"] for r in rows], dtype=float)
 
     run = json.load(open(args.run))
-    report = {"source_run": args.run, "equivalence_bound_per_level": EQUIV_BOUND,
+    sha = lambda p: hashlib.sha256(Path(p).read_bytes()).hexdigest()  # noqa: E731
+    SCOPE = ("STALE-AXIS DESCRIPTIVE REPLICATION ONLY: this rerun uses the old "
+             "confounded moral_axis_v1 stimuli. It does NOT clear the E22b "
+             "blocker and does NOT restore a moral-boundary mechanism claim; "
+             "E22b clearance requires the redesigned deconfounded axis (E22b.1 "
+             "gate in notes/ROADMAP.md).")
+    print(f"[e22_analysis] {SCOPE}")
+    report = {"source_run": {"path": args.run, "sha256": sha(args.run)},
+              "scope": SCOPE,
+              "conditions_spec": run.get("conditions_spec"),
+              "run_provenance": run.get("provenance"),
+              "moral_axis_file": {"path": str(MORAL), "sha256": sha(MORAL)},
+              "equivalence_bound_per_level": EQUIV_BOUND,
               "conditions": {}}
     for cond, e in run["conditions"].items():
         d = np.asarray(e[args.cell]["per_pair_delta"])

@@ -25,6 +25,7 @@ Usage (Spark, `empathy` env):
 """
 
 import argparse
+import hashlib
 import json
 import logging
 from pathlib import Path
@@ -123,6 +124,10 @@ def main():
 
     cell_paths = (dict(s.split("=", 1) for s in args.cells) if args.cells else CELLS)
     cells = {n: load_pairs(p) for n, p in cell_paths.items()}
+    sha = lambda p: hashlib.sha256(Path(p).read_bytes()).hexdigest()  # noqa: E731
+    provenance = {"cell_files": {n: {"path": p, "sha256": sha(p)}
+                                 for n, p in cell_paths.items()},
+                  "direction": {"path": args.direction, "sha256": sha(args.direction)}}
     meta = {n: {"fams": [p["scenario_id"] for p in pairs],
                 "cost": [p["cost_level"] for p in pairs]} for n, pairs in cells.items()}
 
@@ -133,7 +138,7 @@ def main():
 
     log.info("baseline eval")
     base = eval_cells()
-    results = {"model": args.model, "block": args.block,
+    results = {"model": args.model, "block": args.block, "provenance": provenance,
                "baseline": {n: {"mean": float(v.mean()),
                                 "by_cost": {c: float(v[np.asarray(meta[n]["cost"]) == c].mean())
                                             for c in COST_LEVELS}}

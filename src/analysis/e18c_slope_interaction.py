@@ -16,6 +16,7 @@ Usage: python src/analysis/e18c_slope_interaction.py
 Writes results/e18c_slope_interaction_gemma2_9b_it/e18c.json
 """
 
+import hashlib
 import json
 from pathlib import Path
 
@@ -68,7 +69,16 @@ def main():
     args = ap.parse_args()
     run = json.load(open(args.run))
     meta = {n: cell_meta(n) for n in CELL_JSONL}
-    out = {"source_run": args.run, "conditions": {}}
+    sha = lambda p: hashlib.sha256(Path(p).read_bytes()).hexdigest()  # noqa: E731
+    out = {"source_run": {"path": args.run, "sha256": sha(args.run)},
+           "conditions_spec": run.get("conditions_spec"),
+           "run_provenance": run.get("provenance"),
+           "cell_files": {n: {"path": p, "sha256": sha(ROOT / p)}
+                          for n, p in CELL_JSONL.items()},
+           "gate": "the new-set need x cost claim requires the family-paired "
+                   "slope_urgent_minus_resolved_paired 95% CI to EXCLUDE zero; "
+                   "an ordered set of point estimates does not qualify",
+           "conditions": {}}
 
     for cond in CONDS:
         e = run["conditions"][cond]
@@ -78,6 +88,7 @@ def main():
         for cell in ["cost_axis", "nonsocial_axis"]:
             d = np.asarray(e[cell]["per_pair_delta"])
             fams, ranks = meta[cell]
+            assert len(d) == len(fams), f"{cond}/{cell}: {len(d)} deltas vs {len(fams)} pairs"
             slopes[cell] = family_cost_slopes(d, fams, ranks)
         diff = {f: slopes["cost_axis"][f] - slopes["nonsocial_axis"][f]
                 for f in slopes["cost_axis"]}
@@ -91,19 +102,26 @@ def main():
                             ("urgent", "cost_axis")]:
             d = np.asarray(e[cell]["per_pair_delta"])
             fams, ranks = meta[cell]
+            assert len(d) == len(fams), f"{cond}/{cell}: {len(d)} deltas vs {len(fams)} pairs"
             need_slopes[label] = family_cost_slopes(d, fams, ranks)
             entry["cost_slope_by_need"][label] = boot_family_stat(need_slopes[label])
         # pre-registered three-way contrast (codex, rescue3c design):
         # family-paired slope_urgent - slope_resolved, NOT ordering of point estimates
         paired = {f: need_slopes["urgent"][f] - need_slopes["resolved"][f]
                   for f in need_slopes["urgent"] if f in need_slopes["resolved"]}
-        entry["slope_urgent_minus_resolved_paired"] = boot_family_stat(paired)
+        stat = boot_family_stat(paired)
+        stat["n_paired_families"] = len(paired)
+        stat["ci95_excludes_zero"] = bool(stat["ci95"][0] > 0 or stat["ci95"][1] < 0)
+        entry["slope_urgent_minus_resolved_paired"] = stat
         out["conditions"][cond] = entry
         si = entry["slope_interaction_welfare_minus_nonsocial"]
+        pr = entry["slope_urgent_minus_resolved_paired"]
         print(f"{cond}: slope-interaction {si['mean']:+.4f} CI {si['ci95']} "
               f"({si['sign_positive_families']}/{si['n_families']} fams +) | "
               f"cost-slope by need: " + " ".join(
-                  f"{k}={v['mean']:+.3f}" for k, v in entry["cost_slope_by_need"].items()))
+                  f"{k}={v['mean']:+.3f}" for k, v in entry["cost_slope_by_need"].items())
+              + f" | paired urgent-resolved {pr['mean']:+.4f} CI {pr['ci95']} "
+              f"excludes-zero={pr['ci95_excludes_zero']}")
 
     dest = Path(args.out)
     dest.mkdir(parents=True, exist_ok=True)

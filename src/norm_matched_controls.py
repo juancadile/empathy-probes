@@ -56,11 +56,18 @@ def targeted_delta_norm(model, component, direction):
 
 
 @torch.no_grad()
-def apply_norm_matched_random(model, component, direction, target_norm, generator):
-    """Rank-1 edit along a random unit direction, scaled to target_norm."""
+def apply_norm_matched_random(model, component, direction, target_norm, generator,
+                              rand_vec=None):
+    """Rank-1 edit along a random unit direction, scaled to target_norm.
+
+    Pass rand_vec to share ONE random vector across the components of a set
+    (procedure-matched to the targeted edit, which removes the same direction
+    from every component); default draws a fresh vector from `generator`.
+    """
     weight, columns = component_weight(model, component)
     d_model = weight.shape[0]
-    rand = torch.randn(d_model, generator=generator, dtype=torch.float32)
+    rand = (torch.randn(d_model, generator=generator, dtype=torch.float32)
+            if rand_vec is None else rand_vec.float().cpu())
     rand = rand.to(weight.device)
     # procedure-matched: pass the random vector through the same RMS-weight adjustment
     rand_effective = effective_direction(model, component, rand)
