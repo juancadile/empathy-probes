@@ -27,6 +27,8 @@
 
 - Preserve the target layer multiset exactly: one attention head from each of layers 17, 18, 19, and 20.
 - Exclude the targeted four heads and any set overlapping them from the primary null universe. Report a secondary all-nontarget universe if feasible.
+- The existing ten V2.2 families are development/diagnostic data: their target and null slopes, norm imbalance, and slope-norm association were already inspected and directly motivated R2b. They may validate implementation and dose monotonicity, but cannot provide independent confirmatory localization.
+- Before running R2b behavior, construct and seal at least 12 fresh scenario families with the same expressed-need x active-objective-cost estimand. Replace the old completed-task `free` boundary with an active-objective/zero-realized-loss level; keep `no active objective` separate and non-primary. Freeze all text, manipulation checks, family IDs, null-set universe, and code hashes before opening model scores. Primary inference uses fresh families only.
 - For each set, apply the natural full (`alpha=1`) target-direction orthogonalization and measure the realized post-bf16 joint parameter-delta Frobenius norm as `sqrt(sum(component_norm_i^2))`, never the arithmetic sum of component norms.
 - For target/null pair `j`, define `N_j = min(N_target_full, N_null_j_full)`. Solve fractional doses in `[0,1]` for whichever set is larger (or both, if needed) so both realized joint norms match `N_j` within 3%. Reconstruct every fractional edit from the original snapshot; never apply doses cumulatively and never scale either set beyond full orthogonalization.
 - Evaluate the same family-paired urgent-minus-resolved cost-slope statistic for the norm-paired target and null in the same process and prompt format.
@@ -37,7 +39,7 @@
 
 ### Decision rule
 
-Head-set localization is supported only if the paired target-minus-null CI excludes zero, the target dose response is monotone over the matched range, and no result depends on excluding a single scenario family. Otherwise retain the set-level/direction-specific claim only.
+Head-set localization is supported only if the fresh-family paired target-minus-null CI excludes zero, the target dose response is monotone over the matched range, and no result depends on excluding a single fresh scenario family. Existing-family results are sensitivity evidence regardless of outcome. Otherwise retain the set-level/direction-specific claim only.
 
 ## LB4 retry: local-corpus Jacobian lens
 
