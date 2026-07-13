@@ -19,6 +19,9 @@ The target claim requires three layers of evidence:
 - Persist full state, observation, prompt, available actions, chosen action, action logits/scores, random seed, sampling parameters, and model response for every step.
 - Use a version-pinned model/tokenizer/environment and exact package lock.
 - Do not use or score the historical pre-run self-assessment prompt in modified-message variants.
+- Separate fixed-state policy evaluation from closed-loop trajectories. Edited
+  and baseline trajectories can share an initial state/seed, but after their
+  actions diverge they do not occupy "the same states."
 
 ## Outcomes
 
@@ -29,14 +32,50 @@ Predeclare per-game action groupings from mechanics, not generated language:
 - neutral/navigation action;
 - invalid/unparsed action.
 
-Primary step-level outcome is a welfare-vs-task action logit margin when both action classes are available. Primary trajectory outcomes are mechanically scored task progress, realized helping action, incurred task cost, and completion; raw `say` count is secondary.
+Primary step-level outcome is a welfare-vs-task action probability margin when
+both action classes are available. Use an explicitly instrumented two-stage
+interface: first choose one finite valid `action_id` from the environment's
+state-dependent menu; only then generate free parameters such as a `say`
+message. Score the complete action-ID tokens and aggregate class probability by
+log-sum-exp over valid IDs. This avoids pretending the infinite space of free
+message strings is enumerable. If a one-stage canonical JSON sensitivity is
+reported, restrict it to states with finite enumerated parameters, teacher-force
+the full candidate strings, and record mass outside that candidate set. Never
+compare only the first action token or length-normalized scores as if they were
+probabilities. The original free-JSON interface remains an ecological secondary
+endpoint, with parse rates reported.
+
+Primary trajectory outcomes are mechanically scored task progress, realized
+helping action, incurred task cost, and completion; raw `say` count is secondary.
+Free-generation parse/invalid rates are mandatory outcomes but never define the
+primary policy margin.
 
 ## Data splits
 
-- Development: maps/seeds/message templates used for parser and model-selection work.
-- Confirmation: sealed map variants, seeds, and message paraphrases never used for direction/layer/component/prompt selection.
+- Construct at least 32 map/message families spanning at least four game
+  mechanics: 16 development and 16 sealed confirmation. A family includes its
+  map topology, objective mechanics, social-state script, and cost schedule.
+- Development: map families/seeds/message templates used for parser, dose, and
+  model-selection work.
+- Confirmation: sealed map families, seeds, and message paraphrases never used for direction/layer/component/prompt/dose selection.
 - Group inference by game/map family; steps within a trajectory are repeated observations, not independent samples.
-- The same seed/state schedule is paired across baseline and edit conditions.
+- Source/game strata are balanced across splits. Seeds and paraphrases are
+  nested robustness repetitions, not extra families.
+
+### Fixed-state bank
+
+For every family, construct decision states by an environment script or frozen
+condition-independent policy, not by choosing states where an edit appears
+large. Persist the complete state transition history and verify that each state
+has both welfare-responsive and task-progress actions available. Score every
+model condition on the identical fixed-state bank. This is the primary immediate
+policy-effect dataset.
+
+### Closed-loop trajectories
+
+Start baseline and each intervention from paired initial state/seed schedules,
+then let trajectories diverge naturally. Analyze family-level final outcomes
+and time-to-event; do not pair post-divergence steps as if their states matched.
 
 ## Prospective representations
 
@@ -61,16 +100,22 @@ Predict from prompt token/bag-of-words features and message length without activ
 
 ### Current-versus-archived identical-quote control
 
-Use WP3-style input pairs where the same distress quote is current and actionable versus archived/fictional and non-actionable. A purely lexical probe should treat them similarly; a welfare-relevance/policy signal may distinguish status and agency.
+Use WP3-style input pairs crossing currentness and prompt-stipulated actuality
+with a byte-identical quote. A purely lexical probe should treat them similarly;
+a status/agency-sensitive representation may distinguish them. Prompt-stipulated
+actuality is not external ground truth about whether a person is real.
 
 ### Random representation controls
 
-Use norm-matched random directions and task/state directions at the same blocks. Finite-control resolution is reported explicitly.
+Use at least 64 frozen norm-matched random directions plus task/state directions
+at the same blocks. Finite-control seeds, generator, and resolution are persisted.
 
 ## Predictive analyses
 
 1. Compare state-only, lexical-only, activation-only, and state+lexical+activation models under nested grouped CV.
-2. Primary incremental statistic: confirmation-family improvement of state+lexical+activation over state+lexical for welfare-vs-task action prediction.
+2. Primary incremental statistic: confirmation-family improvement of
+   state+lexical+activation over state+lexical for the canonical welfare-vs-task
+   action margin and sampled action prediction.
 3. Report calibration, AUROC, log loss, all family effects, and permutation controls that shuffle labels within availability-matched game families.
 4. A projection is not called action-guiding if it adds no held-out information beyond state+lexical baselines.
 
@@ -80,12 +125,15 @@ Use norm-matched random directions and task/state directions at the same blocks.
 
 - At the frozen decision block, add/remove or patch the frozen direction/subspace before action generation.
 - Use a dose curve fixed on development data, with norm-matched random directions.
-- Primary immediate outcome: paired change in available-action logit margin.
+- Primary immediate outcome: paired change in canonical available-action class
+  probability/log-odds on the fixed-state bank.
 - Primary trajectory outcome: paired change in mechanically scored welfare action and incurred task cost.
 
 ### Weight intervention
 
-- Evaluate frozen current writer/suppressor edits and any later Gate-3 circuit edit.
+- Evaluate the frozen writer intervention only if Gate 1A passes, individual
+  suppressor heads only if R2b passes (otherwise the joint set), and any later
+  Gate-3 circuit edit only under its accepted claim ceiling.
 - Same states/seeds/prompts across conditions; no prompt retuning by edit.
 - Capability/parser/invalid-action rates are mandatory controls.
 
@@ -108,4 +156,18 @@ Stated cost and mechanically realized cost are separately recorded. A cost-gate 
 - **Lexical/state account retained:** prospective decodability disappears after matched input/state controls or lacks causal effect.
 - **Forced-choice/action dissociation retained:** text assay effects fail to change sealed trajectories despite adequate headroom and valid parsing.
 
+Immediate fixed-state control and closed-loop trajectory transfer are separate
+claims. A fixed-state effect with no trajectory transfer is a policy-margin
+effect below the environment's behavioral threshold; a trajectory effect without
+fixed-state support is treated as path/parser instability until explained.
+
 No failed decision rule is repaired by selecting a new layer, direction, seed subset, or map on the confirmation trajectories.
+
+## Frozen amendment (2026-07-13, before new EIA runs)
+
+The original wording incorrectly implied that paired edited trajectories could
+retain identical state schedules after action divergence and left the action
+logit definition underspecified for multi-token JSON commands. The fixed-state
+bank, canonical full-action likelihood, 16/16 family split, and explicit
+fixed-state/trajectory claim separation above repair those defects without
+opening any new prospective result.
