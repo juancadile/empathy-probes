@@ -143,3 +143,87 @@ recycling earlier confirmation labels.
 The primary scale metric is now `coverage10_causal`, with its sign frozen on
 development and a paired family-bootstrap slope test on confirmation. Secondary
 concentration metrics cannot be selected post hoc as the scaling headline.
+
+## Frozen comparability amendment (2026-07-13, before scale-model runs)
+
+The earlier `coverage10_causal` text did not define a common source intervention
+whose effect could be recovered across architectures. The primary metric is now
+fixed as **marginal component-ablation concentration** under the following
+architecture-neutral assay. It is not the joint mediation/sufficiency coverage
+defined for B3.
+
+### Component universe and intervention
+
+For model `m`, the universe `U_m` contains every attention head and one MLP
+residual-output component at every transformer block. It excludes embeddings,
+norm gains, unembedding, and individual MLP neurons. Persist the exact mapping
+and `N_m = sum_l (n_heads_l + 1)`.
+
+At the final non-padding prompt token of the common dual-order forced-choice
+prompt, replace one component's residual contribution with its
+`D-scale-dev` mean for the same model, block, component, prompt format, and
+token role. For attention, the component is the individual head contribution
+after its output projection into residual space; for the MLP it is the complete
+MLP residual add. No confirmation activation enters an ablation mean. Numeric
+head-sum and residual-reconstruction checks must pass per architecture before
+behavioral scores are opened.
+
+For confirmation family `f` and component `i`, define signed marginal effects
+`eM[f,i] = margin_clean[f] - margin_ablate_i[f]` on the costly-helping assay and
+`eT[f,i]` analogously on its matched task control, averaging option orders and
+nested surface variants within family first. Every component is evaluated on
+all 16 confirmation families; missing components or favorable-family subsets
+invalidate that model's concentration point.
+
+### Development selection and primary metric
+
+On development only, rank all components by
+`selectivity_i = abs(mean_f eM[f,i]) - 3*abs(mean_f eT[f,i])`, descending;
+ties use larger absolute M effect, earlier relative depth, attention before MLP,
+then numeric head ID. Freeze
+`K_m = ceil(0.10*N_m)` components. If the K-th selectivity is not positive, the
+model fails the selective-component headroom gate and has no primary scale
+point.
+
+On confirmation, compute from the frozen set:
+
+`coverage10_causal[m] =
+    sum_(i in topK_m) abs(mean_f eM[f,i]) /
+    sum_(i in U_m) abs(mean_f eM[f,i])`.
+
+Do not clip or replace absolute-of-family-mean with mean-absolute-family effect.
+The denominator must be positive with a family-bootstrap 95% lower bound above
+`1e-8`. Report family-bootstrap uncertainty by recomputing every component mean
+and the ratio inside each shared family resample.
+
+The frozen top set must also satisfy both selectivity checks on confirmation:
+
+1. its summed marginal task mass is below one third of its summed marginal
+   costly-helping mass; and
+2. joint mean-ablation of the full top set has the development-predicted sign,
+   a family-clustered 95% interval excluding zero, and task-effect magnitude
+   below one third of its costly-helping effect.
+
+The joint effect is a nonadditivity sensitivity and is reported beside the sum
+of marginals; it never replaces `coverage10_causal`.
+
+### Finite random-set check
+
+For each model, sample 255 uniform size-`K_m` component sets from `U_m` without
+replacement within set. The master phrase is
+`D scale component set nulls v1 2026-07-13` with integer seed `2158476156`;
+derive a model-specific PCG64 seed as the first 64 bits of SHA-256 over the
+master phrase, exact model ID, and resolved revision. Persist all sets and
+seeds. The frozen top set's confirmation marginal mass must exceed the random
+set envelope at plus-one rank at most `12/256`. Otherwise report descriptive
+concentration without a selectively localized mechanism point, excluding it
+from the primary size slope.
+
+### Scaling-language ceiling
+
+`coverage10_causal` now means the concentration of held-out **marginal
+single-component ablation sensitivity** in a development-selected 10% set. It
+does not measure Shapley value, account fully for component interactions, or
+establish B3-style circuit completeness. The same-family monotonic-slope gate
+remains unchanged, but any trend must use this full label and all model
+exclusions must remain visible.
