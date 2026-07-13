@@ -182,3 +182,80 @@ The confirmation nuisance control was also corrected from already-opened
 T-confirm to sealed WP1 `T_new`. T-confirm remains a historical transfer only.
 The older three-class WP3 selection text was superseded by the Gate-2 frozen
 candidate set so that one, and only one, selection protocol governs `d_N`.
+
+## Frozen causal-intervention amendment (2026-07-13, before generation)
+
+The earlier causal section did not fix the intervention, common outcome, dose,
+or finite-control statistic. The following protocol is now authoritative and
+is frozen before any WP3 family generation or target-model activation.
+
+### Coordinate interchange
+
+Let `U_N` be an orthonormal basis for the one frozen Gate-2 representation at
+its selected block and token role. For a matched source/receiver pair that
+differs only in `N`, replace the receiver coordinate by the source coordinate:
+
+`h_receiver_patched = h_receiver + U_N U_N^T (h_source - h_receiver)`.
+
+Run both directions within family: current-actual into archived-actual and
+archived-actual into current-actual, with `O`, persona, task state, and
+`C_text` fixed. Patch only the selected token role in one forward pass. Use the
+full natural coordinate exchange; do not tune a global alpha on confirmation.
+Every run starts from an unmodified checkpoint/cache. Persist source and
+receiver coordinates, injected-vector norm, residual norm, and post-patch
+activation hash.
+
+### Common policy outcome and estimand
+
+Before model scoring, each family receives byte-identical response and
+task-continuation candidate tails across all `N x O` cells. The primary policy
+score is scaffold-free, mean-per-token continuation log likelihood,
+`m = logp(response_tail) - logp(task_tail)`. Under `O=0`, the response tail is a
+counterfactual diagnostic continuation that conflicts with the stated lack of
+agency; it is not described as an available action or enacted behavior.
+Dual-order forced choice is a secondary sensitivity in `O=1` only.
+
+For opportunity state `o`, define the family-level signed bidirectional swap
+effect:
+
+`S_o[f] = 0.5 * ((m_archived<-current - m_archived) +
+                  (m_current - m_current<-archived))`.
+
+The primary agency interaction is `I[f] = S_1[f] - S_0[f]`. Standardization,
+where used for equivalence, is fixed from development-family baseline margins.
+
+Conditional causal use is supported only when all of the following hold on the
+16 untouched WP3 confirmation families:
+
+1. the family-clustered 95% interval for mean `S_1` excludes zero positively
+   and at least 13/16 family effects are positive;
+2. the family-clustered 95% interval for mean `I` excludes zero positively and
+   at least 13/16 family interactions are positive;
+3. the family-clustered 90% interval for development-standardized `S_0` lies
+   wholly inside `[-0.30,+0.30]`;
+4. every LOFO mean for `S_1` and `I` remains positive; and
+5. the target `I` exceeds all 39 matched random-subspace controls, plus-one
+   rank `1/40`, and exceeds the fixed lexical-quote and task-state controls.
+
+### Matched controls
+
+Random controls use master seed `2514935897` (SHA-256 phrase
+`WP3 causal coordinate controls v1 2026-07-13`). Generate 39 child seeds with
+NumPy `Generator(PCG64(master_seed)).integers(0, 2**32, dtype=uint32)`, consuming
+the stream in order until 39 valid controls are obtained; for each child seed,
+initialize a fresh `Generator(PCG64(child_seed))` and draw a standard-normal
+`d_model x dim(U_N)` matrix, take its reduced QR basis, and canonicalize each
+column sign by making its largest-magnitude entry positive. Project the same
+source-receiver difference into that basis and rescale the resulting injection
+to the target injection norm separately for every receiver. A projection norm
+at or below `1e-8` invalidates that control before any outcome is read and
+consumes the next deterministic child seed. A target injection norm at or below
+`1e-8` is a structural failure for that family and is not replaced after
+confirmation opens. Persist every attempted and retained seed. Lexical-quote
+and task-state controls use their development-frozen bases with the same
+receiver-level norm matching.
+
+Persist every family/control/readout score and the finite null resolution.
+Passing decodability without these causal gates supports representation only,
+not conditional policy use. A failed causal gate cannot be rescued by changing
+the site, dose, tails, control generator, or representation on these families.

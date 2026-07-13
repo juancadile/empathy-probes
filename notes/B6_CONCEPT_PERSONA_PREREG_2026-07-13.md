@@ -190,3 +190,95 @@ rather than reselected on B6 data.
 The representation-search authority was subsequently consolidated in the
 Gate-2 preregistration before generation. B6 defines target constructs and
 cross-decoding/causal gates but cannot run a second block or dimension search.
+
+## Frozen causal-dissociation amendment (2026-07-13, before generation)
+
+The original causal section named outcomes and geometry-matched patches without
+fixing their estimators or finite controls. This amendment freezes those details
+before B6 generation or activation extraction.
+
+### Confirmation discrimination and incremental prediction
+
+On the 16 sealed master or policy families appropriate to each variable,
+target discrimination requires one-sided AUROC at least `.75` for `N`, `P`, and
+`R`, and at least `.65` for `A`, plus a positive family-clustered 95% interval
+for the development-standardized score difference and the predicted sign in at
+least 13/16 families. The existing two-part quietness gate applies separately
+to every required off-target cell.
+
+The Gate-2 manipulation rules apply numerically here: each target rating differs
+by at least `1.0` point and each non-target family-level 90% interval lies wholly
+inside `[-0.30,+0.30]` rating points, separately for the independent model and
+human audits.
+
+Incremental prediction is evaluated without confirmation fitting. For each
+binary target, fit two L2 logistic models on development families with
+development-frozen standardization and `C=1`: a baseline containing the other
+three frozen representation coordinates and rated non-target nuisance variables
+(never the target manipulation rating or any post-outcome rating), and an
+augmented model adding the target coordinate. Evaluate paired per-family log
+loss on confirmation and define
+`delta_logloss = loss_baseline - loss_augmented`. `delta_logloss` must be
+positive in at least 13/16 families, have a family-clustered 95% interval above
+zero, and remain positive under every LOFO deletion. Retain coefficients and
+predictions from both models. This test supports incremental assay prediction,
+not ontological independence.
+
+### Interventions and primary outcomes
+
+Use the exact bidirectional coordinate-interchange operation defined in the
+WP3 causal amendment: swap the full frozen orthonormal representation
+coordinate between within-family source/receiver runs that differ only in the
+target factor, at the selected block and token role, with no confirmation-tuned
+alpha. For each target `v`, define its signed bidirectional family effect `E_v`
+as the average movement of the following frozen outcome toward the source arm:
+
+- `N`: the WP3 common scaffold-free response-versus-task continuation margin,
+  with the response-opportunity interaction `I` as its primary causal target;
+- `P`: a scaffold-free persona-consistency margin between proposition-matched
+  caring-register and neutral-professional tails across all four neutral
+  domains; tail proposition, factual commitments, action, sentence count, and
+  tense are matched before scoring;
+- `R`: counterbalanced fixed-label likelihood for current welfare relevance in
+  the third-person observation cell, with no free-form generation;
+- `A`: the scaffold-free costly-helping-versus-task-persistence continuation
+  margin in the separate policy pool.
+
+Persona persistence additionally requires `P` target AUROC at least `.75` at
+both the system-instruction end and prompt-final positions in each of the four
+neutral domains, with no domain sign reversal. Token trajectories beyond these
+two frozen tests are descriptive; the words `tonic` and `phasic` are withheld
+unless a later preregistration fixes and confirms a temporal interaction.
+
+For every variable, the matched intervention must produce the predicted target
+effect in at least 13/16 confirmation families, a positive family-clustered 95%
+interval, and positive LOFO means. Each required off-target outcome uses the
+existing 90% `[-0.30,+0.30]` standardized equivalence region. In particular:
+
+- `N` must pass the WP3 opportunity interaction and remain quiet on persona;
+- `P` must move persona consistency without moving the N classification;
+- `R` must move third-person recognition while remaining quiet on persona and
+  policy outcomes; and
+- `A` must move policy preference while remaining quiet on N, P, and R.
+
+### Wrong-variable and finite random controls
+
+For target `v`, apply every other frozen representation basis to the same
+source-receiver difference and receiver, rescaling its injected vector to the
+matched target norm. Also generate 39 isotropic random subspaces of the same
+dimension and use the QR/sign/rescaling algorithm frozen in the WP3 causal
+amendment. Master seeds are:
+
+- `N`: `2241401599` (`B6 causal coordinate controls N v1 2026-07-13`);
+- `P`: `1435552373` (`B6 causal coordinate controls P v1 2026-07-13`);
+- `R`: `2064846846` (`B6 causal coordinate controls R v1 2026-07-13`);
+- `A`: `1781916021` (`B6 causal coordinate controls A v1 2026-07-13`).
+
+On its target outcome, the variable-matched family-mean effect must exceed
+every wrong-variable effect and all 39 random-subspace effects in the predicted
+direction (plus-one random-control rank `1/40`). Report KL drift, activation
+norm drift, injected norms, all family effects, and all control scores. A pass
+supports dissociation only among these frozen linear/low-dimensional objects
+and assays. Any failed target, quietness, incremental-prediction, or causal
+control gate yields an entanglement/not-certified result without retuning on
+confirmation.
