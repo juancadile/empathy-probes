@@ -1,0 +1,12 @@
+2026-07-13 11:13:04,149 INFO component sets resolved: {'source': {'registry_key': 'gemma2_9b_it_resid_2026-07-12', 'registry_status': 'current', 'origins': {'positive_writers': 'registry:gemma2_9b_it_resid_2026-07-12', 'suppressors': 'registry:gemma2_9b_it_resid_2026-07-12', 'random': 'registry:gemma2_9b_it_resid_2026-07-12'}, 'run_mode': 'accepted', 'direction_binding': {'supplied_path': 'results/controlled_directions_gemma2_9b_it/direction_M_resid_block20.npy', 'normalized_path': 'results/controlled_directions_gemma2_9b_it/direction_M_resid_block20.npy', 'observed_sha256': '1b6d692e0e933d76c15f722fe996d01e1ca2ee8c8b72f19daf2f122cda294b42', 'registry_path': 'results/controlled_directions_gemma2_9b_it/direction_M_resid_block20.npy', 'registry_sha256': '1b6d692e0e933d76c15f722fe996d01e1ca2ee8c8b72f19daf2f122cda294b42', 'path_match': True, 'hash_match': True, 'mismatch_override': False}, 'confirmatory_evidence_eligible': True, 'ineligibility_reasons': []}, 'sets': {'positive_writers': 'L19MLP,L20MLP', 'suppressors': 'L18H13,L20H10,L19H12,L17H7', 'random': 'L1MLP,L2MLP,L18H8,L20H5,L19H7,L17H2'}}
+2026-07-13 11:13:06,176 INFO HTTP Request: GET https://huggingface.co/api/models/google/gemma-2-9b-it/tree/11c9b309abf73637e4b6f9a3fa1e92e615547819/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-07-13 11:13:06,249 INFO HTTP Request: GET https://huggingface.co/api/models/google/gemma-2-9b-it/tree/11c9b309abf73637e4b6f9a3fa1e92e615547819?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-07-13 11:13:06,915 INFO HTTP Request: GET https://huggingface.co/api/models/google/gemma-2-9b-it "HTTP/1.1 200 OK"
+Loading weights:   0%|          | 0/464 [00:00<?, ?it/s]Loading weights: 100%|██████████| 464/464 [00:00<00:00, 6887.37it/s]
+2026-07-13 11:15:03,933 INFO [ablate B20] dM -3.2747 CI [-3.8671875, -2.6822916666666665] | dT +0.2812
+2026-07-13 11:38:27,600 INFO [frac 0.0] dM +0.0000 CI [0.0, 0.0] | dT +0.0000
+2026-07-13 11:38:27,708 INFO [frac 0.25] dM -0.5938 CI [-0.71484375, -0.4778645833333333] | dT +0.0523
+2026-07-13 11:38:27,816 INFO [frac 0.5] dM -1.3457 CI [-1.6139322916666667, -1.0748697916666667] | dT +0.0891
+2026-07-13 11:38:27,924 INFO [frac 0.75] dM -2.2435 CI [-2.70703125, -1.7799479166666667] | dT +0.1195
+2026-07-13 11:38:28,032 INFO [frac 1.0] dM -3.1921 CI [-3.8053385416666665, -2.5787760416666665] | dT +0.1742
+2026-07-13 11:38:28,253 INFO wrote results/gate0c_fractional_accepted_20260713/e17b.json

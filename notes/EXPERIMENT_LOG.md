@@ -421,3 +421,27 @@ Full memo: `notes/INTEGRITY_REPAIR_A_2026-07-13.md`. Brief `FABLE_INTEGRITY_REPA
 - **Guardrails:** silent superseded component defaults removed everywhere (new versioned registry `src/component_sets.py`; weight_orthogonalization/capability_eval/norm_matched_controls/e17_stage3/e17b now fail fast without `--component-set` or explicit specs and persist the resolution). Shared provenance helper + deterministic environment-lock exporter (`src/utils/run_provenance.py`); Spark lock capture deferred to Gate 0B. e17b/capability schemas now self-contained (per-pair baselines/deltas, option orders, dataset revisions, sampled row ids, per-window ppl losses). `sample_mmlu` is now genuinely subject-stratified; the accepted 2026-07-12 capability artifact used simple random sampling and stands as-is with corrected wording.
 - **Judge provenance:** E27 scorer rewritten (pinned configurable judge, versioned exact prompts incl. the historical v1 protocol, Gate-0B deterministic input ids, full message/context/raw-response/retry persistence, condition blindness tested, UNKNOWN never coerced, offline `--dry-run` export validated against the real 48-run tree: 356 events matching the historical counts). The three UNKNOWN rows remain unadjudicated (Gate 0B). Reusable blinded manipulation-pretest runner added (`src/evaluation/manipulation_pretest.py`, need + moral batteries, dry-run mode); historical `need_pretest.json`/`moral_pretest.json` untouched and write-protected.
 - **Tests:** `pytest -q tests` 118 passed (99 new), including a test that the former lockstep construction fails the new integrity asserts and that preservation records are append-only.
+
+## 2026-07-13 - Gate 0C capability and fractional reconstruction
+
+- **Capability artifact:** `results/gate0c_capability_accepted_20260713/capability_eval.json`
+  (SHA-256 `00bdc119...`). Integrity/reconstruction audit passed. On 800 fresh
+  subject-stratified MMLU items, writers moved accuracy -0.25 pp (95% CI
+  [-0.76,+0.21]), suppressors -0.38 pp ([-0.82,0.00]), and targeted k6
+  -0.50 pp ([-1.00,-0.11]). WikiText perplexity did not worsen. Claim ceiling:
+  no detected degradation for the individual sets on these benchmarks; the
+  combined set has a small detected MMLU decrement, so no zero-cost claim.
+- **Fractional artifact:** `results/gate0c_fractional_accepted_20260713/e17b.json`
+  (SHA-256 `f22b7ea8...`). The preregistered raw gate passed: M target
+  `Z=3.192` [2.579,3.805], largest of 39 isotropic nulls `0.061`, plus-one
+  `p=1/40=.025`; every family/LOFO effect is positive and the dose curve is
+  monotonic. Raw T `Z=-0.174`, descriptive `|T|/|M|=.055`. Chat and
+  continuation retain the sign and exceed all nulls. Claim ceiling: causal
+  dependence of this historical forced-choice assay on the block-20 direction,
+  not welfare purity, full circuit coverage, enacted-behavior mediation, or
+  fresh confirmation.
+- **Independent audit:** both local artifacts match Spark byte-for-byte and
+  recompute exactly from per-example records. The pre-run audit also corrected
+  an outcome-dependent validator that would have discarded a failed accepted
+  fractional result; acceptance now requires a complete boolean verdict but
+  preserves either outcome. Full suite before execution: 242 passed.
