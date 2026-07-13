@@ -55,5 +55,19 @@ def test_analysis_requires_fourteen_of_sixteen_per_check():
 
 def test_generated_prompts_request_strict_json_only():
     item = requests()[0]
-    assert "Return only JSON" in item["prompt"]
+    assert "Return only one JSON object" in item["prompt"]
+    assert '"higher":"A or B or TIE"' not in item["prompt"]
     assert json.loads('{"higher":"A","confidence_1_to_5":5}')["higher"] == "A"
+
+
+def test_pairwise_degeneracy_gate_rejects_template_copying_and_one_choice():
+    copied = [{"raw_output": "same", "rating": {
+        "higher": "A", "confidence_1_to_5": 5}} for _ in range(4)]
+    assert audit.degeneracy_reason(copied) == "all raw outputs are byte-identical"
+    one_choice = [{"raw_output": str(index), "rating": {
+        "higher": "A", "confidence_1_to_5": 5}} for index in range(4)]
+    assert "choices are identical" in audit.degeneracy_reason(one_choice)
+    varied = [{"raw_output": str(index), "rating": {
+        "higher": "A" if index % 2 else "B", "confidence_1_to_5": 5}}
+        for index in range(4)]
+    assert audit.degeneracy_reason(varied) is None

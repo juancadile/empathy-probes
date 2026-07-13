@@ -71,8 +71,12 @@ ARM B:
 
 QUESTION: {QUESTIONS[check]}
 
-Return only JSON with exactly these keys. Use TIE only if the property is equally present:
-{{"higher":"A or B or TIE","confidence_1_to_5":5}}"""
+Return only one JSON object with two required keys:
+- higher: a string containing exactly one allowed value, A, B, or TIE
+- confidence_1_to_5: an integer from 1 through 5
+
+Use TIE only if the property is equally present. Choose values from the two
+arms; do not copy this response-format instruction."""
     return {
         "request_id": request_id, "kind": record["experiment"],
         "family_id": record["family_id"], "partition": record["partition"],
@@ -186,6 +190,16 @@ def validation_errors(record: dict) -> list[str]:
     return errors
 
 
+def degeneracy_reason(records: list[dict]) -> str | None:
+    if len({record.get("raw_output") for record in records}) == 1:
+        return "all raw outputs are byte-identical"
+    valid = [record["rating"]["higher"] for record in records
+             if not validation_errors(record)]
+    if valid and len(set(valid)) == 1:
+        return "all pairwise choices are identical despite opaque counterbalancing"
+    return None
+
+
 def analyze(records: list[dict]) -> dict:
     grouped = defaultdict(list)
     for record in records:
@@ -246,6 +260,15 @@ def main(argv: list[str] | None = None) -> int:
     invalid = [{"request_id": record["request_id"],
                 "errors": validation_errors(record)} for record in records
                if validation_errors(record)]
+    degeneracy = degeneracy_reason(records)
+    if degeneracy:
+        (args.out / "invalid_outputs.json").write_text(json.dumps({
+            "status": "DEGENERATE_JUDGE_OUTPUTS", "reason": degeneracy,
+            "raw_path": str(raw_path.relative_to(ROOT))
+        }, indent=2) + "\n")
+        print(json.dumps({"status": "DEGENERATE_JUDGE_OUTPUTS",
+                          "reason": degeneracy}, indent=2))
+        return 2
     if invalid:
         (args.out / "invalid_outputs.json").write_text(json.dumps({
             "invalid": invalid, "raw_path": str(raw_path.relative_to(ROOT))
