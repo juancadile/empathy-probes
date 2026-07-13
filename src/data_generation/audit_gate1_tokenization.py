@@ -83,6 +83,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--model", default=MODEL)
     parser.add_argument("--revision", default=REVISION)
     args = parser.parse_args(argv)
+    args.input = args.input.resolve()
 
     tokenizer = AutoTokenizer.from_pretrained(
         args.model, revision=args.revision, trust_remote_code=False)
