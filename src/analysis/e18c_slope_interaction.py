@@ -60,9 +60,15 @@ def boot_family_stat(per_family, n=5000, seed=42):
 
 
 def main():
-    run = json.load(open(RUN))
+    import argparse
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--run", default=str(RUN),
+                    help="e18.json with per-pair deltas (any run with these cells)")
+    ap.add_argument("--out", default=str(ROOT / "results/e18c_slope_interaction_gemma2_9b_it"))
+    args = ap.parse_args()
+    run = json.load(open(args.run))
     meta = {n: cell_meta(n) for n in CELL_JSONL}
-    out = {"source_run": str(RUN), "conditions": {}}
+    out = {"source_run": args.run, "conditions": {}}
 
     for cond in CONDS:
         e = run["conditions"][cond]
@@ -80,12 +86,18 @@ def main():
         entry["slope_interaction_welfare_minus_nonsocial"] = boot_family_stat(diff)
         # 3: cost slope within each need level
         entry["cost_slope_by_need"] = {}
+        need_slopes = {}
         for label, cell in [("resolved", "need_resolved"), ("mild", "need_mild"),
                             ("urgent", "cost_axis")]:
             d = np.asarray(e[cell]["per_pair_delta"])
             fams, ranks = meta[cell]
-            entry["cost_slope_by_need"][label] = boot_family_stat(
-                family_cost_slopes(d, fams, ranks))
+            need_slopes[label] = family_cost_slopes(d, fams, ranks)
+            entry["cost_slope_by_need"][label] = boot_family_stat(need_slopes[label])
+        # pre-registered three-way contrast (codex, rescue3c design):
+        # family-paired slope_urgent - slope_resolved, NOT ordering of point estimates
+        paired = {f: need_slopes["urgent"][f] - need_slopes["resolved"][f]
+                  for f in need_slopes["urgent"] if f in need_slopes["resolved"]}
+        entry["slope_urgent_minus_resolved_paired"] = boot_family_stat(paired)
         out["conditions"][cond] = entry
         si = entry["slope_interaction_welfare_minus_nonsocial"]
         print(f"{cond}: slope-interaction {si['mean']:+.4f} CI {si['ci95']} "
@@ -93,7 +105,7 @@ def main():
               f"cost-slope by need: " + " ".join(
                   f"{k}={v['mean']:+.3f}" for k, v in entry["cost_slope_by_need"].items()))
 
-    dest = ROOT / "results/e18c_slope_interaction_gemma2_9b_it"
+    dest = Path(args.out)
     dest.mkdir(parents=True, exist_ok=True)
     (dest / "e18c.json").write_text(json.dumps(out, indent=2))
     print(f"wrote {dest}/e18c.json")

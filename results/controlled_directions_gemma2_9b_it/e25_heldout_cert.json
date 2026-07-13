@@ -15,7 +15,7 @@
       "auroc": 0.21,
       "two_sided": 0.79,
       "inverse": true,
-      "gate": "quiet_two_sided<=0.10",
+      "gate": "abs(auroc-0.5)<=0.10 (i.e. stored two_sided<=0.60)",
       "pass": false
     }
   }

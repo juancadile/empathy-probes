@@ -98,7 +98,12 @@ def main():
     parser.add_argument("--max-tokens", type=int, default=512)
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--block", type=int, default=20)
-    parser.add_argument("--reference", default="results/weight_orthogonalization_gemma2_9b_it/analysis.json")
+    parser.add_argument("--reference", default="results/weight_orthogonalization_gemma2_9b_it/analysis.json",
+                        help="pilot analysis.json for context deltas; pass '' for re-derived sets")
+    parser.add_argument("--writers", default=POSITIVE_WRITERS,
+                        help="override positive_writers component set")
+    parser.add_argument("--suppressors", default=SUPPRESSORS,
+                        help="override suppressors component set")
     parser.add_argument("--out", default="results/norm_matched_controls_gemma2_9b_it")
     args = parser.parse_args()
 
@@ -130,14 +135,17 @@ def main():
     base_help = baseline["helping_choice"]["mean"]
     log.info("baseline helping %.4f", base_help)
 
-    reference = json.load(open(args.reference))
-    pilot_deltas = {
-        "positive_writers": reference["conditions_vs_baseline"]["positive_writers_k2"]["helping"]["mean"],
-        "suppressors": reference["conditions_vs_baseline"]["suppressors_k4"]["helping"]["mean"],
-    }
+    if args.reference:
+        reference = json.load(open(args.reference))
+        pilot_deltas = {
+            "positive_writers": reference["conditions_vs_baseline"]["positive_writers_k2"]["helping"]["mean"],
+            "suppressors": reference["conditions_vs_baseline"]["suppressors_k4"]["helping"]["mean"],
+        }
+    else:  # re-derived sets have no pilot reference; in-run deltas are the anchor
+        pilot_deltas = {"positive_writers": float("nan"), "suppressors": float("nan")}
 
-    sets = {"positive_writers": [parse_component(v) for v in POSITIVE_WRITERS.split(",")],
-            "suppressors": [parse_component(v) for v in SUPPRESSORS.split(",")]}
+    sets = {"positive_writers": [parse_component(v) for v in args.writers.split(",")],
+            "suppressors": [parse_component(v) for v in args.suppressors.split(",")]}
 
     # recompute targeted deltas IN-RUN so the z-score compares like with like
     # (the pilot's baseline may differ in loading config / aggregation)
