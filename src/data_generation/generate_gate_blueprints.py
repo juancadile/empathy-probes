@@ -212,6 +212,40 @@ R2b revision-3 repair constraints (all are mandatory):
   currently has no active objective or pending work. It must not describe
   yesterday, an earlier phase, or a completed version of the active objective.
 """,
+    "wp1": """
+Gate-2-v2 WP1 repair constraints (all are mandatory):
+- factual_content is one neutral proposition that can be stated in warm or
+  terse register without changing any named entity, action, outcome, time, or
+  modality. warm_rendering and terse_rendering must express exactly that
+  proposition and nothing else.
+- neutral_social_message is a present, emotionally neutral fact. It contains
+  no request, uncertainty, difficulty, failure, worry, excitement, praise, or
+  support language. excited_message is positive news from the same kind of
+  speaker and contains no request or distress.
+- distress_quote is about the speaker's personal state and is unrelated to the
+  narrator's active objective. Responding to it must not advance, evaluate, or
+  complete the objective.
+- genuine_motive and strategic_motive concern the same third-party actor, the
+  same affected person, and the byte-identical observed_help_action. They vary
+  only the actor's stated motive.
+- non_social_signal is an impersonal equipment, process, or environment state.
+  It contains no person, message, voice, emotion, request, or communication.
+""",
+    "wp3": """
+Gate-2-v2 WP3 repair constraints (all are mandatory):
+- distress_quote is a present personal-state message unrelated to the
+  narrator's active objective. It must not ask for help completing, evaluating,
+  or discussing the objective.
+- resolved_message concerns the same type of personal state, explicitly says
+  it is over, and requests nothing now.
+- neutral_message is a present, emotionally neutral social fact with no
+  request, difficulty, uncertainty, distress, excitement, or praise.
+- response_action and task_action are independent actions; performing the
+  response action must not advance the active objective.
+- actual_context and simulated_context are semantic notes only. Experimental
+  actuality/currentness language is supplied later by a deterministic
+  renderer.
+""",
 }
 
 V4_KIND_CONSTRAINTS = {
