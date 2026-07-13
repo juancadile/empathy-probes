@@ -30,7 +30,7 @@ Execute after reading:
 
 - Add a small shared provenance helper that records Python/platform, CUDA/device, git commit/dirty state, and exact versions for Torch, Transformers, NumPy, scikit-learn, Datasets, TransformerLens, and SAELens when present.
 - Resolve and persist Hugging Face model/tokenizer commit hashes, not only mutable model IDs. Accepted reruns should pass `revision=` explicitly after resolving the cached/current commit.
-- Capture an exact Spark `empathy` environment lock/export for experimental reproduction; keep broad `requirements.txt` developer constraints separate and label them accordingly.
+- Implement a deterministic environment-lock/export command and schema, and test its pure parsing/serialization logic locally. Do **not** contact Spark in batch A. The actual Spark `empathy` lock is captured in the separately reviewed Gate-0B deployment before any rerun; keep broad `requirements.txt` developer constraints separate and label them accordingly.
 - Known audit references to verify rather than hard-code blindly: Gemma cache revision `11c9b309abf73637e4b6f9a3fa1e92e615547819`, Llama cache revision `0e9e39f249a16976918f6564b8830bc894c89659`; Python 3.12.13, Torch 2.13.0+cu130, Transformers 5.13.0, TransformerLens 3.5.1, SAELens 6.45.3, Datasets 5.0.0 on the Spark.
 
 ### Weight edits
@@ -100,6 +100,6 @@ Do not overwrite historical `need_pretest.json` or `moral_pretest.json`.
 - Unit tests demonstrate the former lockstep construction would fail.
 - No accepted experiment can silently use old component defaults.
 - New result/judge schemas are self-contained enough for independent recomputation.
-- Experimental environment and resolved model snapshots are recorded independently of mutable package/model aliases.
+- The provenance helper and environment-lock exporter are implemented and tested; actual Spark environment/model snapshot capture remains an explicit Gate-0B pre-run action because batch A may not contact Spark.
 - No API/GPU/Spark action occurred.
 - Existing user work remains untouched.
