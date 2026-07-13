@@ -40,31 +40,36 @@ toward arXiv is, for now, out of scope.
 | # | scope | question | verdict |
 |---|---|---|---|
 | 1 | **Probing** (V1) | Can we decode empathy-in-action? | **Answered, and the answer is "not the way we said."** Decodable, but lexically saturated (E04). Ships as a *correction*. |
-| 2 | **Causal / behavioral** (V2's real engine) | Can we edit weights and change costly-helping? | **YES. This is the result.** It has survived every audit, including re-derivation after the polarity bug. |
-| 3 | **Representational / circuit** | Is there a welfare direction, a pure feature, a circuit? | **NO — repeatedly, and now for principled reasons.** This is where every bad day came from. |
+| 2 | **Causal / choice-assay** (V2's real engine) | Can parameter edits change matched costly-helping choices? | **YES. This is the result.** It has survived re-derivation and held-out task controls. It is not a general enacted-empathy result. |
+| 3 | **Representational / circuit** | Can the tested methods recover a welfare-pure representation or complete circuit? | **NOT FOUND.** The tested linear/low-dimensional searches do not yield a stable, certified-pure representation; full-circuit recovery is outside V2's credible scope. |
 
-**Scope 3 is dead. It is not deferred. It is dead**, and the reasons are
-structural rather than a matter of effort:
+**Scope 3 is cancelled for V2. It is not a shipping dependency.** This is a
+scope decision, not a claim that further mechanistic work is scientifically
+impossible:
 
-- **E24/E25:** no direction is welfare-pure. Held-out certification fails on
-  task content. Permanently retracted.
-- **WP2 (all 42 blocks, 1,764 configs, nested CV):** no welfare-selective
-  representation is recoverable, and *selection does not even converge* — outer
-  folds chose blocks 28, 15, 2, 7.
+- **E24/E25:** the tested direction is not welfare-pure. Held-out certification
+  fails on task content. The purity claim is permanently retracted.
+- **WP2 (all 42 blocks, 1,764 configs, nested CV):** no stable candidate is
+  selected within the tested class, and *selection does not even converge* —
+  outer folds chose blocks 28, 15, 2, 7. This result remains conditional on
+  target/control construct validity.
 - **`WEIGHT_DECOMPOSITION_PLAN.md`:** there is **no privileged input basis for
   "welfare"** the way there is for tokens. Circuit reverse-engineering has been
-  carried end-to-end for *induction*, which is privileged at both ends. Ours is
-  privileged at neither. Worse, **LB1 shows the edited L17–L20 components are
-  not direct logit writers at all** (ranks 76–409; the direct writers are
-  L38–L41). The direct path is empty *by construction*.
+  carried end-to-end for *induction*, which is privileged at both ends. Ours
+  has a privileged forced-choice output contrast but no privileged welfare
+  input basis. Worse, **LB1 shows the edited L17–L20 components are
+  weak direct logit writers** (ranks 76–409; the leading direct writers are
+  L38–L41). A useful account would require unresolved indirect paths.
 
-No amount of GPU time changes any of that. Stop buying lottery tickets.
+Additional open-ended GPU work does not advance the bounded correction. Ship
+before deciding whether any of these questions deserve a separate project.
 
 ---
 
 ## 2. The deliverable
 
-**Paper: "Behavioral control without representational purity."**
+**Paper: "Causal control of costly-helping choices without representational
+purity."**
 V2, replacing V1 at the same arXiv entry.
 
 Three contributions, in order of how much they are worth:
@@ -82,8 +87,9 @@ Three contributions, in order of how much they are worth:
 
 **(b) Positive — narrow, replicated, honest.**
 Editing a mid-late MLP band (L19 dominant, L20 the strongest complement)
-causally reduces the costly-helping choice: **−0.284, 20× selectivity over task
-controls, no capability cost** (MMLU-400/WikiText CIs include zero),
+causally reduces the matched costly-helping choice: **−0.284, 20× selectivity
+over task controls**, with no detected degradation for the individual writer
+set on sampled MMLU/WikiText benchmarks,
 robust across raw / chat / paraphrase / scaffold-free-continuation readouts,
 most extreme of all 28 band sets. Survived re-derivation after the polarity bug.
 Plus a **jointly-edited** suppressor set with a cost-contingent profile
@@ -91,15 +97,17 @@ Plus a **jointly-edited** suppressor set with a cost-contingent profile
 does **not** localize it to individual heads.
 
 **(c) Negative — the intellectual core.**
-No welfare-selective representation is recoverable at any of 42 blocks under
-exhaustive nested CV, and **here is why**: costly-helping stimuli entangle
-welfare salience with task-interruption *by construction*, and there is no
-privileged input basis for "welfare." This is a real finding about the limits
-of interpretability for value-laden behaviors, and the field is short of them.
+Across all 42 blocks, the tested linear/low-dimensional search does not recover
+a stable welfare-selective candidate: nested selection chooses blocks
+28/15/2/7 and fails nuisance quietness out of fold. The result is conditional
+on human validation because incoherent targets or confounded controls can
+produce the same instability. It is evidence about the limits of these methods
+and stimuli, not evidence that the model contains no welfare representation.
 
 **The claim ceiling, and the title of the paper is basically this sentence:**
-*a specific weight band causally and selectively gates costly helping in
-Gemma-2-9B-it — and we cannot tell you that it represents welfare.*
+*activation-selected parameter edits to a mid-late MLP band causally and
+selectively alter matched costly-helping choices in Gemma-2-9B-it — and the
+tested methods do not establish that this band represents welfare.*
 Not "we found the empathy circuit." Never that.
 
 ---
@@ -117,7 +125,7 @@ Discharges the arXiv correction obligation on its own.
 | V1 correction (lexical saturation, E04) | **done** | nothing |
 | Matched-lexicon methodology (V2.1 suite) | **done** | nothing |
 | AUROC polarity bug (E24) | **done** | nothing |
-| Writer band causal control (−0.284, 20×, capability-preserving) | **done** | V2.1 `M_confirm`/`T_confirm` + their own explicit-label audit (E10) — **not** Gate 2 stimuli |
+| Writer-band choice-assay control (−0.284, 20×; no detected degradation for the individual set on sampled MMLU/WikiText) | **done** | V2.1 `M_confirm`/`T_confirm` + their own explicit-label audit (E10) — **not** Gate 2 stimuli |
 | Direction-specificity vs norm-matched random directions | **done** | nothing |
 | WP2 negative result, stated *conditionally* | **done** | can ship with the stimulus-validity caveat disclosed |
 
@@ -129,10 +137,10 @@ disclosed. That is an honest paper and it corrects the record.
 
 | item | needs | buys |
 |---|---|---|
-| Cost-gate claim (+0.104, 9/10) | **Form B** — 160 R2b rows | promotes the suppressor cost gate from caveated to clean |
-| WP2 negative result, stated *unconditionally* | **Form A** — failed-control census + WP3 target | removes "our controls may have been broken" from the reviewer's mouth |
+| Cost-gate claim (+0.104, 9/10) | **Form B** — 160 R2b rows | tests whether the set-level cost-gate interpretation survives construct review; one rater corroborates but does not certify |
+| WP2 conditional negative result | **Form A** — failed-control census + WP3 target | tests the target/control validity caveat; one rater can strengthen or reject specific contrasts but cannot make the result unconditional |
 
-Tier 2 makes the paper materially better. **It does not gate the paper.**
+Tier 2 makes the paper materially better. **It does not gate the correction.**
 Nothing else does either.
 
 ---
@@ -140,8 +148,8 @@ Nothing else does either.
 ## 4. CANCELLED — do not spend another GPU-hour or human-hour on these
 
 - **WP4** (SAE feature purity, DAS/causal abstraction, 2-D plane). Scope 3.
-- **W-series weight decomposition.** Scope 3, and its own plan says the direct
-  path is empty.
+- **W-series weight decomposition.** Outside the bounded V2 deliverable; the
+  direct path is weak and the indirect path would reopen an open-ended program.
 - **Circuit tracing, path patching, faithfulness/completeness.** Scope 3.
 - **E22b.2 / E22b.3 moral-axis redesign.** A fresh construct-validity assay for
   a claim the paper no longer makes. (The E22 result is retracted as stale and
