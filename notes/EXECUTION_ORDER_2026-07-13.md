@@ -7,6 +7,7 @@ The roadmap preserves scope; this file fixes dependency order, decision gates, a
 
 1. Separate **discovery**, **selection**, and **confirmation** artifacts. Never choose a direction, layer, component, prompt, threshold, or statistic on a confirmation set.
 2. Every run persists exact inputs, resolved configuration, model revision, prompt format, per-example outputs, grouping IDs, hashes, and failures. Summary-only JSON is not an accepted artifact.
+   The experimental environment is exact-version locked; broad developer dependency ranges are not evidence of reproducibility.
 3. A failed gate is a result. Do not alter the gate and rerun under the same experiment ID; log an amendment and use a fresh confirmation set when selection changes.
 4. Use scenario family as the inferential unit. Template variants measure robustness within a family, not sample size.
 5. Report effect sizes, all family effects, LOFO, and uncertainty. Monte Carlo controls must state their finite resolution and generator.
