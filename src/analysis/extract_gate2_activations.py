@@ -1,9 +1,9 @@
 """Extract sealed Gate 2 residual-stream activations after the human gate.
 
 `--dry-run` validates and records the extraction plan without importing or
-loading the target model. Any real extraction fails closed unless the frozen
-human Gate 2 decision is present and positive. Confirmation additionally
-requires a frozen WP2 selection artifact.
+loading the target model. A real development extraction requires either the
+frozen human Gate 2 decision or a frozen discovery-only development lock.
+Confirmation always requires the human decision and a frozen WP2 selection.
 """
 
 from __future__ import annotations
@@ -107,6 +107,41 @@ def validate_human_gate(path: Path) -> dict[str, object]:
     return gate
 
 
+def validate_exploratory_dev_lock(path: Path) -> dict[str, object]:
+    lock = json.loads(path.read_text())
+    if lock.get("schema") != "empathy-action-probes/wp2-dev-exploratory-lock/1":
+        raise ValueError("unexpected WP2 development exploratory-lock schema")
+    expected = {
+        "status": "frozen-before-target-extraction",
+        "phase": "dev",
+        "model": MODEL,
+        "revision": REVISION,
+        "human_gate_required_for_this_run": False,
+        "confirmation_authorized": False,
+        "claim_authorized": False,
+    }
+    for field, value in expected.items():
+        if lock.get(field) != value:
+            raise ValueError(f"exploratory lock field mismatch: {field}")
+    if lock.get("candidate_blocks") != candidate_blocks(42):
+        raise ValueError("exploratory lock candidate blocks mismatch")
+    expected_inputs = {
+        "wp1_sha256": sha256(INPUTS["wp1"]),
+        "wp3_sha256": sha256(INPUTS["wp3"]),
+    }
+    if lock.get("inputs") != expected_inputs:
+        raise ValueError("exploratory lock input hashes mismatch")
+    bindings = (
+        ("candidate_classes_and_selection_rule", "candidate_classes_and_selection_rule_sha256"),
+        ("selector", "selector_sha256"),
+    )
+    for path_field, hash_field in bindings:
+        bound_path = ROOT / str(lock.get(path_field, ""))
+        if not bound_path.is_file() or lock.get(hash_field) != sha256(bound_path):
+            raise ValueError(f"exploratory lock binding mismatch: {path_field}")
+    return lock
+
+
 def validate_selection_lock(path: Path) -> dict[str, object]:
     lock = json.loads(path.read_text())
     if lock.get("schema") != "empathy-action-probes/wp2-selection/1":
@@ -144,6 +179,7 @@ def main() -> None:
     parser.add_argument("--phase", choices=("dev", "confirm"), required=True)
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument("--human-gate", type=Path)
+    parser.add_argument("--exploratory-dev-lock", type=Path)
     parser.add_argument("--selection-lock", type=Path)
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--num-layers", type=int, default=42,
@@ -163,9 +199,17 @@ def main() -> None:
         print(json.dumps(extraction_plan, indent=2))
         return
 
-    if args.human_gate is None:
-        raise ValueError("real extraction requires --human-gate")
-    validate_human_gate(args.human_gate)
+    exploratory_lock = None
+    if args.exploratory_dev_lock is not None:
+        if args.phase != "dev":
+            raise ValueError("exploratory lock authorizes development extraction only")
+        if args.human_gate is not None:
+            raise ValueError("choose either human-gated or exploratory development mode")
+        exploratory_lock = validate_exploratory_dev_lock(args.exploratory_dev_lock)
+    else:
+        if args.human_gate is None:
+            raise ValueError("real extraction requires --human-gate or --exploratory-dev-lock")
+        validate_human_gate(args.human_gate)
     if args.phase == "confirm":
         if args.selection_lock is None:
             raise ValueError("confirmation extraction requires --selection-lock")
@@ -233,7 +277,20 @@ def main() -> None:
             "path": str(Path(__file__).resolve().relative_to(ROOT)),
             "sha256": sha256(Path(__file__).resolve()),
         },
-        "human_gate": {"path": str(args.human_gate), "sha256": sha256(args.human_gate)},
+        "authorization_mode": "exploratory_dev" if exploratory_lock else "human_gate",
+        "claim_authorized": False if exploratory_lock else True,
+        "human_gate": (
+            {"path": str(args.human_gate), "sha256": sha256(args.human_gate)}
+            if args.human_gate else None
+        ),
+        "exploratory_dev_lock": (
+            {
+                "path": str(args.exploratory_dev_lock),
+                "sha256": sha256(args.exploratory_dev_lock),
+                "experiment_id": exploratory_lock["experiment_id"],
+            }
+            if exploratory_lock else None
+        ),
         "selection_lock": (
             {"path": str(args.selection_lock), "sha256": sha256(args.selection_lock)}
             if args.selection_lock else None

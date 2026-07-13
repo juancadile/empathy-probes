@@ -1,0 +1,31 @@
+{
+  "schema": "empathy-action-probes/wp2-dev-exploratory-lock/1",
+  "experiment_id": "WP2-dev-exploratory-20260713",
+  "status": "frozen-before-target-extraction",
+  "phase": "dev",
+  "model": "google/gemma-2-9b-it",
+  "revision": "11c9b309abf73637e4b6f9a3fa1e92e615547819",
+  "candidate_blocks": [13, 19, 25, 20],
+  "candidate_classes_and_selection_rule": "notes/WP2_IMPLEMENTATION_LOCK_2026-07-13.md",
+  "candidate_classes_and_selection_rule_sha256": "7743e864c002d3add329bf6f077152d885e518de91b356fd33cac03583b5b200",
+  "selector": "src/analysis/select_wp2_representation.py",
+  "selector_sha256": "27f54240598549a5108c2a10c72bcd2ac466630b421c3068310fe1e1411b7e77",
+  "inputs": {
+    "wp1_sha256": "831ce9230fba586d127414205bf75881302e87a1c70cb7707aebc58224a713e1",
+    "wp3_sha256": "571a08a318fd7cb6461fd92745b8526b2566cb27050f7ac78491518dc45625fd"
+  },
+  "human_gate_required_for_this_run": false,
+  "confirmation_authorized": false,
+  "claim_authorized": false,
+  "interpretation": {
+    "representation": "Discovery-only. Does not change procedure, open confirmation, or support a claim.",
+    "no-representation": "May stop the frozen WP2 Gemma branch as a resource decision. Does not establish that no welfare-quiet representation exists and does not replace stimulus validation or the independent R2b human audit."
+  },
+  "prohibited": [
+    "opening confirmation families or activations",
+    "tuning candidates, depths, readouts, thresholds, or stimuli after observing development results under this experiment ID",
+    "using this result as evidence that the WP3 manipulation is humanly valid",
+    "using this result to cancel the R2b human audit",
+    "making a confirmatory or welfare-purity claim"
+  ]
+}

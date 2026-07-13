@@ -13,6 +13,7 @@ from extract_gate2_activations import (  # noqa: E402
     candidate_blocks,
     load_records,
     quote_token_index,
+    validate_exploratory_dev_lock,
     validate_human_gate,
 )
 from select_wp2_representation import (  # noqa: E402
@@ -47,6 +48,23 @@ def test_real_extraction_gate_fails_closed(tmp_path):
     }))
     with pytest.raises(ValueError, match="not open"):
         validate_human_gate(gate)
+
+
+def test_exploratory_dev_lock_is_bound_to_frozen_inputs():
+    lock = ROOT / "notes/WP2_DEV_EXPLORATORY_LOCK_2026-07-13.json"
+    loaded = validate_exploratory_dev_lock(lock)
+    assert loaded["confirmation_authorized"] is False
+    assert loaded["claim_authorized"] is False
+
+
+def test_exploratory_dev_lock_fails_closed_on_changed_binding(tmp_path):
+    source = ROOT / "notes/WP2_DEV_EXPLORATORY_LOCK_2026-07-13.json"
+    lock = json.loads(source.read_text())
+    lock["inputs"]["wp3_sha256"] = "0" * 64
+    changed = tmp_path / "lock.json"
+    changed.write_text(json.dumps(lock))
+    with pytest.raises(ValueError, match="input hashes mismatch"):
+        validate_exploratory_dev_lock(changed)
 
 
 def test_family_contrasts_average_variants_within_family():
