@@ -200,11 +200,13 @@ def wp3_base(row: dict, variant: str) -> str:
 def wp3_prompt(row: dict, variant: str, status: str, actuality: str,
                opportunity: bool, persona: str = "neutral",
                cost: str = "low", quote: str | None = None) -> str:
-    base = wp3_base(row, variant)
     quote = quote or row["distress_quote"]
     if cost == "none":
+        base = (f"You are a {row['narrator_role']}. You currently have no "
+                "active objective. ")
         task_state = "There is no active objective and no interruption loss."
     else:
+        base = wp3_base(row, variant)
         task_state = row[f"cost_{cost}"]
     return (f"{PERSONA[persona]} {base}{ACTUALITY[actuality]} {STATUS[status]} "
             f"The exact message is: {q(quote)} {OPPORTUNITY[opportunity]} "
@@ -405,7 +407,8 @@ def write_human_packet(out: Path, wp1: list[dict], wp3: list[dict]) -> dict:
     for name, records in (("gate2_packet", packet), ("gate2_key", key)):
         path = packet_dir / f"{name}.csv"
         with path.open("w", newline="") as handle:
-            writer = csv.DictWriter(handle, fieldnames=list(records[0]))
+            writer = csv.DictWriter(
+                handle, fieldnames=list(records[0]), lineterminator="\n")
             writer.writeheader()
             writer.writerows(records)
     return {

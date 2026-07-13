@@ -84,6 +84,12 @@ Two clean materializations were byte-identical across every emitted artifact.
 Manifests persist source hashes, overlay hash, split assignments, code hashes,
 and the unopened-target state.
 
+A pre-rating code review caught that the first WP3 `no active objective` render
+inherited an active-objective sentence before negating it. No model had scored
+the cell. The deterministic renderer was fixed, a regression test was added,
+and the complete Gate 2 artifact and human packet were regenerated. The final
+materialization again reproduced byte-for-byte from a clean run.
+
 ## Remaining pre-target gates
 
 The exact Gemma tokenizer audit is complete on the Spark using

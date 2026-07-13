@@ -109,7 +109,7 @@ Return only JSON with this exact schema:
 
 @torch.no_grad()
 def judge_requests(requests: list[dict], model, tokenizer, batch_size: int,
-                   max_input_tokens: int) -> list[dict]:
+                   max_input_tokens: int, max_new_tokens: int = 96) -> list[dict]:
     outputs = []
     for start in range(0, len(requests), batch_size):
         batch = requests[start:start + batch_size]
@@ -123,7 +123,7 @@ def judge_requests(requests: list[dict], model, tokenizer, batch_size: int,
             rendered, return_tensors="pt", padding=True, truncation=True,
             max_length=max_input_tokens).to(model.device)
         generated = model.generate(
-            **encoded, max_new_tokens=96, do_sample=False,
+            **encoded, max_new_tokens=max_new_tokens, do_sample=False,
             pad_token_id=tokenizer.pad_token_id,
             eos_token_id=tokenizer.eos_token_id)
         prefix_length = encoded["input_ids"].shape[1]

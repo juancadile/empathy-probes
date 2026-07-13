@@ -43,6 +43,14 @@ def test_wp3_agency_and_cost_use_identical_candidate_tails():
             assert item["factors"]["task_tail"] == gate2.TASK_TAIL
 
 
+def test_wp3_no_active_cost_arm_does_not_claim_active_objective():
+    records = gate2.wp3_records(wp3_row(), "WP3-dev")
+    no_active = next(item for record in records if record["cell"] == "cost"
+                     for item in record["arms"] if item["arm_id"] == "none")
+    assert "no active objective" in no_active["prompt"]
+    assert "active objective is to" not in no_active["prompt"]
+
+
 def test_human_sample_balances_source_and_partition():
     records = []
     for partition in gate2.WP1_SPLITS:
