@@ -203,3 +203,103 @@ selectivity evidence. Edge and SAE-feature confirmation use 255-draw joint
 max-statistic nulls, preventing up to twelve screened edges or features from
 each receiving an unadjusted finite-null test. Coverage uses a separate
 255-draw matched random-graph envelope.
+
+## Frozen measurement amendment (2026-07-13, before circuit runs)
+
+### Restoration identifies mediation checkpoints, not direct edges
+
+The Part-A restoration operation replaces the complete activation at `T` from
+the unmodified run. A pass therefore establishes that the source intervention's
+effect is mediated through `T` in aggregate, written `S ->* T`; it does not
+show a direct computational edge `S -> T`. Unobserved components may carry the
+source effect into `T`, and several parallel routes may converge there.
+
+Accordingly, the at-most-twelve Part-A relations and all max-statistic tests are
+renamed **mediation checkpoints** in accepted artifacts and prose. A direct-edge
+claim requires a separately frozen sender-specific path intervention that
+holds other inputs to `T` fixed. No such direct-edge claim is authorized by
+this preregistration. `L19MLP ->* L20MLP` is also a mediation test despite the
+adjacent layers.
+
+### Numeric SAE fidelity and candidate selection
+
+Use a generic corpus disjoint from every project stimulus, with immutable
+dataset revision, deterministic document/window IDs, and at least 100,000
+non-padding tokens, plus the circuit-validation action/task families. The exact
+corpus manifest is frozen before any SAE metric is read. A site/release can
+support feature claims only if every considered width/checkpoint satisfies:
+
+1. explained activation variance at least `.80` and normalized reconstruction
+   MSE at most `.20` on the generic corpus;
+2. loss recovered
+   `1 - (loss_reconstruction - loss_clean) / (loss_zero - loss_clean)` at least
+   `.80`, with all three losses persisted;
+3. the family-clustered 90% interval for reconstruction-induced action-margin
+   change lies inside `[-0.20,+0.20]` development-standardized units on both
+   action and matched task-control families;
+4. dead-feature rate at most `.20`, where dead means zero activation over the
+   complete frozen generic-corpus token set; and
+5. stability across two compatible widths/checkpoints after one-to-one
+   maximum-weight matching by absolute decoder cosine: at least 50% of the
+   selected release's top-32 candidates have a match with cosine at least `.80`
+   and the matched candidates' attribution ranks have Spearman correlation at
+   least `.50`. Raw feature IDs are never compared across separate SAEs.
+
+If no pair of compatible pretrained SAEs passes, report site/method inadequacy;
+do not select the least-bad SAE. Thresholds are assessed before semantic labels
+are opened.
+
+On development, rank features separately at each passing site by absolute
+paired family-level attribution to the action margin; break ties by absolute
+paired activation difference, then decoder alignment, then numeric feature ID.
+Retain at most 32 per site. Validation applies the frozen residual-preserving
+interventions and retains for confirmation at most twelve features that have a
+predicted-sign family mean, positive LOFO means, and task-control spillover
+within the Gate-1 writer bound. Rank retained features by validation action
+effect, then choose fewer features and lower numeric IDs at exact ties. The
+sealed joint max-statistic test remains the confirmation inference; validation
+does not establish a feature claim.
+
+### Non-overlapping graph nodes and exact coverage
+
+A graph cut cannot contain both a full component activation and SAE features
+that reconstruct part of that same activation. At each hook, use either the
+full component node or its selected SAE-feature refinement. Persist this
+mutually exclusive node map so cumulative restoration cannot count one change
+twice.
+
+For graph prefix `G_k`, define aggregate confirmation-family coverage from
+same-run action margins:
+
+- mediation recovery
+  `C_med(k) = (mean(m_edit+restore(G_k)) - mean(m_edit)) /
+              (mean(m_clean) - mean(m_edit))`;
+- sufficiency retention: first corrupt every node in the frozen broader
+  candidate region by patching its position-matched activation from the
+  opposite action branch within the same family, then restore `G_k` from the
+  clean same-branch cache,
+  `C_suf(k) = (mean(m_corrupt+restore(G_k)) - mean(m_corrupt)) /
+              (mean(m_clean) - mean(m_corrupt))`;
+- conservative joint coverage `C_joint(k) = min(C_med(k), C_suf(k))`.
+
+All ratios are formed from aggregate family means, never averaged per-example
+ratios, and are reported unclipped with family bootstrap intervals. A
+denominator is valid only if its predicted-sign family-clustered 95% interval
+excludes zero and its magnitude is at least `.30` development-baseline standard
+deviations. Opposite-branch corruption uses only the predeclared candidate
+region and matched token roles; it is an assay-specific stress test, not a
+natural model state.
+
+The descriptive coverage bands in Part C apply to `C_joint`, and only when:
+
+1. both denominators are valid;
+2. clean-model graph ablation has the source edit's predicted sign with a
+   family-clustered 95% interval excluding zero;
+3. the selected graph exceeds the 255 matched random-graph envelope under the
+   frozen plus-one rank threshold `12/256`; and
+4. every graph prefix respects the source-appropriate task/capability bound.
+
+If only `C_med` passes, report bounded mediation without sufficiency. If only
+necessity passes, report necessary nodes without a circuit-coverage label. Any
+unrecovered effect remains unresolved parallel/distributed mediation; it is not
+evidence that all physical routes have been enumerated.
