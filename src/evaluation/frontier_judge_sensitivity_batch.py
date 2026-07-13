@@ -135,7 +135,7 @@ def request_manifest(kind: str, requests: list[dict[str, object]]) -> dict[str, 
         "kind": kind,
         "model": MODEL,
         "system": SYSTEM,
-        "temperature": 0,
+        "temperature_parameter": "omitted; Opus 4.8 rejects it as deprecated",
         "lock": {"path": str(LOCK.relative_to(ROOT)), "sha256": sha256(LOCK)},
         "code": {"path": str(Path(__file__).resolve().relative_to(ROOT)),
                  "sha256": sha256(Path(__file__).resolve())},
@@ -158,7 +158,6 @@ def batch_requests(kind: str, requests: list[dict[str, object]]):
             params=MessageCreateParamsNonStreaming(
                 model=MODEL,
                 max_tokens=max_tokens,
-                temperature=0,
                 system=SYSTEM,
                 messages=[{"role": "user", "content": str(request["prompt"])}],
             ),
@@ -222,7 +221,11 @@ def collect_raw(client, kind: str) -> list[dict[str, object]]:
     records, errors = [], []
     for result in client.messages.batches.results(batch.id):
         if result.result.type != "succeeded":
-            errors.append({"custom_id": result.custom_id, "type": result.result.type})
+            errors.append({
+                "custom_id": result.custom_id,
+                "type": result.result.type,
+                "provider_result": result.result.model_dump(mode="json"),
+            })
             continue
         message = result.result.message
         raw = "".join(block.text for block in message.content if block.type == "text").strip()

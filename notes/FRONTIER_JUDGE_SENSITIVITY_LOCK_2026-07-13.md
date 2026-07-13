@@ -26,8 +26,18 @@ the exact 848 prompts and opaque A/B order produced by
 threshold, or parser may be revised after submission under this experiment ID.
 
 The requested and required returned model is `claude-opus-4-8`, listed by the
-account API on 2026-07-13 as Claude Opus 4.8. Temperature is zero. Requests run
-through the Message Batches API. A returned-model mismatch invalidates the run.
+account API on 2026-07-13 as Claude Opus 4.8. Requests run through the Message
+Batches API. A returned-model mismatch invalidates the run.
+
+### Transport amendment after failed attempt 1
+
+Batch `msgbatch_01NhrVyGD11MfmEPJuvrkFHe` returned 160/160 request errors and
+zero model outputs because Opus 4.8 rejects the `temperature` parameter as
+deprecated. This was learned only from the provider error payload; no rating or
+scientific output existed to inspect. For attempt 2, omit `temperature` as
+required by the API. Model, prompts, system instruction, opaque order, sample,
+analysis, and interpretation rules remain byte-identical. The failed receipt
+and all provider error payloads remain preserved.
 
 ## Precommitted R2b interpretation
 

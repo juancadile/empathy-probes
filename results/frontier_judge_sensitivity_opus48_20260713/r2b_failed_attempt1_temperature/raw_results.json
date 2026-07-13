@@ -1,0 +1,2891 @@
+{
+  "schema": "empathy-action-probes/frontier-judge-raw/1",
+  "role": "sensitivity only; cannot alter any gate",
+  "kind": "r2b",
+  "batch_id": "msgbatch_01NhrVyGD11MfmEPJuvrkFHe",
+  "requested_model": "claude-opus-4-8",
+  "records": [],
+  "errors": [
+    {
+      "custom_id": "r2b-0080",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0018",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0002",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0023",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0091",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0062",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0128",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0059",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0151",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0019",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0086",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0014",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0025",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0153",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0134",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0058",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0009",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0087",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0027",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0063",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0034",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0074",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0139",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0147",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0101",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0052",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0046",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0011",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0003",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0017",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0079",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0114",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0118",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0085",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0069",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0159",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0004",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0010",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0026",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0060",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0057",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0081",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0107",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0141",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0115",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0033",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0065",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0138",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0157",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0001",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0137",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0051",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0008",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0016",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0146",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0061",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0156",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0116",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0050",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0012",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0149",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0133",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0155",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0105",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0082",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0030",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0072",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0124",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0108",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0055",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0077",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0125",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0099",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0154",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0145",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0044",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0129",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0103",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0143",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0096",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0037",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0144",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0070",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0127",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0042",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0106",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0020",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0078",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0112",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0097",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0140",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0031",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0038",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0121",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0066",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0148",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0123",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0095",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0092",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0122",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0135",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0007",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0126",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0056",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0067",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0131",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0100",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0029",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0094",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0022",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0113",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0083",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0098",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0117",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0005",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0152",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0090",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0068",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0040",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0024",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0032",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0111",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0028",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0102",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0158",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0053",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0104",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0075",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0093",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0000",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0049",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0006",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0076",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0088",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0047",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0035",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0039",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0110",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0136",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0109",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0089",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0119",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0015",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0041",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0036",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0054",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0132",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0150",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0013",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0120",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0073",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0021",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0064",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0048",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0071",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0130",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0084",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0043",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0045",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    },
+    {
+      "custom_id": "r2b-0142",
+      "type": "errored",
+      "provider_result": {
+        "error": {
+          "error": {
+            "message": "`temperature` is deprecated for this model.",
+            "type": "invalid_request_error",
+            "details": {
+              "error_visibility": "user_facing"
+            }
+          },
+          "type": "error",
+          "request_id": null
+        },
+        "type": "errored"
+      }
+    }
+  ],
+  "missing": []
+}
