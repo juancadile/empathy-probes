@@ -29,7 +29,7 @@ Execute after reading:
 ### Environment and model revisions
 
 - Add a small shared provenance helper that records Python/platform, CUDA/device, git commit/dirty state, and exact versions for Torch, Transformers, NumPy, scikit-learn, Datasets, TransformerLens, and SAELens when present.
-- Resolve and persist Hugging Face model/tokenizer commit hashes, not only mutable model IDs. Accepted reruns should pass `revision=` explicitly after resolving the cached/current commit.
+- Optional-package absence must be recorded rather than making the provenance helper fail to import. Resolve and persist Hugging Face model and tokenizer commit hashes separately, not only mutable model IDs. Accepted reruns should pass `revision=` explicitly after resolving the cached/current commits.
 - Implement a deterministic environment-lock/export command and schema, and test its pure parsing/serialization logic locally. Do **not** contact Spark in batch A. The actual Spark `empathy` lock is captured in the separately reviewed Gate-0B deployment before any rerun; keep broad `requirements.txt` developer constraints separate and label them accordingly.
 - Known audit references to verify rather than hard-code blindly: Gemma cache revision `11c9b309abf73637e4b6f9a3fa1e92e615547819`, Llama cache revision `0e9e39f249a16976918f6564b8830bc894c89659`; Python 3.12.13, Torch 2.13.0+cu130, Transformers 5.13.0, TransformerLens 3.5.1, SAELens 6.45.3, Datasets 5.0.0 on the Spark.
 
@@ -38,6 +38,7 @@ Execute after reading:
 - Remove silent superseded component defaults from `weight_orthogonalization.py`.
 - Require explicit component specs or a clearly versioned set-of-record config.
 - Persist the resolved component set in every result.
+- Preserve import compatibility for callers such as `capability_eval.py` by moving named sets into an explicit versioned config/module if necessary; do not leave historical values masquerading as current generic defaults.
 
 ### Fractional ablation
 
@@ -68,6 +69,7 @@ Maintain backward compatibility where it does not compromise auditability.
 - Version and persist the exact judge prompt.
 - Persist deterministic input ID, full player message, full prior context, raw judge response, response/request metadata, attempt number, retry/error history, and final parsed label.
 - Preserve condition blindness in judge inputs.
+- Never coerce an API, JSON, or parse failure into a substantive score or class. Persist it as an explicit error/UNKNOWN state for later adjudication.
 - Do not call an API or adjudicate the three current UNKNOWN rows.
 
 ### V2.2 manipulation pretests
@@ -97,6 +99,7 @@ Do not overwrite historical `need_pretest.json` or `moral_pretest.json`.
 
 - T and T-confirm each contain 40 unique pairs with disjoint family sets.
 - Historical T artifacts are recoverable and hashed.
+- Re-running a builder cannot silently overwrite its preserved historical artifact or provenance record.
 - Unit tests demonstrate the former lockstep construction would fail.
 - No accepted experiment can silently use old component defaults.
 - New result/judge schemas are self-contained enough for independent recomputation.
