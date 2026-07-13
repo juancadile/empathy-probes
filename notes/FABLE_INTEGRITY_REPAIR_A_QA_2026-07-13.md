@@ -202,6 +202,11 @@ Acceptance tests:
 - Accepted mode fails before loading data/model when a required revision is
   absent or mutable.
 - Accepted mode fails on a requested/resolved commit mismatch.
+- Accepted mode also rejects mutable aliases, abbreviated hashes, and an
+  unknown requested revision even when the local cache happens to contain only
+  one snapshot. The current `resolve_hf_commit()` single-snapshot fallback may
+  remain descriptive in exploratory mode but must never satisfy an accepted
+  exact-revision check.
 - Exploratory mode persists its status and missing pins.
 - Pure validation tests require no network or model load.
 
