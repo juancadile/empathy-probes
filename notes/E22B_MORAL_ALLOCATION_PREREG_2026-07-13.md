@@ -185,3 +185,81 @@ confirmatory hierarchy above repair those issues before any E22b result exists.
 
 Family/counterbalance/null seeds and the 3% realized-norm contract were
 subsequently frozen before generation or target-model scoring.
+
+## Frozen amendment 2: symmetric allocation, signed hypotheses, and audit gates
+
+**Status:** frozen on 2026-07-13 before E22b stimulus generation, pretesting,
+or target-model scoring.
+
+### Symmetric priority actions
+
+The two decision options use one universal pair of byte-identical templates
+across all factorial cells, differing only by the order of P1 and P2 labels.
+Each allocates the same fixed first response interval and explicitly commits the
+same second response interval to the other person. For example:
+
+- `P2_FIRST`: respond to P2 for the next fixed interval, then P1 for the same
+  interval;
+- `P1_FIRST`: respond to P1 for the next fixed interval, then P2 for the same
+  interval.
+
+Do not use `finish`, `until resolved`, `right after`, or other asymmetric
+duration language. Names, roles, incumbency, and factor manipulations live in
+the matched prefix; the decision clauses contain only opaque P1/P2 identifiers,
+fixed durations, and order. A structural test requires equal token/byte length
+after swapping identifiers and exact clause reuse across every cell.
+
+This is still a priority-order assay, not proof that total eventual welfare is
+equal: need and immediacy deliberately make delay consequential. The controlled
+claim is equal stated response duration and commitment, with order varied.
+
+### Signed confirmatory hypotheses
+
+The suppressor intervention removes the frozen suppressor-direction writes.
+Under the incumbent-stabilization hypothesis, removal should make the current
+policy less sticky:
+
+1. primary equal-claim, zero-`S_text` condition-minus-baseline incumbency effect
+   is **negative**;
+2. gated switching-cost-slope change is **negative** (less additional
+   incumbent preference as stated switching harm rises).
+
+These are the only one-sided confirmatory signs. Need- and immediacy-slope
+changes are two-sided Holm-controlled tests because moral-triage strengthening
+and degradation are both scientifically relevant. Writer and Block-C effects
+remain exploratory as already stated.
+
+For each one-sided suppressor target, the 39 direction-control comparison must
+have plus-one rank at most `2/40`. The frozen 32 R2b component-null comparison
+must have plus-one rank `1/33`; otherwise direction-level transfer may be
+reported but component-localized moral transfer is not supported. Two-sided
+secondary tests rank absolute effects and use their Holm-adjusted finite-null
+thresholds. Report the complete null distributions and realized norms.
+
+### Manipulation-audit acceptance
+
+The primary independent automated judge and human audit are evaluated
+separately; their ratings are never averaged to manufacture a pass.
+
+- Target ordering requires the expected family-level contrast direction in at
+  least 14/16 confirmation families and a family-clustered 95% interval
+  excluding zero for each primary manipulated factor.
+- Non-target TOST uses family-level 90% intervals wholly inside `[-0.30,+0.30]`
+  on the five-point scale, for each required nuisance factor rather than an
+  average nuisance score.
+- “Both options help both people” and “options differ in order” must each be
+  endorsed by at least 90% of audited items under both adjudication paths; any
+  systematic family failure is replaced while labels remain sealed and before
+  target-model scoring.
+- Human items are sampled with master seed `713235603` (SHA-256 phrase
+  `E22b manipulation audit sample v1 2026-07-13`), stratified by split, block,
+  domain, source, factor extreme/equality, incumbency, and option order. Audit at
+  least 25% of families and at least five items per primary factor level per
+  split. Persist sampled IDs, exact prompts, ratings, adjudicator identity, and
+  blinded order.
+
+Baseline headroom is reported on both log-odds and probability scales. Numeric
+finite log odds are sufficient to estimate the preregistered log-odds contrast;
+if all confirmation probabilities for a gate lie below `.05` or above `.95`,
+probability-scale behavioral language for that gate is withheld rather than
+changing prompts or excluding families.
