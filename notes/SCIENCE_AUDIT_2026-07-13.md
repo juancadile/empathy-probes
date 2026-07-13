@@ -89,3 +89,11 @@ Head-set localization is supported only if the paired target-minus-null CI exclu
 - Spark logs show balanced generated answer letters and at most one unparsed baseline/combined item, so the earlier constant-letter failure is not present in the accepted run.
 - The result JSON does not persist MMLU dataset revision, sampled row IDs/questions, subject counts, predicted letters/completions, or per-window WikiText losses. Add these before final provenance regeneration; otherwise the exact sample and parser behavior cannot be independently reconstructed from the artifact alone.
 - `sample_mmlu` is simple random sampling, despite the module docstring calling it stratified. Either implement subject-stratified sampling or correct the documentation; do not claim stratification for the current result.
+
+## Forced-choice assay audit
+
+- The accepted implementation correctly uses right padding, indexes the last non-padding logit, asserts that A/B are single tokens, and reuses the same seeded option order across baseline and edit conditions. M-confirm is exactly balanced at 24 A-first / 24 B-first under seed 42.
+- Replace one random order per pair with both orders for every pair and average the flip-corrected scores. This removes option-token/order interaction as a nuisance rather than relying on random balance. Apply the same rule to regenerated T/T-confirm.
+- The E26 scaffold-free continuation-likelihood assay reproduces the writer and suppressor signs, so the causal effect is not specific to the A/B prompt. This is the strongest assay-generality evidence. The three "paraphrases" alter only the common opener stem and remain a weak lexical stress test.
+- E26 persists summary means/CIs but not per-pair baseline/edit arrays, option orders, tokenized prompt lengths, or continuation log-likelihoods. Persist raw arrays and hashes so clustered intervals and order sensitivity can be independently recomputed.
+- D/G/H selectivity ratios use free-form positive/negative texts as A/B options after longest-common-prefix splitting. Because those branches have large length/style asymmetries and different family counts, treat these ratios as secondary stress results. T-confirm and continuation-likelihood are the clean selectivity controls.
