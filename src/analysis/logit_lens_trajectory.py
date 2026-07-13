@@ -13,6 +13,7 @@ Usage (Spark, `empathy` env):
 """
 
 import argparse
+import hashlib
 import json
 import random as pyrandom
 import sys
@@ -35,9 +36,39 @@ SETS = {
 }
 
 
+def save_raw_npz(path, **arrays):
+    """Persist raw arrays as compressed NPZ; return a JSON-able pointer with
+    the file's sha256 so the summary JSON can reference the exact bytes."""
+    np.savez_compressed(path, **arrays)
+    return {"path": str(path),
+            "sha256": hashlib.sha256(Path(path).read_bytes()).hexdigest()}
+
+
+def half_crystallization_index(mean_traj):
+    """First index l such that EVERY point m >= l both retains the final
+    nonzero sign (sign(traj[m]) == sign(traj[-1])) and reaches half the final
+    magnitude (|traj[m]| >= |traj[-1]| / 2).
+
+    Returns None when the final value is exactly zero: there is no nonzero
+    sign to retain, so half-crystallization is undefined. Otherwise an index
+    always exists (the final point satisfies both conditions itself).
+
+    Exploratory/descriptive summary — not a preregistered gate.
+    """
+    traj = np.asarray(mean_traj, dtype=float)
+    final = traj[-1]
+    final_sign = np.sign(final)
+    if final_sign == 0.0:
+        return None
+    ok = (np.sign(traj) == final_sign) & (np.abs(traj) >= abs(final) / 2)
+    not_ok = np.flatnonzero(~ok)
+    return int(not_ok[-1] + 1) if not_ok.size else 0
+
+
 @torch.no_grad()
 def trajectory(model, tok, pairs, device, batch_size, max_tokens, seed):
-    """returns (n_pairs, n_layers+1) logit-diff-by-layer, flip-corrected."""
+    """returns ((n_pairs, n_layers+1) flip-corrected logit-diff-by-layer,
+    (n_pairs,) flip signs in {-1,+1})."""
     ta = tok.encode("A", add_special_tokens=False)[0]
     tb = tok.encode("B", add_special_tokens=False)[0]
     w_u = model.get_output_embeddings().weight.float()
@@ -63,7 +94,7 @@ def trajectory(model, tok, pairs, device, batch_size, max_tokens, seed):
             ld = (norm(states) @ du).cpu().numpy()
             ld_final = float(hs[-1][r_i, L - 1].float() @ du)
             rows.append(np.concatenate([ld, [ld_final]]))
-    return np.array(rows) * signs[:, None]
+    return np.array(rows) * signs[:, None], signs
 
 
 def main():
@@ -106,6 +137,12 @@ def main():
                                  "post-final-norm state decoded directly = true "
                                  "pre-softcap logit diff (Gemma-2 softcap is "
                                  "monotone and not applied here)",
+              "half_crystallization_semantics":
+                  "exploratory/descriptive: first hidden index from which "
+                  "every subsequent point of the MEAN trajectory retains the "
+                  "final nonzero sign AND has magnitude >= half the final "
+                  "magnitude; null when the final mean is exactly zero (no "
+                  "sign to retain). Not a preregistered gate.",
               "conditions": {}}
     for cond, spec in conds.items():
         snap = None
@@ -118,22 +155,37 @@ def main():
             entry = {}
             for name, path in SETS.items():
                 pairs = load_pairs(path)
-                traj = trajectory(model, tok, pairs, device, args.batch_size,
-                                  args.max_tokens, args.seed)
+                traj, signs = trajectory(model, tok, pairs, device, args.batch_size,
+                                         args.max_tokens, args.seed)
+                # auditability (LB2): persist per-pair-by-layer trajectories,
+                # flip-corrected exactly as the mean below consumes them; row i
+                # corresponds to pairs[i] (input JSONL order), flip_signs
+                # recovers the as-run orientation.
+                raw_ptr = save_raw_npz(
+                    out / f"logit_lens_{cond}_{name}_raw.npz",
+                    traj=traj, flip_signs=signs,
+                    scenario_ids=np.array([p.get("scenario_id", str(i))
+                                           for i, p in enumerate(pairs)]),
+                    pair_indices=np.array([int(p.get("pair_index", i))
+                                           for i, p in enumerate(pairs)]),
+                )
                 mean_traj = traj.mean(0)
-                # crystallization: first hidden index where the mean trajectory
-                # reaches half its final value and stays above it
                 final = mean_traj[-1]
-                half = None
-                for l in range(len(mean_traj)):
-                    if np.sign(mean_traj[l]) == np.sign(final) and \
-                       abs(mean_traj[l]) >= abs(final) / 2 and \
-                       all(abs(mean_traj[m]) >= abs(final) / 2 for m in range(l, len(mean_traj))):
-                        half = l
-                        break
+                half = half_crystallization_index(mean_traj)
                 entry[name] = {"mean_by_layer": [round(float(v), 4) for v in mean_traj],
                                "final": round(float(final), 4),
-                               "half_crystallization_hidden_index": half}
+                               "half_crystallization_hidden_index": half,
+                               "raw_npz": {
+                                   **raw_ptr,
+                                   "arrays": "traj (n_pairs, n_hidden) per-pair "
+                                             "logit-diff by hidden index; "
+                                             "flip_signs (n,) in {-1,+1}; "
+                                             "scenario_ids, pair_indices (n,)",
+                                   "note": "rows follow input JSONL order; traj "
+                                           "is flip-corrected (multiplied by "
+                                           "flip_signs) exactly as mean_by_layer "
+                                           "consumes it",
+                               }}
                 print(f"{cond}/{name}: final {final:+.3f}, half-crystallization at "
                       f"hidden {half} (block {None if half is None else half - 1})")
             report["conditions"][cond] = entry

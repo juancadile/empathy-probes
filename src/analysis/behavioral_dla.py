@@ -21,6 +21,7 @@ Usage (Spark, `empathy` env):
 """
 
 import argparse
+import hashlib
 import json
 import random as pyrandom
 import sys
@@ -41,6 +42,14 @@ SETS = {
 }
 WRITERS = ["L19MLP", "L20MLP"]
 SUPPRESSORS = ["L18H13", "L20H10", "L19H12", "L17H7"]
+
+
+def save_raw_npz(path, **arrays):
+    """Persist raw arrays as compressed NPZ; return a JSON-able pointer with
+    the file's sha256 so the summary JSON can reference the exact bytes."""
+    np.savez_compressed(path, **arrays)
+    return {"path": str(path),
+            "sha256": hashlib.sha256(Path(path).read_bytes()).hexdigest()}
 
 
 @torch.no_grad()
@@ -108,7 +117,7 @@ def run(model, tok, pairs, device, batch_size, max_tokens, seed):
     signs_col = signs[:, None]
     return (H * signs[:, None, None], M * signs_col, E * signs,
             np.array(LD_true) * signs, np.array(LD_recon) * signs,
-            np.array(LD_capped) * signs)
+            np.array(LD_capped) * signs, signs)
 
 
 def main():
@@ -142,8 +151,25 @@ def main():
               "sets": {}}
     for name, path in SETS.items():
         pairs = load_pairs(path)
-        H, M, E, ld_true, ld_recon, ld_capped = run(
+        H, M, E, ld_true, ld_recon, ld_capped, signs = run(
             model, tok, pairs, device, args.batch_size, args.max_tokens, args.seed)
+        # auditability (LB1): persist the flip-corrected raw arrays BEFORE the
+        # reconstruction gates, so a gate failure still leaves the evidence.
+        # Row i corresponds to pairs[i] (input JSONL order); every array is
+        # already multiplied by flip_signs[i] — identical to what the rankings
+        # below consume. flip_signs recovers the as-run (uncorrected) values.
+        raw_ptr = save_raw_npz(
+            out / f"behavioral_dla_{name}_raw.npz",
+            H=H, M=M, E=E,
+            ld_true_presoftcap=ld_true,
+            ld_recon_presoftcap=ld_recon,
+            ld_post_softcap=ld_capped,
+            flip_signs=signs,
+            scenario_ids=np.array([p.get("scenario_id", str(i))
+                                   for i, p in enumerate(pairs)]),
+            pair_indices=np.array([int(p.get("pair_index", i))
+                                   for i, p in enumerate(pairs)]),
+        )
         # exactness: frozen-r linearization should reconstruct the true logit diff
         recon_r = float(np.corrcoef(ld_true, ld_recon)[0, 1])
         recon_ratio = float(np.mean(ld_recon) / np.mean(ld_true))
@@ -176,6 +202,17 @@ def main():
         rank_of = {c: i + 1 for i, (c, _) in enumerate(ranked)}
         report["sets"][name] = {
             "n_pairs": len(pairs),
+            "raw_npz": {
+                **raw_ptr,
+                "arrays": "H (n,layers,heads) per-head, M (n,layers) per-MLP, "
+                          "E (n,) embed contributions; ld_true_presoftcap / "
+                          "ld_recon_presoftcap / ld_post_softcap (n,) logit "
+                          "diffs; flip_signs (n,) in {-1,+1}; scenario_ids, "
+                          "pair_indices (n,)",
+                "note": "rows follow input JSONL order; contribution and "
+                        "logit-diff arrays are flip-corrected (multiplied by "
+                        "flip_signs) exactly as the rankings consume them",
+            },
             "logit_diff_mean_true": float(ld_true.mean()),
             "logit_diff_mean_post_softcap": float(ld_capped.mean()),
             "logit_diff_mean_reconstructed": float(ld_recon.mean()),
