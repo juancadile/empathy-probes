@@ -34,6 +34,7 @@ try:
         restore_weights, snapshot_weights, component_weight, effective_direction,
         tokenize,
     )
+    from src.component_sets import ComponentSetError, resolve_component_sets
 except ModuleNotFoundError:
     from weight_orthogonalization import (
         NEUTRAL_PROMPTS, choice_scores, decision_separation, final_logits,
@@ -41,15 +42,15 @@ except ModuleNotFoundError:
         restore_weights, snapshot_weights, component_weight, effective_direction,
         tokenize,
     )
+    from component_sets import ComponentSetError, resolve_component_sets
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 log = logging.getLogger("e17-stage3")
 
-# Llama-3.1-8B defaults (amendment v3); override via CLI for other models,
-# e.g. E14c Gemma retro-eval with its E13 components
-POSITIVE_WRITERS = "L15MLP,L12H4"
-SUPPRESSORS = "L15H6,L14H27,L12H20,L11MLP"
-RANDOM = "L1MLP,L12H15,L15H17,L14H6,L12H31,L2MLP"
+# Component sets must be resolved explicitly (Integrity Repair A): pass
+# --component-set llama31_8b_it_grouped_2026-07-12 for the E17 Llama sets,
+# gemma2_9b_it_resid_2026-07-12 for the current Gemma sets, or literal specs.
+# The old module-level Llama defaults silently mismatched non-Llama runs.
 
 EVAL_SETS = {
     "M_confirm": "data/contrastive_pairs/v2_1/M_confirm_templated.jsonl",   # PRIMARY
@@ -157,11 +158,29 @@ def main():
     ap.add_argument("--max-tokens", type=int, default=512)
     ap.add_argument("--seed", type=int, default=42)
     ap.add_argument("--auroc-gate", type=float, default=0.85)
-    ap.add_argument("--writers", default=POSITIVE_WRITERS)
-    ap.add_argument("--suppressors", default=SUPPRESSORS)
-    ap.add_argument("--random-components", default=RANDOM)
+    ap.add_argument("--component-set", default=None,
+                    help="versioned set-of-record key from src/component_sets.py")
+    ap.add_argument("--writers", default=None,
+                    help="explicit spec; overrides --component-set")
+    ap.add_argument("--suppressors", default=None,
+                    help="explicit spec; overrides --component-set")
+    ap.add_argument("--random-components", default=None,
+                    help="explicit spec; overrides --component-set")
     ap.add_argument("--out", default="results/e17_stage3_llama31_8b_it")
     args = ap.parse_args()
+
+    try:
+        resolution = resolve_component_sets(
+            roles=("positive_writers", "suppressors", "random"),
+            explicit={"positive_writers": args.writers,
+                      "suppressors": args.suppressors,
+                      "random": args.random_components},
+            set_key=args.component_set,
+            model=args.model,
+        )
+    except ComponentSetError as exc:
+        ap.error(str(exc))
+    log.info("component sets resolved: %s", resolution)
 
     from transformers import AutoModelForCausalLM, AutoTokenizer
 
@@ -195,6 +214,7 @@ def main():
         log.info("eval set %s: %d pairs, %d families", name, len(pairs), len(set(families[name])))
 
     results = {"model": args.model, "direction": args.direction, "block": args.block,
+               "component_sets": resolution,
                "sets": {k: len(v) for k, v in pair_sets.items()}}
 
     # ---- gate A: representation certification on confirmatory M ----
@@ -257,10 +277,10 @@ def main():
                 restore_weights(snapshots)
         return conds
 
-    writers = [parse_component(v) for v in args.writers.split(",")]
-    sups = [parse_component(v) for v in args.suppressors.split(",")]
+    writers = [parse_component(v) for v in resolution["sets"]["positive_writers"].split(",")]
+    sups = [parse_component(v) for v in resolution["sets"]["suppressors"].split(",")]
     targeted = writers + sups
-    rand = [parse_component(v) for v in args.random_components.split(",")]
+    rand = [parse_component(v) for v in resolution["sets"]["random"].split(",")]
 
     results["positive_writers"] = run_sequence("positive_writers", writers)
     results["suppressors"] = run_sequence("suppressors", sups)

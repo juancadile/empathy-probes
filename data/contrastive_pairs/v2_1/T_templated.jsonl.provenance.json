@@ -1,0 +1,20 @@
+{
+  "artifact": "T_templated.jsonl",
+  "sha256": "bb7ca413dcaccde65e2a6de22dedece43e9cf80b61c23830710f23201494a12e",
+  "n_rows": 40,
+  "n_unique_pairs": 40,
+  "families": [
+    "t_courier",
+    "t_inventory",
+    "t_ledger",
+    "t_refunds",
+    "t_report"
+  ],
+  "reason": "Integrity Repair A: explicit opener x closing Cartesian product replacing lockstep %2/%4 variant cycling",
+  "written_at": "2026-07-13T07:06:07.720899+00:00",
+  "git_commit_at_write": "54e31a77df62fe05b192547539d85fe9c679700e",
+  "replaced_artifact": {
+    "sha256": "511a2bac3359a858b5c7538deca28b72c1fdfe8a845e3025d98f0c5aec95b525",
+    "preserved_copy": "data/contrastive_pairs/v2_1/historical/T_templated.jsonl.511a2bac/T_templated.jsonl"
+  }
+}

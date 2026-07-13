@@ -32,18 +32,20 @@ import torch
 
 try:
     from src.weight_orthogonalization import (
-        NEUTRAL_PROMPTS, POSITIVE_WRITERS, SUPPRESSORS,
+        NEUTRAL_PROMPTS,
         component_weight, effective_direction, evaluate, final_logits,
         load_pairs, orthogonalize_component, parse_component, restore_weights,
         snapshot_weights,
     )
+    from src.component_sets import ComponentSetError, resolve_component_sets
 except ModuleNotFoundError:
     from weight_orthogonalization import (
-        NEUTRAL_PROMPTS, POSITIVE_WRITERS, SUPPRESSORS,
+        NEUTRAL_PROMPTS,
         component_weight, effective_direction, evaluate, final_logits,
         load_pairs, orthogonalize_component, parse_component, restore_weights,
         snapshot_weights,
     )
+    from component_sets import ComponentSetError, resolve_component_sets
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 log = logging.getLogger("norm-matched")
@@ -170,14 +172,31 @@ def main():
     parser.add_argument("--max-tokens", type=int, default=512)
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--block", type=int, default=20)
-    parser.add_argument("--reference", default="results/weight_orthogonalization_gemma2_9b_it/analysis.json",
-                        help="pilot analysis.json for context deltas; pass '' for re-derived sets")
-    parser.add_argument("--writers", default=POSITIVE_WRITERS,
-                        help="override positive_writers component set")
-    parser.add_argument("--suppressors", default=SUPPRESSORS,
-                        help="override suppressors component set")
+    parser.add_argument("--reference", default="",
+                        help="OPTIONAL pilot analysis.json for context deltas "
+                             "(historical pre-correction runs used results/"
+                             "weight_orthogonalization_gemma2_9b_it/analysis.json); "
+                             "empty = in-run deltas only")
+    parser.add_argument("--component-set", default=None,
+                        help="versioned set-of-record key from src/component_sets.py")
+    parser.add_argument("--writers", default=None,
+                        help="explicit positive_writers spec; overrides --component-set")
+    parser.add_argument("--suppressors", default=None,
+                        help="explicit suppressors spec; overrides --component-set")
     parser.add_argument("--out", default="results/norm_matched_controls_gemma2_9b_it")
     args = parser.parse_args()
+
+    try:
+        resolution = resolve_component_sets(
+            roles=("positive_writers", "suppressors"),
+            explicit={"positive_writers": args.writers,
+                      "suppressors": args.suppressors},
+            set_key=args.component_set,
+            model=args.model,
+        )
+    except ComponentSetError as exc:
+        parser.error(str(exc))
+    log.info("component sets resolved: %s", resolution)
 
     from transformers import AutoModelForCausalLM, AutoTokenizer
 
@@ -216,8 +235,8 @@ def main():
     else:  # re-derived sets have no pilot reference; in-run deltas are the anchor
         pilot_deltas = {"positive_writers": float("nan"), "suppressors": float("nan")}
 
-    sets = {"positive_writers": [parse_component(v) for v in args.writers.split(",")],
-            "suppressors": [parse_component(v) for v in args.suppressors.split(",")]}
+    sets = {name: [parse_component(v) for v in resolution["sets"][name].split(",")]
+            for name in ("positive_writers", "suppressors")}
 
     # recompute targeted deltas IN-RUN so the z-score compares like with like
     # (the pilot's baseline may differ in loading config / aggregation), and
@@ -247,6 +266,7 @@ def main():
                  set_name, ref_deltas[set_name], pilot_deltas[set_name])
 
     results = {
+        "component_sets": resolution,
         "baseline": {
             "helping_choice": baseline["helping_choice"],
             "task_choice": baseline["task_choice"],

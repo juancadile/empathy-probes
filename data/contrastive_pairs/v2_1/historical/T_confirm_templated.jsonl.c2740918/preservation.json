@@ -1,0 +1,17 @@
+{
+  "original_path": "data/contrastive_pairs/v2_1/T_confirm_templated.jsonl",
+  "preserved_copy": "data/contrastive_pairs/v2_1/historical/T_confirm_templated.jsonl.c2740918/T_confirm_templated.jsonl",
+  "sha256": "c274091806e1c9fbccbf547971692e3f8460293da3686069f1cdef1fe79d050c",
+  "n_rows": 40,
+  "n_unique_pairs": 20,
+  "families": [
+    "tc_bikes",
+    "tc_recipes",
+    "tc_seedbank",
+    "tc_telescope",
+    "tc_transcribe"
+  ],
+  "reason": "pre-regeneration preservation: Integrity Repair A: explicit opener x closing Cartesian product replacing lockstep %2/%4 variant cycling",
+  "preserved_at": "2026-07-13T07:06:07.816249+00:00",
+  "git_commit_at_preservation": "54e31a77df62fe05b192547539d85fe9c679700e"
+}

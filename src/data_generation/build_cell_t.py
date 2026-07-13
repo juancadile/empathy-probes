@@ -4,13 +4,24 @@ Cell T mirrors Cell M's shared-prefix/minimal-decision structure but contains
 no person in need. The positive side stays on task; the negative side follows
 an irrelevant distraction. It tests whether candidate components are specific
 to empathic action rather than generic task persistence or forced choice.
+
+Integrity Repair A (2026-07-13): the original builder iterated eight indices
+while cycling ``OPENERS[index % 2]`` and ``CLOSINGS[index % 4]`` in lockstep,
+so indices 4-7 repeated 0-3 — 40 rows but only 20 unique pairs. Rows are now
+the explicit opener x closing Cartesian product (2 x 4 = 8 unique variants
+per family), carry stable ``opener_variant``/``closing_variant`` ids, and are
+written through the guarded integrity helpers (uniqueness + grid asserts;
+historical artifacts preserved with hashes before replacement).
 """
 
-import json
+import itertools
+import sys
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).parent))
+from builder_integrity import write_jsonl_guarded  # noqa: E402
 
-OUT = Path("data/contrastive_pairs/v2_1/T_templated.jsonl")
+OUT = Path(__file__).resolve().parents[2] / "data" / "contrastive_pairs" / "v2_1" / "T_templated.jsonl"
 
 SCENARIOS = [
     {
@@ -78,25 +89,41 @@ CLOSINGS = (
 )
 
 
-def main():
-    OUT.parent.mkdir(parents=True, exist_ok=True)
+def build_rows():
+    """Explicit opener x closing Cartesian product; 8 unique variants/family."""
     rows = []
-    for scenario in SCENARIOS:
-        for index in range(8):
-            shared = scenario["prefix"] + OPENERS[index % len(OPENERS)]
-            closing = CLOSINGS[index % len(CLOSINGS)]
-            rows.append({
-                "cell": "T",
-                "cell_name": "matched_task_persistence_controls",
-                "scenario_id": scenario["id"],
-                "pair_index": index,
-                "source_model": "templated",
-                "shared_prefix": shared,
-                "pos_text": f"{shared}I will {scenario['task']}. {closing}",
-                "neg_text": f"{shared}I will {scenario['distract']}. {closing}",
-            })
-    OUT.write_text("".join(json.dumps(row) + "\n" for row in rows))
-    print(f"wrote {len(rows)} pairs to {OUT}")
+    for scenario, (oi, opener), (ci, closing) in itertools.product(
+        SCENARIOS, enumerate(OPENERS), enumerate(CLOSINGS)
+    ):
+        shared = scenario["prefix"] + opener
+        rows.append({
+            "cell": "T",
+            "cell_name": "matched_task_persistence_controls",
+            "scenario_id": scenario["id"],
+            "pair_index": oi * len(CLOSINGS) + ci,
+            "opener_variant": oi,
+            "closing_variant": ci,
+            "source_model": "templated",
+            "shared_prefix": shared,
+            "pos_text": f"{shared}I will {scenario['task']}. {closing}",
+            "neg_text": f"{shared}I will {scenario['distract']}. {closing}",
+        })
+    return rows
+
+
+def main():
+    status = write_jsonl_guarded(
+        OUT,
+        build_rows(),
+        reason="Integrity Repair A: explicit opener x closing Cartesian "
+               "product replacing lockstep %2/%4 variant cycling",
+        expected_families=[s["id"] for s in SCENARIOS],
+        variant_fields=("opener_variant", "closing_variant"),
+        expected_variant_counts=(len(OPENERS), len(CLOSINGS)),
+        cross_disjoint_with=OUT.parent / "T_confirm_templated.jsonl",
+    )
+    print(f"{status['action']}: {status['n_rows']} rows, "
+          f"{status['n_unique_pairs']} unique pairs -> {OUT}")
 
 
 if __name__ == "__main__":

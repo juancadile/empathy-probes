@@ -1,3 +1,8 @@
+# BROAD DEVELOPER INSTALL CONSTRAINTS ONLY — this file is NOT an environment
+# lock and is never evidence of reproducibility. Accepted runs record exact
+# versions via `python -m src.utils.run_provenance export`; the accepted
+# Spark `empathy` lock capture is a Gate-0B pre-run action.
+
 # Core dependencies
 torch>=2.0.0
 transformers>=4.35.0

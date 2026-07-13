@@ -1,0 +1,20 @@
+{
+  "artifact": "T_confirm_templated.jsonl",
+  "sha256": "33bed6a287d71e6515838c94027ec5a754e5bd2fb86970b29ca4c966225300e4",
+  "n_rows": 40,
+  "n_unique_pairs": 40,
+  "families": [
+    "tc_bikes",
+    "tc_recipes",
+    "tc_seedbank",
+    "tc_telescope",
+    "tc_transcribe"
+  ],
+  "reason": "Integrity Repair A: explicit opener x closing Cartesian product replacing lockstep %2/%4 variant cycling",
+  "written_at": "2026-07-13T07:06:07.834802+00:00",
+  "git_commit_at_write": "54e31a77df62fe05b192547539d85fe9c679700e",
+  "replaced_artifact": {
+    "sha256": "c274091806e1c9fbccbf547971692e3f8460293da3686069f1cdef1fe79d050c",
+    "preserved_copy": "data/contrastive_pairs/v2_1/historical/T_confirm_templated.jsonl.c2740918/T_confirm_templated.jsonl"
+  }
+}

@@ -1,4 +1,12 @@
-"""Targeted weight orthogonalization for the purified costly-helping direction."""
+"""Targeted weight orthogonalization for the purified costly-helping direction.
+
+Integrity Repair A (2026-07-13): the module previously shipped the superseded
+pre-correction component sets as silent CLI defaults, so an unqualified rerun
+edited the wrong components. Component sets must now be named explicitly —
+either via ``--component-set <versioned key>`` from ``src/component_sets.py``
+or full literal ``--targeted/--random/--positive-writers/--suppressors``
+specs — and the resolved sets are persisted in the result artifact.
+"""
 
 import argparse
 import json
@@ -11,17 +19,21 @@ import torch
 
 try:
     from src.activation_patching import build_choice_prompt
+    from src.component_sets import ComponentSetError, resolve_component_sets
+    from src.utils.run_provenance import (
+        collect_run_provenance, resolve_model_and_tokenizer,
+    )
 except ModuleNotFoundError:
     from activation_patching import build_choice_prompt
+    from component_sets import ComponentSetError, resolve_component_sets
+    from utils.run_provenance import (
+        collect_run_provenance, resolve_model_and_tokenizer,
+    )
 
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 log = logging.getLogger("weight-edit")
 
-TARGETED = "L19MLP,L19H12,L15H15,L17H13,L18H13,L20H15"
-RANDOM = "L1MLP,L19H7,L15H9,L17H5,L18H12,L20H12"
-POSITIVE_WRITERS = "L19MLP,L20H15"
-SUPPRESSORS = "L19H12,L15H15,L17H13,L18H13"
 NEUTRAL_PROMPTS = [
     "The capital city of France is",
     "Water freezes at a temperature of",
@@ -281,11 +293,21 @@ def run_individuals(name, sequence, model, tokenizer, m_pairs, t_pairs, directio
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--model", default="google/gemma-2-9b-it")
+    parser.add_argument("--revision", default=None,
+                        help="explicit HF model revision (accepted reruns must pin this)")
+    parser.add_argument("--tokenizer-revision", default=None,
+                        help="explicit tokenizer revision (defaults to --revision)")
     parser.add_argument("--direction", required=True)
-    parser.add_argument("--targeted", default=TARGETED)
-    parser.add_argument("--random", default=RANDOM)
-    parser.add_argument("--positive-writers", default=POSITIVE_WRITERS)
-    parser.add_argument("--suppressors", default=SUPPRESSORS)
+    parser.add_argument("--component-set", default=None,
+                        help="versioned set-of-record key from src/component_sets.py")
+    parser.add_argument("--targeted", default=None,
+                        help="explicit spec; overrides the named component set")
+    parser.add_argument("--random", default=None,
+                        help="explicit spec; overrides the named component set")
+    parser.add_argument("--positive-writers", default=None,
+                        help="explicit spec; overrides the named component set")
+    parser.add_argument("--suppressors", default=None,
+                        help="explicit spec; overrides the named component set")
     parser.add_argument("--m-pairs", default="data/contrastive_pairs/v2_1/M_templated.jsonl")
     parser.add_argument("--t-pairs", default="data/contrastive_pairs/v2_1/T_templated.jsonl")
     parser.add_argument("--batch-size", type=int, default=16)
@@ -296,15 +318,35 @@ def main():
     parser.add_argument("--out", default="results/weight_orthogonalization_gemma2_9b_it")
     args = parser.parse_args()
 
+    try:
+        resolution = resolve_component_sets(
+            roles=("targeted", "random", "positive_writers", "suppressors"),
+            explicit={
+                "targeted": args.targeted,
+                "random": args.random,
+                "positive_writers": args.positive_writers,
+                "suppressors": args.suppressors,
+            },
+            set_key=args.component_set,
+            model=args.model,
+        )
+    except ComponentSetError as exc:
+        parser.error(str(exc))
+    sets = resolution["sets"]
+    log.info("component sets resolved: %s", resolution)
+
     from transformers import AutoModelForCausalLM, AutoTokenizer
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
-    tokenizer = AutoTokenizer.from_pretrained(args.model)
+    tokenizer = AutoTokenizer.from_pretrained(
+        args.model, revision=args.tokenizer_revision or args.revision
+    )
     if tokenizer.pad_token is None:  # Llama-3.1 ships without one
         tokenizer.pad_token = tokenizer.eos_token
     tokenizer.padding_side = "right"
     model = AutoModelForCausalLM.from_pretrained(
-        args.model, dtype=torch.bfloat16, attn_implementation="eager"
+        args.model, dtype=torch.bfloat16, attn_implementation="eager",
+        revision=args.revision,
     ).to(device)
     model.eval()
     direction = torch.tensor(np.load(args.direction), dtype=torch.float32, device=device)
@@ -317,14 +359,25 @@ def main():
         model, tokenizer, m_pairs, t_pairs, direction, neutral_baseline,
         args.batch_size, args.max_tokens, args.seed, device, block=args.block,
     )
-    targeted = [parse_component(value) for value in args.targeted.split(",")]
-    random_components = [parse_component(value) for value in args.random.split(",")]
-    positive_writers = [parse_component(value) for value in args.positive_writers.split(",")]
-    suppressors = [parse_component(value) for value in args.suppressors.split(",")]
+    targeted = [parse_component(value) for value in sets["targeted"].split(",")]
+    random_components = [parse_component(value) for value in sets["random"].split(",")]
+    positive_writers = [parse_component(value) for value in sets["positive_writers"].split(",")]
+    suppressors = [parse_component(value) for value in sets["suppressors"].split(",")]
     summary = {
         "model": args.model,
+        "revision": args.revision,
+        "tokenizer_revision": args.tokenizer_revision or args.revision,
         "direction": args.direction,
+        "component_sets": resolution,
         "edit": "rank-1 removal accounting for Gemma post-component RMSNorm",
+        "hf_revisions": resolve_model_and_tokenizer(
+            args.model, revision=args.revision or "main",
+            tokenizer_revision=args.tokenizer_revision or args.revision or "main",
+        ),
+        "provenance": collect_run_provenance(
+            files={"direction": args.direction, "m_pairs": args.m_pairs,
+                   "t_pairs": args.t_pairs},
+        ),
         "baseline": baseline,
         "targeted": run_sequence(
             "targeted", targeted, model, tokenizer, m_pairs, t_pairs, direction,
