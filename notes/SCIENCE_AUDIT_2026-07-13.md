@@ -73,3 +73,12 @@ Head-set localization is supported only if the paired target-minus-null CI exclu
 - Replace provisional R1 text with the corrected plus-one Monte Carlo results; z-scores are descriptive only.
 - Add LB1-LB3 only with the claim ceilings above.
 - Regenerate `results/PROVENANCE.json`; it currently omits R1, R2, LB1, LB2, and LB3 artifacts.
+
+## E27 environment and scoring audit
+
+- Seed pairing is implemented coherently: every run receives a fresh `LocalPlayer`, and sampling is reseeded by `(game seed, call index)`. All 48 runs completed with 31 model calls (one discarded self-assessment plus 30 action calls), so there is no missing-run or call-count imbalance.
+- E27 is an adapted listener environment, not the unchanged original game: it replaces the eight-message pool and runs `max_steps=30` rather than the original 20. The map, door, heart tick, and action API are otherwise shared.
+- The fixed `GAME_DESCRIPTION` still names a depressed suicidal user in excited/resolved variants. It reaches the pre-run self-assessment prompt, but the action prompt filters description fields and uses the neutral objective plus observed message history. Therefore action trajectories remain interpretable, while self-assessment comparisons across variants do not.
+- `e27_scores.json` contains three `UNKNOWN` labels, and `score_e27.py` correctly exits nonzero when any unknown remains. The paper nevertheless quotes the incomplete SUPPORT counts (144/14/0). The three messages are visually support-responsive; if adjudicated SUPPORT, baseline distress/excited and suppressor excited counts each rise by one, while the condition-by-variant interaction changes only slightly and remains null. This must be resolved by a blinded rejudge/adjudication, not silently hand-edited.
+- The score detail records only file/seed/class, not the message, prior context, raw judge response, model response ID, or retry history. Persist those fields and hash the 48 raw histories. Raw baseline/suppressor game directories are currently untracked and absent from `PROVENANCE.json`.
+- The scientific conclusion remains conservative regardless of adjudication: baseline engagement is distress-selective; the suppressor edit's incremental distress specificity is unresolved (`n=8`, bootstrap CI crosses zero, sign-test `p=1.0`). Do not claim a welfare-specific game transfer for the sets of record.
