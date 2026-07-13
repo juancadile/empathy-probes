@@ -44,7 +44,7 @@ The roadmap preserves scope; this file fixes dependency order, decision gates, a
 
 - Execute the fixed realized-norm-paired design from `SCIENCE_AUDIT_2026-07-13.md`.
 - Preserve exactly one head from each of layers 17, 18, 19, and 20.
-- Dose-reduce the target to each null's natural realized norm; never over-edit a null direction.
+- Compute joint edit norm as `sqrt(sum(component Frobenius norm^2))`. Pair at the smaller natural full-edit norm and dose-reduce whichever set is larger; never over-edit target or null.
 - Require monotone target dose response, paired target-minus-null family CI excluding zero, and LOFO stability.
 
 **Gate 1 outcomes:**

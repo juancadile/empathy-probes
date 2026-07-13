@@ -15,7 +15,7 @@
 
 1. **No welfare-pure direction is certified.** The residualized direction fails held-out task certification and an in-sample motive gate. It can be used as an intervention axis, but not named a welfare representation.
 2. **No need-gated writer label.** The writer resolved-need effect is nonzero and fails the post-audit exploratory band; the fixed random comparator displays the same-sign need contrast. The supported result is a strong, task-preferential costly-helping intervention effect.
-3. **No four-head localization of the suppressor slope profile.** The matched-component null is inconclusive (`p=.080`) and fails its norm-balance gate: null-set realized norms are 11.5%-31.6% smaller than target, with slope-vs-norm correlation about `-0.72`.
+3. **No four-head localization of the suppressor slope profile.** The matched-component null is inconclusive (`p=.080`) and fails its norm-balance gate. The original report incorrectly summed per-component Frobenius norms; because the edited matrices are disjoint parameter blocks, the joint parameter-delta norm is `sqrt(sum(norm_i^2))`. Recomputed correctly, null-set realized norms are 11.8%-33.0% smaller than target, with slope-vs-joint-norm correlation `-0.728`. The verdict is unchanged and the exact historical mismatch numbers are superseded.
 4. **No welfare-specific game-edit effect for the sets of record.** Baseline engagement is strongly distress-selective, but the edit-by-variant interaction is unresolved at eight seeds.
 5. **No workspace/J-space result.** LB4 failed before fitting. Even a successful Jacobian-lens run would measure transported-norm amplification, not workspace membership.
 
@@ -27,12 +27,12 @@
 
 - Preserve the target layer multiset exactly: one attention head from each of layers 17, 18, 19, and 20.
 - Exclude the targeted four heads and any set overlapping them from the primary null universe. Report a secondary all-nontarget universe if feasible.
-- For each null set, apply the natural full (`alpha=1`) target-direction orthogonalization and measure its realized post-bf16 total Frobenius norm `N_j`.
-- On the targeted four heads, solve for a fractional dose `alpha_j in [0,1]` whose realized post-bf16 total norm matches `N_j` within 3%. Do not scale a null beyond full orthogonalization; this avoids over-removing and reversing its native direction projection.
-- Evaluate the same family-paired urgent-minus-resolved cost-slope statistic for the null set and its norm-paired targeted dose in the same process and prompt format.
-- Primary statistic per null set: `D_j = slope(target at matched norm N_j) - slope(null at N_j)`.
+- For each set, apply the natural full (`alpha=1`) target-direction orthogonalization and measure the realized post-bf16 joint parameter-delta Frobenius norm as `sqrt(sum(component_norm_i^2))`, never the arithmetic sum of component norms.
+- For target/null pair `j`, define `N_j = min(N_target_full, N_null_j_full)`. Solve fractional doses in `[0,1]` for whichever set is larger (or both, if needed) so both realized joint norms match `N_j` within 3%. Reconstruct every fractional edit from the original snapshot; never apply doses cumulatively and never scale either set beyond full orthogonalization.
+- Evaluate the same family-paired urgent-minus-resolved cost-slope statistic for the norm-paired target and null in the same process and prompt format.
+- Primary statistic per null set: `D_j = slope(target at joint norm N_j) - slope(null at joint norm N_j)`.
 - Primary inference: family-clustered bootstrap CI for the mean paired difference across the fixed null-set sample, with null-set resampling reported only as a sensitivity analysis because all comparisons share the same target set.
-- Report the target dose-response curve and verify monotonicity over the observed null-norm range. If monotonicity fails, the norm-paired comparison is not interpretable and component localization remains unresolved.
+- Report target and null dose diagnostics and verify target monotonicity over the observed matched-norm range. If target monotonicity fails, the norm-paired comparison is not interpretable and component localization remains unresolved.
 - Report natural full-edit target rank among all evaluated sets descriptively, but do not call it an exact permutation test unless the complete predeclared universe is enumerated.
 
 ### Decision rule
