@@ -229,3 +229,77 @@ The earlier text referred to development families for dose monotonicity but
 defined only one 16-family R2b pool. R2b now has 16 development and 16 sealed
 confirmation families. Development may calibrate implementation behavior;
 component-specific inference uses confirmation once.
+
+## Frozen amendment 2: structural tolerances and null extremity
+
+**Status:** frozen on 2026-07-13 before Gate-1 family generation,
+manipulation checks, or target-model scoring.
+
+### Writer-family structural and audit rules
+
+- Under the exact Gemma tokenizer revision, positive/negative decision tails
+  may differ by at most two tokens and 10% in UTF-8 byte length. Both must use
+  the same number of sentences, tense, person, and fixed closing. Report all
+  lengths; do not drop a scored family for exceeding the tolerance.
+- Every surface variant is nested within one semantic family. Family-level
+  aggregation first averages its variants and both option orders.
+- Exact normalized-text hashes and normalized character 5-gram Jaccard are
+  computed against every historical and new family. Any cross-pool pair with
+  Jaccard at least `.85` is manually reviewed blind to split; unresolved common
+  scenario skeletons are replaced before scoring. This audit is a leakage
+  screen, not an independent sample-size adjustment.
+- The independent automated audit covers every family in all three partitions.
+  The `15/16` branch-identification rule applies separately to each partition.
+  A blinded human audit samples at least four families per partition, covering
+  every source/domain stratum and both option orders, using master seed
+  `753591724` (SHA-256 phrase
+  `Gate1 writer manipulation human audit v1 2026-07-13`). Any sampled task
+  control judged to contain a person in current need invalidates that family
+  before model scoring; identities, prompts, ratings, and disagreements persist.
+
+The writer direction-control criterion remains intentionally strict: under each
+primary readout the norm-paired target effect must beat all 39 random-direction
+effects in the predicted negative direction, plus-one rank `1/40`. Report the
+joint target-minus-null family distribution as well as the rank; the rank alone
+does not establish family stability.
+
+### R2b contrast, dose, and manipulation rules
+
+Code cost as the centered orthogonal linear contrast over ordered levels
+`zero, low, medium, high` with coefficients `[-3,-1,+1,+3]`, normalized so the
+sum of squared coefficients is one. The primary family estimand is the
+urgent-minus-resolved difference in this fixed linear contrast. High-minus-zero
+and quadratic departures are required sensitivities, not replacement
+estimands.
+
+Before confirmation, evaluate the target on R2b-dev at projection-removal dose
+fractions `{0,.25,.50,.75,1.0}`, always from a fresh checkpoint. The predicted
+urgent-minus-resolved cost contrast is nondecreasing with dose, allowing only
+the fixed 3% numerical norm tolerance. Failure is a design/mechanism failure and
+does not authorize selecting another dose grid or opening confirmation under
+the same experiment ID. Pairwise target/null norm matching on confirmation
+still uses the smaller natural full norm as specified above.
+
+Manipulation gates use family-level uncertainty:
+
+- urgent-minus-resolved ordering and zero-to-high cost ordering must retain the
+  expected sign in at least 13/16 families separately in development and
+  confirmation, with family-clustered 95% intervals excluding zero;
+- the need-by-cost rating interaction passes only when its family-level 90%
+  interval is wholly inside `[-0.50,+0.50]`, not merely when a point estimate is
+  below `.5`;
+- an independent automated judge rates every family. A human audit samples at
+  least four families per split, all cost levels and both need states, every
+  source/domain stratum, with master seed `1351205094` (SHA-256 phrase
+  `Gate1 R2b manipulation human audit v1 2026-07-13`). Both paths must pass
+  separately; ratings are not averaged across adjudicators.
+
+R2b localization requires more than a positive average target-minus-null
+effect. In addition to the existing family CI, sign-count, LOFO, monotonicity,
+and 3% norm gates, every one of the 32 presampled null-set mean paired
+differences `mean_f D[f,j]` must be positive. Equivalently, after each target
+and null is evaluated at its pair-specific matched norm `N_j`, the target ranks
+first among the 33 effects for every comparison: plus-one rank `1/33`. Persist
+every `D[f,j]` and null-set mean. If the average gate passes but any null-set
+mean is nonpositive, report that the target outperforms the sampled-null average
+but is not localized unusually to these four heads.
