@@ -11,6 +11,7 @@ from __future__ import annotations
 import argparse
 import json
 import statistics
+from itertools import combinations
 from pathlib import Path
 
 import numpy as np
@@ -185,6 +186,14 @@ def plus_one_tail(null_values: list[float], observed: float, tail: str) -> float
     return (1 + extreme) / (len(null_values) + 1)
 
 
+def mean_pairwise_block_distance(sites: list[dict[str, object]]) -> float:
+    blocks = [int(site["block"]) for site in sites]
+    distances = [abs(left - right) for left, right in combinations(blocks, 2)]
+    if not distances:
+        raise ValueError("at least two outer-fold sites are required")
+    return float(statistics.mean(distances))
+
+
 def aggregate(activation_dir: Path, observed_path: Path, out_dir: Path) -> None:
     lock = load_and_validate_lock(activation_dir, observed_path)
     output = out_dir / "permutation_calibration.json"
@@ -201,9 +210,15 @@ def aggregate(activation_dir: Path, observed_path: Path, out_dir: Path) -> None:
         permutations.append(item)
 
     observed = observed_summary(json.loads(observed_path.read_text()))
+    observed["mean_pairwise_block_distance"] = mean_pairwise_block_distance(
+        observed["outer_sites"]
+    )
     counts = [item["apparent_pass_count"] for item in permutations]
     unique_sites = [item["unique_site_count"] for item in permutations]
     spans = [item["block_span"] for item in permutations]
+    pairwise_distances = [
+        mean_pairwise_block_distance(item["outer_sites"]) for item in permutations
+    ]
     report = {
         "schema": "empathy-action-probes/wp2-permutation-calibration/1",
         "experiment_id": lock["experiment_id"],
@@ -218,13 +233,22 @@ def aggregate(activation_dir: Path, observed_path: Path, out_dir: Path) -> None:
                 "median": statistics.median(counts),
                 "mean": statistics.mean(counts),
                 "max": max(counts),
-                "observed_upper_tail_p_plus_one": plus_one_tail(
-                    counts, observed["apparent_pass_count"], "upper"
-                ),
+                "inferential_use": "none: target permutation destroys decodability",
             },
             "nested_screen_pass_count": sum(
                 item["nested_screen_passed"] for item in permutations
             ),
+            "primary_fold_convergence": {
+                "statistic": "mean_pairwise_absolute_block_distance",
+                "values": pairwise_distances,
+                "median": statistics.median(pairwise_distances),
+                "observed_lower_tail_p_plus_one": plus_one_tail(
+                    pairwise_distances,
+                    observed["mean_pairwise_block_distance"],
+                    "lower",
+                ),
+                "direction": "lower means more convergence",
+            },
             "unique_site_count": {
                 "values": unique_sites,
                 "observed_lower_tail_p_plus_one": plus_one_tail(
@@ -244,8 +268,13 @@ def aggregate(activation_dir: Path, observed_path: Path, out_dir: Path) -> None:
         "observed_selection_sha256": wp2.sha256(observed_path),
         "runner_sha256": wp2.sha256(Path(__file__).resolve()),
         "interpretation_ceiling": (
-            "Calibration of development-search multiplicity only; human validation remains "
-            "load-bearing and no result authorizes confirmation or block-3 selection."
+            "Calibration of outer-fold site convergence only. Apparent-pass counts are "
+            "descriptive because the permutation destroys target decodability. Human "
+            "validation remains load-bearing, and no result authorizes confirmation or "
+            "block-3 selection."
+        ),
+        "interpretation_amendment": (
+            "notes/WP2_PERMUTATION_CALIBRATION_AMENDMENT_2026-07-13.md"
         ),
     }
     output.write_text(json.dumps(report, indent=2) + "\n")

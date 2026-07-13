@@ -60,9 +60,12 @@ stable representation or an incoherent/trivial target and confounded controls.
 Human calibration of the exact WP3 target and failed WP1 controls remains
 load-bearing for distinguishing those explanations.
 
-The separately frozen paired-label permutation calibration measures whether
-the observed count of apparently passing configurations and fold scatter are
-distinguishable from the search surface under a null target.
+The separately frozen paired-label permutation calibration tests whether
+outer-fold site selection converges more tightly than under a destroyed
+target. Its apparent-pass counts are descriptive only: target-label shuffling
+does not preserve decodability and therefore cannot calibrate the observed 62
+target-plus-quiet passes. A matched-decodability decoy target is required for
+that separate multiplicity question.
 
 ## Provenance
 

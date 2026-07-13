@@ -7,6 +7,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src/analysis"))
 
 from calibrate_wp2_permutations import (  # noqa: E402
+    mean_pairwise_block_distance,
     observation_target_families,
     permuted_dataset,
     plus_one_tail,
@@ -67,3 +68,8 @@ def test_plus_one_tail_has_fixed_monte_carlo_resolution():
     values = list(range(32))
     assert plus_one_tail(values, 32, "upper") == 1 / 33
     assert plus_one_tail(values, -1, "lower") == 1 / 33
+
+
+def test_fold_convergence_uses_all_six_block_pairs():
+    sites = [{"block": block, "role": "prompt_final"} for block in (28, 15, 2, 7)]
+    assert mean_pairwise_block_distance(sites) == 86 / 6
