@@ -25,12 +25,26 @@ The roadmap preserves scope; this file fixes dependency order, decision gates, a
 
 ### 0B. Existing-result closure
 
-- Blindly rejudge the three E27 UNKNOWN rows with full judge provenance; hash or commit all 48 raw histories.
+- Blindly rejudge the full E27 message set with an independent pinned model,
+  human audit, explicit 48-cell manifest, and full judge provenance; hash all
+  raw histories. This closes scoring only: the existing trajectories remain
+  development/history because their variants followed earlier result inspection
+  and player-run provenance is incomplete.
 - Regenerate `PROVENANCE.json` only after result schemas and accepted reruns are complete.
-- Rerun Gemma fractional activation ablation with `d_resid`, raw and chat endpoints, sufficient random-direction controls, and same-artifact baselines.
-- Rebuild manipulation checks with pinned prompts/models, raw responses, item IDs, randomized arm presentation, and an independent judge/human sample before calling axes validated.
+- Use M-confirm only as a diagnostic denominator for repaired T; it is exhausted
+  and cannot finalize the writer headline.
 
-**Gate 0 exit:** all accepted headline artifacts independently reconstructible; no stale/default component path; T and E27 controls finalized.
+### 0C. Evidence reconstruction
+
+- Follow `GATE0C_RECONSTRUCTION_PREREG_2026-07-13.md` for a fresh capability
+  sample, corrected Gemma fractional activation ablation, and manipulation-check
+  reconstruction.
+- Do not infer equivalence from a null capability delta, mediation from an
+  M-confirm assay, or construct purity from manipulation ratings.
+
+**Gate 0 exit:** repaired T and E27 scores plus Gate-0C replacements are
+independently reconstructible; no stale/default component path remains.
+Fresh writer and enacted-behavior confirmation still belong to Gates 1 and 4.
 
 ## Gate 1: Confirm what the parameter interventions localize
 

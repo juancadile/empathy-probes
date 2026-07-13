@@ -39,7 +39,18 @@
 
 - Preregistration: `GATE0B_PREREG_2026-07-13.md`
 - Tasks: repaired T/T-confirm scoring and E27 rejudging/provenance closure.
-- Exit: accepted headline artifacts reconstruct independently and no stale/default component path remains.
+- Gate 0B closes repaired T scoring and E27 label provenance. It does not turn
+  reused M-confirm or provenance-incomplete E27 player trajectories into fresh
+  confirmation.
+
+### Evidence reconstruction
+
+- Preregistration: `GATE0C_RECONSTRUCTION_PREREG_2026-07-13.md`.
+- Tasks: fresh capability sample with clustered inference; corrected `d_resid`
+  fractional ablation with 39 matched M/T random-direction controls; reproducible
+  need/moral manipulation checks with independent adjudication.
+- Exit: these replacement artifacts reconstruct independently or their failures
+  are logged. Claim ceilings remain assay-specific.
 
 ## Gate 1: Parameter-intervention localization
 
@@ -124,7 +135,7 @@
 ## Execution order
 
 1. Fable Integrity Repair A; independent code/test review.
-2. Gate 0B repaired T and E27 closure.
+2. Gate 0B repaired T/E27 scoring closure, then Gate 0C evidence reconstruction.
 3. Gate-1 M-confirm2 and R2b engineering/runs.
 4. WP3/B6 stimulus construction and manipulation gates in parallel with Gate 1 where no protected scores are touched.
 5. Gate-2 representation confirmation.

@@ -15,6 +15,11 @@ Historical T files contain 40 rows but 20 unique text pairs. The repaired Cartes
 - Repaired T-confirm: five disjoint confirmation families x the same 2x4 format crossing.
 - Current Gemma model/direction/components only: `d_resid`; writers L19MLP,L20MLP; suppressors L18H13,L20H10,L19H12,L17H7.
 
+**Data-use ceiling:** M-confirm is confirmation-exhausted and appears here only
+as the simultaneously measured denominator/diagnostic bridge needed to assess
+the repaired T control. This run cannot finalize the writer headline; sealed
+M-confirm2 in Gate 1 does that.
+
 ### Protocol
 
 1. Score both A/B orders for every pair and average the flip-corrected logit differences.
@@ -38,6 +43,10 @@ Historical T files contain 40 rows but 20 unique text pairs. The repaired Cartes
 - All existing E27 player `say` actions, not only the three UNKNOWN rows.
 - Existing labels are hidden from adjudicators.
 - Deterministic input IDs derived from raw-history hash, seed, step, and message hash.
+- Explicit expected design: conditions `{baseline, suppressors}` x variants
+  `{distress, excited, resolved}` x seeds `{11,22,33,44,55,66,77,88}` = exactly
+  48 unique run artifacts. Missing, duplicate, unexpected, or failed cells abort
+  before judging.
 
 ### Adjudication protocol
 
@@ -60,9 +69,21 @@ Report all eight seed values, mean, seed-bootstrap interval as descriptive small
 - Incremental distress specificity is supported only if the paired interaction is positive in at least 7/8 seeds and its effect is not driven by one seed under LOFO. The bootstrap interval and sign test are reported but not treated as well-calibrated large-sample inference.
 - Otherwise the result remains unresolved or variant-general engagement. Do not increase seeds after seeing which side of the rule fails; a powered replication requires new preregistered seeds and is a separate experiment.
 - Baseline distress selectivity and edit-specific distress selectivity remain separate claims.
+- The variants and interaction were designed after inspecting earlier game
+  behavior, and the player histories lack the accepted-run provenance now
+  required. Rejudging can close the scoring artifact but cannot retroactively
+  make these trajectories fresh confirmation. Final enacted-behavior claims
+  require the disjoint EIA confirmation registered in the scientific index.
 
 ## Deliverables
 
 - Self-contained result bundles with input/model/prompt hashes and per-example arrays.
 - Experiment-log entries preserving both historical and repaired results.
 - Adversarial review before paper/showcase changes.
+
+## Frozen amendment (2026-07-13, before corrected scores)
+
+Integrity Repair A QA identified that deriving the expected grid from observed
+paths would fail to detect an entirely missing seed/variant/condition. The
+explicit 48-cell design above is therefore part of the acceptance gate. This
+amendment changes validation only, not the primary statistic or pass rule.
