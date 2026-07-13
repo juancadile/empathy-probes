@@ -161,3 +161,84 @@ The primary axis hierarchy, natural-dose formula, two co-required asymmetry
 estimands, finite-null rank, and off-manifold reduction contrast were
 subsequently frozen before C4 execution. The remaining diagnostics cannot
 replace a failed primary asymmetry test.
+
+## Frozen geometry amendment (2026-07-13, before audited steering runs)
+
+### Primary token and autoregressive sensitivity
+
+For forced-choice and continuation-likelihood confirmation, intervene at the
+single frozen representation token: prompt-final for `d_resid`, or the
+Gate-2-selected matched token role for a certified `d_N`/subspace. Apply the
+intervention after the selected block output and before the next block. Do not
+steer padding, option-label, or candidate-tail tokens in the primary assay.
+Reapplying the intervention at every newly generated token is a separate
+autoregressive sensitivity and cannot replace the single-token primary result.
+
+All axes are represented by orthonormal bases. The formulas below show a
+one-dimensional unit `d`; for a multidimensional certified subspace, use its
+frozen policy-predictive unit coordinate selected on Gate-2 development data,
+not a new C4 behavioral search over basis vectors.
+
+### Exact norm-preserving comparison
+
+For receiver activation `h`, let `r=||h||`, `p=h dot d`, and
+`q=(h-p*d)/||h-p*d||`. The additive comparison requests target projection
+`p_s = p + s*a_nat`, for `s in {-1,+1}`. The norm-preserving rotation is
+
+`h_rotation_s = p_s*d + sqrt(r^2-p_s^2)*q`.
+
+It therefore matches the additive projection displacement exactly and preserves
+the receiver norm. If either sign has `|p_s| >= r` or the orthogonal norm is at
+most `1e-8`, remove that receiver symmetrically before confirmation outcomes are
+read; more than one invalid family makes the geometry comparison not
+identified. Persist all validity masks and pre/post norms/angles. Additive
+steering itself retains the symmetric fixed dose even though its two signs need
+not produce equal norm change; that difference is a measured candidate
+mechanism, not something silently rescaled away.
+
+### Development-only natural-coordinate patch
+
+The original same-family wording is impossible because C4 development and
+confirmation families are disjoint. Replace it with this fixed source-bank
+rule. Build a bank from every C4-development activation at the same block/token
+role before confirmation. For each confirmation receiver and sign, among bank
+entries whose residual norm is within 5% of the receiver, choose the projection
+value minimizing `|(p_source-p_receiver)-s*a_nat|`; tie-break by source family
+ID then row ID. Require the realized displacement to be within 10% of `a_nat`.
+If no source passes, expand once to a 10% norm window; otherwise mark that
+receiver invalid under the same symmetric/family rule above.
+
+Patch only the scalar coordinate:
+`h_patch_s = h + (p_source-p_receiver)*d`. This is a naturally observed
+coordinate-value patch, not a full natural activation or same-scenario
+counterfactual. The off-manifold contrast is valid only when both signs pass
+the displacement tolerance; report realized displacement and norm change.
+
+### Random-direction construction and orientation
+
+Generate exactly 64 directions from master seed `3501648965` by consuming
+`numpy.random.Generator(PCG64(master)).integers(0,2**32,dtype=uint32)` in order.
+For each child, draw `d_model` float64 standard-normal values with a fresh
+PCG64 generator, cast once to float32, and unit-normalize. Orient each random
+direction so its dot product with the frozen primary axis is nonnegative;
+ties at exactly zero use the sign of the first nonzero coordinate. This
+orientation is independent of C4 behavior and is required because `K_add` is
+not invariant to swapping direction sign.
+
+Each random direction receives its own development-only
+`a_nat=min(q90-q50,q50-q10)` and the same single-token additive protocol. Reject
+and deterministically replace a draw only when `a_nat <= 1e-8`; persist every
+attempted/retained seed, direction hash, quantiles, and dose. Do not rescale a
+random direction using its confirmation effect. Task, lexical, and persona
+control polarities remain those frozen by their source development contrasts.
+
+### Asymmetry interpretation
+
+The primary `A_add` and `K_add` gates remain unchanged. In addition, report
+`Delta_help(+a)`, `Delta_help(-a)`, both KL terms, and family effects separately;
+a positive sum alone does not reveal which sign failed. The off-manifold
+reduction `R` is accepted only on the common family mask where additive,
+rotation, and natural-coordinate patch are all valid. If mask loss exceeds one
+family or either geometry-matched positive intervention is behaviorally inert,
+the off-manifold explanation is not identified rather than accepted by a
+smaller favorable subset.
