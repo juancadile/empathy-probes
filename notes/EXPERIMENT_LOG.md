@@ -333,3 +333,12 @@ Codex reviewed commits 41af3f4..HEAD; all findings verified in code before actin
 #### E26b addendum 2 · edit-norm covariate analysis (local, from recorded delta_norms; 2026-07-12 ~19:50 EDT)
 - **Writers — codex's norm confound partially bites:** the targeted pair has the LARGEST summed rank-1 edit norm of all 28 band sets (1.678; 0/27 alternatives ≥), and |Δ| correlates with norm r=+0.40 among alternatives. Norm-adjusted (linear residual) rank: targeted over-performs its norm prediction by +0.113 but drops to 2nd of 28 → **adjusted p ≈ 0.071 vs unadjusted 0.036**. Report both; "most consequential per unit norm" belongs to a neighbor (L17+L19).
 - **Suppressors — norm concern refuted with evidence:** norm↔|Δ| correlation −0.05 among sampled sets; targeted remains the top residual outlier (0/12) → adjusted p ≈ 0.077, unchanged. The suppressor outlier status is not a norm artifact.
+
+### E28 · new-set revalidation: capability + cost/nonsocial interaction (rescue3b steps 7–8; 2026-07-12 21:26 EDT)
+- **Capability retention holds for the NEW sets** (`results/capability_eval_resid_gemma/capability_eval.json`; MMLU n=400, wikitext-2 test): baseline 0.6625 / 13.096 ppl; writers 0.6675 / 13.068; suppressors 0.6700 / 13.112; targeted 0.6675 / 13.091. No measurable capability cost from any edit.
+- **E18 with new sets + composition-matched random** (`results/e18_interaction_resid_gemma/e18.json`), analyzed with the CORRECT E18c slope estimand (`e18c_slopes_new_sets.json`, computed locally from per-pair deltas; the in-file "interaction" field is the deprecated axis-mean difference):
+  - **Suppressors: cost-slope difference (welfare − nonsocial) +0.113 [+0.086, +0.141], 10/10 families positive — the cost-gate signature REPLICATES on the re-derived suppressor set** (old sets: +0.172, 10/10).
+  - Targeted (writers+suppressors): +0.085 [+0.060, +0.108], 10/10.
+  - Writers: −0.043 [−0.070, −0.017], 2/10 — but the random set also shows −0.025 [−0.044, −0.005], so the writer slope-diff is only ~1.7× random and should NOT be headlined; the writers' story remains the level effect (E25/E26), not a cost-slope effect.
+  - Need×cost surface NOT recomputable from this run (cost/nonsocial axes only) — "need-gated / conjunctive need×cost" claims still rest on old sets pending fresh E21 (open blocker, per codex).
+- E27 games completed (48/48, full 2×3×8 grid, fixed seed lifecycle); content-aware scoring running locally.

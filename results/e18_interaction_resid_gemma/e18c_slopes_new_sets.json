@@ -1,0 +1,50 @@
+{
+  "positive_writers_k2": {
+    "slope_welfare_mean": 0.0031249999999999932,
+    "slope_nonsocial_mean": 0.04640625000000002,
+    "slope_diff_mean": -0.043281250000000014,
+    "slope_diff_ci95": [
+      -0.07031640625000003,
+      -0.01687109375000006
+    ],
+    "n_families": 10,
+    "n_positive": 2,
+    "axis_mean_diff_deprecated": -0.11914062499999999
+  },
+  "suppressors_k4": {
+    "slope_welfare_mean": 0.08953124999999999,
+    "slope_nonsocial_mean": -0.023125,
+    "slope_diff_mean": 0.11265624999999997,
+    "slope_diff_ci95": [
+      0.08578125,
+      0.14125000000000001
+    ],
+    "n_families": 10,
+    "n_positive": 10,
+    "axis_mean_diff_deprecated": 0.08867187499999998
+  },
+  "targeted_k6": {
+    "slope_welfare_mean": 0.1025,
+    "slope_nonsocial_mean": 0.01750000000000001,
+    "slope_diff_mean": 0.08499999999999999,
+    "slope_diff_ci95": [
+      0.05968749999999999,
+      0.10781249999999995
+    ],
+    "n_families": 10,
+    "n_positive": 10,
+    "axis_mean_diff_deprecated": -0.012499999999999997
+  },
+  "random_k6": {
+    "slope_welfare_mean": -0.008281249999999995,
+    "slope_nonsocial_mean": 0.01671875,
+    "slope_diff_mean": -0.025,
+    "slope_diff_ci95": [
+      -0.04375,
+      -0.005156250000000004
+    ],
+    "n_families": 10,
+    "n_positive": 2,
+    "axis_mean_diff_deprecated": -0.018750000000000003
+  }
+}
