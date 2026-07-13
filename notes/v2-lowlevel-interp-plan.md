@@ -1,5 +1,14 @@
 # V2 Plan: Lower-Level Interpretability (Components → Circuits → Weights)
 
+> **HISTORICAL PLANNING DOCUMENT — SUPERSEDED 2026-07-13.** This document
+> preserves the pre-audit research plan for traceability; it is not an
+> operational specification. The current authorities are
+> `SCIENTIFIC_PREREG_INDEX_2026-07-13.md`, `EXECUTION_ORDER_2026-07-13.md`,
+> and the frozen gate/experiment preregistrations they index. Terms below such
+> as "empathy direction," "direct edge," "full circuit," and fixed coverage
+> targets (for example, >80%) are historical aspirations, not accepted claims
+> or decision gates.
+
 **Created:** 2026-07-10
 **Goal:** Upgrade the evidence standard from *"a probe detects the feature in activations"* (correlational) to *"we can trace the pathway in the weights that produces it"* (mechanistic/causal). This subsumes and extends Phase 4 of `v2-tasks-list.md`.
 

@@ -1,6 +1,14 @@
 # V2 Empathy-in-Action Probes: Complete Task List for NeurIPS/FAccT
 
-> **Updated 2026-07-10:** Phase 4 has been superseded by the staged mechanistic plan in
+> **HISTORICAL TASK LIST — SUPERSEDED 2026-07-13.** Retained for issue and
+> planning traceability only. Operational authority now lives in
+> `SCIENTIFIC_PREREG_INDEX_2026-07-13.md`, `EXECUTION_ORDER_2026-07-13.md`,
+> and the frozen gate/experiment preregistrations they index. The previously
+> authoritative `v2-lowlevel-interp-plan.md` is itself historical; unchecked
+> boxes and claim language below must not be treated as approved execution
+> instructions.
+>
+> **Updated 2026-07-10 (historical):** Phase 4 was superseded at that time by the staged mechanistic plan in
 > `v2-lowlevel-interp-plan.md` (components → circuits → weights). Key changes:
 > we **no longer train our own SAEs** — we use pretrained suites (Gemma Scope, Llama Scope)
 > — and the deep circuit/weight-level work runs on Gemma-2-2B/9B and Llama-3.1-8B (Tier 1),
