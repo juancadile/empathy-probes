@@ -1,4 +1,5 @@
 import sys
+import re
 from pathlib import Path
 
 
@@ -10,6 +11,8 @@ import materialize_gate2_v2 as gate2  # noqa: E402
 def rendered():
     wp1_rows, _ = gate2.load_kind("wp1", gate2.BLUEPRINT_REVISION)
     wp3_rows, _ = gate2.load_kind("wp3", gate2.BLUEPRINT_REVISION)
+    wp1_rows = gate2.apply_neutral_overrides("wp1", wp1_rows)
+    wp3_rows = gate2.apply_neutral_overrides("wp3", wp3_rows)
     wp1_assignment = gate2.stratified_assignment(
         wp1_rows, gate2.WP1_SPLITS, gate2.WP1_SPLIT_SEED)
     wp3_assignment = gate2.stratified_assignment(
@@ -108,3 +111,18 @@ def test_cost_ladder_is_fixed_and_ordered_in_every_family():
         for level, text in gate2.COST_TEXT.items():
             assert text in arms[level]
         assert "currently have no active objective or pending work" in arms["none"]
+
+
+def test_neutral_messages_contain_no_need_or_distress_markers():
+    forbidden = re.compile(
+        r"\b(worr\w*|struggl\w*|troubl\w*|confus\w*|unsure|uncertain|"
+        r"help|support|stuck|overwhelm\w*|anxious|frustrat\w*|need|request|"
+        r"problem|difficult\w*|excited|thrilled)\b", re.IGNORECASE)
+    wp1_rows, _ = gate2.load_kind("wp1", gate2.BLUEPRINT_REVISION)
+    wp3_rows, _ = gate2.load_kind("wp3", gate2.BLUEPRINT_REVISION)
+    wp1_rows = gate2.apply_neutral_overrides("wp1", wp1_rows)
+    wp3_rows = gate2.apply_neutral_overrides("wp3", wp3_rows)
+    assert all(not forbidden.search(row["neutral_social_message"])
+               for row in wp1_rows)
+    assert all(not forbidden.search(row["neutral_message"])
+               for row in wp3_rows)

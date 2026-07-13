@@ -6,7 +6,7 @@
   "files": [
     {
       "path": "data/gate_families/gate2_v2/wp1_families.jsonl",
-      "sha256": "4717ac70e78b69fd8ad2c9e6ac1be98ad74ca5038ecfd84a1abf885ca11160ff",
+      "sha256": "7534d3d59c1981ebc41be4d118f7a6ba6b58377c98980419a6f1dc0dbf7326a5",
       "record_count": 640,
       "family_count": 32,
       "prompt_token_range_by_label": {
@@ -40,11 +40,11 @@
         },
         "R_new": {
           "max": 14,
-          "mean": 7.0
+          "mean": 6.875
         },
         "Spos_new": {
           "max": 6,
-          "mean": 2.40625
+          "mean": 2.53125
         },
         "T_new": {
           "max": 2,
@@ -58,7 +58,7 @@
     },
     {
       "path": "data/gate_families/gate2_v2/wp3_families.jsonl",
-      "sha256": "358d86eab8b4ba783d96a5eaca544c844365e392fb9cb816103c6568bd307d12",
+      "sha256": "571a08a318fd7cb6461fd92745b8526b2566cb27050f7ac78491518dc45625fd",
       "record_count": 480,
       "family_count": 48,
       "prompt_token_range_by_label": {
@@ -76,11 +76,11 @@
         },
         "persona": {
           "max": 8,
-          "mean": 2.4583333333333335
+          "mean": 2.5
         },
         "resolved_neutral_controls": {
           "max": 9,
-          "mean": 3.8541666666666665
+          "mean": 3.8125
         }
       },
       "response_tail_token_ids": [

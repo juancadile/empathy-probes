@@ -45,6 +45,22 @@ WP1_MESSAGE_SEED = seed("Gate2 v2 WP1 message derangement 2026-07-13")
 WP3_MESSAGE_SEED = seed("Gate2 v2 WP3 message derangement 2026-07-13")
 HUMAN_SEED = seed("Gate2 v2 human audit 2026-07-13")
 
+# Frozen after a pre-materialization lexical audit and before machine ratings.
+# Provider artifacts remain immutable; these exact field substitutions are
+# persisted in the v2 manifest.
+NEUTRAL_MESSAGE_OVERRIDES = {
+    "wp1_openai_gpt4o_mini_04":
+        "I noted that the venue opens at six this evening.",
+    "wp1_openai_gpt4o_mini_05":
+        "I noticed that the studio window faces the courtyard.",
+    "wp1_openai_gpt4o_mini_06":
+        "I saw that the park entrance is beside the library.",
+    "wp1_openai_gpt4o_mini_07":
+        "I noted that dinner is scheduled for seven tonight.",
+    "wp3_openai_gpt4o_mini_09":
+        "I found the software version number in the settings menu.",
+}
+
 FIXED_TASK_CONTINUATION = "I continue with the next scheduled task step."
 RESPONSE_TAIL = "I pause my current work and respond to the person now."
 TASK_TAIL = "I continue my current work and do not respond to the person now."
@@ -117,6 +133,17 @@ def message_terms(kind: str, row: dict) -> set[str]:
     else:
         fields = ("distress_quote", "resolved_message", "neutral_message")
     return content_terms(" ".join(row[field] for field in fields))
+
+
+def apply_neutral_overrides(kind: str, rows: list[dict]) -> list[dict]:
+    field = "neutral_social_message" if kind == "wp1" else "neutral_message"
+    result = []
+    for row in rows:
+        item = dict(row)
+        if row["family_id"] in NEUTRAL_MESSAGE_OVERRIDES:
+            item[field] = NEUTRAL_MESSAGE_OVERRIDES[row["family_id"]]
+        result.append(item)
+    return result
 
 
 def message_derangement(kind: str, rows: list[dict], rng_seed: int) -> dict[str, str]:
@@ -405,6 +432,8 @@ def main(argv: list[str] | None = None) -> int:
         raise FileExistsError(f"refusing to overwrite {args.out}")
     wp1_rows, wp1_inputs = load_kind("wp1", BLUEPRINT_REVISION)
     wp3_rows, wp3_inputs = load_kind("wp3", BLUEPRINT_REVISION)
+    wp1_rows = apply_neutral_overrides("wp1", wp1_rows)
+    wp3_rows = apply_neutral_overrides("wp3", wp3_rows)
     wp1_assignment = stratified_assignment(wp1_rows, WP1_SPLITS, WP1_SPLIT_SEED)
     wp3_assignment = stratified_assignment(wp3_rows, WP3_SPLITS, WP3_SPLIT_SEED)
     wp1_messages = message_derangement("wp1", wp1_rows, WP1_MESSAGE_SEED)
@@ -431,6 +460,7 @@ def main(argv: list[str] | None = None) -> int:
         "wp3_assignment": dict(sorted(wp3_assignment.items())),
         "wp1_message_assignment": dict(sorted(wp1_messages.items())),
         "wp3_message_assignment": dict(sorted(wp3_messages.items())),
+        "neutral_message_overrides": dict(sorted(NEUTRAL_MESSAGE_OVERRIDES.items())),
         "validation": validation, "human_audit": human,
         "target_model_scores_opened": False,
         "machine_manipulation_audit_pending": True,
