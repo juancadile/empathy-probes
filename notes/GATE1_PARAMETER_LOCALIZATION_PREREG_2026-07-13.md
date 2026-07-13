@@ -37,7 +37,7 @@ inferential unit; lexical variants and A/B orders are repeated measurements.
 
 ### Stimulus generation and sealed split
 
-Create at least 32 new costly-helping scenario families plus one matched
+Create at least 48 new costly-helping scenario families plus one matched
 task-control family for each. Cover at least four domains and at least four
 stimulus-source strata. Normalize every family into the same structural schema:
 
@@ -48,15 +48,17 @@ stimulus-source strata. Normalize every family into the same structural schema:
 - matched task control in the same domain with no person/current welfare need;
 - at least four deterministic surface variants per family, all unique.
 
-Before any model score, split the 32 family pairs into:
+Before any model score, split the 48 family pairs into:
 
 - 16 `M-confirm2` + matched task-control families for this Gate-1 test;
+- 16 `M-circuit-validation` + matched task controls for Gate-3 graph/feature
+  model selection after historical discovery screening;
 - 16 `M-circuit-confirm` + matched task controls reserved for Gate 3.
 
 The split seed is `85758990`, the first 32 bits of SHA-256 of
 `Gate1 M-confirm2 circuit split v1 2026-07-13`. Stratify by domain and stimulus
 source. Persist the complete assignment and source hashes. If fewer than 16
-valid family pairs remain in either partition after structural audit, generate
+valid family pairs remain in any partition after structural audit, generate
 additional families before scoring; never move a scored family between roles.
 
 ### Pre-model validity gates

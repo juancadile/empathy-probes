@@ -11,7 +11,7 @@ This is not a search for every computational path in Gemma-2-9B. A passing resul
 ## Prerequisites
 
 1. Gate 0 integrity repair and repaired T-confirm are complete.
-2. M-confirm2 and its matched task controls are generated, sealed, and structurally audited. Before any scores are opened, the generation batch is partitioned into disjoint Gate-1 confirmation and `M-circuit-confirm` families. If that partition was not frozen in advance, generate new circuit-confirmation families.
+2. M-confirm2 and its matched task controls are generated, sealed, and structurally audited. Before any scores are opened, the generation batch is partitioned into disjoint Gate-1 confirmation, `M-circuit-validation`, and `M-circuit-confirm` families. If that partition was not frozen in advance, generate new circuit families.
 3. Writer-set replication passes M-confirm2. Suppressor heads enter as individually named sources only if R2b passes; otherwise the four-head set may be tested only as a joint upstream intervention.
 4. The exact model revision, environment, component definitions, prompts, data hashes, and action-readout implementation are frozen in a manifest.
 
@@ -20,8 +20,10 @@ WP3 construct certification is required before any node is named for welfare rel
 ## Data roles
 
 - Historical M, M-confirm, and V2.1 results are discovery history only.
-- A designated subset of new scenario families is used for path/feature screening.
-- Validation families select the finite graph and all thresholds.
+- Historical M/M-confirm families may screen hypotheses but never validate or
+  confirm them.
+- Sealed `M-circuit-validation` families select the finite graph and all
+  thresholds once; they are exhausted after selection.
 - Sealed `M-circuit-confirm` families evaluate the graph once and are never used for Gate-1 component certification.
 - Repaired T-confirm plus fresh task controls test selectivity.
 - WP3/WP1 cells are construct-profile tests only after their own gates pass.
