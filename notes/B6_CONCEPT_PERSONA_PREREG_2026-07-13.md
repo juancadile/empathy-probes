@@ -21,7 +21,14 @@ Likewise, high cosine similarity with an extracted persona vector is evidence of
 
 ## Factorial stimulus families
 
-Create at least 24 new master scenario families, split 14 development / 10 sealed confirmation before any model activation is extracted. Each master family supplies the structurally compatible observation, persona, and third-person crossings below. Create a separate policy-transfer pool with at least 10 development and 10 sealed confirmation families. No entity, quote, close paraphrase, or template author crosses a split or pool.
+Create at least 32 new master scenario families, split 16 development / 16
+sealed confirmation before any model activation is extracted. Each master
+family supplies the structurally compatible observation, persona, and
+third-person crossings below. Create a separate policy-transfer pool with 16
+development and 16 sealed confirmation families. No entity, quote, or close
+paraphrase crosses a split or pool. Stimulus-source/domain strata are balanced
+across splits rather than confounded with them; sources are not independent
+replications.
 
 ### 1. Content x persona observation (`N x P`, no model decision)
 
@@ -51,7 +58,7 @@ The model is never instructed to adopt the observed character. Fixed-format clas
 
 ### 4. Policy transfer (`A`)
 
-Use the separate B6 policy-transfer families with neutral persona instructions. They may follow the M-confirm2 structure but may not reuse any Gate-1, M-confirm2, or B3 circuit-confirmation family. Cross current need, response opportunity, and realized active-objective cost according to WP3/R2b. The action axis is fit only at the preregistered choice position and evaluated with dual-order and continuation-likelihood readouts.
+Use the separate B6 policy-transfer families with neutral persona instructions. They may follow the M-confirm2 structure but may not reuse any Gate-1, M-confirm2, or B3 circuit-confirmation family. Cross current need, response opportunity, and stipulated active-objective cost according to WP3/R2b. The action axis is fit only at the preregistered choice position and evaluated with dual-order and continuation-likelihood readouts. Mechanically incurred cost belongs to the later EIA/action-space confirmation.
 
 No-active-objective and active-objective/zero-loss are separate conditions.
 
@@ -71,7 +78,8 @@ Revise only development templates after a failed gate. Confirmation wording rema
 
 Fit on development families only:
 
-1. `d_N`: WP3 current-versus-archived observation contrast;
+1. `d_N`: the already frozen WP3 currentness/actuality-controlled observation
+   representation (evaluated here, not refit on B6 families);
 2. `d_P`: persona-only contrast averaged across neutral content domains;
 3. `d_R`: third-person welfare recognition contrast under neutral model persona;
 4. `d_A`: costly-helping action/policy contrast at the frozen decision site;
@@ -94,7 +102,14 @@ Evaluate every frozen representation on every held-out factor using family-level
 
 These are discriminating predictions, not assumptions. Failure to realize the matrix is an entanglement result.
 
-“Quiet” requires `abs(AUROC - 0.5) <= 0.10` on sealed families and a family-clustered 90% interval entirely inside a predeclared negligible-effect region on the standardized continuous score (TOST logic). Direction polarity and the negligible bound are frozen on development data; inverse held-out separation is not quiet.
+“Quiet” requires `abs(AUROC - 0.5) <= 0.10` on sealed families and a
+family-clustered 90% interval entirely inside `[-0.30, +0.30]` on the
+development-standardized continuous score (TOST logic). Direction polarity is
+frozen on development data; the negligible bound is fixed here rather than
+chosen from development outcomes. Inverse held-out separation is not quiet.
+
+The `0.30` bound is a smallest-effect-of-interest convention for this study,
+not proof of literal absence; raw units and intervals are always reported.
 
 ## Geometry
 
@@ -159,3 +174,10 @@ If no candidate passes its target and nuisance gates, report that the tested lin
 ## Stopping rule
 
 After sealed confirmation is opened, do not change prompts, layer, pooling, nuisance set, factor coding, or direction construction. A failed representation may motivate a new experiment only with new families and a new ID.
+
+## Frozen amendment (2026-07-13, before generation)
+
+The original 14/10 and 10/10 pools were expanded to 16/16, stimulus source is
+balanced rather than made split-specific, the nuisance equivalence region is
+numerically fixed before development outcomes, and `d_N` is imported from WP3
+rather than reselected on B6 data.

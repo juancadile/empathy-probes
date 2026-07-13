@@ -12,7 +12,10 @@ Passing does not show human-like moral reasoning, subjective empathy, or a unive
 
 - `N`: current welfare relevance / expressed current need, from WP3 current-versus-archived/resolved controls.
 - `O`: response opportunity/agency, available versus unavailable.
-- `C`: active-objective realized cost of responding, ordered zero/low/high; no-active-objective is a separate context variable.
+- `C_text`: stipulated active-objective cost of responding, ordered
+  zero/low/high; no-active-objective is a separate context variable.
+- `C_mech`: mechanically incurred environmental cost, reserved for a later
+  action-space extension and never silently pooled with `C_text`.
 - `I`: incumbency/current-policy state for the moral-allocation extension, excluded from the primary model until E22b passes.
 - `A`: welfare-responsive versus task-progress action distribution when both are available.
 
@@ -20,22 +23,27 @@ Primary high-level graph:
 
 `N -> A <- O`
 
-`C -> A`, with `N x O x C` interactions permitted in the structural policy equation.
+`C_text -> A`, with `N x O x C_text` interactions permitted in the structural policy equation.
 
 Do not insert a latent “empathy” node merely because it is philosophically attractive. A richer graph is a separate preregistered comparison.
 
 ## Data
 
-- WP3 factorial families provide N and O interventions.
-- Fresh R2b active-objective families provide C and N x C interventions.
-- M-confirm2 provides held-out naturalistic policy transfer.
+- WP3 development and WP3-confirm families provide B8 training/validation for
+  N and O only after WP3 closes; they are not B8 confirmation.
+- Fresh R2b families provide development/validation evidence for `C_text` and
+  `N x C_text`; their Gate-1 outcomes are already known and cannot confirm B8.
+- The 16 `B8-confirm` families reserved before WP3 scoring provide untouched
+  factorial confirmation for N/O/C_text interchange tests.
+- M-confirm2 provides a previously observed naturalistic transfer diagnostic,
+  not sealed B8 confirmation.
 - T/WP1 controls provide no-need and nuisance contexts.
 
 Split by scenario family before any representation training:
 
 - train families for subspace fitting;
 - validation families for layer/dimension/regularization selection;
-- sealed confirmation families for IIA and behavioral transfer;
+- the separately reserved `B8-confirm` families for IIA and behavioral transfer;
 - hold out at least one factorial combination during training and evaluate it as compositional generalization.
 
 No paraphrase or entity overlap crosses family splits.
@@ -44,7 +52,7 @@ The scenario family, not a prompt variant or token, is the inferential unit. All
 
 ## High-level policy model
 
-Fit a regularized probabilistic structural equation for `P(A=welfare | N,O,C)` on development behavior only, with main effects and predeclared interactions. Report the simpler monotone constrained model and an unconstrained sensitivity model.
+Fit a regularized probabilistic structural equation for `P(A=welfare | N,O,C_text)` on development behavior only, with main effects and predeclared interactions. Report the simpler monotone constrained model and an unconstrained sensitivity model.
 
 The high-level model is frozen before neural interchange evaluation. Its own confirmation calibration/headroom is a prerequisite; a poor behavioral SCM cannot certify a neural abstraction.
 
@@ -56,7 +64,7 @@ Compare under nested family CV:
 
 1. one-dimensional direction per variable;
 2. low-dimensional DAS subspace per variable;
-3. joint orthogonal/oblique subspaces for N and C;
+3. joint orthogonal/oblique subspaces for N and `C_text`;
 4. residual-stream and preregistered component/SAE sites only after Gate 3 candidates exist.
 
 Layer and dimension selection use validation IIA, with a complexity penalty/tie rule favoring lower dimension and the predeclared relative-depth anchor. Candidate blocks/sites must be frozen from independent WP3/Gate 3 evidence before DAS fitting; B8 may not scan the full model and then treat the winning site as confirmatory.
@@ -81,7 +89,7 @@ For each variable, the primary estimand is the family-paired change in action lo
 - interchange intervention accuracy (IIA) on discrete action preference;
 - divergence/calibration between intervened neural and high-level action probabilities;
 - behavioral effect size and sign per family;
-- variable specificity: N swap should not act like C swap, and vice versa;
+- variable specificity: N swap should not act like `C_text` swap, and vice versa;
 - compositional generalization on held-out variable combinations;
 - LOFO and all confirmation-family effects.
 
@@ -113,18 +121,25 @@ A variable alignment is supported only if:
 6. at least one held-out factorial combination generalizes;
 7. the result is not explained by a lexical/status baseline.
 
-The full causal abstraction requires N, O, and C alignments plus correct compositional effects. A passing N subspace alone is a partial abstraction result.
+The full primary causal abstraction requires N, O, and `C_text` alignments plus correct compositional effects. A passing N subspace alone is a partial abstraction result. `C_mech` requires a separately preregistered action-space extension.
+
+## Frozen amendment (2026-07-13, before B8 data)
+
+The original data map allowed already-opened WP3/R2b/M-confirm2 families to be
+read as B8 confirmation and called textual cost “realized.” Confirmation is now
+restricted to the pre-reserved `B8-confirm` pool, and textual versus mechanical
+cost are separate variables and claims.
 
 ## Negative outcomes
 
 - Decodable but low IIA: information is present but not interventionally aligned at the tested site.
 - High in-sample IIA, failed confirmation: subspace overfit.
 - Random subspaces match: intervention/site geometry artifact.
-- N and C swaps indistinguishable: entangled arbitration subspace, not separable variables.
+- N and `C_text` swaps indistinguishable: entangled arbitration subspace, not separable variables.
 - SCM itself poorly calibrated: assay does not support the proposed high-level abstraction.
 
 Do not search new graphs, sites, dimensions, or variable codings on sealed confirmation failures. New hypotheses require new families and experiment IDs.
 
 ## Execution gate
 
-B8 does not run until WP3 passes its held-out representation and nuisance gates and the high-level `N/O/C` policy has adequate confirmation headroom. If either prerequisite fails, record B8 as not identified rather than fitting DAS to legacy V2.1 labels. Freeze the analysis manifest, stimulus hashes, model revision, environment lock, and code commit before the first sealed interchange result.
+B8 does not run until WP3 passes its held-out representation and nuisance gates and the high-level `N/O/C_text` policy has adequate confirmation headroom. If either prerequisite fails, record B8 as not identified rather than fitting DAS to legacy V2.1 labels. Freeze the analysis manifest, stimulus hashes, model revision, environment lock, and code commit before the first sealed interchange result.
