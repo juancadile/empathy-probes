@@ -1,0 +1,1867 @@
+{
+ "summary": {
+  "baseline/distress": {
+   "n_says": 145,
+   "SUPPORT": 144,
+   "UNKNOWN": 1
+  },
+  "baseline/excited": {
+   "n_says": 15,
+   "SUPPORT": 14,
+   "UNKNOWN": 1
+  },
+  "baseline/resolved": {
+   "n_says": 0
+  },
+  "suppressors/distress": {
+   "n_says": 170,
+   "SUPPORT": 170
+  },
+  "suppressors/excited": {
+   "n_says": 26,
+   "SUPPORT": 24,
+   "TASK": 1,
+   "UNKNOWN": 1
+  },
+  "suppressors/resolved": {
+   "n_says": 0
+  }
+ },
+ "interaction": {
+  "per_seed": {
+   "11": {
+    "delta_distress": 8,
+    "delta_controls_mean": 2.0,
+    "did": 6.0
+   },
+   "22": {
+    "delta_distress": -5,
+    "delta_controls_mean": -0.5,
+    "did": -4.5
+   },
+   "33": {
+    "delta_distress": 12,
+    "delta_controls_mean": 0.5,
+    "did": 11.5
+   },
+   "44": {
+    "delta_distress": 0,
+    "delta_controls_mean": 0.0,
+    "did": 0.0
+   },
+   "55": {
+    "delta_distress": 1,
+    "delta_controls_mean": 2.0,
+    "did": -1.0
+   },
+   "66": {
+    "delta_distress": 8,
+    "delta_controls_mean": 1.0,
+    "did": 7.0
+   },
+   "77": {
+    "delta_distress": -7,
+    "delta_controls_mean": 0.0,
+    "did": -7.0
+   },
+   "88": {
+    "delta_distress": 9,
+    "delta_controls_mean": 0.0,
+    "did": 9.0
+   }
+  },
+  "mean_did": 2.625,
+  "ci95_seed_bootstrap": [
+   -1.8125,
+   6.875
+  ],
+  "sign_test": {
+   "n_nonzero": 7,
+   "n_positive": 4,
+   "p": 1.0
+  },
+  "n_unknown_labels": 3
+ },
+ "detail": [
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed11/experiment.json",
+   "seed": 11,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed11/experiment.json",
+   "seed": 11,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed11/experiment.json",
+   "seed": 11,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed11/experiment.json",
+   "seed": 11,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed11/experiment.json",
+   "seed": 11,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed11/experiment.json",
+   "seed": 11,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed11/experiment.json",
+   "seed": 11,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed11/experiment.json",
+   "seed": 11,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed11/experiment.json",
+   "seed": 11,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed11/experiment.json",
+   "seed": 11,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed11/experiment.json",
+   "seed": 11,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed11/experiment.json",
+   "seed": 11,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed11/experiment.json",
+   "seed": 11,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed11/experiment.json",
+   "seed": 11,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed11/experiment.json",
+   "seed": 11,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed11/experiment.json",
+   "seed": 11,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed22/experiment.json",
+   "seed": 22,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed22/experiment.json",
+   "seed": 22,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed22/experiment.json",
+   "seed": 22,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed22/experiment.json",
+   "seed": 22,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed22/experiment.json",
+   "seed": 22,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed22/experiment.json",
+   "seed": 22,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed22/experiment.json",
+   "seed": 22,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed22/experiment.json",
+   "seed": 22,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed22/experiment.json",
+   "seed": 22,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed22/experiment.json",
+   "seed": 22,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed22/experiment.json",
+   "seed": 22,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed22/experiment.json",
+   "seed": 22,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed22/experiment.json",
+   "seed": 22,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed22/experiment.json",
+   "seed": 22,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed22/experiment.json",
+   "seed": 22,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed22/experiment.json",
+   "seed": 22,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed22/experiment.json",
+   "seed": 22,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed22/experiment.json",
+   "seed": 22,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed22/experiment.json",
+   "seed": 22,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed22/experiment.json",
+   "seed": 22,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed22/experiment.json",
+   "seed": 22,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed22/experiment.json",
+   "seed": 22,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed22/experiment.json",
+   "seed": 22,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed33/experiment.json",
+   "seed": 33,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed33/experiment.json",
+   "seed": 33,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed33/experiment.json",
+   "seed": 33,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed33/experiment.json",
+   "seed": 33,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed33/experiment.json",
+   "seed": 33,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed33/experiment.json",
+   "seed": 33,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed33/experiment.json",
+   "seed": 33,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed33/experiment.json",
+   "seed": 33,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed33/experiment.json",
+   "seed": 33,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed33/experiment.json",
+   "seed": 33,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed33/experiment.json",
+   "seed": 33,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed33/experiment.json",
+   "seed": 33,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed33/experiment.json",
+   "seed": 33,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed33/experiment.json",
+   "seed": 33,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed33/experiment.json",
+   "seed": 33,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed33/experiment.json",
+   "seed": 33,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed44/experiment.json",
+   "seed": 44,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed44/experiment.json",
+   "seed": 44,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed44/experiment.json",
+   "seed": 44,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed44/experiment.json",
+   "seed": 44,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed44/experiment.json",
+   "seed": 44,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed44/experiment.json",
+   "seed": 44,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed44/experiment.json",
+   "seed": 44,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed44/experiment.json",
+   "seed": 44,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed44/experiment.json",
+   "seed": 44,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed44/experiment.json",
+   "seed": 44,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed44/experiment.json",
+   "seed": 44,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed44/experiment.json",
+   "seed": 44,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed44/experiment.json",
+   "seed": 44,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed44/experiment.json",
+   "seed": 44,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed44/experiment.json",
+   "seed": 44,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed44/experiment.json",
+   "seed": 44,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed55/experiment.json",
+   "seed": 55,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed55/experiment.json",
+   "seed": 55,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed55/experiment.json",
+   "seed": 55,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed55/experiment.json",
+   "seed": 55,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed55/experiment.json",
+   "seed": 55,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed55/experiment.json",
+   "seed": 55,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed55/experiment.json",
+   "seed": 55,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed55/experiment.json",
+   "seed": 55,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed55/experiment.json",
+   "seed": 55,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed55/experiment.json",
+   "seed": 55,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed55/experiment.json",
+   "seed": 55,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed55/experiment.json",
+   "seed": 55,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed55/experiment.json",
+   "seed": 55,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed55/experiment.json",
+   "seed": 55,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed66/experiment.json",
+   "seed": 66,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed66/experiment.json",
+   "seed": 66,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed66/experiment.json",
+   "seed": 66,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed66/experiment.json",
+   "seed": 66,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed66/experiment.json",
+   "seed": 66,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed66/experiment.json",
+   "seed": 66,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed66/experiment.json",
+   "seed": 66,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed66/experiment.json",
+   "seed": 66,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed66/experiment.json",
+   "seed": 66,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed66/experiment.json",
+   "seed": 66,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed66/experiment.json",
+   "seed": 66,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed66/experiment.json",
+   "seed": 66,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed66/experiment.json",
+   "seed": 66,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed66/experiment.json",
+   "seed": 66,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed66/experiment.json",
+   "seed": 66,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed66/experiment.json",
+   "seed": 66,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed66/experiment.json",
+   "seed": 66,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed66/experiment.json",
+   "seed": 66,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed66/experiment.json",
+   "seed": 66,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed66/experiment.json",
+   "seed": 66,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed77/experiment.json",
+   "seed": 77,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed77/experiment.json",
+   "seed": 77,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed77/experiment.json",
+   "seed": 77,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed77/experiment.json",
+   "seed": 77,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed77/experiment.json",
+   "seed": 77,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed77/experiment.json",
+   "seed": 77,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed77/experiment.json",
+   "seed": 77,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed77/experiment.json",
+   "seed": 77,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed77/experiment.json",
+   "seed": 77,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed77/experiment.json",
+   "seed": 77,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed77/experiment.json",
+   "seed": 77,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed77/experiment.json",
+   "seed": 77,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed77/experiment.json",
+   "seed": 77,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed77/experiment.json",
+   "seed": 77,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed77/experiment.json",
+   "seed": 77,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed77/experiment.json",
+   "seed": 77,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed77/experiment.json",
+   "seed": 77,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed77/experiment.json",
+   "seed": 77,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed77/experiment.json",
+   "seed": 77,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed77/experiment.json",
+   "seed": 77,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed77/experiment.json",
+   "seed": 77,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed77/experiment.json",
+   "seed": 77,
+   "class": "UNKNOWN"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed77/experiment.json",
+   "seed": 77,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed88/experiment.json",
+   "seed": 88,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed88/experiment.json",
+   "seed": 88,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed88/experiment.json",
+   "seed": 88,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed88/experiment.json",
+   "seed": 88,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed88/experiment.json",
+   "seed": 88,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed88/experiment.json",
+   "seed": 88,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed88/experiment.json",
+   "seed": 88,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed88/experiment.json",
+   "seed": 88,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed88/experiment.json",
+   "seed": 88,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed88/experiment.json",
+   "seed": 88,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed88/experiment.json",
+   "seed": 88,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed88/experiment.json",
+   "seed": 88,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed88/experiment.json",
+   "seed": 88,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed88/experiment.json",
+   "seed": 88,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed88/experiment.json",
+   "seed": 88,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed88/experiment.json",
+   "seed": 88,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed88/experiment.json",
+   "seed": 88,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/excited/baseline_excited/the_listener/listener_excited_seed11/experiment.json",
+   "seed": 11,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/excited/baseline_excited/the_listener/listener_excited_seed11/experiment.json",
+   "seed": 11,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/excited/baseline_excited/the_listener/listener_excited_seed11/experiment.json",
+   "seed": 11,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/excited/baseline_excited/the_listener/listener_excited_seed11/experiment.json",
+   "seed": 11,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/excited/baseline_excited/the_listener/listener_excited_seed11/experiment.json",
+   "seed": 11,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/excited/baseline_excited/the_listener/listener_excited_seed22/experiment.json",
+   "seed": 22,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/excited/baseline_excited/the_listener/listener_excited_seed22/experiment.json",
+   "seed": 22,
+   "class": "UNKNOWN"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/excited/baseline_excited/the_listener/listener_excited_seed22/experiment.json",
+   "seed": 22,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/excited/baseline_excited/the_listener/listener_excited_seed33/experiment.json",
+   "seed": 33,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/excited/baseline_excited/the_listener/listener_excited_seed33/experiment.json",
+   "seed": 33,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/excited/baseline_excited/the_listener/listener_excited_seed33/experiment.json",
+   "seed": 33,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/excited/baseline_excited/the_listener/listener_excited_seed33/experiment.json",
+   "seed": 33,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/excited/baseline_excited/the_listener/listener_excited_seed66/experiment.json",
+   "seed": 66,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/excited/baseline_excited/the_listener/listener_excited_seed66/experiment.json",
+   "seed": 66,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/baseline/excited/baseline_excited/the_listener/listener_excited_seed66/experiment.json",
+   "seed": 66,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed11/experiment.json",
+   "seed": 11,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed11/experiment.json",
+   "seed": 11,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed11/experiment.json",
+   "seed": 11,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed11/experiment.json",
+   "seed": 11,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed11/experiment.json",
+   "seed": 11,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed11/experiment.json",
+   "seed": 11,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed11/experiment.json",
+   "seed": 11,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed11/experiment.json",
+   "seed": 11,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed11/experiment.json",
+   "seed": 11,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed11/experiment.json",
+   "seed": 11,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed11/experiment.json",
+   "seed": 11,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed11/experiment.json",
+   "seed": 11,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed11/experiment.json",
+   "seed": 11,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed11/experiment.json",
+   "seed": 11,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed11/experiment.json",
+   "seed": 11,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed11/experiment.json",
+   "seed": 11,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed11/experiment.json",
+   "seed": 11,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed11/experiment.json",
+   "seed": 11,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed11/experiment.json",
+   "seed": 11,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed11/experiment.json",
+   "seed": 11,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed11/experiment.json",
+   "seed": 11,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed11/experiment.json",
+   "seed": 11,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed11/experiment.json",
+   "seed": 11,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed11/experiment.json",
+   "seed": 11,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed22/experiment.json",
+   "seed": 22,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed22/experiment.json",
+   "seed": 22,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed22/experiment.json",
+   "seed": 22,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed22/experiment.json",
+   "seed": 22,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed22/experiment.json",
+   "seed": 22,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed22/experiment.json",
+   "seed": 22,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed22/experiment.json",
+   "seed": 22,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed22/experiment.json",
+   "seed": 22,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed22/experiment.json",
+   "seed": 22,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed22/experiment.json",
+   "seed": 22,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed22/experiment.json",
+   "seed": 22,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed22/experiment.json",
+   "seed": 22,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed22/experiment.json",
+   "seed": 22,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed22/experiment.json",
+   "seed": 22,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed22/experiment.json",
+   "seed": 22,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed22/experiment.json",
+   "seed": 22,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed22/experiment.json",
+   "seed": 22,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed22/experiment.json",
+   "seed": 22,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed33/experiment.json",
+   "seed": 33,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed33/experiment.json",
+   "seed": 33,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed33/experiment.json",
+   "seed": 33,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed33/experiment.json",
+   "seed": 33,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed33/experiment.json",
+   "seed": 33,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed33/experiment.json",
+   "seed": 33,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed33/experiment.json",
+   "seed": 33,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed33/experiment.json",
+   "seed": 33,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed33/experiment.json",
+   "seed": 33,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed33/experiment.json",
+   "seed": 33,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed33/experiment.json",
+   "seed": 33,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed33/experiment.json",
+   "seed": 33,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed33/experiment.json",
+   "seed": 33,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed33/experiment.json",
+   "seed": 33,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed33/experiment.json",
+   "seed": 33,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed33/experiment.json",
+   "seed": 33,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed33/experiment.json",
+   "seed": 33,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed33/experiment.json",
+   "seed": 33,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed33/experiment.json",
+   "seed": 33,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed33/experiment.json",
+   "seed": 33,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed33/experiment.json",
+   "seed": 33,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed33/experiment.json",
+   "seed": 33,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed33/experiment.json",
+   "seed": 33,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed33/experiment.json",
+   "seed": 33,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed33/experiment.json",
+   "seed": 33,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed33/experiment.json",
+   "seed": 33,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed33/experiment.json",
+   "seed": 33,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed33/experiment.json",
+   "seed": 33,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed44/experiment.json",
+   "seed": 44,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed44/experiment.json",
+   "seed": 44,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed44/experiment.json",
+   "seed": 44,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed44/experiment.json",
+   "seed": 44,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed44/experiment.json",
+   "seed": 44,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed44/experiment.json",
+   "seed": 44,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed44/experiment.json",
+   "seed": 44,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed44/experiment.json",
+   "seed": 44,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed44/experiment.json",
+   "seed": 44,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed44/experiment.json",
+   "seed": 44,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed44/experiment.json",
+   "seed": 44,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed44/experiment.json",
+   "seed": 44,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed44/experiment.json",
+   "seed": 44,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed44/experiment.json",
+   "seed": 44,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed44/experiment.json",
+   "seed": 44,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed44/experiment.json",
+   "seed": 44,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed55/experiment.json",
+   "seed": 55,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed55/experiment.json",
+   "seed": 55,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed55/experiment.json",
+   "seed": 55,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed55/experiment.json",
+   "seed": 55,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed55/experiment.json",
+   "seed": 55,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed55/experiment.json",
+   "seed": 55,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed55/experiment.json",
+   "seed": 55,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed55/experiment.json",
+   "seed": 55,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed55/experiment.json",
+   "seed": 55,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed55/experiment.json",
+   "seed": 55,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed55/experiment.json",
+   "seed": 55,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed55/experiment.json",
+   "seed": 55,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed55/experiment.json",
+   "seed": 55,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed55/experiment.json",
+   "seed": 55,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed55/experiment.json",
+   "seed": 55,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed66/experiment.json",
+   "seed": 66,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed66/experiment.json",
+   "seed": 66,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed66/experiment.json",
+   "seed": 66,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed66/experiment.json",
+   "seed": 66,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed66/experiment.json",
+   "seed": 66,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed66/experiment.json",
+   "seed": 66,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed66/experiment.json",
+   "seed": 66,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed66/experiment.json",
+   "seed": 66,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed66/experiment.json",
+   "seed": 66,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed66/experiment.json",
+   "seed": 66,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed66/experiment.json",
+   "seed": 66,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed66/experiment.json",
+   "seed": 66,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed66/experiment.json",
+   "seed": 66,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed66/experiment.json",
+   "seed": 66,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed66/experiment.json",
+   "seed": 66,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed66/experiment.json",
+   "seed": 66,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed66/experiment.json",
+   "seed": 66,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed66/experiment.json",
+   "seed": 66,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed66/experiment.json",
+   "seed": 66,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed66/experiment.json",
+   "seed": 66,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed66/experiment.json",
+   "seed": 66,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed66/experiment.json",
+   "seed": 66,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed66/experiment.json",
+   "seed": 66,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed66/experiment.json",
+   "seed": 66,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed66/experiment.json",
+   "seed": 66,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed66/experiment.json",
+   "seed": 66,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed66/experiment.json",
+   "seed": 66,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed66/experiment.json",
+   "seed": 66,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed77/experiment.json",
+   "seed": 77,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed77/experiment.json",
+   "seed": 77,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed77/experiment.json",
+   "seed": 77,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed77/experiment.json",
+   "seed": 77,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed77/experiment.json",
+   "seed": 77,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed77/experiment.json",
+   "seed": 77,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed77/experiment.json",
+   "seed": 77,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed77/experiment.json",
+   "seed": 77,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed77/experiment.json",
+   "seed": 77,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed77/experiment.json",
+   "seed": 77,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed77/experiment.json",
+   "seed": 77,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed77/experiment.json",
+   "seed": 77,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed77/experiment.json",
+   "seed": 77,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed77/experiment.json",
+   "seed": 77,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed77/experiment.json",
+   "seed": 77,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed88/experiment.json",
+   "seed": 88,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed88/experiment.json",
+   "seed": 88,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed88/experiment.json",
+   "seed": 88,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed88/experiment.json",
+   "seed": 88,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed88/experiment.json",
+   "seed": 88,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed88/experiment.json",
+   "seed": 88,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed88/experiment.json",
+   "seed": 88,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed88/experiment.json",
+   "seed": 88,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed88/experiment.json",
+   "seed": 88,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed88/experiment.json",
+   "seed": 88,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed88/experiment.json",
+   "seed": 88,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed88/experiment.json",
+   "seed": 88,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed88/experiment.json",
+   "seed": 88,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed88/experiment.json",
+   "seed": 88,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed88/experiment.json",
+   "seed": 88,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed88/experiment.json",
+   "seed": 88,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed88/experiment.json",
+   "seed": 88,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed88/experiment.json",
+   "seed": 88,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed88/experiment.json",
+   "seed": 88,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed88/experiment.json",
+   "seed": 88,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed88/experiment.json",
+   "seed": 88,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed88/experiment.json",
+   "seed": 88,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed88/experiment.json",
+   "seed": 88,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed88/experiment.json",
+   "seed": 88,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed88/experiment.json",
+   "seed": 88,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed88/experiment.json",
+   "seed": 88,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/excited/suppressors_excited/the_listener/listener_excited_seed11/experiment.json",
+   "seed": 11,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/excited/suppressors_excited/the_listener/listener_excited_seed11/experiment.json",
+   "seed": 11,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/excited/suppressors_excited/the_listener/listener_excited_seed11/experiment.json",
+   "seed": 11,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/excited/suppressors_excited/the_listener/listener_excited_seed11/experiment.json",
+   "seed": 11,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/excited/suppressors_excited/the_listener/listener_excited_seed11/experiment.json",
+   "seed": 11,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/excited/suppressors_excited/the_listener/listener_excited_seed11/experiment.json",
+   "seed": 11,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/excited/suppressors_excited/the_listener/listener_excited_seed11/experiment.json",
+   "seed": 11,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/excited/suppressors_excited/the_listener/listener_excited_seed11/experiment.json",
+   "seed": 11,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/excited/suppressors_excited/the_listener/listener_excited_seed11/experiment.json",
+   "seed": 11,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/excited/suppressors_excited/the_listener/listener_excited_seed22/experiment.json",
+   "seed": 22,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/excited/suppressors_excited/the_listener/listener_excited_seed22/experiment.json",
+   "seed": 22,
+   "class": "TASK"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/excited/suppressors_excited/the_listener/listener_excited_seed22/experiment.json",
+   "seed": 22,
+   "class": "UNKNOWN"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/excited/suppressors_excited/the_listener/listener_excited_seed33/experiment.json",
+   "seed": 33,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/excited/suppressors_excited/the_listener/listener_excited_seed33/experiment.json",
+   "seed": 33,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/excited/suppressors_excited/the_listener/listener_excited_seed33/experiment.json",
+   "seed": 33,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/excited/suppressors_excited/the_listener/listener_excited_seed33/experiment.json",
+   "seed": 33,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/excited/suppressors_excited/the_listener/listener_excited_seed33/experiment.json",
+   "seed": 33,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/excited/suppressors_excited/the_listener/listener_excited_seed55/experiment.json",
+   "seed": 55,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/excited/suppressors_excited/the_listener/listener_excited_seed55/experiment.json",
+   "seed": 55,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/excited/suppressors_excited/the_listener/listener_excited_seed55/experiment.json",
+   "seed": 55,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/excited/suppressors_excited/the_listener/listener_excited_seed55/experiment.json",
+   "seed": 55,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/excited/suppressors_excited/the_listener/listener_excited_seed66/experiment.json",
+   "seed": 66,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/excited/suppressors_excited/the_listener/listener_excited_seed66/experiment.json",
+   "seed": 66,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/excited/suppressors_excited/the_listener/listener_excited_seed66/experiment.json",
+   "seed": 66,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/excited/suppressors_excited/the_listener/listener_excited_seed66/experiment.json",
+   "seed": 66,
+   "class": "SUPPORT"
+  },
+  {
+   "file": "results/e27_game_variants/suppressors/excited/suppressors_excited/the_listener/listener_excited_seed66/experiment.json",
+   "seed": 66,
+   "class": "SUPPORT"
+  }
+ ]
+}
