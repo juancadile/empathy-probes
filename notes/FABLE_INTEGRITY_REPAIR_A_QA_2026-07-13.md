@@ -102,6 +102,19 @@ Required repair:
   persisted as making the run ineligible for confirmatory evidence.
 - Apply the same resolution contract to every caller that can produce a result,
   including `norm_matched_controls.py`.
+- A superseded registry key may support exact historical reproduction but must
+  be rejected in `accepted` mode; a warning alone is insufficient.
+
+Inventory every CLI that imports the low-level weight-edit functions. Each must
+either adopt the shared accepted/exploratory contract or be explicitly and
+persistently `historical_or_exploratory_only`, with no accepted mode. In the
+current tree this includes at least `weight_orthogonalization.py`,
+`capability_eval.py`, `norm_matched_controls.py`, `e17_stage3.py`,
+`e17b_null_audit.py`, `e18_interaction.py`, `e26_format_stress.py`,
+`e26_matched_nulls.py`, `e28b_slope_nulls.py`, both EIA game drivers, and the
+edit path in `analysis/logit_lens_trajectory.py`. Historical scripts do not all
+need full migration in this batch, but none may emit an artifact whose evidence
+eligibility is absent or ambiguous.
 
 Acceptance tests:
 
@@ -109,6 +122,8 @@ Acceptance tests:
 - Current set + historical direction fails.
 - Literal component specs require explicit direction provenance.
 - Exploratory override is visible in the returned/persisted resolution.
+- A static/inventory test proves every direct weight-edit CLI is either governed
+  by the shared accepted contract or explicitly non-evidential.
 
 ## Q5. Replace the permissive MMLU answer parser (P1)
 
