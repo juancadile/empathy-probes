@@ -27,25 +27,30 @@ set behaving like a source of welfare value, and a \emph{suppressor} set
 behaving like a need- and cost-dependent gate on welfare-motivated action.
 On a graded cost axis with a clause-matched non-welfare control, removing the
 suppressor set produces effects whose cost slope exceeds the non-welfare
-axis's by $+0.172$ (family-bootstrap CI $[+0.129,+0.220]$; positive in 10/10
-scenario families); a graded need axis shows this cost gating is
-\emph{conjunctive on need}, with the cost slope rising from $-0.03$ (need
-resolved) through $+0.06$ (mild) to $+0.17$ (urgent). Removing the writer set
-costs $\approx-0.20$ at every price point within a need level,
-welfare-preferentially (slope difference $-0.059$ $[-0.081,-0.039]$, negative
-in 10/10 families), and its effect vanishes at zero current need. The edits
+axis's by $+0.113$ (family-bootstrap CI $[+0.086,+0.141]$; positive in 10/10
+scenario families) for the component sets of record — replicating the
+original derivation's $+0.172$ after a polarity-bug correction forced their
+re-derivation (\S\ref{sec:resid}). A graded need axis on the
+\emph{pre-correction} sets showed the cost gating conjunctive on need (cost
+slope $-0.03$ resolved $\to$ $+0.17$ urgent); the need axis for the sets of
+record is being revalidated. Removing the writer set costs
+$\approx-0.2$--$0.3$ at every price point, with no detectable linear welfare
+cost trend of its own; on the pre-correction sets its resolved-need effect was
+small and sign-opposed ($+0.019$ $[+0.003,+0.037]$), not zero. The edits
 are rank-1 orthogonalizations of components selected by direct feature
 attribution from a moderately distributed push--pull pattern. On held-out
-scenario families, writer removal reduces forced-choice helping by $-0.184$
-(CI $[-0.236,-0.133]$; $\ge4.3\times$ selective over four control cells);
-suppressor removal increases it ($+0.150$) while also moving task
-persistence — the factorial assays above separate its gate from that flat
-engagement component. In the one Empathy-in-Action game scenario with
-behavioral headroom, suppressor — but not writer — edits transfer to
-interactive action allocation: $+5.0$ supportive verbal actions on ten seeds
-untouched by scenario discovery (CI $[+1.1,+8.7]$, sign-test $p=.039$),
-without detectable degradation on a 400-question MMLU sample or WikiText
-perplexity. The underlying direction, derived from matched-lexicon minimal
+scenario families, writer removal reduces forced-choice helping by $-0.284$
+(CI $[-0.352,-0.221]$; task-selectivity $20\times$, robust across chat,
+paraphrase, and scaffold-free continuation readouts); suppressor removal
+increases it ($+0.155$) while also moving task persistence — the factorial
+assays above separate its gate from that flat engagement component. In the one Empathy-in-Action game scenario with behavioral headroom,
+pre-correction suppressor edits transferred to interactive action allocation
+($+5.0$ supportive verbal actions, sign-test $p=.039$); for the sets of
+record, baseline engagement proves dramatically distress-selective (18.0 vs.\
+1.75 vs.\ 0 supportive messages per game across distress/excited/resolved
+user variants, 8/8 seeds, $p=.008$) while the edit's incremental
+welfare-specificity is unresolved at $n{=}8$ seeds. No edit produces
+detectable degradation on a 400-question MMLU sample or WikiText perplexity. The underlying direction, derived from matched-lexicon minimal
 pairs at block 20/42, carries $\sim$88\% of baseline choice separation under
 full ablation on this assay, versus $\sim$5.5\% for the analogous direction
 in \mbox{Llama-3.1-8B-Instruct} (linear fractional dose curves; near-zero
@@ -78,7 +83,9 @@ task/warmth/character-residualized direction (which is \emph{not}
 certified welfare-pure; \S\ref{sec:resid}) to components via exact
 residual-stream attribution and edit those
 components with rank-1 weight orthogonalization, under norm-matched
-random-direction, random-component, capability, and held-out-family controls.
+random-direction, random-component, capability, and held-out-family controls
+(direction-specificity controls for the re-derived sets are in progress and
+scoped as such in \S\ref{sec:resid}).
 Third — and this is the part we would most encourage other groups to copy —
 we subjected every stage to pre-registration and adversarial review, which
 caught a circular evaluation design, an estimand error, and a
@@ -87,14 +94,15 @@ stimulus-generation artifact before any of them reached a claim.
 What emerges is a two-part mechanism whose parts are legible in behavioral
 coordinates. One component set behaves like a source of \emph{welfare value}:
 removing it lowers the model's preference for helping a person in need at
-every price point, moves four control dispositions at most $\nicefrac{1}{4}$ as much, and
-has no effect when the person needs nothing. The other behaves like a
+every price point and moves four control dispositions at most $\nicefrac{1}{4}$ as much; at
+zero current need its pre-correction effect was small and sign-opposed, not zero. The other behaves like a
 \emph{gate}: removing it disinhibits helping in proportion to both the cost
 of helping and the need of the person — a conjunctive cost$\times$need gate —
 while also loosening a smaller, need-insensitive hold on engagement generally.
-The gate's removal transfers out of text pairs entirely: in the original
-Empathy-in-Action games, gate-edited models allocate their actions toward a
-distressed user at the expense of their objective.
+The gate's removal transfers out of text pairs into the original
+Empathy-in-Action games as increased engagement toward an expressive user
+(pre-correction sets); whether that increase is welfare-specific for the sets
+of record is unresolved (\S4.4).
 
 \paragraph{Contributions.}
 \begin{enumerate}
@@ -181,7 +189,7 @@ edited model and scores pre-registered rule-based outcomes.
 \section{Results}
 \subsection{A contrastive direction and its corrected diagnostic profile}
 The block-20 direction transfers to costly-helping and third-person cells
-(A 0.73, F 0.90). \textbf{Correction (E24):} cells we originally reported as
+(A 0.71, F 0.90). \textbf{Correction (E24):} cells we originally reported as
 ``near chance'' are in fact strongly \emph{inversely} separated — two-sided
 separability T 0.98, H 0.83, D 0.76 — i.e., the direction also tracks task
 interruption with reversed polarity and is not welfare-purified; all
@@ -215,7 +223,8 @@ $\mathbf{-0.284}$ $[-0.352,-0.221]$ with task/distress/motive/persona
 ratios $20\times$/$4.4\times$/$61\times$/$4.5\times$, no dev-to-confirm
 shrinkage, and no measurable capability cost (MMLU-400, WikiText-2). The
 effect is format- and readout-robust: chat templating $-0.197$
-$[-0.281,-0.119]$, three decision-clause paraphrases $-0.25$ to $-0.28$,
+$[-0.281,-0.119]$, three opener-stem clause substitutions $-0.25$ to $-0.28$ (the rest of each
+clause is unchanged — limited lexical robustness),
 and a scaffold-free continuation-likelihood readout $-0.0199$
 $[-0.0240,-0.0157]$ ($\sim$55\% of the baseline margin; task control
 $-0.0052$, a 3.8$\times$ point-estimate ratio with small spillover).
@@ -226,14 +235,16 @@ second of 28 after linear edit-norm adjustment, $p\approx.07$) — a
 two-component circuit. Suppressor removal shifts helping $+0.155$
 $[+0.107,+0.207]$ (chat $+0.128$; continuation $+0.0066$
 $[+0.0034,+0.0098]$) and remains the sole positive outlier among 12
-sampled composition-matched sets ($z=+3.9$); it co-moves task persistence
+sampled composition-matched sets ($z=+3.9$; direct empirical resolution
+floor $p=1/13\approx.077$); it co-moves task persistence
 under A/B formats ($-0.166$), motivating the factorial decomposition
 below, where its cost-gate signature \emph{replicates} on the re-derived
 set (slope interaction $+0.113$ $[+0.086,+0.141]$, 10/10 families;
 suppressor$-$random paired contrast $+0.138$ $[+0.106,+0.176]$). In the
 interactive game, message-pool variants show baseline engagement is
-strongly need-gated (18.1 vs.\ 1.9 vs.\ 0.0 supportive messages per game
-for distress/excited/resolved), but the suppressor edit's engagement
+strongly need-gated (SUPPORT-classified says $18.0$ vs.\ $1.75$ vs.\ $0$ per
+game for distress/excited/resolved; $\ge$92\% of all says are
+support-classified), but the suppressor edit's engagement
 increase is \emph{not} demonstrably welfare-specific at $n=8$ seeds
 (condition$\times$variant interaction $+2.6$ $[-1.8,+6.9]$).
 
@@ -261,7 +272,8 @@ $\le1.003$).
   10 scenario families per axis.}
   \label{fig:costgate}
 \end{figure}
-\subsection{The mechanism decomposed: value writing vs.\ conjunctive gating}
+\subsection{The mechanism decomposed: value writing vs.\ conjunctive gating
+(pre-correction component sets; see \S\ref{sec:resid} for the sets of record)}
 Figure~\ref{fig:costgate} shows edit effects against helping cost on the
 welfare and matched non-welfare axes. The suppressor effect's cost slope
 exceeds its non-welfare slope by $+0.172$ $[+0.129,+0.220]$ (10/10 families);
@@ -270,8 +282,8 @@ resolved need, $+0.06$ at mild, $+0.17$ at urgent — and its removal also
 carries a flat $\approx+0.2$ engagement component visible on the non-welfare
 axis and in the task-persistence co-movement. The writer effect is
 approximately cost-flat within each need level (slope difference $-0.059$
-$[-0.081,-0.039]$), scales with need, and vanishes at zero current need
-($+0.019$ at resolved): the writer-removal profile is consistent with \emph{need-gated welfare value}.
+$[-0.081,-0.039]$), scales with need, and is nearly (not exactly) absent at zero current need
+($+0.019$ $[+0.003,+0.037]$ at resolved, sign-opposed): the writer-removal profile is consistent with \emph{need-gated welfare value}.
 On the moral-vs-moral axis, the baseline model shows a $\sim$2.5-logit
 incumbency prior at equal need; suppressor removal loosens it uniformly
 (flat-compatible under a pre-registered equivalence bound) at $\sim$8$\times$
@@ -281,6 +293,10 @@ random-component leak is comparable in magnitude; inference rests on the
 pre-registered sign structure).
 
 \subsection{From weights to actions}
+The interactive results in this subsection used the \emph{pre-correction}
+suppressor set; the sets-of-record game evidence is the E27 variant design in
+\S\ref{sec:resid} (need-gated baseline engagement; edit welfare-specificity
+unresolved at $n{=}8$).
 In the one EIA scenario with behavioral headroom (the listener: reach a door
 while a distressed user messages you), suppressor-edited models allocate
 $+4.9$ additional supportive messages (pooled 13 seeds, CI $[+1.9,+7.8]$,
