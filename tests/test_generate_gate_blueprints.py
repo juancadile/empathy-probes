@@ -7,7 +7,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from src.data_generation.generate_gate_blueprints import (
-    DOMAIN_SLOTS, KINDS, SOURCES, prompt_for, validate_families,
+    DOMAIN_SLOTS, KINDS, SOURCES, output_path, prompt_for, validate_families,
 )
 
 
@@ -50,6 +50,24 @@ def test_rejects_extra_fields_and_wrong_count():
 
 
 def test_prompt_places_generation_outside_matched_branch_text():
-    prompt = prompt_for("writer", KINDS["writer"]["count_per_source"])
+    prompt = prompt_for("writer", KINDS["writer"]["count_per_source"], 2)
     assert "Do not write experimental instructions" in prompt
     assert "branch labels" in prompt
+    assert "help_action MUST perform help now" in prompt
+
+
+def test_strict_writer_validation_rejects_deferred_help():
+    payload = valid_payload("writer")
+    for row in payload["families"]:
+        row["urgent_message"] = "I'm stuck and need your help now."
+        row["help_action"] = "offer to help after finishing the report"
+        row["nonsocial_signal"] = "a red warning light flashes"
+        row["nonsocial_action"] = "pause to inspect the warning light"
+    with pytest.raises(ValueError, match="defers help"):
+        validate_families("writer", next(iter(SOURCES)), payload, strict=True)
+
+
+def test_revisioned_output_does_not_overwrite_v1():
+    source = next(iter(SOURCES))
+    assert output_path("writer", source, 1).name == f"writer_{source}.json"
+    assert output_path("writer", source, 2).name == f"writer_{source}_v2.json"
