@@ -35,15 +35,27 @@ def make_responses(tmp_path):
                 }[key["cost"]]
             else:
                 label, arm = key["label"], key["arm_id"]
+                if label == "B_new":
+                    row["active_objective_yes_no"] = (
+                        "yes" if arm == "active_zero_cost" else "no"
+                    )
+                    row["task_pressure_1_to_5"] = "1"
+                if label == "Spos_new":
+                    row["valence_positive_1_to_5"] = "5" if arm == "positive" else "1"
+                    row["distress_content_1_to_5"] = "1"
+                if label == "O_new":
+                    row["response_opportunity_1_to_5"] = "5" if arm == "available" else "1"
+                    row["welfare_relevance_1_to_5"] = "3"
+                    row["task_pressure_1_to_5"] = "3"
                 if label == "Ctext_new":
-                    row["task_pressure_1_to_5"] = {"zero": "1", "low": "2"}[arm]
+                    row["task_pressure_1_to_5"] = {
+                        "zero": "1", "low": "2", "medium": "3", "high": "5"
+                    }[arm]
+                    row["welfare_relevance_1_to_5"] = "3"
                 if label == "observation":
                     row["welfare_relevance_1_to_5"] = "5" if arm == "current_actual" else "1"
-                if label == "persona":
-                    row["welfare_relevance_1_to_5"] = "5" if arm.startswith("current_") else "1"
-                    row["persona_caring_1_to_5"] = "5" if arm.endswith("caring") else "1"
-                if label == "cost":
-                    row["task_pressure_1_to_5"] = "5" if arm == "high" else "1"
+                    row["actuality_1_to_5"] = "5"
+                    row["task_pressure_1_to_5"] = "3"
                 if label == "P_new":
                     row["persona_caring_1_to_5"] = "5" if arm == "caring" else "1"
         with (out / f"form_{form}.csv").open("w", newline="") as handle:
@@ -59,7 +71,12 @@ def test_complete_consistent_rater_passes_competence_and_reports_claims(tmp_path
     assert report["gold"]["failure_count"] == 0
     assert report["claims"]["r2b_resolved_need_by_cost"]["R2b-v2-dev"][
         "classification"] == "equivalently_flat"
-    assert report["claims"]["wp3_observation"]["human_verdict"] == "positive"
+    assert report["claims"]["wp2_target_observation"]["valid_for_wp2_interpretation"]
+    assert all(
+        result["valid_for_wp2_negative"]
+        for result in report["claims"]["wp2_failed_controls"].values()
+    )
+    assert report["wp2_negative_interpretation_ready"] is True
     assert report["claim_authorization"].startswith("none")
 
 

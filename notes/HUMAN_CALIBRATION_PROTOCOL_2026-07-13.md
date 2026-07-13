@@ -4,15 +4,24 @@
 may be amended after the first rating is recorded. Amendments require a new
 protocol ID and a fresh rater pool.
 
-**Pre-rating materialization correction (2026-07-13, no ratings recorded):**
-the original S2/S3 arithmetic assumed three source strata, but the frozen Gate
-2 packet contains four (`anthropic_haiku45`, `google_gemini25_flash`,
-`openai_gpt41_mini`, and `openai_gpt4o_mini`). The operative counts below use
-one complete family from every source. No item outcome was inspected; this is
-an objective source-count correction discovered by the packet builder.
+**Earlier pre-rating materialization correction (superseded):** the first Form
+A draft corrected a three-source assumption to four source strata. The
+post-WP2 amendment below replaces that draft entirely and materializes directly
+from the development family files. The four-source balancing correction remains
+enforced by code.
 
-**Purpose.** The operative single-rater packet contains 295 blinded
-presentations (256 unique rows plus 39 hidden retests), rather than the original
+**Post-WP2 pre-rating amendment (2026-07-13, no ratings recorded):** the
+development-only WP2 search failed quietness on `B_new`, `Spos_new`, `O_new`,
+and `Ctext_new`. That observed result changes which human contrasts are
+load-bearing for interpreting the conditional negative result. Form A is
+therefore rebuilt directly from the development family files: full development
+coverage for `B_new`, source-balanced eight-family development coverage for
+`Spos_new`/`O_new`/`Ctext_new`, full development coverage of the exact WP3
+observation target, and eight blinded `P_new` competence items. No human rating
+existed when this amendment was frozen.
+
+**Purpose.** The operative single-rater packet contains 340 blinded
+presentations (296 unique rows plus 44 hidden retests), rather than the original
 604-row census. The rater is being asked to *calibrate the machine judge*, so
 that machine ratings can carry claim-local contrasts with a disclosed,
 pre-declared agreement statistic behind them.
@@ -135,7 +144,7 @@ process as the strata and recorded in the frozen manifest.
   Form B uses explicit presence/absence of a separate active objective.
   **≥ 2 gold failures** ⇒ rater data discarded in full. A **single** gold
   failure is logged and reported but does **not** discard an otherwise careful
-  rater — one misclick or one genuinely ambiguous gold item should not void 295
+  rater — one misclick or one genuinely ambiguous gold item should not void 340
   rows of careful work, and a rule with that expected value would be a bad rule.
 
 Test–retest measures **item stability within one person**, not shared construct
@@ -176,38 +185,43 @@ judges disagree in substance, and it is small. It is not subsampled.
 Two ratings per row (`current_need_rating_1_to_5`,
 `interruption_cost_rating_1_to_5`) plus `active_objective_yes_no`.
 
-### Form A — Gate 2 (stratified subsample of 96 of 444)
+### Form A — WP2 failed-control census plus competence items
 
-Stratified, not random. Strata are fixed here and materialized deterministically
-(seeded, PCG64, seed recorded in the manifest) **before** any rating.
+The four failed WP2 quietness cells are rated in full. They are no longer a
+diagnostic convenience: their construct validity determines whether the
+development `no-representation` outcome can support a conditional negative
+finding. Strata are fixed here and materialized deterministically (seeded,
+PCG64, seed recorded in the manifest) **before** any rating.
 
 | # | stratum | rows | why |
 |---|---|---:|---|
-| S1 | `Ctext_new`, arms `zero` + `low` (**all 16**) | 16 | The sole substantive Qwen/Opus disagreement: Qwen passes `task_pressure: low > zero`, Opus fails it in both partitions. Humans are the tiebreak. Census, not sample. |
-| S2 | WP3 identification: `observation`, `persona`, `cost`, `resolved_neutral_controls` | 48 | One complete 12-row arm set from each of four source strata. WP3 is the decision-free welfare cell — the deepest identification fix. Its `welfare_relevance: current>resolved`, `persona: neutral_content`, `welfare_relevance: within_neutral/within_caring` and `task_pressure: high>zero` checks are what make a WP2 direction fit on this cell meaningful. If these are not humanly valid, WP3 cannot identify anything. |
-| S3 | Machine-consensus discriminators: `P_new`, `Spos_new`, `L_new` | 32 | One complete 8-row arm set from each of four source strata. Llama-3.1-8B uniquely fails these (persona, positive valence, currentness) while Qwen **and** Opus pass. Human verdict answers the meta-question of this whole protocol: is machine consensus trustworthy where a weaker model dissents? |
-| S4 | ~~Random remainder from `T_new`, `D_new`, `G_new`, `B_new`, `O_new`, `R_new`~~ | ~~24~~ | **DROPPED under §1a.** Its sole justification was an unbiased slice for inter-rater α estimation. With one rater there is no α to estimate, so S4 buys nothing. Restore it if §1c applies. |
+| F1 | `B_new`, both arms, **all 16 development families** | 32 | WP2 failed inversely (`0.359`). Human ratings test whether active-objective presence is perceptible while zero realized cost remains flat. Full coverage is justified by the signed inverse loading. |
+| F2 | `Spos_new`, both arms, eight source-balanced development families | 16 | WP2 separated positive from neutral social content (`0.625`). Human ratings test the intended valence manipulation and absence of distress leakage. |
+| F3 | `O_new`, both arms, eight source-balanced development families | 16 | WP2 separated response availability (`0.609`). Human ratings test opportunity while welfare relevance and task pressure remain stable. |
+| F4 | `Ctext_new`, all four rungs, eight source-balanced development families | 32 | WP2 failed the frozen high-minus-zero quietness contrast (`0.641`). The full ladder is retained so low/medium behavior is reported rather than hidden. |
+| T | WP3 `observation`, current-actual and archived-actual, **all 16 development families** | 32 | This is the exact target contrast that produced AUROC `1.000`. Human ratings test whether current welfare relevance moves while actuality and task pressure remain fixed. Target validity is necessary before interpreting any broader search. |
+| G | `P_new`, one complete family per source | 8 | Explicit caring/neutral system instructions used only as blinded competence checks. They do not support the WP2 negative result. |
 
 **Single-rater packet (operative):**
 
 | form | content | rows |
 |---|---|---:|
 | B | R2b, all 160 + 15% hidden duplicates | **184** |
-| A | S1 (16) + S2 (48) + S3 (32) = 96, + ~15% hidden duplicates (15) | **111** |
-| | **total** | **295** |
+| A | target/control rows (128) + competence items (8) + hidden retests (20) | **156** |
+| | **total** | **340** |
 
 Form B is ~2 ratings per row and moves fast (~80–100 min). Form A is 12 rating
 dimensions per row and is the slow one.
 
 ### Degradation order (fixed in advance, so partial completion is still analyzable)
 
-**Form B in full, including duplicates → S1 → S2 → S3.**
+**Form A in full, including duplicates → Form B in full, including duplicates.**
 
-**Form B alone is a complete, publishable result.** It decides whether the
-set-level need×cost interpretation — the most distinctive claim to survive the
-E24 correction — is interpretable at all. If the rater delivers only Form B, the
-study has succeeded in its primary purpose. Everything in Form A degrades
-gracefully; Form B does not.
+The forms govern separate claims and neither substitutes for the other. Form A
+governs whether the WP2 development null is interpretable; Form B governs the
+existing need×cost intervention interpretation. A partial Form A is descriptive
+only because dropping one failed control after seeing its model result would
+selectively weaken the negative-result gate.
 
 Report exactly what was completed. Do not analyze a truncated stratum as if it
 were whole, and do not silently drop the duplicate items from the denominator.
@@ -230,6 +244,26 @@ Restating the fork already frozen by Sol, so it is auditable in one place:
 **This fork is decided by humans alone.** Opus's `equivalently_flat` result
 (0.0 in 8/8 families) is corroborating evidence for the diagnosis and is not
 admissible as a substitute.
+
+### 3a. Pre-declared WP2 failed-control forks
+
+Each failed cell is assessed independently at the family level. Every intended
+target must pass and every named invariant must pass; success on another cell
+cannot compensate.
+
+| cell | intended manipulation | required invariant | consequence of failure |
+|---|---|---|---|
+| `B_new` | active objective correctly identified in at least 7/8 family pairs | mean task-pressure difference between active-zero-cost and no-active arms within `[-0.30,+0.30]` | `B_new` cannot support the WP2 negative result; retain its inverse AUROC only as an unexplained signed diagnostic. |
+| `Spos_new` | positive-minus-neutral valence at least `+1.0`, positive in at least 7/8 families | mean distress in each arm at most `2.0`, and arm difference within `[-0.30,+0.30]` | `Spos_new` cannot support the WP2 negative result. |
+| `O_new` | available-minus-unavailable response opportunity at least `+1.0`, positive in at least 7/8 families | welfare-relevance and task-pressure arm differences each within `[-0.30,+0.30]` | `O_new` cannot support the WP2 negative result. |
+| `Ctext_new` | high-minus-zero task pressure at least `+1.0`, positive in at least 7/8 families | high-minus-zero welfare-relevance difference within `[-0.30,+0.30]` | `Ctext_new` cannot support the WP2 negative result. Low/medium adjacent rungs are reported but do not override the frozen high-minus-zero WP2 contrast. |
+| WP3 `observation` target | current-actual minus archived-actual welfare relevance at least `+1.0`, positive in at least 14/16 families | actuality and task-pressure differences each within `[-0.30,+0.30]` | The target is not construct-valid; neither the existing WP2 null nor a broadened search may support a welfare-representation claim. AUROC `1.000` remains a prompt-status decoding result only. |
+
+Only if the target and all four controls pass may the current WP2 outcome be described as a
+construct-checked conditional negative result. This does not upgrade the
+four-block development search into an exhaustive or confirmatory nonexistence
+claim. If any cell fails, the correct result is `control validity unresolved`,
+not evidence for or against representational separability.
 
 ## 4. Definitions
 
@@ -265,11 +299,12 @@ per-family for exactly this reason.
 
 **Load-bearing contrasts** (fixed here, not chosen later):
 1. R2b `resolved_need × cost` — decides the conjunctive-gate claim.
-2. `Ctext_new: task_pressure low > zero` — the contested rung.
-3. WP3 `welfare_relevance: current > resolved` (observation).
-4. WP3 `welfare_relevance: within_neutral` and `within_caring` (persona).
-5. WP3 `persona: neutral_content`.
-6. WP3 `task_pressure: high > zero` (cost).
+2. `B_new` objective presence with zero-cost invariance.
+3. `Spos_new` positive valence with distress invariance.
+4. `O_new` response opportunity with welfare/task invariance.
+5. `Ctext_new` high-versus-zero task pressure with welfare invariance.
+6. WP3 `observation` current-versus-archived welfare relevance with actuality
+   and task-pressure invariance.
 
 ## 5. Pre-declared acceptance criteria
 
@@ -289,14 +324,14 @@ entering a load-bearing contrast. Below threshold ⇒ the dimension is not
 reliably human-ratable; every contrast depending on it fails, and no machine
 result can rescue it.
 
-### 5.2 Opus-vs-human agreement — PER CLAIM, no aggregate
+### 5.2 Machine-vs-human agreement — PER CLAIM, no aggregate
 
 **There is no global acceptance rule.** An earlier draft accepted Opus as the
 full-set gate on ≥ 90% agreement across the six load-bearing contrasts. **That
 rule is removed.** Six contrasts are far too few for a 90% threshold to carry
 meaning, and — the deeper fault — it allowed *unrelated successes to compensate
-for a load-bearing failure*. Opus agreeing about WP3 says nothing about whether
-Opus can be trusted about the `Ctext_new` rung. They gate different claims.
+for a load-bearing failure*. Machine agreement on one control says nothing
+about another control. They gate different claims.
 
 **Each contrast gates exactly the claim it supports, and nothing else.** Opus's
 rating of a contrast is admissible for that claim iff Opus matches the human
@@ -306,15 +341,21 @@ verdict (§4) on that contrast, **and** the contrast survives the stability veto
 | contrast | governs | on Opus/human divergence |
 |---|---|---|
 | R2b `resolved_need × cost` | the **need×cost / conjunctive-gate** claim | Opus inadmissible for this claim. Downgrade or pause the conjunctive-gate interpretation; do not substitute the machine reading. |
-| `Ctext_new: task_pressure low > zero` | **that rung only** | Treat the low rung as effectively zero, or redesign it under a new experiment ID. Other rungs and cells unaffected. |
-| WP3 `welfare_relevance: current > resolved` | whether **WP2 may fit on the observation cell** | WP2 may not use that cell. Other WP3 cells unaffected. |
-| WP3 `welfare_relevance: within_neutral` / `within_caring` | whether **WP2 may fit on the persona cell** | WP2 may not use that cell. |
-| WP3 `persona: neutral_content` | the **persona-nuisance quietness gate** | That gate is unavailable; no direction can be certified quiet on persona. |
-| WP3 `task_pressure: high > zero` | the **task-pressure nuisance gate** | That gate is unavailable. |
+| `B_new` | whether the inverse-cost/objective loading counts against WP2 selectivity | The WP2 null remains control-validity unresolved for this cell. |
+| `Spos_new` | whether positive-social loading counts against WP2 selectivity | The WP2 null remains control-validity unresolved for this cell. |
+| `O_new` | whether opportunity loading counts against WP2 selectivity | The WP2 null remains control-validity unresolved for this cell. |
+| `Ctext_new` | whether task-pressure loading counts against WP2 selectivity | The WP2 null remains control-validity unresolved for this cell. |
+| WP3 `observation` target | whether AUROC `1.000` identifies the intended prompt-stipulated welfare/currentness construct | The WP2 null and every broadened successor remain target-validity unresolved. |
 
 A failure is **local to its claim.** It does not condemn Opus globally, and
 success elsewhere does not rescue it. No averaging, no partial credit, no
 compensation across rows of this table.
+
+Machine/human comparisons must be **family-matched**. Existing Qwen/Opus
+verdicts computed over a larger or differently partitioned pool are not compared
+directly to this packet. Before any agreement statement, re-analyze existing raw
+machine records on exactly the family IDs frozen in `manifest.json`; do not
+average across unmatched families or rerun a judge with revised prompts.
 
 Rationale for per-claim gating over any aggregate (α or agreement rate): an
 aggregate is fully compatible with disagreement on the single cell that decides
@@ -335,13 +376,12 @@ are never "adjusted," reweighted, or partially retained.
 
 ## 6. What acceptance buys, and what it does not
 
-**If accepted, under §1c (two+ raters):** Opus's full-set ratings become the
-machine gate of record for the remaining Gate 2 rows. The paper reports: *"the
-automated judge agrees with human consensus on N/6 load-bearing contrasts on a
-stratified, hypothesis-blind subsample (inter-rater α = X); full-set ratings are
-machine-derived."* That sentence is defensible under review.
+**If accepted, under §1c (two+ raters):** family-matched machine ratings are
+admissible only for each claim-local contrast on which they agree with humans.
+The paper reports the per-contrast agreement and inter-rater reliability; it
+does not promote a global machine gate from an aggregate score.
 
-**If accepted, under §1a (one rater):** the same, with a **mandatory and
+**If accepted, under §1a (one rater):** the same claim-local rule, with a **mandatory and
 non-negotiable limitation disclosure**, in these terms:
 
 > *Manipulation checks were calibrated against a single hypothesis-naive human
@@ -350,18 +390,18 @@ non-negotiable limitation disclosure**, in these terms:
 > descriptively); inter-rater reliability could not be estimated. A single
 > rater cannot detect idiosyncratic-but-consistent
 > misreading of a rating dimension. Accordingly, human corroboration of the
-> R2b need×cost separation is reported as corroborating, not certifying.*
+> R2b need×cost separation and the four WP2 failed-control manipulation checks
+> are reported as corroborating, not certifying.*
 
 This wording is fixed here so it cannot be softened later when the result is in
 hand and the temptation to round up is strongest. **"One person agreed with the
 model" is not a validation claim, and it must not be written as one.** If the
 sole rater's data is discarded under §1b, there is no human calibration and
-Opus's full-set ratings **do not become the gate of record** — Gate 2 stays
-open.
+machine ratings are not human-calibrated for the affected claims.
 
-**If rejected:** humans extend to the full 444, or the affected contrasts are
-redesigned under a **new experiment ID**. The existing gate is not repaired
-post hoc (`EXECUTION_ORDER` rule 3).
+**If rejected:** extend human coverage for the affected development cell or
+redesign that cell under a **new experiment ID**. The existing gate is not
+repaired post hoc (`EXECUTION_ORDER` rule 3).
 
 **In neither case** does acceptance license using a machine judge to *certify*
 stimuli in future studies without a fresh calibration. Calibration is per-study,

@@ -1,0 +1,244 @@
+{
+  "schema": "empathy-action-probes/family-matched-opus-reanalysis/1",
+  "role": "sensitivity only; cannot open or close a gate",
+  "family_pool": "exactly the frozen human Form A families",
+  "human_manifest_sha256": "a28c909392fa4013a6d8d19c8e52dcbd97127c469cf0faff1167b52fa6c65878",
+  "opus_raw_results_sha256": "c6a34e6e44b8e7fe101ddae09334efd3394d4a670995ebb1f1da6c8ea4b8f1c7",
+  "results": {
+    "B_new": {
+      "families": [
+        "wp1v2_anthropic_haiku45_00",
+        "wp1v2_anthropic_haiku45_01",
+        "wp1v2_anthropic_haiku45_02",
+        "wp1v2_anthropic_haiku45_04",
+        "wp1v2_google_gemini25_flash_01",
+        "wp1v2_google_gemini25_flash_03",
+        "wp1v2_google_gemini25_flash_04",
+        "wp1v2_google_gemini25_flash_05",
+        "wp1v2_openai_gpt41_mini_00",
+        "wp1v2_openai_gpt41_mini_01",
+        "wp1v2_openai_gpt41_mini_03",
+        "wp1v2_openai_gpt41_mini_06",
+        "wp1v2_openai_gpt4o_mini_01",
+        "wp1v2_openai_gpt4o_mini_02",
+        "wp1v2_openai_gpt4o_mini_05",
+        "wp1v2_openai_gpt4o_mini_06"
+      ],
+      "checks": {
+        "active_objective": {
+          "family_count": 16,
+          "counts": {
+            "correct": 16,
+            "tie": 0,
+            "wrong": 0,
+            "invalid": 0
+          },
+          "family_results": {
+            "wp1v2_anthropic_haiku45_00": "correct",
+            "wp1v2_anthropic_haiku45_01": "correct",
+            "wp1v2_anthropic_haiku45_02": "correct",
+            "wp1v2_anthropic_haiku45_04": "correct",
+            "wp1v2_google_gemini25_flash_01": "correct",
+            "wp1v2_google_gemini25_flash_03": "correct",
+            "wp1v2_google_gemini25_flash_04": "correct",
+            "wp1v2_google_gemini25_flash_05": "correct",
+            "wp1v2_openai_gpt41_mini_00": "correct",
+            "wp1v2_openai_gpt41_mini_01": "correct",
+            "wp1v2_openai_gpt41_mini_03": "correct",
+            "wp1v2_openai_gpt41_mini_06": "correct",
+            "wp1v2_openai_gpt4o_mini_01": "correct",
+            "wp1v2_openai_gpt4o_mini_02": "correct",
+            "wp1v2_openai_gpt4o_mini_05": "correct",
+            "wp1v2_openai_gpt4o_mini_06": "correct"
+          }
+        }
+      }
+    },
+    "Spos_new": {
+      "families": [
+        "wp1v2_anthropic_haiku45_02",
+        "wp1v2_anthropic_haiku45_04",
+        "wp1v2_google_gemini25_flash_04",
+        "wp1v2_google_gemini25_flash_05",
+        "wp1v2_openai_gpt41_mini_01",
+        "wp1v2_openai_gpt41_mini_03",
+        "wp1v2_openai_gpt4o_mini_02",
+        "wp1v2_openai_gpt4o_mini_05"
+      ],
+      "checks": {
+        "positive_valence": {
+          "family_count": 8,
+          "counts": {
+            "correct": 8,
+            "tie": 0,
+            "wrong": 0,
+            "invalid": 0
+          },
+          "family_results": {
+            "wp1v2_anthropic_haiku45_02": "correct",
+            "wp1v2_anthropic_haiku45_04": "correct",
+            "wp1v2_google_gemini25_flash_04": "correct",
+            "wp1v2_google_gemini25_flash_05": "correct",
+            "wp1v2_openai_gpt41_mini_01": "correct",
+            "wp1v2_openai_gpt41_mini_03": "correct",
+            "wp1v2_openai_gpt4o_mini_02": "correct",
+            "wp1v2_openai_gpt4o_mini_05": "correct"
+          }
+        }
+      }
+    },
+    "O_new": {
+      "families": [
+        "wp1v2_anthropic_haiku45_00",
+        "wp1v2_anthropic_haiku45_01",
+        "wp1v2_google_gemini25_flash_01",
+        "wp1v2_google_gemini25_flash_04",
+        "wp1v2_openai_gpt41_mini_00",
+        "wp1v2_openai_gpt41_mini_01",
+        "wp1v2_openai_gpt4o_mini_02",
+        "wp1v2_openai_gpt4o_mini_05"
+      ],
+      "checks": {
+        "opportunity": {
+          "family_count": 8,
+          "counts": {
+            "correct": 8,
+            "tie": 0,
+            "wrong": 0,
+            "invalid": 0
+          },
+          "family_results": {
+            "wp1v2_anthropic_haiku45_00": "correct",
+            "wp1v2_anthropic_haiku45_01": "correct",
+            "wp1v2_google_gemini25_flash_01": "correct",
+            "wp1v2_google_gemini25_flash_04": "correct",
+            "wp1v2_openai_gpt41_mini_00": "correct",
+            "wp1v2_openai_gpt41_mini_01": "correct",
+            "wp1v2_openai_gpt4o_mini_02": "correct",
+            "wp1v2_openai_gpt4o_mini_05": "correct"
+          }
+        }
+      }
+    },
+    "Ctext_new": {
+      "families": [
+        "wp1v2_anthropic_haiku45_01",
+        "wp1v2_anthropic_haiku45_04",
+        "wp1v2_google_gemini25_flash_03",
+        "wp1v2_google_gemini25_flash_05",
+        "wp1v2_openai_gpt41_mini_00",
+        "wp1v2_openai_gpt41_mini_03",
+        "wp1v2_openai_gpt4o_mini_02",
+        "wp1v2_openai_gpt4o_mini_06"
+      ],
+      "checks": {
+        "task_pressure:low>zero": {
+          "family_count": 8,
+          "counts": {
+            "correct": 5,
+            "tie": 3,
+            "wrong": 0,
+            "invalid": 0
+          },
+          "family_results": {
+            "wp1v2_anthropic_haiku45_01": "correct",
+            "wp1v2_anthropic_haiku45_04": "tie",
+            "wp1v2_google_gemini25_flash_03": "tie",
+            "wp1v2_google_gemini25_flash_05": "correct",
+            "wp1v2_openai_gpt41_mini_00": "correct",
+            "wp1v2_openai_gpt41_mini_03": "correct",
+            "wp1v2_openai_gpt4o_mini_02": "correct",
+            "wp1v2_openai_gpt4o_mini_06": "tie"
+          }
+        },
+        "task_pressure:medium>low": {
+          "family_count": 8,
+          "counts": {
+            "correct": 8,
+            "tie": 0,
+            "wrong": 0,
+            "invalid": 0
+          },
+          "family_results": {
+            "wp1v2_anthropic_haiku45_01": "correct",
+            "wp1v2_anthropic_haiku45_04": "correct",
+            "wp1v2_google_gemini25_flash_03": "correct",
+            "wp1v2_google_gemini25_flash_05": "correct",
+            "wp1v2_openai_gpt41_mini_00": "correct",
+            "wp1v2_openai_gpt41_mini_03": "correct",
+            "wp1v2_openai_gpt4o_mini_02": "correct",
+            "wp1v2_openai_gpt4o_mini_06": "correct"
+          }
+        },
+        "task_pressure:high>medium": {
+          "family_count": 8,
+          "counts": {
+            "correct": 8,
+            "tie": 0,
+            "wrong": 0,
+            "invalid": 0
+          },
+          "family_results": {
+            "wp1v2_anthropic_haiku45_01": "correct",
+            "wp1v2_anthropic_haiku45_04": "correct",
+            "wp1v2_google_gemini25_flash_03": "correct",
+            "wp1v2_google_gemini25_flash_05": "correct",
+            "wp1v2_openai_gpt41_mini_00": "correct",
+            "wp1v2_openai_gpt41_mini_03": "correct",
+            "wp1v2_openai_gpt4o_mini_02": "correct",
+            "wp1v2_openai_gpt4o_mini_06": "correct"
+          }
+        }
+      }
+    },
+    "WP3_observation": {
+      "families": [
+        "wp3v2_anthropic_haiku45_00",
+        "wp3v2_anthropic_haiku45_03",
+        "wp3v2_anthropic_haiku45_08",
+        "wp3v2_anthropic_haiku45_10",
+        "wp3v2_google_gemini25_flash_06",
+        "wp3v2_google_gemini25_flash_07",
+        "wp3v2_google_gemini25_flash_09",
+        "wp3v2_google_gemini25_flash_11",
+        "wp3v2_openai_gpt41_mini_02",
+        "wp3v2_openai_gpt41_mini_03",
+        "wp3v2_openai_gpt41_mini_06",
+        "wp3v2_openai_gpt41_mini_11",
+        "wp3v2_openai_gpt4o_mini_00",
+        "wp3v2_openai_gpt4o_mini_02",
+        "wp3v2_openai_gpt4o_mini_05",
+        "wp3v2_openai_gpt4o_mini_07"
+      ],
+      "checks": {
+        "welfare_relevance:current>resolved": {
+          "family_count": 16,
+          "counts": {
+            "correct": 16,
+            "tie": 0,
+            "wrong": 0,
+            "invalid": 0
+          },
+          "family_results": {
+            "wp3v2_anthropic_haiku45_00": "correct",
+            "wp3v2_anthropic_haiku45_03": "correct",
+            "wp3v2_anthropic_haiku45_08": "correct",
+            "wp3v2_anthropic_haiku45_10": "correct",
+            "wp3v2_google_gemini25_flash_06": "correct",
+            "wp3v2_google_gemini25_flash_07": "correct",
+            "wp3v2_google_gemini25_flash_09": "correct",
+            "wp3v2_google_gemini25_flash_11": "correct",
+            "wp3v2_openai_gpt41_mini_02": "correct",
+            "wp3v2_openai_gpt41_mini_03": "correct",
+            "wp3v2_openai_gpt41_mini_06": "correct",
+            "wp3v2_openai_gpt41_mini_11": "correct",
+            "wp3v2_openai_gpt4o_mini_00": "correct",
+            "wp3v2_openai_gpt4o_mini_02": "correct",
+            "wp3v2_openai_gpt4o_mini_05": "correct",
+            "wp3v2_openai_gpt4o_mini_07": "correct"
+          }
+        }
+      }
+    }
+  }
+}

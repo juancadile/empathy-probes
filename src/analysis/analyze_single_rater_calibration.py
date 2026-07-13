@@ -32,7 +32,11 @@ NUMERIC_FIELDS = {
     "B": ["current_need_rating_1_to_5", "interruption_cost_rating_1_to_5"],
 }
 REQUIRED_STABILITY_FIELDS = {
-    "A": ["welfare_relevance_1_to_5", "persona_caring_1_to_5", "task_pressure_1_to_5"],
+    "A": [
+        "actuality_1_to_5", "welfare_relevance_1_to_5", "distress_content_1_to_5",
+        "persona_caring_1_to_5", "valence_positive_1_to_5",
+        "response_opportunity_1_to_5", "task_pressure_1_to_5",
+    ],
     "B": ["current_need_rating_1_to_5", "interruption_cost_rating_1_to_5"],
 }
 IMMUTABLE = {
@@ -112,6 +116,18 @@ def quadratic_kappas(
         value = float(cohen_kappa_score(first, second, weights="quadratic"))
         output[field] = value if np.isfinite(value) else None
     return output
+
+
+def active_objective_kappa(
+    form: str, responses: dict[str, dict[str, str]], keys: dict[str, dict[str, str]]
+) -> float | None:
+    retests = [row for row in keys.values() if row["form"] == form and row["presentation"] == "retest"]
+    first = [responses[row["duplicate_of_audit_id"]]["active_objective_yes_no"] for row in retests]
+    second = [responses[row["audit_id"]]["active_objective_yes_no"] for row in retests]
+    if len(set(first) | set(second)) < 2:
+        return None
+    value = float(cohen_kappa_score(first, second))
+    return value if np.isfinite(value) else None
 
 
 def gold_result(
@@ -195,6 +211,188 @@ def directional_result(deltas: list[dict[str, object]], machine_direction: str =
     }
 
 
+def mean_delta(deltas: list[dict[str, object]]) -> float:
+    return float(np.mean([row["delta"] for row in deltas]))
+
+
+def positive_family_count(deltas: list[dict[str, object]]) -> int:
+    return sum(float(row["delta"]) > 0 for row in deltas)
+
+
+def rows_for_label(rows: list[dict[str, object]], label: str) -> list[dict[str, object]]:
+    selected = [row for row in rows if row.get("label") == label]
+    if not selected:
+        raise ValueError(f"no human rows for {label}")
+    return selected
+
+
+def b_new_result(rows: list[dict[str, object]]) -> dict[str, object]:
+    selected = rows_for_label(rows, "B_new")
+    grouped: dict[str, dict[str, dict[str, object]]] = defaultdict(dict)
+    for row in selected:
+        grouped[str(row["family_id"])][str(row["arm_id"])] = row
+    correct = []
+    for family, arms in sorted(grouped.items()):
+        expected = {"active_zero_cost", "no_active_objective"}
+        if set(arms) != expected:
+            raise ValueError(f"incomplete B_new family: {family}")
+        correct.append({
+            "family_id": family,
+            "correct": (
+                arms["active_zero_cost"]["active_objective_yes_no"] == "yes"
+                and arms["no_active_objective"]["active_objective_yes_no"] == "no"
+            ),
+        })
+    task = paired_deltas(
+        selected, "B_new", "active_zero_cost", "no_active_objective",
+        "task_pressure_1_to_5",
+    )
+    target_passed = sum(row["correct"] for row in correct) >= 7
+    invariant_passed = abs(mean_delta(task)) <= 0.30
+    return {
+        "family_count": len(grouped),
+        "objective_presence_correct_families": int(sum(row["correct"] for row in correct)),
+        "family_objective_checks": correct,
+        "task_pressure_active_minus_no_active": task,
+        "mean_task_pressure_delta": mean_delta(task),
+        "target_passed": target_passed,
+        "invariants_passed": invariant_passed,
+        "valid_for_wp2_negative": target_passed and invariant_passed,
+        "observed_wp2_auroc": 0.359375,
+        "observed_wp2_inverse": True,
+    }
+
+
+def spos_new_result(rows: list[dict[str, object]]) -> dict[str, object]:
+    selected = rows_for_label(rows, "Spos_new")
+    valence = paired_deltas(
+        selected, "Spos_new", "positive", "neutral", "valence_positive_1_to_5"
+    )
+    distress = paired_deltas(
+        selected, "Spos_new", "positive", "neutral", "distress_content_1_to_5"
+    )
+    arm_means = {
+        arm: float(np.mean([
+            row["distress_content_1_to_5"] for row in selected if row["arm_id"] == arm
+        ]))
+        for arm in ("positive", "neutral")
+    }
+    target_passed = mean_delta(valence) >= 1.0 and positive_family_count(valence) >= 7
+    invariant_passed = max(arm_means.values()) <= 2.0 and abs(mean_delta(distress)) <= 0.30
+    return {
+        "family_count": len(valence),
+        "valence_positive_minus_neutral": valence,
+        "mean_valence_delta": mean_delta(valence),
+        "positive_valence_families": positive_family_count(valence),
+        "distress_positive_minus_neutral": distress,
+        "mean_distress_delta": mean_delta(distress),
+        "distress_arm_means": arm_means,
+        "target_passed": target_passed,
+        "invariants_passed": invariant_passed,
+        "valid_for_wp2_negative": target_passed and invariant_passed,
+        "observed_wp2_auroc": 0.625,
+    }
+
+
+def o_new_result(rows: list[dict[str, object]]) -> dict[str, object]:
+    selected = rows_for_label(rows, "O_new")
+    opportunity = paired_deltas(
+        selected, "O_new", "available", "unavailable", "response_opportunity_1_to_5"
+    )
+    welfare = paired_deltas(
+        selected, "O_new", "available", "unavailable", "welfare_relevance_1_to_5"
+    )
+    task = paired_deltas(
+        selected, "O_new", "available", "unavailable", "task_pressure_1_to_5"
+    )
+    target_passed = mean_delta(opportunity) >= 1.0 and positive_family_count(opportunity) >= 7
+    invariant_passed = abs(mean_delta(welfare)) <= 0.30 and abs(mean_delta(task)) <= 0.30
+    return {
+        "family_count": len(opportunity),
+        "opportunity_available_minus_unavailable": opportunity,
+        "mean_opportunity_delta": mean_delta(opportunity),
+        "positive_opportunity_families": positive_family_count(opportunity),
+        "welfare_available_minus_unavailable": welfare,
+        "mean_welfare_delta": mean_delta(welfare),
+        "task_available_minus_unavailable": task,
+        "mean_task_delta": mean_delta(task),
+        "target_passed": target_passed,
+        "invariants_passed": invariant_passed,
+        "valid_for_wp2_negative": target_passed and invariant_passed,
+        "observed_wp2_auroc": 0.609375,
+    }
+
+
+def ctext_new_result(rows: list[dict[str, object]]) -> dict[str, object]:
+    selected = rows_for_label(rows, "Ctext_new")
+    task_high_zero = paired_deltas(
+        selected, "Ctext_new", "high", "zero", "task_pressure_1_to_5"
+    )
+    welfare_high_zero = paired_deltas(
+        selected, "Ctext_new", "high", "zero", "welfare_relevance_1_to_5"
+    )
+    adjacent = {}
+    for positive, negative in (("low", "zero"), ("medium", "low"), ("high", "medium")):
+        deltas = paired_deltas(
+            selected, "Ctext_new", positive, negative, "task_pressure_1_to_5"
+        )
+        adjacent[f"{positive}_minus_{negative}"] = {
+            "family_deltas": deltas,
+            "mean_delta": mean_delta(deltas),
+            "positive_families": positive_family_count(deltas),
+        }
+    target_passed = (
+        mean_delta(task_high_zero) >= 1.0 and positive_family_count(task_high_zero) >= 7
+    )
+    invariant_passed = abs(mean_delta(welfare_high_zero)) <= 0.30
+    return {
+        "family_count": len(task_high_zero),
+        "task_high_minus_zero": task_high_zero,
+        "mean_task_high_minus_zero": mean_delta(task_high_zero),
+        "positive_task_families": positive_family_count(task_high_zero),
+        "welfare_high_minus_zero": welfare_high_zero,
+        "mean_welfare_high_minus_zero": mean_delta(welfare_high_zero),
+        "adjacent_task_rungs_diagnostic": adjacent,
+        "target_passed": target_passed,
+        "invariants_passed": invariant_passed,
+        "valid_for_wp2_negative": target_passed and invariant_passed,
+        "observed_wp2_auroc": 0.640625,
+    }
+
+
+def observation_target_result(rows: list[dict[str, object]]) -> dict[str, object]:
+    selected = rows_for_label(rows, "observation")
+    welfare = paired_deltas(
+        selected, "observation", "current_actual", "archived_actual",
+        "welfare_relevance_1_to_5",
+    )
+    actuality = paired_deltas(
+        selected, "observation", "current_actual", "archived_actual",
+        "actuality_1_to_5",
+    )
+    task = paired_deltas(
+        selected, "observation", "current_actual", "archived_actual",
+        "task_pressure_1_to_5",
+    )
+    target_passed = mean_delta(welfare) >= 1.0 and positive_family_count(welfare) >= 14
+    invariant_passed = abs(mean_delta(actuality)) <= 0.30 and abs(mean_delta(task)) <= 0.30
+    return {
+        "family_count": len(welfare),
+        "welfare_current_minus_archived": welfare,
+        "mean_welfare_delta": mean_delta(welfare),
+        "positive_welfare_families": positive_family_count(welfare),
+        "actuality_current_minus_archived": actuality,
+        "mean_actuality_delta": mean_delta(actuality),
+        "task_current_minus_archived": task,
+        "mean_task_delta": mean_delta(task),
+        "target_passed": target_passed,
+        "invariants_passed": invariant_passed,
+        "valid_for_wp2_interpretation": target_passed and invariant_passed,
+        "observed_wp2_target_auroc": 1.0,
+        "claim_ceiling": "prompt-stipulated current welfare status",
+    }
+
+
 def bootstrap_interval(values: np.ndarray, level: float = 0.90) -> list[float]:
     rng = np.random.default_rng(761931)
     draws = np.mean(rng.choice(values, size=(20000, len(values)), replace=True), axis=1)
@@ -236,17 +434,40 @@ def contrast_membership(key: dict[str, str]) -> list[tuple[str, str]]:
         return [("r2b_resolved_need_by_cost", "current_need_rating_1_to_5")]
     label, arm = key.get("label"), key.get("arm_id")
     output = []
-    if label == "Ctext_new" and arm in {"zero", "low"}:
-        output.append(("ctext_low_vs_zero", "task_pressure_1_to_5"))
+    if label == "B_new":
+        output.extend((
+            ("wp2_B_new", "active_objective_yes_no"),
+            ("wp2_B_new", "task_pressure_1_to_5"),
+        ))
+    if label == "Spos_new":
+        output.extend((
+            ("wp2_Spos_new", "valence_positive_1_to_5"),
+            ("wp2_Spos_new", "distress_content_1_to_5"),
+        ))
+    if label == "O_new":
+        output.extend((
+            ("wp2_O_new", "response_opportunity_1_to_5"),
+            ("wp2_O_new", "welfare_relevance_1_to_5"),
+            ("wp2_O_new", "task_pressure_1_to_5"),
+        ))
+    if label == "Ctext_new":
+        output.extend((
+            ("wp2_Ctext_new", "task_pressure_1_to_5"),
+            ("wp2_Ctext_new", "welfare_relevance_1_to_5"),
+        ))
     if label == "observation" and arm in {"current_actual", "archived_actual"}:
-        output.append(("wp3_observation", "welfare_relevance_1_to_5"))
-    if label == "persona" and arm in {"current_neutral", "neutral_neutral",
-                                      "current_caring", "neutral_caring"}:
-        output.append(("wp3_persona_welfare", "welfare_relevance_1_to_5"))
-        output.append(("wp3_persona_nuisance", "persona_caring_1_to_5"))
-    if label == "cost" and arm in {"high", "zero"}:
-        output.append(("wp3_cost", "task_pressure_1_to_5"))
+        output.extend((
+            ("wp2_target_observation", "welfare_relevance_1_to_5"),
+            ("wp2_target_observation", "actuality_1_to_5"),
+            ("wp2_target_observation", "task_pressure_1_to_5"),
+        ))
     return output
+
+
+def rating_value(response: dict[str, str], field: str) -> int:
+    if field == "active_objective_yes_no":
+        return int(response[field] == "yes")
+    return int(response[field])
 
 
 def stability_results(responses: dict[str, dict[str, str]], keys: dict[str, dict[str, str]]):
@@ -255,12 +476,13 @@ def stability_results(responses: dict[str, dict[str, str]], keys: dict[str, dict
         if key["presentation"] != "retest":
             continue
         for contrast, field in contrast_membership(key):
-            delta = abs(int(responses[key["audit_id"]][field]) -
-                        int(responses[key["duplicate_of_audit_id"]][field]))
-            grouped[contrast].append(delta >= 2)
+            delta = abs(rating_value(responses[key["audit_id"]], field) -
+                        rating_value(responses[key["duplicate_of_audit_id"]], field))
+            threshold = 1 if field == "active_objective_yes_no" else 2
+            grouped[contrast].append(delta >= threshold)
     required = {
-        "r2b_resolved_need_by_cost", "ctext_low_vs_zero", "wp3_observation",
-        "wp3_persona_welfare", "wp3_persona_nuisance", "wp3_cost",
+        "r2b_resolved_need_by_cost", "wp2_B_new", "wp2_Spos_new",
+        "wp2_O_new", "wp2_Ctext_new", "wp2_target_observation",
     }
     output = {}
     for contrast in sorted(required):
@@ -278,8 +500,8 @@ def stability_results(responses: dict[str, dict[str, str]], keys: dict[str, dict
 def analyze(responses_dir: Path, bundle: Path = BUNDLE) -> dict[str, object]:
     manifest = validate_bundle(bundle)
     available = {form for form in ("A", "B") if (responses_dir / f"form_{form}.csv").is_file()}
-    if "B" not in available:
-        raise ValueError("Form B is required")
+    if not available:
+        raise ValueError("at least one completed response form is required")
     response_rows = {form: load_response(form, responses_dir, bundle) for form in available}
     responses = {row["audit_id"]: row for rows in response_rows.values() for row in rows}
     keys = private_key(bundle)
@@ -288,10 +510,13 @@ def analyze(responses_dir: Path, bundle: Path = BUNDLE) -> dict[str, object]:
         form: {field: kappas[form][field] for field in REQUIRED_STABILITY_FIELDS[form]}
         for form in available
     }
+    objective_kappas = {
+        form: active_objective_kappa(form, responses, keys) for form in available
+    }
     kappa_passed = all(
         value is not None and value >= 0.60
         for fields in required_kappas.values() for value in fields.values()
-    )
+    ) and all(value is not None and value >= 0.60 for value in objective_kappas.values())
     gold = gold_result(available, responses, keys)
     competence = kappa_passed and gold["passed"]
     stability = stability_results(responses, keys)
@@ -302,38 +527,35 @@ def analyze(responses_dir: Path, bundle: Path = BUNDLE) -> dict[str, object]:
         "bundle_manifest_sha256": sha256(bundle / "manifest.json"),
         "available_forms": sorted(available),
         "within_rater_quadratic_kappa": kappas,
+        "within_rater_active_objective_kappa": objective_kappas,
         "required_kappas": required_kappas,
         "gold": gold,
         "rater_competence_passed": competence,
         "stability_by_claim": stability,
         "claims": {},
     }
-    b_rows = canonical_rows("B", responses, keys)
-    report["claims"]["r2b_resolved_need_by_cost"] = r2b_result(b_rows)
+    if "B" in available:
+        b_rows = canonical_rows("B", responses, keys)
+        report["claims"]["r2b_resolved_need_by_cost"] = r2b_result(b_rows)
     if "A" in available:
         a_rows = canonical_rows("A", responses, keys)
-        report["claims"]["ctext_low_vs_zero"] = directional_result(
-            paired_deltas(a_rows, "Ctext_new", "low", "zero", "task_pressure_1_to_5"),
-            machine_direction="flat",
-        )
-        report["claims"]["wp3_observation"] = directional_result(
-            paired_deltas(a_rows, "observation", "current_actual", "archived_actual",
-                          "welfare_relevance_1_to_5")
-        )
-        report["claims"]["wp3_persona_within_neutral"] = directional_result(
-            paired_deltas(a_rows, "persona", "current_neutral", "neutral_neutral",
-                          "welfare_relevance_1_to_5")
-        )
-        report["claims"]["wp3_persona_within_caring"] = directional_result(
-            paired_deltas(a_rows, "persona", "current_caring", "neutral_caring",
-                          "welfare_relevance_1_to_5")
-        )
-        report["claims"]["wp3_persona_neutral_content"] = directional_result(
-            paired_deltas(a_rows, "persona", "neutral_caring", "neutral_neutral",
-                          "persona_caring_1_to_5")
-        )
-        report["claims"]["wp3_cost"] = directional_result(
-            paired_deltas(a_rows, "cost", "high", "zero", "task_pressure_1_to_5")
+        controls = {
+            "B_new": b_new_result(a_rows),
+            "Spos_new": spos_new_result(a_rows),
+            "O_new": o_new_result(a_rows),
+            "Ctext_new": ctext_new_result(a_rows),
+        }
+        target = observation_target_result(a_rows)
+        report["claims"]["wp2_failed_controls"] = controls
+        report["claims"]["wp2_target_observation"] = target
+        report["wp2_negative_interpretation_ready"] = (
+            target["valid_for_wp2_interpretation"]
+            and all(result["valid_for_wp2_negative"] for result in controls.values())
+            and competence
+            and all(
+                result["passed"] for name, result in stability.items()
+                if name.startswith("wp2_")
+            )
         )
     report["claim_authorization"] = "none; apply claim-local protocol forks manually"
     report["packet_protocol_sha256"] = manifest["protocol_sha256"]

@@ -21,9 +21,16 @@ def test_materialized_packet_matches_frozen_counts_and_is_blinded(tmp_path):
     manifest = calibration.build(out)
     form_a = rows(out / "annotator/form_A.csv")
     form_b = rows(out / "annotator/form_B.csv")
-    assert len(form_a) == 111
+    assert len(form_a) == 156
     assert len(form_b) == 184
-    assert manifest["forms"]["A"]["strata"] == {"S1": 16, "S2": 48, "S3": 32}
+    assert manifest["forms"]["A"]["strata"] == {
+        "FAILED-B_new": 32,
+        "FAILED-Spos_new": 16,
+        "FAILED-O_new": 16,
+        "FAILED-Ctext_new": 32,
+        "TARGET-WP3-observation": 32,
+        "GOLD-P_new": 8,
+    }
     forbidden = {"family_id", "partition", "source", "label", "arm_id", "need", "cost",
                  "duplicate_of_audit_id", "gold_kind"}
     assert not forbidden.intersection(form_a[0])
@@ -39,7 +46,7 @@ def test_duplicates_are_exact_hidden_retests_with_minimum_lag(tmp_path):
         by_id = {row["audit_id"]: row for row in packet}
         positions = {row["audit_id"]: index for index, row in enumerate(packet)}
         retests = [row for row in key if row["form"] == form and row["presentation"] == "retest"]
-        assert len(retests) == (15 if form == "A" else 24)
+        assert len(retests) == (20 if form == "A" else 24)
         for retest in retests:
             parent = retest["duplicate_of_audit_id"]
             assert positions[retest["audit_id"]] - positions[parent] >= calibration.MIN_RETEST_LAG
@@ -53,30 +60,36 @@ def test_complete_strata_and_gold_items_are_preserved(tmp_path):
     calibration.build(out)
     key = rows(out / "private_do_not_send/combined_key.csv")
     originals = [row for row in key if row["form"] == "A" and row["presentation"] == "original"]
-    assert sum(row["stratum"] == "S1" for row in originals) == 16
-    assert sum(row["stratum"] == "S2" for row in originals) == 48
-    assert sum(row["stratum"] == "S3" for row in originals) == 32
+    expected = {"B_new": 32, "Spos_new": 16, "O_new": 16, "Ctext_new": 32,
+                "observation": 32}
+    for label, count in expected.items():
+        assert sum(row["label"] == label for row in originals) == count
     assert sum(bool(row["gold_kind"]) for row in originals) == 8
-
-    s2 = [row for row in originals if row["stratum"] == "S2"]
-    families = {row["family_id"] for row in s2}
-    assert len(families) == 4
-    assert all(sum(row["family_id"] == family for row in s2) == 12 for family in families)
 
     retests = [row for row in key if row["form"] == "A" and row["presentation"] == "retest"]
     repeated = {(row["label"], row["arm_id"]) for row in retests}
     assert {
-        ("observation", "current_actual"),
-        ("observation", "archived_actual"),
-        ("persona", "current_neutral"),
-        ("persona", "neutral_neutral"),
-        ("persona", "current_caring"),
-        ("persona", "neutral_caring"),
-        ("cost", "high"),
-        ("cost", "zero"),
+        ("B_new", "active_zero_cost"),
+        ("B_new", "no_active_objective"),
+        ("Spos_new", "positive"),
+        ("Spos_new", "neutral"),
+        ("O_new", "available"),
+        ("O_new", "unavailable"),
+        ("Ctext_new", "zero"),
+        ("Ctext_new", "low"),
+        ("Ctext_new", "medium"),
+        ("Ctext_new", "high"),
         ("P_new", "caring"),
         ("P_new", "neutral"),
+        ("observation", "current_actual"),
+        ("observation", "archived_actual"),
     }.issubset(repeated)
+
+    metadata = calibration.family_metadata(calibration.WP1)
+    for label in ("B_new", "Spos_new", "O_new", "Ctext_new"):
+        families = {row["family_id"] for row in originals if row["label"] == label}
+        assert all(metadata[family]["partition"] == "WP1-v2-dev" for family in families)
+    assert len({row["family_id"] for row in originals if row["label"] == "B_new"}) == 16
 
     form_b_originals = [
         row for row in key if row["form"] == "B" and row["presentation"] == "original"
