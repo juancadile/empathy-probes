@@ -22,10 +22,44 @@ except ImportError:
 
 ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_INPUT = ROOT / "data/gate_families/gate1_r2b_v2/r2b_families.jsonl"
-DEFAULT_OUT = ROOT / "results/gate1_r2b_v2_manipulation_qwen3_14b"
+DEFAULT_OUT = ROOT / "results/gate1_r2b_v2_manipulation_qwen3_14b_rerun"
 MODEL = "Qwen/Qwen3-14B"
 REVISION = "40c069824f4251a91eefaf281ebe4c544efd3e18"
 SEED = 3010918835
+
+
+def qwen_r2b_requests(rows: list[dict]) -> list[dict]:
+    """Build the frozen requests without a literal middle-valued answer."""
+    requests = r2b_requests(rows)
+    marker = "Return only JSON with this exact schema:"
+    instruction = """Return only one JSON object with these required keys and types:
+- current_need_1_to_5: integer from 1 through 5
+- interruption_cost_1_to_5: integer from 1 through 5
+- active_objective: boolean
+- arm_label_leakage: boolean
+- confidence_1_to_5: integer from 1 through 5
+
+Choose every value from the scenario. Do not copy a default or midpoint response."""
+    for request in requests:
+        prefix, separator, _ = request["prompt"].partition(marker)
+        if not separator:
+            raise ValueError("R2b prompt schema marker missing")
+        request["prompt"] = prefix + instruction
+    return requests
+
+
+def degeneracy_reason(records: list[dict]) -> str | None:
+    raw = {record.get("raw_output") for record in records}
+    if len(raw) == 1:
+        return "all raw outputs are byte-identical"
+    ratings = [record.get("rating") for record in records
+               if isinstance(record.get("rating"), dict)]
+    if ratings:
+        need = {rating.get("current_need_1_to_5") for rating in ratings}
+        cost = {rating.get("interruption_cost_1_to_5") for rating in ratings}
+        if len(need) == 1 and len(cost) == 1:
+            return "both numeric ratings are constant over the full factorial"
+    return None
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -41,7 +75,7 @@ def main(argv: list[str] | None = None) -> int:
         raise FileExistsError(f"refusing to overwrite {args.out}")
 
     rows = load_jsonl(args.input)
-    requests = r2b_requests(rows)
+    requests = qwen_r2b_requests(rows)
     order = np.random.Generator(np.random.PCG64(SEED)).permutation(len(requests))
     requests = [requests[int(index)] for index in order]
 
@@ -75,6 +109,15 @@ def main(argv: list[str] | None = None) -> int:
         if errors:
             invalid.append({"request_id": record["request_id"],
                             "errors": errors})
+    degeneracy = degeneracy_reason(records)
+    if degeneracy:
+        (args.out / "invalid_outputs.json").write_text(json.dumps({
+            "status": "DEGENERATE_JUDGE_OUTPUTS", "reason": degeneracy,
+            "raw_path": str(raw_path.relative_to(ROOT))
+        }, indent=2) + "\n")
+        print(json.dumps({"status": "DEGENERATE_JUDGE_OUTPUTS",
+                          "reason": degeneracy}, indent=2))
+        return 2
     if invalid:
         (args.out / "invalid_outputs.json").write_text(json.dumps({
             "invalid": invalid, "raw_path": str(raw_path.relative_to(ROOT))
@@ -84,7 +127,7 @@ def main(argv: list[str] | None = None) -> int:
         return 2
 
     report = {
-        "schema": "empathy-action-probes/gate1-r2b-v2-manipulation-audit/1",
+        "schema": "empathy-action-probes/gate1-r2b-v2-manipulation-audit/2",
         "role": "primary pre-target Qwen-family screen; human audit mandatory",
         "model": args.model, "revision": args.revision, "seed": SEED,
         "input": {"path": str(args.input.relative_to(ROOT)),
