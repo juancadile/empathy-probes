@@ -20,11 +20,20 @@ additional LLM judges separates those. Humans are the only rater class causally
 independent of the LLM training distribution, and the constructs at issue
 (need, welfare, distress, task pressure) are human-semantic by definition.
 
-**Asymmetry that governs machine use.** A machine judge's *rejections* are
-informative; its *acceptances* are not certifying. Opus may therefore be used
-freely as a cheap pre-screen to reject stimuli, and may never be used to certify
-them. This asymmetry is what licenses the Opus pre-screen in
-`E22B_V2_BLUEPRINT_CONSTRAINTS_2026-07-13.md` while still requiring humans here.
+**Asymmetry that governs machine use — decision-theoretic, not epistemic.**
+An earlier draft asserted that a machine judge's *rejections* are informative
+while its *acceptances* are not. **The first half is withdrawn.** Nothing here
+establishes a one-sided error guarantee: a correlated instrument can produce a
+false rejection as readily as a false acceptance.
+
+What survives is narrower and is about **the cost of acting**, not the
+reliability of the signal. Acting on a rejection costs generator time and cannot
+corrupt a claim; acting on an acceptance consumes scarce human raters and then
+unseals target data. Opus may therefore be used as a **conservative
+resource-allocation filter** — a cheap way to decide what is *worth* sending to
+humans — and may **never** be used to certify stimuli. An Opus rejection is
+evidence from a correlated instrument, not ground truth, and no scientific
+finding may be inferred from one (see `E22B_V2_BLUEPRINT_CONSTRAINTS` §5).
 
 ---
 
@@ -61,24 +70,35 @@ be uniformly wrong. Inter-rater agreement detects this. Nothing available to a
 single rater does. This limitation is **not mitigated below — it is disclosed**,
 and it must appear in the paper.
 
-**The governing asymmetry (same principle as the Opus pre-screen):**
-a single rater's **rejection is strong; their acceptance is weak.**
+**The governing asymmetry is decision-theoretic, NOT epistemic.**
 
-The R2b item is close to an objective reading task rather than a subjective
-judgment — the need text is *byte-identical* across cost rungs, so "does this
-person's need change as the narrator's cost changes?" has a defensible correct
-answer. Therefore:
+An earlier draft of this protocol claimed that a rejection (by machine or by a
+single human) is inherently more trustworthy than an acceptance. **That claim is
+withdrawn — it was unsupported.** Nothing observed in this project establishes a
+one-sided error guarantee for any instrument. A correlated or single-rater
+instrument can produce a false *rejection* as readily as a false *acceptance*.
 
-- Sole rater reports resolved-arm need **rising with cost** ⇒ **fire the
-  downgrade fork (§3).** A competent reader causally independent of the LLM
-  training distribution perceived the entanglement. This is sufficient to
-  convict, and it is acted on.
+What differs is the **cost of acting on each**, not the reliability of each:
+
+- Acting on a rejection = revise stimuli. Costs generator time. Cannot corrupt a
+  scientific claim.
+- Acting on an acceptance = unseal target data, fit a representation, publish.
+  Costs scientific validity if wrong.
+
+The protocol is therefore conservative in **both** directions, and neither
+direction is treated as proof:
+
+- Sole rater reports resolved-arm need **rising with cost** ⇒ **downgrade or
+  pause the need×cost claim (§3).** A reader independent of the LLM training
+  distribution perceiving the entanglement is a **red flag warranting
+  conservative action** — it is *not* proof of a stimulus confound. One rater can
+  misread.
 - Sole rater reports **flat** ⇒ **corroborates** the Opus judge-entanglement
-  diagnosis. It does **not certify** it. Downstream claims carry the
-  single-rater limitation explicitly.
+  diagnosis. It does **not certify** orthogonality.
 
-**One rater is sufficient to convict and insufficient to acquit.** That is the
-conservative direction, and it is why the study may proceed on one rater at all.
+**Either result remains single-rater evidence and must be reported as such.**
+The study may proceed on one rater because both branches lead to caution, not
+because one branch is proof.
 
 ### 1b. Test–retest, replacing the ambiguity veto
 
@@ -89,16 +109,27 @@ process as the strata and recorded in the frozen manifest.
 - **Item-stability veto:** an item whose two presentations differ by ≥ 2 points
   is **unstable**. If > 20% of a contrast's items are unstable, that contrast
   **fails on stability grounds**, irrespective of Opus agreement.
-- **Rater-competence screen:** overall test–retest exact-or-adjacent agreement
-  < 70% ⇒ the rater's data is **discarded in full**, not partially retained.
-- **Gold-standard items:** include items with an objectively checkable answer
-  (the class Llama-3.1-8B failed — e.g. an arm literally opening `System
-  instruction: adopt a caring assistant persona`, asked which arm instructs a
-  caring persona). Any gold-standard failure ⇒ rater data discarded in full.
+- **Rater-competence screen — ordinal statistics, not a raw hit rate.**
+  Report **quadratic-weighted Cohen's κ** (and ordinal Krippendorff's α computed
+  *within-rater across the two presentations*) per rating dimension. A raw
+  "exact-or-adjacent ≥ 70%" rate is inadmissible as the criterion: it discards
+  the ordinal structure of a 1–5 scale and is trivially inflated by a rater who
+  parks on the midpoint. **Threshold: weighted κ ≥ 0.60** per dimension entering
+  a load-bearing contrast. The exact-or-adjacent rate may be reported alongside
+  as a descriptive, never as the gate.
+- **Gold-standard items — require a pattern, not a single slip.** Include items
+  with an objectively checkable answer (the class Llama-3.1-8B failed: an arm
+  literally opening `System instruction: adopt a caring assistant persona`,
+  asked which arm instructs a caring persona). Seed **≥ 6** such items.
+  **≥ 2 gold failures** ⇒ rater data discarded in full. A **single** gold
+  failure is logged and reported but does **not** discard an otherwise careful
+  rater — one misclick or one genuinely ambiguous gold item should not void 271
+  rows of careful work, and a rule with that expected value would be a bad rule.
 
-Test–retest measures **item stability**, not shared construct meaning across
-people. It is a partial substitute for the ambiguity veto and is **not** a
-substitute for inter-rater reliability. Report it as what it is.
+Test–retest measures **item stability within one person**, not shared construct
+meaning across people. It is a partial substitute for the ambiguity veto and is
+**not** a substitute for inter-rater reliability. Report it as what it is; never
+present a within-rater agreement number as though it were an inter-rater α.
 
 ### 1c. Two raters (target configuration — apply if a second becomes available)
 
@@ -209,6 +240,17 @@ humans found easy is the single most likely way this protocol produces a false
 pass.** It is the guard most weakened by dropping to one rater, and it is why
 §1b's duplicates are mandatory rather than optional.
 
+**Unit of inference — family, not row.** The 160 R2b rows are **not 160
+independent observations**: they are 8 confirmation families (and 8 development
+families) × need arm × cost rung × variant. All human results are aggregated and
+reported **by family and by contrast**, with family-clustered intervals — the
+same convention already in force everywhere else in this project
+(`EXECUTION_ORDER` rule 4: scenario family is the inferential unit; template
+variants measure within-family robustness, not sample size). Reporting a
+per-row n would inflate precision by roughly an order of magnitude and is
+prohibited. The `resolved_high_minus_zero` statistic in §3 is already defined
+per-family for exactly this reason.
+
 **Load-bearing contrasts** (fixed here, not chosen later):
 1. R2b `resolved_need × cost` — decides the conjunctive-gate claim.
 2. `Ctext_new: task_pressure low > zero` — the contested rung.
@@ -234,23 +276,37 @@ entering a load-bearing contrast. Below threshold ⇒ the dimension is not
 reliably human-ratable; every contrast depending on it fails, and no machine
 result can rescue it.
 
-### 5.2 Opus-vs-human-consensus agreement
-Aggregate α is **not sufficient** and is not the criterion. The criterion is
-**directional agreement per load-bearing contrast**: for each contrast in §4,
-does Opus's directional verdict match the human-consensus directional verdict?
+### 5.2 Opus-vs-human agreement — PER CLAIM, no aggregate
 
-- **Opus is accepted as the full-set machine gate iff it matches the human
-  verdict (§4) on ≥ 90% of load-bearing contrasts** (i.e. at most 1 of the 6 may
-  diverge), **and** §5.3 passes where applicable, **and** the rater survives the
-  §1b competence screen.
-- **R2b `resolved_need × cost` is a hard veto.** If Opus and humans diverge
-  there, Opus is rejected as an instrument for this study outright, whatever its
-  score elsewhere. No 90% rule, no partial credit. That contrast is the one the
-  headline rests on.
+**There is no global acceptance rule.** An earlier draft accepted Opus as the
+full-set gate on ≥ 90% agreement across the six load-bearing contrasts. **That
+rule is removed.** Six contrasts are far too few for a 90% threshold to carry
+meaning, and — the deeper fault — it allowed *unrelated successes to compensate
+for a load-bearing failure*. Opus agreeing about WP3 says nothing about whether
+Opus can be trusted about the `Ctext_new` rung. They gate different claims.
 
-Rationale for making this the criterion rather than α: a high aggregate α is
-fully compatible with disagreement on the single cell that decides the result.
-That failure mode would *look like* validation. It is specifically excluded.
+**Each contrast gates exactly the claim it supports, and nothing else.** Opus's
+rating of a contrast is admissible for that claim iff Opus matches the human
+verdict (§4) on that contrast, **and** the contrast survives the stability veto
+(§4), **and** the rater survives the §1b competence screen.
+
+| contrast | governs | on Opus/human divergence |
+|---|---|---|
+| R2b `resolved_need × cost` | the **need×cost / conjunctive-gate** claim | Opus inadmissible for this claim. Downgrade or pause the conjunctive-gate interpretation; do not substitute the machine reading. |
+| `Ctext_new: task_pressure low > zero` | **that rung only** | Treat the low rung as effectively zero, or redesign it under a new experiment ID. Other rungs and cells unaffected. |
+| WP3 `welfare_relevance: current > resolved` | whether **WP2 may fit on the observation cell** | WP2 may not use that cell. Other WP3 cells unaffected. |
+| WP3 `welfare_relevance: within_neutral` / `within_caring` | whether **WP2 may fit on the persona cell** | WP2 may not use that cell. |
+| WP3 `persona: neutral_content` | the **persona-nuisance quietness gate** | That gate is unavailable; no direction can be certified quiet on persona. |
+| WP3 `task_pressure: high > zero` | the **task-pressure nuisance gate** | That gate is unavailable. |
+
+A failure is **local to its claim.** It does not condemn Opus globally, and
+success elsewhere does not rescue it. No averaging, no partial credit, no
+compensation across rows of this table.
+
+Rationale for per-claim gating over any aggregate (α or agreement rate): an
+aggregate is fully compatible with disagreement on the single cell that decides
+the result, and that failure mode would *look like* validation. It is
+structurally excluded here rather than merely warned against.
 
 ### 5.3 Hypothesis-bias check on the aware rater
 **Under §1a: VOID.** The sole rater is hypothesis-naive and the project lead

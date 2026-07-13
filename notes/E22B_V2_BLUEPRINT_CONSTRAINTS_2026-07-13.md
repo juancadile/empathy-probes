@@ -117,15 +117,33 @@ a design that passes only P1 and P4 has reproduced v1's fault.
 **Opus 4.8 runs the pretest first**, as a declared sensitivity instrument, under
 the same lock discipline as `FRONTIER_JUDGE_SENSITIVITY_LOCK_2026-07-13.md`.
 
-**It may reject. It may not certify.** A machine judge's rejections are
-informative; its acceptances are not, because judge and target model share a
-training distribution and therefore may share the exact perceptual entanglement
-under test (see `HUMAN_CALIBRATION_PROTOCOL_2026-07-13.md` §preamble). So:
+**It is a resource-allocation filter. It is not ground truth in either
+direction.**
 
-- **Opus FAILS the pretest** ⇒ the blueprint is rejected. It does not go to
-  humans. It does not proceed. Revise under a new revision ID (§5).
+An earlier draft claimed machine *rejections* are inherently trustworthy while
+acceptances are not. **That claim is withdrawn — it was unsupported.** Nothing
+observed in this project establishes a one-sided error guarantee for Opus. A
+correlated instrument can produce a false rejection as readily as a false
+acceptance.
+
+The asymmetry that *is* justified is about the **cost of acting**, not the
+reliability of the signal:
+
+- Acting on a rejection = regenerate stimuli. Costs generator time. Cannot
+  corrupt a scientific claim.
+- Acting on an acceptance = consume scarce human raters, then unseal Gemma.
+  Costs the project's scarcest resource, and then its validity.
+
+So the pre-screen is used **conservatively, in the cheap direction only**:
+
+- **Opus FAILS the pretest** ⇒ the blueprint does not advance to humans *in this
+  cycle*. This is a **triage decision under resource scarcity**, not a finding
+  that the stimuli are defective. Revise under a new revision ID (§5).
 - **Opus PASSES the pretest** ⇒ the blueprint is *eligible* for human
-  certification. It is **not** certified, and no model run is authorized.
+  certification. It is **not** certified. No model run is authorized. The
+  acceptance carries no evidential weight (judge and target share a training
+  distribution and may share the entanglement under test — see
+  `HUMAN_CALIBRATION_PROTOCOL_2026-07-13.md` §1a).
 
 **Bundling rule.** E22b.2 rides the current human labeling session **iff it
 passes the Opus pre-screen by the date fixed before recruitment opens.**
@@ -147,10 +165,21 @@ A failed pretest **is a result** (`EXECUTION_ORDER` rule 3).
   its judge output are **preserved and committed**, not overwritten. (Precedent:
   `Reject R2b revision 3 and tighten repair`; `Preserve failed Gate 2
   manipulation audit`.)
-- After **3 failed revisions**, stop and escalate. Three failures is evidence
-  that need and immediacy may not be separable in a moral-vs-moral frame at all
-  — which is itself a publishable finding, and a far better outcome than a
-  fourth revision tuned until it passes.
+- After **3 failed revisions**, stop and escalate to human adjudication of the
+  blueprint. Do not attempt a fourth revision tuned until the machine passes it.
+
+**An invalid inference, explicitly blocked.** An earlier draft said that three
+failed pre-screens would be *evidence that need and immediacy are not separable
+in a moral-vs-moral frame — itself a publishable finding.* **That inference is
+invalid and is retracted.** Repeated rejections by a *correlated instrument*
+are equally consistent with Opus simply being a poor judge of this contrast.
+You cannot harvest a scientific finding from a machine judge's repeated
+refusals any more than from its repeated approvals — the correlation problem
+cuts both ways.
+
+A non-separability finding requires **human** evidence that the axes cannot be
+disentangled, on stimuli built under C1–C8. Three machine rejections trigger
+*escalation to humans*, not a conclusion.
 
 ## 6. Downstream (not authorized by this document)
 
