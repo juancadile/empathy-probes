@@ -63,6 +63,28 @@ def test_complete_strata_and_gold_items_are_preserved(tmp_path):
     assert len(families) == 4
     assert all(sum(row["family_id"] == family for row in s2) == 12 for family in families)
 
+    retests = [row for row in key if row["form"] == "A" and row["presentation"] == "retest"]
+    repeated = {(row["label"], row["arm_id"]) for row in retests}
+    assert {
+        ("observation", "current_actual"),
+        ("observation", "archived_actual"),
+        ("persona", "current_neutral"),
+        ("persona", "neutral_neutral"),
+        ("persona", "current_caring"),
+        ("persona", "neutral_caring"),
+        ("cost", "high"),
+        ("cost", "zero"),
+        ("P_new", "caring"),
+        ("P_new", "neutral"),
+    }.issubset(repeated)
+
+    form_b_originals = [
+        row for row in key if row["form"] == "B" and row["presentation"] == "original"
+    ]
+    gold_b = [row for row in form_b_originals if row["gold_kind"]]
+    assert len(gold_b) == 8
+    assert {row["gold_expected_range"] for row in gold_b} == {"yes", "no"}
+
 
 def test_manifest_hash_is_external_and_exact(tmp_path):
     out = tmp_path / "packet"

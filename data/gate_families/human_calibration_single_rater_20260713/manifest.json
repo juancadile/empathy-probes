@@ -1,7 +1,7 @@
 {
   "schema": "empathy-action-probes/single-rater-calibration-packet/1",
   "protocol": "notes/HUMAN_CALIBRATION_PROTOCOL_2026-07-13.md",
-  "protocol_sha256": "6ca27d1a629a644a8b243ba283ac5bca4176ca154c21ad907d783deeb6b72cb4",
+  "protocol_sha256": "dfd959756922502263f36cfb39721b8ef16ef063aac64648cf16ab20cc665cf6",
   "seed": 1973658643,
   "rng": "numpy.random.PCG64",
   "minimum_retest_lag_rows": 10,
@@ -138,17 +138,17 @@
         "G2V2-00068",
         "G2V2-00092",
         "G2V2-00093",
-        "G2V2-00333",
+        "G2V2-00436",
         "G2V2-00433",
-        "G2V2-00426",
-        "G2V2-00226",
+        "G2V2-00215",
         "G2V2-00318",
-        "G2V2-00233",
-        "G2V2-00183",
-        "G2V2-00155",
-        "G2V2-00063",
-        "G2V2-00159",
-        "G2V2-00058"
+        "G2V2-00334",
+        "G2V2-00333",
+        "G2V2-00401",
+        "G2V2-00400",
+        "G2V2-00148",
+        "G2V2-00053",
+        "G2V2-00157"
       ],
       "gold_unique_items": 8
     },
@@ -173,15 +173,16 @@
         "R2V2-0073",
         "R2V2-0060",
         "R2V2-0153",
-        "R2V2-0142",
-        "R2V2-0091",
-        "R2V2-0105",
-        "R2V2-0132",
-        "R2V2-0157",
-        "R2V2-0005",
-        "R2V2-0016",
-        "R2V2-0087"
-      ]
+        "R2V2-0054",
+        "R2V2-0107",
+        "R2V2-0104",
+        "R2V2-0077",
+        "R2V2-0134",
+        "R2V2-0129",
+        "R2V2-0021",
+        "R2V2-0053"
+      ],
+      "gold_unique_items": 8
     }
   },
   "sources": {
@@ -193,10 +194,10 @@
     "data/gate_families/gate2_v2/wp3_families.jsonl": "571a08a318fd7cb6461fd92745b8526b2566cb27050f7ac78491518dc45625fd"
   },
   "artifacts": {
-    "annotator/form_A.csv": "ec38bf07572fe60038ff02e3d6551f24ef6557a9023f2d57f289c3d4a5eb1428",
-    "annotator/form_B.csv": "25af838bc5a4a0be3ebe1951dfa5d89839d82c9ae50fdb258f2cb3bc10f1a63a",
+    "annotator/form_A.csv": "2a188fc0b1b997d3ce10c9541605bb6104b633aa3d3f0ea2723ce8ca5da6e4d0",
+    "annotator/form_B.csv": "343230cb2b31da83ef4d99d34d956af65fa96eda86b17a669d276d77ce7bc33a",
     "annotator/README.md": "9717f8b6805a2f857c60f3cc4bbd55842608102785e2abb2c86984014bb187e7",
-    "private_do_not_send/combined_key.csv": "7936b01406295bbe77b65f18cc9e0c13cdf2d7b5cde98ea445803f28a012314e"
+    "private_do_not_send/combined_key.csv": "3907909b50e091f4568be2d8257f98e41bd74f99404166bd7f1ab95f737a5214"
   },
   "blinding": {
     "annotator_files_contain_design_labels": false,

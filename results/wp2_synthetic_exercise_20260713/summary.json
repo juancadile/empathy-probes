@@ -1,0 +1,39 @@
+{
+  "schema": "empathy-action-probes/wp2-synthetic-exercise/1",
+  "target_model_loaded": false,
+  "real_row_plan_used": true,
+  "row_count": 1568,
+  "blocks": [13, 19, 25, 20],
+  "hidden_size": 16,
+  "expected_outcome": "representation",
+  "observed_outcome": "representation",
+  "chosen_config": {
+    "kind": "residualized",
+    "block": 19,
+    "role": "prompt_final",
+    "dim": 1,
+    "nuisance_dim": 8,
+    "alpha": null
+  },
+  "nested_target_auroc": 1.0,
+  "nested_quiet_auroc": {
+    "T_new": 0.5,
+    "D_new": 0.5625,
+    "P_new": 0.53125,
+    "G_new": 0.578125,
+    "B_new": 0.46875,
+    "Spos_new": 0.46875,
+    "O_new": 0.453125,
+    "Ctext_new": 0.46875
+  },
+  "development_gate_passed": true,
+  "frozen_representation_sha256": "a2f8e26b330859a5b4df01addb0a7984f0d0091e0ca49153cd6eac3decfe1ce5",
+  "ephemeral_full_artifact_hashes": {
+    "extraction_plan.json": "d34b600ec4d88497787ca96a02292156de85c0dc3c0c2be39e6c0fd0e8ab1b30",
+    "activations.npz": "5983d0a67403931514259ac81e1c4fe4b51122ae472f08d5e73d5e24ea2a9e48",
+    "rows.jsonl": "32b83438af1265b68f27b662a73b6e2a74f46b144ee9333032fb84df82f230ce",
+    "selection.json": "eac4fe603cc363fdcbb34232aeeb37629b59b72a2fcec9f810272dc2aa73b32c",
+    "frozen_representation.npz": "a2f8e26b330859a5b4df01addb0a7984f0d0091e0ca49153cd6eac3decfe1ce5"
+  },
+  "interpretation": "The full WP2 open path can recover and serialize a planted target that is independent of nuisance dimensions. This is an engineering exercise, not scientific evidence."
+}

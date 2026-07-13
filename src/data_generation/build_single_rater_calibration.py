@@ -146,12 +146,45 @@ def choose_form_b_duplicates(rows: list[dict[str, object]], rng: np.random.Gener
 
 
 def choose_form_a_duplicates(rows: list[dict[str, object]], rng: np.random.Generator):
-    counts = {"S1": 4, "S2": 6, "S3": 5}
-    chosen = []
-    for stratum, count in counts.items():
-        options = [row for row in rows if row["stratum"] == stratum]
-        indices = rng.choice(len(options), size=count, replace=False)
-        chosen.extend(options[int(index)] for index in indices)
+    s1 = [row for row in rows if row["stratum"] == "S1"]
+    chosen = [s1[int(index)] for index in rng.choice(len(s1), size=4, replace=False)]
+
+    # Every load-bearing WP3 contrast gets at least one retest for each arm.
+    required_s2 = {
+        ("observation", "current_actual"),
+        ("observation", "archived_actual"),
+        ("persona", "current_neutral"),
+        ("persona", "neutral_neutral"),
+        ("persona", "current_caring"),
+        ("persona", "neutral_caring"),
+        ("cost", "high"),
+        ("cost", "zero"),
+    }
+    for label, arm in sorted(required_s2):
+        options = [
+            row for row in rows
+            if row["stratum"] == "S2"
+            and row["key"]["label"] == label
+            and row["key"]["arm_id"] == arm
+        ]
+        chosen.append(options[int(rng.integers(0, len(options)))])
+
+    # Both objectively checkable persona arms plus one non-persona discriminator.
+    for arm in ("caring", "neutral"):
+        options = [
+            row for row in rows
+            if row["stratum"] == "S3"
+            and row["key"]["label"] == "P_new"
+            and row["key"]["arm_id"] == arm
+        ]
+        chosen.append(options[int(rng.integers(0, len(options)))])
+    remainder = [
+        row for row in rows
+        if row["stratum"] == "S3" and row["key"]["label"] != "P_new"
+    ]
+    chosen.append(remainder[int(rng.integers(0, len(remainder)))])
+    if len(chosen) != 15 or len({row["source_audit_id"] for row in chosen}) != 15:
+        raise ValueError("Form A duplicate coverage selection failed")
     return chosen
 
 
@@ -178,6 +211,8 @@ def ordered_presentations(
 
 
 def gold_metadata(row: dict[str, object]) -> tuple[str, str, str]:
+    if row.get("gold_override"):
+        return tuple(row["gold_override"])
     if row["key"].get("label") != "P_new":
         return "", "", ""
     arm = row["key"]["arm_id"]
@@ -186,6 +221,34 @@ def gold_metadata(row: dict[str, object]) -> tuple[str, str, str]:
     if arm == "neutral":
         return "persona_instruction", "persona_caring_1_to_5", "1:2"
     return "", "", ""
+
+
+def mark_form_b_gold(rows: list[dict[str, object]]) -> list[dict[str, object]]:
+    chosen: set[str] = set()
+    sources = sorted({str(row["key"]["source"]) for row in rows})
+    for source in sources:
+        for cost in ("no_active", "zero"):
+            options = sorted(
+                (
+                    row for row in rows
+                    if row["key"]["source"] == source and row["key"]["cost"] == cost
+                ),
+                key=lambda row: row["source_audit_id"],
+            )
+            chosen.add(options[0]["source_audit_id"])
+    output = []
+    for row in rows:
+        if row["source_audit_id"] not in chosen:
+            output.append(row)
+            continue
+        expected = "no" if row["key"]["cost"] == "no_active" else "yes"
+        output.append({
+            **row,
+            "gold_override": ("active_objective_explicit", "active_objective_yes_no", expected),
+        })
+    if len(chosen) != 8:
+        raise ValueError(f"expected eight Form B gold items, got {len(chosen)}")
+    return output
 
 
 def write_csv(path: Path, rows: list[dict[str, str]], fields: list[str]) -> None:
@@ -245,7 +308,7 @@ def build(output: Path = OUTPUT) -> dict[str, object]:
     gate2 = join_packet(GATE2_PACKET, GATE2_KEY)
     r2b = join_packet(R2B_PACKET, R2B_KEY)
     form_a, selected_families = select_gate2(gate2, rng)
-    form_b = [{**row, "stratum": "R2b-census"} for row in r2b]
+    form_b = mark_form_b_gold([{**row, "stratum": "R2b-census"} for row in r2b])
     dup_a = choose_form_a_duplicates(form_a, rng)
     dup_b = choose_form_b_duplicates(form_b, rng)
 
@@ -299,6 +362,7 @@ def build(output: Path = OUTPUT) -> dict[str, object]:
                 "retest_rows": 24,
                 "total_rows": len(packet_b),
                 "retest_source_audit_ids": [row["source_audit_id"] for row in dup_b],
+                "gold_unique_items": sum(bool(gold_metadata(row)[0]) for row in form_b),
             },
         },
         "sources": {

@@ -11,9 +11,11 @@ the original S2/S3 arithmetic assumed three source strata, but the frozen Gate
 one complete family from every source. No item outcome was inspected; this is
 an objective source-count correction discovered by the packet builder.
 
-**Purpose.** Human raters are not being asked to label 604 rows. They are being
-asked to *calibrate the machine judge*, so that machine ratings can carry the
-full set with a disclosed, pre-declared agreement statistic behind them.
+**Purpose.** The operative single-rater packet contains 295 blinded
+presentations (256 unique rows plus 39 hidden retests), rather than the original
+604-row census. The rater is being asked to *calibrate the machine judge*, so
+that machine ratings can carry claim-local contrasts with a disclosed,
+pre-declared agreement statistic behind them.
 
 **Why a machine judge cannot do this alone.** The target model (Gemma-2-9B-it)
 and the candidate judge (Claude Opus 4.8) are both transformer LLMs trained on
@@ -128,9 +130,12 @@ process as the strata and recorded in the frozen manifest.
   with an objectively checkable answer (the class Llama-3.1-8B failed: an arm
   literally opening `System instruction: adopt a caring assistant persona`,
   asked which arm instructs a caring persona). Seed **≥ 6** such items.
+  Because Form B may be completed without Form A, each form carries its own
+  private gold set: Form A uses explicit caring/neutral system instructions;
+  Form B uses explicit presence/absence of a separate active objective.
   **≥ 2 gold failures** ⇒ rater data discarded in full. A **single** gold
   failure is logged and reported but does **not** discard an otherwise careful
-  rater — one misclick or one genuinely ambiguous gold item should not void 271
+  rater — one misclick or one genuinely ambiguous gold item should not void 295
   rows of careful work, and a rule with that expected value would be a bad rule.
 
 Test–retest measures **item stability within one person**, not shared construct
@@ -156,8 +161,8 @@ possible.
 
 Blinding is already enforced by construction: `annotator/` contains no
 `label`, `arm_id`, `family_id`, `partition`, `need`, or `cost` column. The key
-lives in `private_do_not_send/combined_key.csv` and must not be opened by
-either rater before both forms are submitted.
+lives in `private_do_not_send/combined_key.csv` and must not be opened by the
+rater or project team before the completed forms are submitted.
 
 ## 2. What gets rated
 
@@ -171,7 +176,7 @@ judges disagree in substance, and it is small. It is not subsampled.
 Two ratings per row (`current_need_rating_1_to_5`,
 `interruption_cost_rating_1_to_5`) plus `active_objective_yes_no`.
 
-### Form A — Gate 2 (stratified subsample of 100 of 444)
+### Form A — Gate 2 (stratified subsample of 96 of 444)
 
 Stratified, not random. Strata are fixed here and materialized deterministically
 (seeded, PCG64, seed recorded in the manifest) **before** any rating.
@@ -273,9 +278,10 @@ by another.
 
 ### 5.1 Reliability
 **Under §1a (one rater): VOID as written — replaced by §1b.** The operative
-criteria are the item-stability veto, the ≥ 70% test–retest rater-competence
-screen, and the gold-standard items. Krippendorff's α is **not reported**, and
-no test–retest number may be presented as if it were an inter-rater α.
+criteria are the item-stability veto, quadratic-weighted Cohen's κ ≥ 0.60 per
+load-bearing rating dimension, and the gold-standard items. Krippendorff's α is
+**not reported**, and no test–retest number may be presented as if it were an
+inter-rater α.
 
 **Under §1c (two or more raters):** Krippendorff's α (ordinal) per rating
 dimension, on the shared rows. **Threshold: α ≥ 0.67** on every dimension
@@ -340,8 +346,9 @@ non-negotiable limitation disclosure**, in these terms:
 
 > *Manipulation checks were calibrated against a single hypothesis-naive human
 > rater. Item stability was estimated by within-rater test–retest on hidden
-> duplicates (X% exact-or-adjacent); inter-rater reliability could not be
-> estimated. A single rater cannot detect idiosyncratic-but-consistent
+> duplicates (quadratic-weighted κ = X; exact-or-adjacent agreement Y%, reported
+> descriptively); inter-rater reliability could not be estimated. A single
+> rater cannot detect idiosyncratic-but-consistent
 > misreading of a rating dimension. Accordingly, human corroboration of the
 > R2b need×cost separation is reported as corroborating, not certifying.*
 
@@ -362,15 +369,21 @@ per-stimulus-family. It does not transfer.
 
 ## 7. Artifacts
 
-- `data/gate_families/human_audit_604_20260713/annotator/` — forms (blinded)
-- `data/gate_families/human_audit_604_20260713/private_do_not_send/` — key
-- Subsample manifest (seed, strata, selected `audit_id`s) — written **before**
-  rating, hashed, committed.
+- `data/gate_families/human_calibration_single_rater_20260713/annotator/` —
+  forms and instructions (blinded)
+- `data/gate_families/human_calibration_single_rater_20260713/private_do_not_send/`
+  — key; never send this directory to the rater
+- `data/gate_families/human_calibration_single_rater_20260713/manifest.json` and
+  `manifest.sha256` — seed, strata, selected `audit_id`s, source hashes, and
+  artifact hashes, written **before** rating and committed
 - Rater responses committed verbatim, per rater, unedited, including blanks
   and free-text `notes`.
-- Analysis script must recompute α, per-contrast agreement, the ambiguity rate,
-  and the §5.3 sign test from the raw responses, and must **fail closed** if the
-  subsample manifest hash does not match the frozen one.
+- Analysis must be run with
+  `src/analysis/analyze_single_rater_calibration.py`, which recomputes weighted
+  κ, stability/gold checks, family-clustered contrasts, and claim-local machine
+  agreement from raw responses. It must **fail closed** if the external
+  manifest hash, source hashes, immutable row fields, or artifact hashes do not
+  match the frozen packet.
 
 Related: [[E22B_V2_BLUEPRINT_CONSTRAINTS_2026-07-13]],
 `GATE2_V2_REPAIR_PREREG_2026-07-13.md`,
