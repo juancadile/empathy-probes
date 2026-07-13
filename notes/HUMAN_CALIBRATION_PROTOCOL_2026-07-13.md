@@ -4,6 +4,13 @@
 may be amended after the first rating is recorded. Amendments require a new
 protocol ID and a fresh rater pool.
 
+**Pre-rating materialization correction (2026-07-13, no ratings recorded):**
+the original S2/S3 arithmetic assumed three source strata, but the frozen Gate
+2 packet contains four (`anthropic_haiku45`, `google_gemini25_flash`,
+`openai_gpt41_mini`, and `openai_gpt4o_mini`). The operative counts below use
+one complete family from every source. No item outcome was inspected; this is
+an objective source-count correction discovered by the packet builder.
+
 **Purpose.** Human raters are not being asked to label 604 rows. They are being
 asked to *calibrate the machine judge*, so that machine ratings can carry the
 full set with a disclosed, pre-declared agreement statistic behind them.
@@ -172,8 +179,8 @@ Stratified, not random. Strata are fixed here and materialized deterministically
 | # | stratum | rows | why |
 |---|---|---:|---|
 | S1 | `Ctext_new`, arms `zero` + `low` (**all 16**) | 16 | The sole substantive Qwen/Opus disagreement: Qwen passes `task_pressure: low > zero`, Opus fails it in both partitions. Humans are the tiebreak. Census, not sample. |
-| S2 | WP3 identification: `observation`, `persona`, `cost`, `resolved_neutral_controls` | 36 | WP3 is the decision-free welfare cell — the deepest identification fix. Its `welfare_relevance: current>resolved`, `persona: neutral_content`, `welfare_relevance: within_neutral/within_caring` and `task_pressure: high>zero` checks are what make a WP2 direction fit on this cell meaningful. If these are not humanly valid, WP3 cannot identify anything. |
-| S3 | Machine-consensus discriminators: `P_new`, `Spos_new`, `L_new` | 24 | Llama-3.1-8B uniquely fails these (persona, positive valence, currentness) while Qwen **and** Opus pass. Human verdict answers the meta-question of this whole protocol: is machine consensus trustworthy where a weaker model dissents? |
+| S2 | WP3 identification: `observation`, `persona`, `cost`, `resolved_neutral_controls` | 48 | One complete 12-row arm set from each of four source strata. WP3 is the decision-free welfare cell — the deepest identification fix. Its `welfare_relevance: current>resolved`, `persona: neutral_content`, `welfare_relevance: within_neutral/within_caring` and `task_pressure: high>zero` checks are what make a WP2 direction fit on this cell meaningful. If these are not humanly valid, WP3 cannot identify anything. |
+| S3 | Machine-consensus discriminators: `P_new`, `Spos_new`, `L_new` | 32 | One complete 8-row arm set from each of four source strata. Llama-3.1-8B uniquely fails these (persona, positive valence, currentness) while Qwen **and** Opus pass. Human verdict answers the meta-question of this whole protocol: is machine consensus trustworthy where a weaker model dissents? |
 | S4 | ~~Random remainder from `T_new`, `D_new`, `G_new`, `B_new`, `O_new`, `R_new`~~ | ~~24~~ | **DROPPED under §1a.** Its sole justification was an unbiased slice for inter-rater α estimation. With one rater there is no α to estimate, so S4 buys nothing. Restore it if §1c applies. |
 
 **Single-rater packet (operative):**
@@ -181,8 +188,8 @@ Stratified, not random. Strata are fixed here and materialized deterministically
 | form | content | rows |
 |---|---|---:|
 | B | R2b, all 160 + 15% hidden duplicates | **184** |
-| A | S1 (16) + S2 (36) + S3 (24) = 76, + 15% hidden duplicates (11) | **87** |
-| | **total** | **271** |
+| A | S1 (16) + S2 (48) + S3 (32) = 96, + ~15% hidden duplicates (15) | **111** |
+| | **total** | **295** |
 
 Form B is ~2 ratings per row and moves fast (~80–100 min). Form A is 12 rating
 dimensions per row and is the slow one.
