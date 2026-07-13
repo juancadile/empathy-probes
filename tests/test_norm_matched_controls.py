@@ -18,7 +18,7 @@ sys.path.insert(0, str(ROOT / "src"))
 
 from norm_matched_controls import (  # noqa: E402
     apply_norm_matched_random, orthogonalize_component_measured,
-    summarize, targeted_delta_norm,
+    summarize, summarize_joint_selectivity, targeted_delta_norm,
 )
 from weight_orthogonalization import effective_direction, parse_component  # noqa: E402
 
@@ -182,3 +182,15 @@ def test_summary_uses_plus_one_monte_carlo_p():
     assert summary["mc_p_two_sided"] == 1 / 21
     assert summary["min_attainable_p"] == 1 / 21
     assert "z_score_secondary_descriptive" in summary
+
+
+def test_joint_selectivity_uses_target_and_control_task_deltas():
+    target = {"helping_delta": -0.3, "task_delta": -0.01}
+    controls = [
+        {"helping_delta": 0.02, "task_delta": 0.0},
+        {"helping_delta": -0.01, "task_delta": 0.01},
+    ]
+    summary = summarize_joint_selectivity(target, controls, task_penalty=3)
+    assert abs(summary["targeted_value"] - 0.27) < 1e-12
+    assert summary["n_null_as_or_more_extreme"] == 0
+    assert summary["mc_p_one_sided"] == 1 / 3

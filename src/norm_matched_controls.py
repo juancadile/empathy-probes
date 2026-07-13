@@ -137,6 +137,28 @@ def summarize(name, targeted_delta, null_deltas):
             "z_score_secondary_descriptive": float(z)}
 
 
+def summarize_joint_selectivity(targeted, controls, task_penalty=3.0):
+    """Pre-specified joint statistic: large M movement with small T movement.
+
+    Higher is more selective. Inference is one-sided because the alternative
+    specified before this rerun is that the targeted edit exceeds the random-
+    direction controls on |delta_M| - task_penalty * |delta_T|.
+    """
+    score = lambda row: abs(row["helping_delta"]) - task_penalty * abs(row["task_delta"])
+    target_score = score(targeted)
+    null_scores = [score(row) for row in controls]
+    n_extreme = sum(v >= target_score for v in null_scores)
+    return {
+        "statistic": f"abs(helping_delta) - {task_penalty:g} * abs(task_delta)",
+        "alternative": "targeted statistic greater than random-direction controls",
+        "targeted_value": target_score,
+        "null_values": null_scores,
+        "n_null_as_or_more_extreme": n_extreme,
+        "mc_p_one_sided": (1 + n_extreme) / (len(null_scores) + 1),
+        "min_attainable_p": 1 / (len(null_scores) + 1),
+    }
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--model", default="google/gemma-2-9b-it")
@@ -201,7 +223,7 @@ def main():
     # (the pilot's baseline may differ in loading config / aggregation), and
     # measure the ACTUAL realized post-bf16 delta norm of every targeted edit —
     # these realized norms are the requested norms for all random edits below
-    ref_deltas, targeted_edits = {}, {}
+    ref_deltas, targeted_edits, targeted_metrics = {}, {}, {}
     for set_name, components in sets.items():
         snapshots = snapshot_weights(model, components)
         try:
@@ -214,10 +236,25 @@ def main():
         finally:
             restore_weights(snapshots)
         ref_deltas[set_name] = metrics["helping_choice"]["mean"] - base_help
+        targeted_metrics[set_name] = {
+            "helping_choice": metrics["helping_choice"],
+            "task_choice": metrics["task_choice"],
+            "neutral_drift": metrics["neutral_drift"],
+            "helping_delta": ref_deltas[set_name],
+            "task_delta": metrics["task_choice"]["mean"] - baseline["task_choice"]["mean"],
+        }
         log.info("%s targeted (in-run): helping delta %+.4f (pilot: %+.4f)",
                  set_name, ref_deltas[set_name], pilot_deltas[set_name])
 
-    results = {"baseline_helping": base_help, "n_seeds": args.n_seeds, "sets": {}}
+    results = {
+        "baseline": {
+            "helping_choice": baseline["helping_choice"],
+            "task_choice": baseline["task_choice"],
+            "neutral_drift": baseline["neutral_drift"],
+        },
+        "n_seeds": args.n_seeds,
+        "sets": {},
+    }
     for set_name, components in sets.items():
         target_norms = {e["component"]: e["realized_delta_norm"]
                         for e in targeted_edits[set_name]}
@@ -256,6 +293,9 @@ def main():
                            for c_ in conditions for e in c_["edits"])
         results["sets"][set_name] = {
             "summary": summarize(set_name, ref_deltas[set_name], null_deltas),
+            "joint_selectivity": summarize_joint_selectivity(
+                targeted_metrics[set_name], conditions),
+            "targeted_metrics": targeted_metrics[set_name],
             "pilot_helping_delta": pilot_deltas[set_name],
             "targeted_edits": targeted_edits[set_name],
             "targeted_realized_delta_norms": target_norms,
