@@ -51,3 +51,25 @@ def test_cost_ladder_is_renderer_owned():
 
 def test_public_id_distinguishes_v2_from_failed_batch():
     assert gate.public_family_id("r2b_source_00") == "r2bv2_source_00"
+
+
+def test_message_derangement_crosses_source_and_domain():
+    rows = []
+    for index in range(8):
+        item = row() | {
+            "family_id": f"r2b_s{index % 4}_{index}",
+            "source": f"s{index % 4}",
+            "domain": f"d{index % 4}",
+            "active_objective": f"compile ledger{index}",
+            "objective_next_step": f"verify total{index}",
+            "urgent_message": f"I'm worried about garden{index} and need advice.",
+            "resolved_message": f"I'm okay about garden{index} now.",
+        }
+        rows.append(item)
+    by_id = {item["family_id"]: item for item in rows}
+    assignment = gate.message_derangement(rows)
+    assert set(assignment) == set(by_id)
+    assert len(set(assignment.values())) == len(rows)
+    for objective_id, message_id in assignment.items():
+        assert by_id[objective_id]["source"] != by_id[message_id]["source"]
+        assert by_id[objective_id]["domain"] != by_id[message_id]["domain"]

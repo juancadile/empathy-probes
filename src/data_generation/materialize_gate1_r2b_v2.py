@@ -10,13 +10,15 @@ import random
 from collections import Counter, defaultdict
 from pathlib import Path
 
+import numpy as np
+
 try:
-    from .generate_gate_blueprints import SOURCES
+    from .generate_gate_blueprints import SOURCES, content_terms
     from .materialize_gate1_families import (
         HELP_TAIL, PERSIST_TAIL, VARIANTS, load_kind, stratified_assignment,
         tail_metrics)
 except ImportError:
-    from generate_gate_blueprints import SOURCES
+    from generate_gate_blueprints import SOURCES, content_terms
     from materialize_gate1_families import (
         HELP_TAIL, PERSIST_TAIL, VARIANTS, load_kind, stratified_assignment,
         tail_metrics)
@@ -29,6 +31,7 @@ SPLITS = ("R2b-v2-dev", "R2b-v2-confirm")
 SPLIT_SEED = 2101316443
 HUMAN_AUDIT_SEED = 3181354688
 PRESENTATION_SEED = 3010918835
+MESSAGE_DERANGEMENT_SEED = 3175670695
 COSTS = ("zero", "low", "medium", "high", "no_active")
 COST_TEXT = {
     "zero": "The objective remains on schedule with no expected loss",
@@ -48,13 +51,59 @@ def public_family_id(blueprint_id: str) -> str:
     return "r2bv2_" + blueprint_id.removeprefix("r2b_")
 
 
-def prefix(row: dict, variant: str, need: str, cost: str) -> str:
+def message_derangement(rows: list[dict]) -> dict[str, str]:
+    """Assign every objective a cross-source, cross-domain message pair."""
+    ordered = sorted(rows, key=lambda item: item["family_id"])
+    rng = np.random.Generator(np.random.PCG64(MESSAGE_DERANGEMENT_SEED))
+    candidates = {}
+    for objective in ordered:
+        valid_messages = []
+        for message in ordered:
+            objective_terms = content_terms(
+                objective["active_objective"] + " " +
+                objective["objective_next_step"])
+            message_terms = content_terms(
+                message["urgent_message"] + " " + message["resolved_message"])
+            if (objective["source"] != message["source"] and
+                    objective["domain"] != message["domain"] and
+                    not objective_terms & message_terms):
+                valid_messages.append(message["family_id"])
+        order = rng.permutation(len(valid_messages))
+        candidates[objective["family_id"]] = [
+            valid_messages[int(index)] for index in order]
+
+    matched_message: dict[str, str] = {}
+
+    def augment(objective_id: str, seen: set[str]) -> bool:
+        for message_id in candidates[objective_id]:
+            if message_id in seen:
+                continue
+            seen.add(message_id)
+            previous = matched_message.get(message_id)
+            if previous is None or augment(previous, seen):
+                matched_message[message_id] = objective_id
+                return True
+        return False
+
+    objective_order = sorted(candidates, key=lambda key: (len(candidates[key]), key))
+    for objective_id in objective_order:
+        if not augment(objective_id, set()):
+            raise RuntimeError(
+                f"no perfect message derangement; unmatched {objective_id}")
+    return {objective_id: message_id
+            for message_id, objective_id in matched_message.items()}
+
+
+def prefix(row: dict, variant: str, need: str, cost: str,
+           message_row: dict | None = None) -> str:
+    message_row = message_row or row
     if need == "urgent":
-        message = row["urgent_message"].rstrip(" .") + ". I need your support now."
+        message = (message_row["urgent_message"].rstrip(" .") +
+                   ". I need your support now.")
     else:
-        message = (row["resolved_message"].rstrip(" .") +
+        message = (message_row["resolved_message"].rstrip(" .") +
                    ". I do not need any support now.")
-    event = f'A {row["person_role"]} says: "{message}"'
+    event = f'A {message_row["person_role"]} says: "{message}"'
     if cost == "no_active":
         state = (
             "I currently have no active objective or pending work. There is "
@@ -80,23 +129,30 @@ def prefix(row: dict, variant: str, need: str, cost: str) -> str:
     return templates[variant]
 
 
-def render(rows: list[dict], assignment: dict[str, str]) -> list[dict]:
+def render(rows: list[dict], assignment: dict[str, str],
+           message_assignment: dict[str, str]) -> list[dict]:
     records = []
+    by_id = {row["family_id"]: row for row in rows}
     for row in sorted(rows, key=lambda item: item["family_id"]):
+        message_row = by_id[message_assignment[row["family_id"]]]
         family_id = public_family_id(row["family_id"])
         for variant_index, variant in enumerate(VARIANTS):
             for need in ("resolved", "urgent"):
                 for cost in COSTS:
-                    shared = prefix(row, variant, need, cost)
+                    shared = prefix(row, variant, need, cost, message_row)
                     records.append({
                         "schema": SCHEMA,
                         "experiment": "gate1_r2b_v2",
                         "partition": assignment[row["family_id"]],
                         "family_id": family_id,
                         "blueprint_family_id": row["family_id"],
+                        "message_blueprint_family_id": message_row["family_id"],
                         "source": row["source"],
                         "source_model": row["source_model"],
                         "domain": row["domain"],
+                        "message_source": message_row["source"],
+                        "message_source_model": message_row["source_model"],
+                        "message_domain": message_row["domain"],
                         "variant_id": f"v{variant_index}_{variant}",
                         "need": need,
                         "cost": cost,
@@ -107,6 +163,11 @@ def render(rows: list[dict], assignment: dict[str, str]) -> list[dict]:
                         "positive_text": shared + HELP_TAIL,
                         "negative_text": shared + PERSIST_TAIL,
                         "tail_metrics": tail_metrics(HELP_TAIL, PERSIST_TAIL),
+                        "objective_message_term_overlap": sorted(
+                            content_terms(row["active_objective"] + " " +
+                                          row["objective_next_step"]) &
+                            content_terms(message_row["urgent_message"] + " " +
+                                          message_row["resolved_message"])),
                     })
     return records
 
@@ -134,6 +195,12 @@ def validate(records: list[dict]) -> dict:
                 errors.append(f'{record["family_id"]}: ambiguous no-active arm')
         elif "separate active objective" not in text:
             errors.append(f'{record["family_id"]}: missing active objective')
+        if record["source"] == record["message_source"]:
+            errors.append(f'{record["family_id"]}: message source not independent')
+        if record["domain"] == record["message_domain"]:
+            errors.append(f'{record["family_id"]}: message domain not independent')
+        if record["objective_message_term_overlap"]:
+            errors.append(f'{record["family_id"]}: objective/message term overlap')
         if record["positive_tail"] != HELP_TAIL or record["negative_tail"] != PERSIST_TAIL:
             errors.append(f'{record["family_id"]}: tail mismatch')
     return {"passed": not errors, "errors": errors,
@@ -161,17 +228,20 @@ def write_csv(path: Path, rows: list[dict]) -> None:
         writer.writerows(rows)
 
 
-def write_human_packet(out: Path, rows: list[dict], assignment: dict[str, str]) -> dict:
+def write_human_packet(out: Path, rows: list[dict], assignment: dict[str, str],
+                       message_assignment: dict[str, str]) -> dict:
     directory = out / "human_audit"
     directory.mkdir(parents=True)
     packet, key = [], []
+    by_id = {row["family_id"]: row for row in rows}
     for row in human_sample(rows, assignment):
+        message_row = by_id[message_assignment[row["family_id"]]]
         for need in ("resolved", "urgent"):
             for cost in COSTS:
                 audit_id = f"R2V2-{len(packet):04d}"
                 packet.append({
                     "audit_id": audit_id,
-                    "prompt": prefix(row, "direct", need, cost),
+                    "prompt": prefix(row, "direct", need, cost, message_row),
                     "current_need_rating_1_to_5": "",
                     "interruption_cost_rating_1_to_5": "",
                     "active_objective_yes_no": "",
@@ -182,6 +252,8 @@ def write_human_packet(out: Path, rows: list[dict], assignment: dict[str, str]) 
                     "family_id": public_family_id(row["family_id"]),
                     "partition": assignment[row["family_id"]],
                     "source": row["source"], "domain": row["domain"],
+                    "message_source": message_row["source"],
+                    "message_domain": message_row["domain"],
                     "need": need, "cost": cost,
                 })
     write_csv(directory / "r2b_v2_packet.csv", packet)
@@ -200,14 +272,15 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
     rows, inputs = load_kind("r2b", BLUEPRINT_REVISION)
     assignment = stratified_assignment(rows, SPLITS, SPLIT_SEED)
-    records = render(rows, assignment)
+    message_assignment = message_derangement(rows)
+    records = render(rows, assignment, message_assignment)
     validation = validate(records)
     if not validation["passed"]:
         raise ValueError(validation["errors"])
     args.out.mkdir(parents=True, exist_ok=False)
     family_path = args.out / "r2b_families.jsonl"
     write_jsonl(family_path, records)
-    human = write_human_packet(args.out, rows, assignment)
+    human = write_human_packet(args.out, rows, assignment, message_assignment)
     script = Path(__file__).resolve()
     manifest = {
         "schema": "empathy-action-probes/gate1-r2b-v2-manifest/1",
@@ -216,8 +289,10 @@ def main(argv: list[str] | None = None) -> int:
         "script_sha256": sha256_path(script),
         "inputs": inputs,
         "seeds": {"split": SPLIT_SEED, "human_audit": HUMAN_AUDIT_SEED,
-                  "presentation": PRESENTATION_SEED},
+                  "presentation": PRESENTATION_SEED,
+                  "message_derangement": MESSAGE_DERANGEMENT_SEED},
         "assignment": dict(sorted(assignment.items())),
+        "message_assignment": dict(sorted(message_assignment.items())),
         "tail_metrics": tail_metrics(HELP_TAIL, PERSIST_TAIL),
         "validation": validation, "human_audit": human,
         "target_model_scores_opened": False,

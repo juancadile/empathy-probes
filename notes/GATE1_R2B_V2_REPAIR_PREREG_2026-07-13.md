@@ -106,3 +106,15 @@ sentences mention only the narrator's separate objective. Provider-authored
 cost fragments are retained in source provenance but are not rendered. This
 eliminates accidental references to the speaker while keeping the frozen
 zero/low/medium/high estimand unchanged.
+
+A final pre-score semantic audit found that same-domain pairs could remain
+related despite zero exact lexical overlap (for example, moderation work and a
+question about replying to a forum user). The renderer therefore applies a
+frozen derangement of complete urgent/resolved message pairs across the 32
+objective families. Every objective receives a message from a different
+provider and a different domain, with zero objective/message content-term
+overlap. The permutation seed is `3175670695`, the first 32 bits of SHA-256 of
+`Gate1 R2b v2 message derangement 2026-07-13`. Objective and message family,
+source, model, and domain are all persisted. This amendment occurred before
+manipulation ratings or target-model access and does not change any gate,
+threshold, split, or decision tail.

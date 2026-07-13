@@ -2,7 +2,7 @@
   "schema": "empathy-action-probes/gate1-r2b-v2-manifest/1",
   "blueprint_revision": 4,
   "script": "src/data_generation/materialize_gate1_r2b_v2.py",
-  "script_sha256": "948ff49ba0a967f808e117b29bcc93461b48667aedcf1dced403836d73e833cc",
+  "script_sha256": "de096fe3adb4877118e664685c5416c2496885a82da9d6dd1014977862c16508",
   "inputs": [
     {
       "path": "data/gate_families/blueprints/r2b_openai_gpt4o_mini_v4.json",
@@ -37,7 +37,8 @@
   "seeds": {
     "split": 2101316443,
     "human_audit": 3181354688,
-    "presentation": 3010918835
+    "presentation": 3010918835,
+    "message_derangement": 3175670695
   },
   "assignment": {
     "r2b_anthropic_haiku45_00": "R2b-v2-dev",
@@ -72,6 +73,40 @@
     "r2b_openai_gpt4o_mini_05": "R2b-v2-confirm",
     "r2b_openai_gpt4o_mini_06": "R2b-v2-dev",
     "r2b_openai_gpt4o_mini_07": "R2b-v2-confirm"
+  },
+  "message_assignment": {
+    "r2b_anthropic_haiku45_00": "r2b_google_gemini25_flash_07",
+    "r2b_anthropic_haiku45_01": "r2b_openai_gpt4o_mini_03",
+    "r2b_anthropic_haiku45_02": "r2b_openai_gpt41_mini_06",
+    "r2b_anthropic_haiku45_03": "r2b_openai_gpt41_mini_02",
+    "r2b_anthropic_haiku45_04": "r2b_openai_gpt4o_mini_06",
+    "r2b_anthropic_haiku45_05": "r2b_openai_gpt4o_mini_04",
+    "r2b_anthropic_haiku45_06": "r2b_openai_gpt41_mini_05",
+    "r2b_anthropic_haiku45_07": "r2b_openai_gpt4o_mini_05",
+    "r2b_google_gemini25_flash_00": "r2b_anthropic_haiku45_02",
+    "r2b_google_gemini25_flash_01": "r2b_openai_gpt41_mini_04",
+    "r2b_google_gemini25_flash_02": "r2b_anthropic_haiku45_01",
+    "r2b_google_gemini25_flash_03": "r2b_anthropic_haiku45_00",
+    "r2b_google_gemini25_flash_04": "r2b_anthropic_haiku45_03",
+    "r2b_google_gemini25_flash_05": "r2b_openai_gpt4o_mini_00",
+    "r2b_google_gemini25_flash_06": "r2b_openai_gpt4o_mini_01",
+    "r2b_google_gemini25_flash_07": "r2b_openai_gpt41_mini_00",
+    "r2b_openai_gpt41_mini_00": "r2b_anthropic_haiku45_04",
+    "r2b_openai_gpt41_mini_01": "r2b_anthropic_haiku45_07",
+    "r2b_openai_gpt41_mini_02": "r2b_openai_gpt4o_mini_07",
+    "r2b_openai_gpt41_mini_03": "r2b_anthropic_haiku45_06",
+    "r2b_openai_gpt41_mini_04": "r2b_google_gemini25_flash_03",
+    "r2b_openai_gpt41_mini_05": "r2b_openai_gpt4o_mini_02",
+    "r2b_openai_gpt41_mini_06": "r2b_google_gemini25_flash_00",
+    "r2b_openai_gpt41_mini_07": "r2b_google_gemini25_flash_06",
+    "r2b_openai_gpt4o_mini_00": "r2b_google_gemini25_flash_04",
+    "r2b_openai_gpt4o_mini_01": "r2b_google_gemini25_flash_02",
+    "r2b_openai_gpt4o_mini_02": "r2b_openai_gpt41_mini_07",
+    "r2b_openai_gpt4o_mini_03": "r2b_google_gemini25_flash_01",
+    "r2b_openai_gpt4o_mini_04": "r2b_anthropic_haiku45_05",
+    "r2b_openai_gpt4o_mini_05": "r2b_openai_gpt41_mini_01",
+    "r2b_openai_gpt4o_mini_06": "r2b_openai_gpt41_mini_03",
+    "r2b_openai_gpt4o_mini_07": "r2b_google_gemini25_flash_05"
   },
   "tail_metrics": {
     "positive_utf8_bytes": 59,
