@@ -105,6 +105,7 @@ Head-set localization is supported only if the paired target-minus-null CI exclu
 - Post-bf16 residual alignment/idempotence checks are small relative to removed alignment (roughly 0.1%-0.7% across selected components), supporting that the intended rank-1 projection was actually removed after casting.
 - The edits are rank-1 but not negligible within each selected component: relative component-block Frobenius changes are about 2.2% for each selected MLP and 1.7%-3.5% for selected heads. Report rank and realized norm; avoid implying an infinitesimal perturbation.
 - `weight_orthogonalization.py` still defines the superseded pre-correction component sets as module/CLI defaults. Current rescue scripts override them, but an unqualified rerun silently edits the old sets. Replace defaults with the sets of record or require explicit component specifications and persist the resolved set in every artifact.
+- The E26b writer norm-covariate analysis also used the arithmetic sum of two component Frobenius norms. Recomputing its post-hoc linear adjustment with the correct joint norm `sqrt(n_1^2+n_2^2)` leaves the rank unchanged: L19MLP+L20MLP remains second of 28 by residual, with target residual about `+0.113`; the unadjusted exhaustive rank remains first of 28. Thus the band-level claim survives, but historical summed-norm values/method language are superseded. The adjusted `2/28` is a descriptive post-hoc rank (`~.071`), not an exact permutation p-value.
 
 ## Circuit-status audit
 
