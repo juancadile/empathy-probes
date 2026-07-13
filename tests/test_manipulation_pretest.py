@@ -251,3 +251,103 @@ def test_accepted_pretest_rejects_floating_judge_alias(tmp_path, capsys):
             "--judge-model", "gpt-4.1", "--run-mode", "accepted",
             "--out", str(tmp_path / "out.json")])
     assert "snapshot-shaped" in capsys.readouterr().err
+
+
+def test_gate0c_audit_sample_is_deterministic_whole_family_and_frozen():
+    expected = {
+        "need_v2_2": ["cx_moderation", "cx_chess", "cx_tutoring",
+                       "cx_translation", "cx_racing"],
+        "moral_v2_2": ["mm_stream", "mm_helpdesk", "mm_tutor",
+                        "mm_translator", "mm_firstaid"],
+    }
+    for battery, frozen in expected.items():
+        items, _ = mp.extract_items(battery)
+        selected, manifest = mp.select_gate0c_audit_families(items, battery)
+        assert selected == frozen
+        assert manifest["selected_families"] == frozen
+        assert len(manifest["strata"]) == 5
+        sampled, _ = mp.select_gate0c_items(items, battery, "audit")
+        assert {item["family"] for item in sampled} == set(frozen)
+        # Every arm/question-relevant acknowledgment in a selected family is
+        # retained; sampling never occurs independently within an arm.
+        per_family = {family: [i for i in sampled if i["family"] == family]
+                      for family in frozen}
+        expected_rows = 8 if battery == "need_v2_2" else 6
+        assert all(len(rows) == expected_rows for rows in per_family.values())
+
+
+def _rated_payload(battery, role, arm_ratings):
+    items, _ = mp.extract_items(battery)
+    items, sample = mp.select_gate0c_items(items, battery, role)
+    questions = mp.BATTERIES[battery]["questions"]
+    rated = []
+    for item in items:
+        rated.append({**item, "ratings": {
+            question: {"rating": arm_ratings[item["arm"]]}
+            for question in questions}})
+    return {
+        "battery": battery,
+        "battery_spec": {"questions": list(questions)},
+        "adjudication": {"role": role},
+        "sample_manifest": sample,
+        "items": rated,
+    }
+
+
+@pytest.mark.parametrize("role,n_families,threshold", [
+    ("primary", 10, 8), ("audit", 5, 4)])
+def test_gate0c_need_analysis_uses_role_specific_family_gate(
+        role, n_families, threshold):
+    payload = _rated_payload(
+        "need_v2_2", role,
+        {"urgent": 5, "mild": 4, "resolved": 2, "excited": 1})
+    report = mp.analyze_gate0c_pretest(payload)
+    assert report["all_required_gates_pass"] is True
+    for contrast in report["contrasts"].values():
+        assert contrast["n_families"] == n_families
+        assert contrast["sign_threshold"] == threshold
+        assert contrast["pass"] is True
+
+
+def test_gate0c_moral_analysis_requires_both_questions_and_adjacent_steps():
+    payload = _rated_payload(
+        "moral_v2_2", "primary", {"lower": 1, "equal": 3, "higher": 5})
+    report = mp.analyze_gate0c_pretest(payload)
+    assert report["all_required_gates_pass"] is True
+    assert set(report["contrasts"]) == {
+        "need_now:equal_minus_lower", "need_now:higher_minus_equal",
+        "respond_now:equal_minus_lower", "respond_now:higher_minus_equal",
+    }
+
+
+def test_gate0c_unknown_fails_science_gate_but_artifact_remains_valid():
+    payload = _rated_payload(
+        "need_v2_2", "audit",
+        {"urgent": 5, "mild": 4, "resolved": 2, "excited": 1})
+    payload["items"][0]["ratings"]["need_now"]["rating"] = None
+    analysis = mp.analyze_gate0c_pretest(payload)
+    assert analysis["all_required_gates_pass"] is False
+
+    artifact = {
+        "schema": "manipulation_pretest/1", "mode": "rated",
+        "battery": "need_v2_2", "battery_spec": {}, "judge": {},
+        "sources": {}, "items": payload["items"], "run_mode": "accepted",
+        "evidence_eligibility": "failed_ineligible_unknown_judge_ratings",
+        "run_contract": {}, "adjudication": {"role": "audit"},
+        "sample_manifest": payload["sample_manifest"],
+        "gate0c_analysis": analysis,
+    }
+    # Scientific failure is preserved; validation checks completeness, not
+    # whether the result is favorable.
+    mp.validate_pretest_artifact(artifact)
+
+
+def test_accepted_role_enforces_frozen_provider_and_model(tmp_path, capsys):
+    with pytest.raises(SystemExit):
+        mp.main([
+            "--battery", "need_v2_2", "--provider", "anthropic",
+            "--judge-model", "claude-haiku-4-5-20251001",
+            "--adjudication-role", "primary", "--shuffle-seed",
+            str(mp.GATE0C_MANIPULATION_PROTOCOL["presentation_seed"]),
+            "--run-mode", "accepted", "--out", str(tmp_path / "out.json")])
+    assert "accepted primary role requires" in capsys.readouterr().err

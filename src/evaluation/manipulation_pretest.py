@@ -166,6 +166,62 @@ BATTERIES = {
     },
 }
 
+
+# Frozen Gate-0C Part-3 adjudication protocol. These choices are committed
+# before any replacement ratings are opened.
+GATE0C_MANIPULATION_PROTOCOL = {
+    "name": "gate0c_manipulation_2026_07_13_v1",
+    "presentation_seed": 3987230607,
+    "audit_sample_seed": 3226443545,
+    "audit_n_families": 5,
+    "bootstrap_seed": 3987230607,
+    "n_boot": 10_000,
+    "roles": {
+        "primary": {
+            "provider": "openai",
+            "model": "gpt-4.1-2025-04-14",
+            "sample": "all_10_families",
+        },
+        "audit": {
+            "provider": "anthropic",
+            "model": "claude-haiku-4-5-20251001",
+            "sample": "stratified_5_families",
+        },
+    },
+}
+
+# Each battery has ten templated families arranged into five two-family domain
+# strata. The stimulus-source half of the stratum is derived from the battery
+# source files and persisted. This makes the frozen five-family audit one
+# seeded draw per (domain, stimulus-source) stratum rather than five unrelated
+# arm-level draws.
+GATE0C_FAMILY_DOMAINS = {
+    "need_v2_2": {
+        "cx_betatest": "digital_service",
+        "cx_moderation": "digital_service",
+        "cx_chess": "game_coordination",
+        "cx_raid": "game_coordination",
+        "cx_dispatch": "time_critical_operations",
+        "cx_racing": "time_critical_operations",
+        "cx_editing": "language_work",
+        "cx_translation": "language_work",
+        "cx_shopkeeper": "interpersonal_service",
+        "cx_tutoring": "interpersonal_service",
+    },
+    "moral_v2_2": {
+        "mm_study": "education",
+        "mm_tutor": "education",
+        "mm_helpdesk": "digital_service",
+        "mm_moderator": "digital_service",
+        "mm_dispatch": "urgent_physical",
+        "mm_firstaid": "urgent_physical",
+        "mm_guild": "community_social",
+        "mm_stream": "community_social",
+        "mm_garden": "practical_assistance",
+        "mm_translator": "practical_assistance",
+    },
+}
+
 _RATING_TEMPLATE = (
     "Read the following situation description.\n"
     "---\n"
@@ -354,6 +410,67 @@ def extract_items(battery_key, repo_root=ROOT):
     return items, sources
 
 
+def select_gate0c_audit_families(items, battery_key,
+                                  seed=GATE0C_MANIPULATION_PROTOCOL[
+                                      "audit_sample_seed"]):
+    """Select one whole family from each frozen domain/source stratum."""
+    families = sorted({item["family"] for item in items})
+    domains = GATE0C_FAMILY_DOMAINS.get(battery_key, {})
+    if set(families) != set(domains):
+        raise PretestExtractionError(
+            f"Gate-0C domain manifest mismatch for {battery_key}: "
+            f"families={families}, manifest={sorted(domains)}")
+
+    sources_by_family = defaultdict(set)
+    for item in items:
+        sources_by_family[item["family"]].add(item["source_file"])
+    strata = defaultdict(list)
+    for family in families:
+        source_key = "|".join(sorted(sources_by_family[family]))
+        strata[(domains[family], source_key)].append(family)
+    expected = GATE0C_MANIPULATION_PROTOCOL["audit_n_families"]
+    if len(strata) != expected or any(len(v) != 2 for v in strata.values()):
+        raise PretestExtractionError(
+            f"Gate-0C audit requires {expected} two-family strata; observed "
+            f"{dict(strata)}")
+
+    rng = np.random.Generator(np.random.PCG64(int(seed)))
+    selected, records = [], []
+    for (domain, source_key), candidates in sorted(strata.items()):
+        candidates = sorted(candidates)
+        chosen = candidates[int(rng.integers(0, len(candidates)))]
+        selected.append(chosen)
+        records.append({
+            "domain": domain,
+            "stimulus_source": source_key.split("|"),
+            "candidate_families": candidates,
+            "selected_family": chosen,
+        })
+    return selected, {
+        "method": "one_seeded_family_per_domain_and_stimulus_source_stratum",
+        "seed": int(seed),
+        "n_families": len(selected),
+        "selected_families": selected,
+        "strata": records,
+    }
+
+
+def select_gate0c_items(items, battery_key, role):
+    """Apply the frozen full-primary or five-family-audit sampling role."""
+    if role == "primary":
+        families = sorted({item["family"] for item in items})
+        return list(items), {
+            "method": "all_families",
+            "n_families": len(families),
+            "selected_families": families,
+        }
+    if role == "audit":
+        families, manifest = select_gate0c_audit_families(items, battery_key)
+        chosen = set(families)
+        return [item for item in items if item["family"] in chosen], manifest
+    raise ValueError(f"unknown Gate-0C adjudication role {role!r}")
+
+
 def render_rating_prompt(text, question_key, prompt_version, target=None):
     """Blind judge input: rated text + versioned question/scale ONLY.
 
@@ -446,6 +563,129 @@ def summarize(items_with_ratings, questions):
     return summaries
 
 
+def _family_contrast(items, question, positive_arm, negative_arm):
+    by_arm_family = defaultdict(lambda: defaultdict(list))
+    for item in items:
+        rating = item["ratings"][question]["rating"]
+        if rating is not None:
+            by_arm_family[item["arm"]][item["family"]].append(rating)
+    pos = by_arm_family[positive_arm]
+    neg = by_arm_family[negative_arm]
+    families = sorted(set(pos) & set(neg))
+    effects = {
+        family: float(np.mean(pos[family]) - np.mean(neg[family]))
+        for family in families
+    }
+    return effects
+
+
+def _contrast_report(effects, *, seed, n_boot, sign_threshold,
+                     require_ci):
+    names = sorted(effects)
+    values = np.asarray([effects[name] for name in names], dtype=float)
+    if not len(values):
+        return {
+            "family_effects": {}, "n_positive": 0, "n_families": 0,
+            "mean": None, "family_bootstrap_ci95": [None, None],
+            "lofo_effects": {}, "gates": {
+                "positive_family_count": False,
+                "family_ci_lower_gt_zero": False,
+            }, "pass": False,
+        }
+    rng = np.random.Generator(np.random.PCG64(int(seed)))
+    boot = [float(values[rng.integers(0, len(values), len(values))].mean())
+            for _ in range(n_boot)]
+    ci = [float(np.percentile(boot, 2.5)),
+          float(np.percentile(boot, 97.5))]
+    lofo = {
+        omitted: float(np.mean([value for name, value in effects.items()
+                                if name != omitted]))
+        for omitted in names
+    }
+    gates = {
+        "positive_family_count": int(np.sum(values > 0)) >= sign_threshold,
+        "family_ci_lower_gt_zero": ci[0] > 0,
+    }
+    passed = gates["positive_family_count"] and (
+        gates["family_ci_lower_gt_zero"] if require_ci else True)
+    return {
+        "family_effects": effects,
+        "n_positive": int(np.sum(values > 0)),
+        "n_zero": int(np.sum(values == 0)),
+        "n_negative": int(np.sum(values < 0)),
+        "n_families": len(values),
+        "mean": float(values.mean()),
+        "family_bootstrap_ci95": ci,
+        "lofo_effects": lofo,
+        "sign_threshold": sign_threshold,
+        "ci_required": require_ci,
+        "gates": gates,
+        "pass": bool(passed),
+    }
+
+
+def analyze_gate0c_pretest(payload):
+    """Apply the frozen family-level Part-3 gates to one judge artifact."""
+    role = payload["adjudication"]["role"]
+    battery = payload["battery"]
+    expected_families = (10 if role == "primary" else
+                         GATE0C_MANIPULATION_PROTOCOL["audit_n_families"])
+    sign_threshold = 8 if role == "primary" else 4
+    require_ci = role == "primary"
+    seed = GATE0C_MANIPULATION_PROTOCOL["bootstrap_seed"]
+    n_boot = GATE0C_MANIPULATION_PROTOCOL["n_boot"]
+    n_unknown = sum(
+        item["ratings"][question]["rating"] is None
+        for item in payload["items"]
+        for question in payload["battery_spec"]["questions"])
+
+    if battery == "need_v2_2":
+        specs = {
+            "urgent_minus_mild": ("need_now", "urgent", "mild"),
+            "mild_minus_resolved": ("need_now", "mild", "resolved"),
+            "urgent_minus_excited": ("need_now", "urgent", "excited"),
+        }
+    elif battery == "moral_v2_2":
+        specs = {}
+        for question in ("need_now", "respond_now"):
+            specs[f"{question}:equal_minus_lower"] = (
+                question, "equal", "lower")
+            specs[f"{question}:higher_minus_equal"] = (
+                question, "higher", "equal")
+    else:
+        raise ValueError(f"no Gate-0C analysis for battery {battery!r}")
+
+    contrasts = {}
+    for name, (question, positive, negative) in specs.items():
+        effects = _family_contrast(payload["items"], question,
+                                   positive, negative)
+        report = _contrast_report(
+            effects, seed=seed, n_boot=n_boot,
+            sign_threshold=sign_threshold, require_ci=require_ci)
+        report.update({"question": question, "positive_arm": positive,
+                       "negative_arm": negative,
+                       "family_coverage_ok": len(effects) == expected_families})
+        report["pass"] = bool(report["pass"] and
+                              report["family_coverage_ok"])
+        contrasts[name] = report
+
+    all_pass = (n_unknown == 0 and contrasts and
+                all(entry["pass"] for entry in contrasts.values()))
+    return {
+        "protocol": GATE0C_MANIPULATION_PROTOCOL["name"],
+        "role": role,
+        "battery": battery,
+        "expected_families": expected_families,
+        "n_unknown_ratings": n_unknown,
+        "contrasts": contrasts,
+        "all_required_gates_pass": bool(all_pass),
+        "claim_ceiling": (
+            "authored prompts are perceived as ordered on the named composite "
+            "manipulation by this adjudicator; no activation-level construct "
+            "identity follows"),
+    }
+
+
 def resolve_out_path(out_arg, repo_root=ROOT, protected=PROTECTED_OUTPUTS):
     out = Path(out_arg)
     resolved = out if out.is_absolute() else Path(repo_root) / out
@@ -470,6 +710,16 @@ def validate_pretest_artifact(payload):
     missing = sorted(required - set(payload))
     if missing:
         raise ValueError(f"incomplete pretest artifact: missing {missing}")
+    if payload.get("run_mode") == "accepted":
+        if not isinstance(payload.get("adjudication"), dict):
+            raise ValueError("accepted pretest lacks adjudication role metadata")
+        if not isinstance(payload.get("sample_manifest"), dict):
+            raise ValueError("accepted pretest lacks its sample manifest")
+        analysis = payload.get("gate0c_analysis")
+        if not isinstance(analysis, dict):
+            raise ValueError("accepted pretest lacks Gate-0C analysis")
+        if not isinstance(analysis.get("all_required_gates_pass"), bool):
+            raise ValueError("accepted pretest lacks a boolean Gate-0C verdict")
 
 
 def main(argv=None):
@@ -483,6 +733,10 @@ def main(argv=None):
                     help="judge provider; REQUIRED for live rating. Gate 0C "
                          "requires a judge family independent of the "
                          "historical Claude-family judge (openai)")
+    ap.add_argument("--adjudication-role", choices=("primary", "audit"),
+                    default=None,
+                    help="accepted Gate-0C role: full OpenAI primary or "
+                         "stratified five-family Anthropic audit")
     ap.add_argument("--prompt-version", default=DEFAULT_PROMPT_VERSION,
                     choices=sorted(PRETEST_PROMPTS))
     ap.add_argument("--shuffle-seed", type=int, default=0,
@@ -505,6 +759,21 @@ def main(argv=None):
         if not args.provider or not is_snapshot_model_id(args.provider,
                                                          args.judge_model):
             ap.error("accepted mode requires an exact snapshot-shaped --judge-model")
+        if not args.adjudication_role:
+            ap.error("accepted mode requires --adjudication-role")
+        frozen_role = GATE0C_MANIPULATION_PROTOCOL["roles"][
+            args.adjudication_role]
+        if (args.provider != frozen_role["provider"]
+                or args.judge_model != frozen_role["model"]):
+            ap.error(
+                f"accepted {args.adjudication_role} role requires provider "
+                f"{frozen_role['provider']!r} and model "
+                f"{frozen_role['model']!r}")
+        if args.shuffle_seed != GATE0C_MANIPULATION_PROTOCOL[
+                "presentation_seed"]:
+            ap.error(
+                "accepted Gate-0C manipulation runs require presentation "
+                f"seed {GATE0C_MANIPULATION_PROTOCOL['presentation_seed']}")
 
     out = resolve_out_path(args.out)
     spec = BATTERIES[args.battery]
@@ -516,6 +785,9 @@ def main(argv=None):
                              f"question {question!r}")
 
     items, sources = extract_items(args.battery)
+    role = args.adjudication_role or "primary"
+    items, sample_manifest = select_gate0c_items(
+        items, args.battery, role)
     input_paths = [entry["path"] for entry in sources.values()]
     contract = evaluate_run_contract(
         args.run_mode, revisions={}, output_paths=(out,),
@@ -569,6 +841,12 @@ def main(argv=None):
         },
         "presentation": {"shuffle_seed": args.shuffle_seed,
                          "order_item_ids": [items[i]["item_id"] for i in order]},
+        "adjudication": {
+            "protocol": GATE0C_MANIPULATION_PROTOCOL["name"],
+            "role": role,
+            "frozen_role": GATE0C_MANIPULATION_PROTOCOL["roles"][role],
+        },
+        "sample_manifest": sample_manifest,
         "provenance": collect_run_provenance(),
         "run_contract": contract,
         "run_mode": args.run_mode,
@@ -642,6 +920,7 @@ def main(argv=None):
     if n_unknown:
         result["evidence_eligibility"] = (
             "failed_ineligible_unknown_judge_ratings")
+    result["gate0c_analysis"] = analyze_gate0c_pretest(result)
 
     revalidate_run_contract(
         contract, source_rules=args.allowed_dirty, input_paths=input_paths)

@@ -1,0 +1,57 @@
+{
+  "schema": "empathy-action-probes/gate0c-manipulation-lock/1",
+  "created_at": "2026-07-13T16:15:00Z",
+  "protocol": "gate0c_manipulation_2026_07_13_v1",
+  "protocol_sha256": "171e3687d4f5f914d43ca4df06a59570814fe7220684082fa80c1d90500970e9",
+  "presentation_seed": 3987230607,
+  "audit_sample_seed": 3226443545,
+  "bootstrap_seed": 3987230607,
+  "bootstrap_draws": 10000,
+  "family_domain_manifest_sha256": "1f98a0f979f811f313608987ab000b9a93a6604f55ed34ca201abdff96dd659a",
+  "adjudicators": {
+    "primary": {
+      "provider": "openai",
+      "model": "gpt-4.1-2025-04-14",
+      "sample": "all_10_families"
+    },
+    "audit": {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001",
+      "sample": "one_family_from_each_of_5_domain_source_strata"
+    }
+  },
+  "need_v2_2": {
+    "primary_items": 80,
+    "audit_items": 40,
+    "questions_per_item": 1,
+    "audit_families": [
+      "cx_moderation",
+      "cx_chess",
+      "cx_tutoring",
+      "cx_translation",
+      "cx_racing"
+    ],
+    "sources": {
+      "data/contrastive_pairs/v2_2/cost_axis_templated.jsonl": "5c60e08f653d057fb449939c103ce614edbfc7af48fbe18653523d6f07adee69",
+      "data/contrastive_pairs/v2_2/need_mild_axis_templated.jsonl": "8c7d8a15312878e2b419799267639b5fb23fb6c33b2c76dafce16f1fdf3b0d93",
+      "data/contrastive_pairs/v2_2/need_resolved_axis_templated.jsonl": "e463614de9dc3a986befca3728679bb4d10a356623fc979f169bbf1dfa097b30",
+      "data/contrastive_pairs/v2_2/nonsocial_axis_templated.jsonl": "05ed2c09e8421bde9f0456d0993c53a28f3d58922ada0549750066f6bd382ffe"
+    }
+  },
+  "moral_v2_2": {
+    "primary_items": 60,
+    "audit_items": 30,
+    "questions_per_item": 2,
+    "audit_families": [
+      "mm_stream",
+      "mm_helpdesk",
+      "mm_tutor",
+      "mm_translator",
+      "mm_firstaid"
+    ],
+    "sources": {
+      "data/contrastive_pairs/v2_2/moral_axis_templated.jsonl": "b3c6dff3d7d84c49adcc468f5b950c2b48c6064098403e8ac017630cc16225ae"
+    },
+    "target_manifest_sha256": "7208f9623b1a94bfffa2e1692f45e9a923b060f43884911b9aa8223f417b50b2"
+  }
+}
