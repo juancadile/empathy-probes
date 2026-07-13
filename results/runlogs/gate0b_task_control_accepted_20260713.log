@@ -1,0 +1,22 @@
+2026-07-13 12:34:41,944 INFO HTTP Request: GET https://huggingface.co/api/models/google/gemma-2-9b-it/tree/11c9b309abf73637e4b6f9a3fa1e92e615547819/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-07-13 12:34:42,016 INFO HTTP Request: GET https://huggingface.co/api/models/google/gemma-2-9b-it/tree/11c9b309abf73637e4b6f9a3fa1e92e615547819?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-07-13 12:34:42,677 INFO HTTP Request: GET https://huggingface.co/api/models/google/gemma-2-9b-it "HTTP/1.1 200 OK"
+Loading weights:   0%|          | 0/464 [00:00<?, ?it/s]Loading weights: 100%|██████████| 464/464 [00:00<00:00, 6043.93it/s]
+{
+  "raw_ab_dual": {
+    "M_confirm_effect": -0.29296875,
+    "T_confirm_repaired_effect": -0.0234375,
+    "abs_T_over_abs_M": 0.08,
+    "threshold": 0.3333333333333333,
+    "pass": true
+  },
+  "continuation": {
+    "M_confirm_effect": -0.01985206703344981,
+    "T_confirm_repaired_effect": -0.0036344051361083983,
+    "abs_T_over_abs_M": 0.18307439371349063,
+    "threshold": 0.3333333333333333,
+    "pass": true
+  }
+}
+all required gates pass: True
+wrote results/gate0b_task_control_accepted_20260713/task_control.json

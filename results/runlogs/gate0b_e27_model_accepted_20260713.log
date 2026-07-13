@@ -1,0 +1,25 @@
+48 runs, 356 say events
+design validated: 48 run artifacts implement the explicit 2x3x8 grid
+judged 25/356
+judged 50/356
+judged 75/356
+judged 100/356
+judged 125/356
+judged 150/356
+judged 175/356
+judged 200/356
+judged 225/356
+judged 250/356
+judged 275/356
+judged 300/356
+judged 325/356
+judged 350/356
+cond/variant                    says  support   chat   task
+baseline/distress                145     1.00   0.00   0.00
+baseline/excited                  15     1.00   0.00   0.00
+baseline/resolved                  0     0.00   0.00   0.00
+suppressors/distress             170     1.00   0.00   0.00
+suppressors/excited               26     0.96   0.00   0.04
+suppressors/resolved               0     0.00   0.00   0.00
+interaction (SUPPORT, distress vs controls): mean +2.50 CI [-2.0625, 6.875] sign test {'n_nonzero': 7, 'n_positive': 4, 'p': 1.0}
+wrote results/gate0b_e27_model_accepted_20260713/e27_scores_model.json

@@ -483,3 +483,29 @@ Full memo: `notes/INTEGRITY_REPAIR_A_2026-07-13.md`. Brief `FABLE_INTEGRITY_REPA
   detected MMLU cost), Part 2 fractional ablation passed, and Part 3's failed
   manipulation certification is preserved as a reconstructible result. Gate
   closure means the audit is complete, not that all scientific gates passed.
+
+## 2026-07-13 - Gate 0B machine closure (human message audit deferred)
+
+- **Repaired T-confirm accepted run:** clean source `09e8ca4`, exact pinned
+  Gemma revision, current `d_resid` component registry, repaired and historical
+  T-confirm plus simultaneous exhausted M-confirm, all in one process. Writer
+  raw effect M `-0.2930` versus repaired T `-0.0234`, ratio `0.080`; scaffold-
+  free continuation M `-0.01985` versus T `-0.00363`, ratio `0.183`. Both
+  preregistered ratios are below `1/3` => writer task-control magnitude-
+  selectivity PASS. Chat sensitivity retains the M sign with T near zero.
+- **Suppressor task result:** M moves `+0.1595` raw while repaired T moves
+  `-0.1391`; no quietness gate was specified, and this remains evidence for a
+  mixed arbitration/task-persistence mechanism rather than welfare selectivity.
+- **E27 independent OpenAI rejudge:** 48/48 design cells, 356/356 labels, exact
+  `gpt-4.1-2025-04-14`, zero UNKNOWN. The edit-specific distress interaction
+  FAILS: mean `+2.50`, seed-bootstrap `[-2.06,+6.88]`, 4/8 positive seed
+  effects, sign-test `p=1.0`. Baseline distress engagement survives, but the
+  suppressor edit increased conversational persistence without certified
+  distress specificity on these historical trajectories.
+- **Independent audit:** both artifacts validate, bind to clean source and all
+  frozen hashes, preserve per-example data/raw judge responses, and recompute
+  exactly. Report: `notes/GATE0B_MACHINE_AUDIT_2026-07-13.md`.
+- **Status:** machine work complete; Gate 0B remains formally open only for the
+  preregistered blinded human audit of at least 30 E27 messages. Human work may
+  refine label agreement but these inspected trajectories remain development
+  evidence and cannot become fresh enacted-behavior confirmation.
