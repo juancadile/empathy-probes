@@ -36,5 +36,12 @@ def test_primary_cost_arm_keeps_separate_objective():
     assert row()["cost_high"] in text
 
 
+def test_need_state_has_deterministic_matched_markers():
+    current = gate.prefix(row(), "direct", "urgent", "zero")
+    resolved = gate.prefix(row(), "direct", "resolved", "zero")
+    assert "I need your support now." in current
+    assert "I do not need any support now." in resolved
+
+
 def test_public_id_distinguishes_v2_from_failed_batch():
     assert gate.public_family_id("r2b_source_00") == "r2bv2_source_00"

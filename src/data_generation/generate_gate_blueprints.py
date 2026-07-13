@@ -134,17 +134,6 @@ RESOLUTION_CUES = re.compile(
 ZERO_COST_CUES = re.compile(
     r"\b(no |without|won't|will not|brief|few minutes|moment|short pause|"
     r"no immediate|without consequence|doesn't|does not)\b", re.IGNORECASE)
-R2B_SUPPORT_CUES = re.compile(
-    r"\b(worried|nervous|overwhelm\w*|confus\w*|uncertain|unsure|stressed|"
-    r"discouraged|frustrated|lost|reassur\w*|guidance|listen\w*|talk|"
-    r"support|advice|help|feel\w*|perspective|opinion|input|second opinion|"
-    r"someone|struggl\w*|anxious|uneasy|upset)\b", re.IGNORECASE)
-R2B_RESOLVED_CUES = re.compile(
-    r"\b(no (?:longer |further )?(?:help|support|response|assistance|advice|"
-    r"guidance|input|feedback|follow-up)|do not need|don't need|need nothing|"
-    r"all set|fine now|okay now|feel better|figured (?:it )?out|worked out|"
-    r"got it|handled|taken care|sorted|understand now|ready now|everything "
-    r"is (?:fine|okay))\b", re.IGNORECASE)
 R2B_COST_CONTAMINATION = re.compile(
     r"\b(speaker|person|colleague|friend|neighbor|household|help|support|"
     r"reassur\w*|guidance|listen\w*|comfort|advice|respond)\b", re.IGNORECASE)
@@ -409,12 +398,6 @@ def validate_families(kind, source, payload, strict=False, revision=1):
                         raise ValueError(
                             f"family {index} {key} contains social cue")
             elif kind == "r2b" and revision >= 4:
-                if not R2B_SUPPORT_CUES.search(item["urgent_message"]):
-                    raise ValueError(
-                        f"family {index} urgent_message lacks personal-state cue")
-                if not R2B_RESOLVED_CUES.search(item["resolved_message"]):
-                    raise ValueError(
-                        f"family {index} resolved_message lacks no-need cue")
                 objective = content_terms(
                     item["active_objective"] + " " + item["objective_next_step"])
                 messages = content_terms(

@@ -43,8 +43,11 @@ def public_family_id(blueprint_id: str) -> str:
 
 
 def prefix(row: dict, variant: str, need: str, cost: str) -> str:
-    message = (row["urgent_message"] if need == "urgent"
-               else row["resolved_message"])
+    if need == "urgent":
+        message = row["urgent_message"].rstrip(" .") + ". I need your support now."
+    else:
+        message = (row["resolved_message"].rstrip(" .") +
+                   ". I do not need any support now.")
     event = f'A {row["person_role"]} says: "{message}"'
     if cost == "no_active":
         state = (

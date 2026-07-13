@@ -87,3 +87,12 @@ subject whose request advances or evaluates the objective, and executable
 validation rejects objective/message lexical overlap, social-response language
 in cost prose, and prior-tense no-objective states. All thresholds and seeds
 above are unchanged.
+
+Before accepting any revision-4 blueprint batch, the need-state endpoint was
+moved from provider phrasing into the deterministic renderer. Current arms end
+with `I need your support now.` and resolved arms with
+`I do not need any support now.` Provider prose supplies the underlying
+personal situation; code supplies the matched state marker. This avoids making
+acceptance depend on whether a small generator happened to use one of several
+regex-recognized synonyms. Objective/message independence and cost
+non-contamination remain hard generation checks.
