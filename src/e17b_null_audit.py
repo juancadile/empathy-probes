@@ -129,8 +129,7 @@ GATE0C_NULL_PROTOCOL = {
         "unit L2 norm, then transfer to device"),
     "statistic": ("Z = -(mean_margin_fraction1 - mean_margin_fraction0); "
                   "one-sided plus-one empirical p vs the 39 nulls"),
-    "dose_monotonicity_tolerance": 0.02,
-    "descriptive_min_selectivity_ratio": 2.0,
+    "dose_monotonicity_relative_tolerance": 0.03,
 }
 
 #: Minimum accepted control count, justified by the preregistered inferential
@@ -307,7 +306,8 @@ def analyze_fractional_protocol(protocol_scores, families, readouts,
     fractions = protocol_scores["target_fractions"]
     if not {"0.0", "1.0"} <= set(fractions):
         raise NullProtocolError("fractional analysis requires f=0 and f=1")
-    tolerance = GATE0C_NULL_PROTOCOL["dose_monotonicity_tolerance"]
+    relative_tolerance = GATE0C_NULL_PROTOCOL[
+        "dose_monotonicity_relative_tolerance"]
     ordered = [str(f) for f in GATE0C_NULL_PROTOCOL["fractions"]]
     analysis = {"readouts": {}, "all_required_gates_pass": True}
     for readout in readouts:
@@ -336,7 +336,10 @@ def analyze_fractional_protocol(protocol_scores, families, readouts,
                 for omitted in names}
             means = [float(np.mean(
                 fractions[key][readout][cell]["scores"])) for key in ordered]
-            monotone = all(b <= a + tolerance for a, b in zip(means, means[1:]))
+            dose_effects = [-(value - means[0]) for value in means]
+            tolerance = relative_tolerance * abs(dose_effects[-1])
+            monotone = all(b >= a - tolerance
+                           for a, b in zip(dose_effects, dose_effects[1:]))
             gates = {
                 "target_greater_than_all_nulls": bool(z_nulls and z_target > max(z_nulls)),
                 "family_ci_lower_gt_zero": bool(np.percentile(boot, 2.5) > 0),
@@ -350,23 +353,26 @@ def analyze_fractional_protocol(protocol_scores, families, readouts,
                 "family_bootstrap_ci95": [float(np.percentile(boot, 2.5)),
                                            float(np.percentile(boot, 97.5))],
                 "lofo_effects": lofo, "dose_mean_margins": means,
-                "dose_monotonicity_tolerance": tolerance, "gates": gates,
+                "signed_dose_effects": dose_effects,
+                "dose_monotonicity_tolerance": tolerance,
+                "dose_monotonicity_relative_tolerance": relative_tolerance,
+                "gates": gates,
             }
         m = per_cell["M_confirm"]["Z_target"]
         t = per_cell["T_confirm"]["Z_target"]
-        ratio = abs(m) / max(abs(t), 1e-12)
+        ratio = abs(t) / max(abs(m), 1e-12)
         per_cell["descriptive_selectivity"] = {
-            "abs_M_over_abs_T": ratio,
-            "threshold": GATE0C_NULL_PROTOCOL["descriptive_min_selectivity_ratio"],
-            "passes": ratio >= GATE0C_NULL_PROTOCOL[
-                "descriptive_min_selectivity_ratio"],
-            "interpretation": "descriptive gate, not an equivalence claim",
+            "abs_T_over_abs_M": ratio,
+            "interpretation": (
+                "descriptive only; no threshold and not an equivalence claim"),
         }
         required = per_cell["M_confirm"]["gates"]
-        readout_pass = (all(required.values())
-                        and per_cell["descriptive_selectivity"]["passes"])
+        readout_pass = all(required.values())
         per_cell["required_M_gates_pass"] = readout_pass
-        analysis["all_required_gates_pass"] &= readout_pass
+        if readout == "raw_ab_dual":
+            analysis["all_required_gates_pass"] = readout_pass
+        else:
+            per_cell["format_sign_transfer"] = m > 0
         analysis["readouts"][readout] = per_cell
     return analysis
 

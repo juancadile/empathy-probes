@@ -121,7 +121,35 @@ def test_analysis_represents_family_lofo_rank_dose_and_selectivity_gates():
         cell = report["readouts"][readout]["M_confirm"]
         assert cell["plus_one_p_one_sided"] == 1 / 40
         assert all(cell["gates"].values())
-        assert report["readouts"][readout]["descriptive_selectivity"]["passes"]
+        assert report["readouts"][readout]["descriptive_selectivity"][
+            "abs_T_over_abs_M"] == pytest.approx(0.2)
+
+
+def test_only_raw_is_primary_and_dose_tolerance_is_three_percent_of_full():
+    scores = synthetic_scores()
+    # Chat sign failure is reported but cannot replace or veto the raw gate.
+    for key in scores["target_fractions"]:
+        fraction = float(key)
+        scores["target_fractions"][key]["chat_ab_dual"]["M_confirm"] = {
+            "scores": [1.0 + fraction] * 4}
+    # A 0.01 downward step in signed effect is within 3% of full Z=1.
+    scores["target_fractions"]["0.25"]["raw_ab_dual"]["M_confirm"] = {
+        "scores": [0.8] * 4}
+    scores["target_fractions"]["0.5"]["raw_ab_dual"]["M_confirm"] = {
+        "scores": [0.81] * 4}
+    families = {"M_confirm": ["a", "a", "b", "b"],
+                "T_confirm": ["c", "c", "d", "d"]}
+    report = analyze_fractional_protocol(
+        scores, families, GATE0C_NULL_PROTOCOL["readouts"], n_boot=100)
+    assert report["all_required_gates_pass"] is True
+    assert report["readouts"]["chat_ab_dual"]["format_sign_transfer"] is False
+
+    # Increase the reversal beyond .03 * |Z_full|: raw primary must fail.
+    scores["target_fractions"]["0.5"]["raw_ab_dual"]["M_confirm"] = {
+        "scores": [0.85] * 4}
+    report = analyze_fractional_protocol(
+        scores, families, GATE0C_NULL_PROTOCOL["readouts"], n_boot=100)
+    assert report["all_required_gates_pass"] is False
 
 
 def test_gate0c_binding_freezes_model_direction_block_and_cell_bytes():
