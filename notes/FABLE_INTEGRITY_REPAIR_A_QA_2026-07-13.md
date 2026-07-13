@@ -132,6 +132,14 @@ Acceptance tests must cover:
 - parser status is persisted and ambiguous/unparsed items are not counted as
   ordinary wrong answers without an explicit analysis policy.
 
+For the capability summary, persist both an all-items analysis (format failure
+counts as task failure) and a parsed-only sensitivity analysis with parse rates
+by condition. Because sampling is subject-stratified, uncertainty for the
+accuracy delta must resample subjects/clusters rather than treating all 400
+questions as independent. A confidence interval containing zero supports only
+"no detected change"; it is not an equivalence/no-cost result unless a separate
+equivalence margin was frozen before the run.
+
 ## Q6. Enforce immutable revisions for evidence-eligible runs (P1)
 
 Revision pinning is documented but optional. A run can still silently use
@@ -155,6 +163,10 @@ Acceptance tests:
 - Exploratory mode persists its status and missing pins.
 - Pure validation tests require no network or model load.
 
+Evidence-eligible output paths must also fail closed if the result artifact
+already exists. Write through a temporary file and atomically rename only after
+the complete artifact validates; never silently overwrite a prior accepted run.
+
 ## Q7. Make fractional-ablation null resolution adequate and explicit (P2)
 
 `e17b_null_audit.py` hardcodes three random directions. That is acceptable only
@@ -175,6 +187,8 @@ Acceptance tests:
 - Accepted mode rejects three draws and an omitted count; use a documented
   minimum justified by the preregistered inferential resolution.
 - Smoke mode clearly labels the artifact as non-evidential.
+- Random-direction controls score the same M and T cells/readouts as the target
+  ablation so they can assess effect magnitude and selectivity, not M alone.
 
 ## Q8. Validate existing deterministic-builder sidecars (P2)
 
@@ -197,6 +211,59 @@ Acceptance tests:
 - Tampering the preserved copy causes failure.
 - A valid unchanged artifact+sidecar remains byte-identical after rebuild.
 
+## Q9. Require the complete E27 design, not only the observed cross-product (P1)
+
+`score_e27.aggregate` currently forms the expected grid from conditions,
+variants, and seeds that happen to exist. If an entire condition, variant, or
+seed is absent, that dimension disappears and the incomplete dataset can pass.
+
+Required repair:
+
+- The scorer must consume or require an explicit design manifest containing
+  expected conditions, variants, seeds, and exactly one run artifact per cell.
+- Reject missing cells, duplicate cell artifacts, unexpected cells, failed-run
+  summaries, and hash/path disagreements before judging or aggregation.
+- Persist the validated design manifest and validation report.
+- Dry-run must exercise the same design validation as live judging.
+
+Acceptance tests:
+
+- Removing one cell fails (already partially covered).
+- Removing every cell for one seed, variant, or condition also fails.
+- Duplicating a run for one cell fails.
+- The real 2 x 3 x 8 E27 tree validates as exactly 48 runs before any API call.
+
+## Q10. Make game-generation artifacts evidence-auditable (P1)
+
+`run_eia_local.py` and `e27_game_variants.py` can still generate behavioral
+evidence without immutable model/tokenizer revisions, direction hash, registry
+resolution, generation configuration, game/message-pool hashes, or protected
+output semantics. Existing E27 histories cannot be retroactively upgraded; they
+remain historical evidence and require the separately preregistered fresh EIA
+confirmation for a final claim.
+
+Required repair:
+
+- Apply the accepted/exploratory run contract and direction-bound component
+  resolution to both game drivers.
+- Persist model/tokenizer requested and resolved revisions, direction path/hash,
+  complete component resolution, edit diagnostics, seed/run identity,
+  generation parameters, scenario/message-pool hashes, EIA code commit/hash,
+  and environment provenance in a run-level manifest.
+- Use a fresh deterministic player RNG/call counter per run so paired seeds do
+  not depend on preceding trajectories; persist the seed derivation.
+- Refuse existing accepted output directories and avoid partial results being
+  mistaken for complete grids. Preserve failure states explicitly.
+- Do not alter or claim to repair the existing raw E27 histories in this batch.
+
+Acceptance tests:
+
+- Both modules import and show CLI help offline.
+- Pure/mock tests validate run-level seed reset and manifest construction.
+- Accepted mode rejects missing revisions, direction mismatch, or existing
+  output; exploratory mode records ineligibility.
+- No model, game, API, GPU, or Spark run occurs in this repair.
+
 ## Delivery Contract
 
 1. Add focused tests for every acceptance criterion above.
@@ -214,6 +281,6 @@ Acceptance tests:
 ## Clearance Rule
 
 Repair A is cleared only after an independent post-Fable review confirms all
-eight items, the complete test suite passes, import smoke succeeds, and dry-run
+ten items, the complete test suite passes, import smoke succeeds, and dry-run
 artifacts demonstrate provider/revision/component provenance. Passing unit tests
 alone is not clearance.
