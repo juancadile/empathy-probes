@@ -41,6 +41,7 @@ WEIGHT_EDIT_CALLER_CLASSIFICATION = {
     "src/capability_eval.py": SHARED_CONTRACT,
     "src/norm_matched_controls.py": SHARED_CONTRACT,
     "src/e17b_null_audit.py": SHARED_CONTRACT,
+    "src/evaluation/gate0b_task_control.py": SHARED_CONTRACT,
     "src/eia_validation/run_eia_local.py": SHARED_CONTRACT,
     "src/eia_validation/e27_game_variants.py": SHARED_CONTRACT,
     # explicitly non-evidential until individually migrated

@@ -1,0 +1,36 @@
+{
+  "schema": "empathy-action-probes/gate0b-machine-lock/1",
+  "created_before_scores_opened": true,
+  "task_control": {
+    "protocol": "gate0b_task_control_2026_07_13_v1",
+    "protocol_sha256": "6f351fcba923602d8f546998dbe5840177d269f19699aa0a110e182a52225578",
+    "bootstrap_seed": 3114916352,
+    "bootstrap_seed_derivation": "first 32 bits of SHA-256 of 'Gate0B task control bootstrap v1 2026-07-13'",
+    "bootstrap_draws": 10000,
+    "primary_readouts": [
+      "raw_ab_dual",
+      "continuation"
+    ],
+    "writer_abs_t_over_m_threshold": 0.3333333333333333
+  },
+  "e27_model_adjudication": {
+    "protocol": "gate0b_e27_model_adjudication_2026_07_13_v1",
+    "protocol_sha256": "0805bb60c8fdeab676844b5fc660ca4df6496af7b90fe6bb63e519ebf34acdd6",
+    "provider": "openai",
+    "model": "gpt-4.1-2025-04-14",
+    "prompt_version": "e27_say_classifier_v2_2026-07-13",
+    "presentation_seed": 2213826058,
+    "presentation_seed_derivation": "first 32 bits of SHA-256 of 'Gate0B E27 presentation v1 2026-07-13'",
+    "expected_runs": 48,
+    "expected_events": 356,
+    "run_history_manifest_sha256": "b5740b1ad312478dbdf92d422ab7091432064bfb6b3a678f5d7fa0214ecb253a",
+    "run_summary_manifest_sha256": "f11f51d8ee7e2cce25577489653541b6fa5a326f6190b6f84d13bed8fd780338",
+    "rendered_input_content_sha256": "bdfe4226657db2cd4936b94af9b36d211b9a66a153e514d8b4264e4371656efe",
+    "presentation_order_sha256": "d275f522b701cfd5e405c3b70e94a84d011f158b5e8295f9f011deaca824ea9d"
+  },
+  "human_audit": {
+    "status": "deferred_by_user",
+    "minimum_messages": 30,
+    "note": "The machine artifact cannot by itself close Gate 0B Part 2; one or two blinded humans may rate the frozen audit packet later."
+  }
+}

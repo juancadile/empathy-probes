@@ -13,10 +13,11 @@ sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "src"))
 
 from src.eia_validation.score_e27 import (  # noqa: E402
-    AnthropicAdapter, DesignValidationError, JUDGE_PROMPTS, OpenAIAdapter,
-    aggregate, iter_say_events, judge_event, main as e27_main, make_adapter,
-    make_input_id, parse_label, render_judge_input, resolve_out_path,
-    validate_design, validate_design_dimensions, validate_score_artifact,
+    AnthropicAdapter, DesignValidationError, GATE0B_E27_PROTOCOL,
+    JUDGE_PROMPTS, OpenAIAdapter, aggregate, iter_say_events, judge_event,
+    main as e27_main, make_adapter, make_input_id, parse_label,
+    render_judge_input, resolve_out_path, validate_design,
+    validate_design_dimensions, validate_score_artifact,
 )
 
 
@@ -471,3 +472,16 @@ def test_accepted_judge_rejects_floating_alias_before_transport(tmp_path, capsys
             "--provider", "openai", "--judge-model", "gpt-4.1",
             "--run-mode", "accepted", "--out", str(tmp_path / "accepted.json")])
     assert "snapshot-shaped" in capsys.readouterr().err
+
+
+def test_accepted_judge_enforces_frozen_gate0b_binding(tmp_path, capsys):
+    make_tree(tmp_path)
+    design = write_design(tmp_path)
+    with pytest.raises(SystemExit):
+        e27_main([
+            "--root", str(tmp_path), "--design-manifest", str(design),
+            "--provider", "openai", "--judge-model", "gpt-4.1-2025-04-14",
+            "--run-mode", "accepted", "--shuffle-seed", "0",
+            "--protocol", GATE0B_E27_PROTOCOL["name"],
+            "--out", str(tmp_path / "accepted.json")])
+    assert "binding mismatch" in capsys.readouterr().err

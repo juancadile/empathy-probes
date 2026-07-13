@@ -105,6 +105,17 @@ JUDGE_PROMPTS = {
 }
 DEFAULT_PROMPT_VERSION = "e27_say_classifier_v2_2026-07-13"
 
+GATE0B_E27_PROTOCOL = {
+    "name": "gate0b_e27_model_adjudication_2026_07_13_v1",
+    "provider": "openai",
+    "model": "gpt-4.1-2025-04-14",
+    "prompt_version": DEFAULT_PROMPT_VERSION,
+    "shuffle_seed": 2213826058,
+    "seed_derivation": (
+        "first 32 bits of SHA-256 of "
+        "'Gate0B E27 presentation v1 2026-07-13'"),
+}
+
 
 def sha256_text(text):
     return hashlib.sha256(text.encode("utf-8")).hexdigest()
@@ -722,6 +733,8 @@ def main(argv=None):
                     help="export exact judge inputs; no API access")
     ap.add_argument("--run-mode", choices=("accepted", "exploratory"),
                     default="exploratory")
+    ap.add_argument("--protocol", default=None,
+                    help="frozen protocol name required in accepted mode")
     ap.add_argument("--allowed-dirty", action="append", default=[],
                     help="accepted source-binding exclusion under results/")
     args = ap.parse_args(argv)
@@ -732,6 +745,18 @@ def main(argv=None):
         if not args.provider or not is_snapshot_model_id(args.provider,
                                                          args.judge_model):
             ap.error("accepted mode requires an exact snapshot-shaped --judge-model")
+        observed = {
+            "name": args.protocol,
+            "provider": args.provider,
+            "model": args.judge_model,
+            "prompt_version": args.prompt_version,
+            "shuffle_seed": args.shuffle_seed,
+        }
+        expected = {key: GATE0B_E27_PROTOCOL[key] for key in observed}
+        if observed != expected:
+            ap.error(
+                f"accepted Gate 0B E27 binding mismatch: expected {expected}, "
+                f"got {observed}")
 
     root = Path(args.root)
     out = resolve_out_path(root, args.out, args.dry_run)
@@ -791,6 +816,8 @@ def main(argv=None):
             "blinding": "judge input = prior user context + player message "
                         "only; presentation order shuffled",
         },
+        "gate0b_protocol": (GATE0B_E27_PROTOCOL
+                            if args.run_mode == "accepted" else None),
         "presentation": {"shuffle_seed": args.shuffle_seed,
                          "order_input_ids": [events[i]["input_id"] for i in order]},
         "runs": runs,
