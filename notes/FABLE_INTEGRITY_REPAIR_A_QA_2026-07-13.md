@@ -182,6 +182,13 @@ multi-token-safe label likelihood and mock-logit tests); greedy generation plus
 the audited parser is the secondary format sensitivity. Do not let the parser
 repair silently redefine the preregistered primary estimator.
 
+After every edited capability condition, verify every touched tensor against
+its pre-edit snapshot (exact equality where restoration is assignment-based;
+otherwise a frozen zero-tolerance/hash rule). Persist the restoration report and
+abort accepted finalization on any mismatch. Tests must demonstrate that a
+deliberately incomplete restore is detected, so condition-order contamination
+cannot hide behind a `finally: restore_weights(...)` call.
+
 ## Q6. Enforce immutable revisions for evidence-eligible runs (P1)
 
 Revision pinning is documented but optional. A run can still silently use
