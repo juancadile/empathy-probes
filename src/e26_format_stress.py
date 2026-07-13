@@ -130,6 +130,13 @@ def clustered(d, fams, seed=0, n=5000):
             "ci95": [float(np.percentile(ms, 2.5)), float(np.percentile(ms, 97.5))]}
 
 
+#: Integrity Repair A QA Q4 (2026-07-13): this CLI performs direct weight
+#: edits but has NOT been migrated to the shared accepted/exploratory
+#: evidence-run contract. Every artifact it emits carries the permanent
+#: classification below; there is deliberately NO accepted mode here.
+EVIDENCE_ELIGIBILITY = "historical_or_exploratory_only"
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--model", default="google/gemma-2-9b-it")
@@ -142,10 +149,13 @@ def main():
     ap.add_argument("--seed", type=int, default=42)
     ap.add_argument("--out", default="results/e26_format_stress_gemma")
     args = ap.parse_args()
+    print(f"evidence eligibility: {EVIDENCE_ELIGIBILITY} — no accepted mode; artifacts cannot support confirmatory claims", flush=True)
 
     from transformers import AutoModelForCausalLM, AutoTokenizer
     device = "cuda" if torch.cuda.is_available() else "cpu"
     out = Path(args.out)
+    if (out / "e26.json").exists():
+        raise SystemExit(f"refusing to overwrite historical artifact in {out}; choose a fresh --out")
     out.mkdir(parents=True, exist_ok=True)
     tok = AutoTokenizer.from_pretrained(args.model)
     tok.padding_side = "right"
@@ -175,7 +185,9 @@ def main():
 
     conds = {"writers": args.writers, "suppressors": args.suppressors,
              "random": args.random_components}
-    results = {"direction": args.direction, "assays": {}, "paraphrases": {}}
+    results = {"direction": args.direction,
+               "evidence_eligibility": EVIDENCE_ELIGIBILITY,
+               "assays": {}, "paraphrases": {}}
 
     base = {a: fn(m_pairs) for a, fn in assays.items()}
     base_t = {a: fn(t_pairs) for a, fn in assays.items()}  # T under ALL assays

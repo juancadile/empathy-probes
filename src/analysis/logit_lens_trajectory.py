@@ -39,9 +39,12 @@ SETS = {
 def save_raw_npz(path, **arrays):
     """Persist raw arrays as compressed NPZ; return a JSON-able pointer with
     the file's sha256 so the summary JSON can reference the exact bytes."""
+    arrays = {**arrays, "evidence_eligibility": np.array(
+        EVIDENCE_ELIGIBILITY)}
     np.savez_compressed(path, **arrays)
     return {"path": str(path),
-            "sha256": hashlib.sha256(Path(path).read_bytes()).hexdigest()}
+            "sha256": hashlib.sha256(Path(path).read_bytes()).hexdigest(),
+            "evidence_eligibility": EVIDENCE_ELIGIBILITY}
 
 
 def half_crystallization_index(mean_traj):
@@ -97,6 +100,13 @@ def trajectory(model, tok, pairs, device, batch_size, max_tokens, seed):
     return np.array(rows) * signs[:, None], signs
 
 
+#: Integrity Repair A QA Q4 (2026-07-13): this CLI performs direct weight
+#: edits but has NOT been migrated to the shared accepted/exploratory
+#: evidence-run contract. Every artifact it emits carries the permanent
+#: classification below; there is deliberately NO accepted mode here.
+EVIDENCE_ELIGIBILITY = "historical_or_exploratory_only"
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--model", default="google/gemma-2-9b-it")
@@ -109,10 +119,16 @@ def main():
     ap.add_argument("--seed", type=int, default=42)
     ap.add_argument("--out", default="results/lb2_logit_lens_gemma")
     args = ap.parse_args()
+    print(f"evidence eligibility: {EVIDENCE_ELIGIBILITY} — no accepted mode; artifacts cannot support confirmatory claims", flush=True)
 
     from transformers import AutoModelForCausalLM, AutoTokenizer
     device = "cuda" if torch.cuda.is_available() else "cpu"
     out = Path(args.out)
+    if (out / "logit_lens.json").exists() or any(
+            out.glob("logit_lens_*_raw.npz")):
+        raise SystemExit(
+            f"refusing to overwrite historical/exploratory artifacts in {out}; "
+            "choose a fresh --out directory")
     out.mkdir(parents=True, exist_ok=True)
     tok = AutoTokenizer.from_pretrained(args.model)
     tok.padding_side = "right"
@@ -131,6 +147,7 @@ def main():
         direction /= torch.linalg.vector_norm(direction)
 
     report = {"model": args.model,
+              "evidence_eligibility": EVIDENCE_ELIGIBILITY,
               "index_semantics": "index 0 = embeddings; index l (1..n_layers-1) "
                                  "= residual after block l-1, decoded through the "
                                  "final RMSNorm (logit lens); last index = "

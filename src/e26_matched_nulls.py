@@ -75,6 +75,13 @@ def candidate_sets(rng, k_mlp, k_head, lo, hi, exclude, n_sets):
     return sets, False
 
 
+#: Integrity Repair A QA Q4 (2026-07-13): this CLI performs direct weight
+#: edits but has NOT been migrated to the shared accepted/exploratory
+#: evidence-run contract. Every artifact it emits carries the permanent
+#: classification below; there is deliberately NO accepted mode here.
+EVIDENCE_ELIGIBILITY = "historical_or_exploratory_only"
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--model", default="google/gemma-2-9b-it")
@@ -92,10 +99,13 @@ def main():
     ap.add_argument("--seed", type=int, default=42)
     ap.add_argument("--out", default="results/e26_matched_nulls_gemma")
     args = ap.parse_args()
+    print(f"evidence eligibility: {EVIDENCE_ELIGIBILITY} — no accepted mode; artifacts cannot support confirmatory claims", flush=True)
 
     from transformers import AutoModelForCausalLM, AutoTokenizer
     device = "cuda" if torch.cuda.is_available() else "cpu"
     out = Path(args.out)
+    if (out / "matched_nulls.json").exists():
+        raise SystemExit(f"refusing to overwrite historical artifact in {out}; choose a fresh --out")
     out.mkdir(parents=True, exist_ok=True)
     tok = AutoTokenizer.from_pretrained(args.model)
     tok.padding_side = "right"
@@ -124,7 +134,8 @@ def main():
 
     base = eval_now()
     print(f"baseline {base:+.4f}")
-    results = {"baseline": base, "direction": args.direction, "families": {}}
+    results = {"baseline": base, "direction": args.direction,
+               "evidence_eligibility": EVIDENCE_ELIGIBILITY, "families": {}}
 
     specs = {
         "writer_matched": matched_spec(args.writers),

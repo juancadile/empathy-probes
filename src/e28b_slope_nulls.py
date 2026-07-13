@@ -142,6 +142,13 @@ def sha256(path):
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 
+#: Integrity Repair A QA Q4 (2026-07-13): this CLI performs direct weight
+#: edits but has NOT been migrated to the shared accepted/exploratory
+#: evidence-run contract. Every artifact it emits carries the permanent
+#: classification below; there is deliberately NO accepted mode here.
+EVIDENCE_ELIGIBILITY = "historical_or_exploratory_only"
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--model", default="google/gemma-2-9b-it")
@@ -157,10 +164,13 @@ def main():
     ap.add_argument("--seed", type=int, default=42)
     ap.add_argument("--out", default="results/e28b_slope_nulls_gemma")
     args = ap.parse_args()
+    print(f"evidence eligibility: {EVIDENCE_ELIGIBILITY} — no accepted mode; artifacts cannot support confirmatory claims", flush=True)
 
     from transformers import AutoModelForCausalLM, AutoTokenizer
     device = "cuda" if torch.cuda.is_available() else "cpu"
     out = Path(args.out)
+    if (out / "slope_nulls.json").exists():
+        raise SystemExit(f"refusing to overwrite historical artifact in {out}; choose a fresh --out")
     out.mkdir(parents=True, exist_ok=True)
     tok = AutoTokenizer.from_pretrained(args.model)
     tok.padding_side = "right"
@@ -247,6 +257,7 @@ def main():
     total_norm_balance_ok = bool(mis_real.max() <= NULL_TOTAL_NORM_TOL)
     k, p = mc_p(nd, tgt_sd)
     res = {
+        "evidence_eligibility": EVIDENCE_ELIGIBILITY,
         "direction": {"path": args.direction, "sha256": sha256(args.direction)},
         "cell_files": {n: {"path": p_, "sha256": sha256(p_)} for n, p_ in CELLS.items()},
         "design": {

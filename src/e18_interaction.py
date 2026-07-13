@@ -87,6 +87,13 @@ def clustered_ci(d, fams, seed=0, n_boot=5000):
             "ci95": [float(np.percentile(means, 2.5)), float(np.percentile(means, 97.5))]}
 
 
+#: Integrity Repair A QA Q4 (2026-07-13): this CLI performs direct weight
+#: edits but has NOT been migrated to the shared accepted/exploratory
+#: evidence-run contract. Every artifact it emits carries the permanent
+#: classification below; there is deliberately NO accepted mode here.
+EVIDENCE_ELIGIBILITY = "historical_or_exploratory_only"
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--model", default="google/gemma-2-9b-it")
@@ -105,11 +112,14 @@ def main():
                     help="name=path overrides for CELLS")
     ap.add_argument("--out", default="results/e18_interaction_gemma2_9b_it")
     args = ap.parse_args()
+    print(f"evidence eligibility: {EVIDENCE_ELIGIBILITY} — no accepted mode; artifacts cannot support confirmatory claims", flush=True)
 
     from transformers import AutoModelForCausalLM, AutoTokenizer
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
     out = Path(args.out)
+    if (out / "e18.json").exists():
+        raise SystemExit(f"refusing to overwrite historical artifact in {out}; choose a fresh --out")
     out.mkdir(parents=True, exist_ok=True)
 
     tokenizer = AutoTokenizer.from_pretrained(args.model)
@@ -139,6 +149,7 @@ def main():
     log.info("baseline eval")
     base = eval_cells()
     results = {"model": args.model, "block": args.block, "provenance": provenance,
+               "evidence_eligibility": EVIDENCE_ELIGIBILITY,
                "baseline": {n: {"mean": float(v.mean()),
                                 "by_cost": {c: float(v[np.asarray(meta[n]["cost"]) == c].mean())
                                             for c in COST_LEVELS}}

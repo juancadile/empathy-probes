@@ -19,9 +19,9 @@ sys.path.insert(0, str(ROOT / "src"))
 sys.path.insert(0, str(ROOT / "src" / "data_generation"))
 
 from builder_integrity import (  # noqa: E402
-    BuilderIntegrityError, assert_disjoint_families, assert_unique_pairs,
-    assert_variant_grid, preserve_existing_artifact, unique_pair_count,
-    write_jsonl_guarded,
+    BuilderIntegrityError, SidecarValidationError, assert_disjoint_families,
+    assert_unique_pairs, assert_variant_grid, preserve_existing_artifact,
+    repair_sidecar, unique_pair_count, write_jsonl_guarded,
 )
 import build_cell_t  # noqa: E402
 import build_cell_t_confirm  # noqa: E402
@@ -179,3 +179,53 @@ def test_guarded_write_cross_disjoint(tmp_path):
     with pytest.raises(BuilderIntegrityError, match="shared"):
         guarded(tmp_path / "cell.jsonl", make_rows("v1"),
                 cross_disjoint_with=other)
+
+
+def test_unchanged_artifact_requires_sidecar(tmp_path):
+    out = tmp_path / "cell.jsonl"
+    guarded(out, make_rows("v1"))
+    out.with_suffix(".jsonl.provenance.json").unlink()
+    with pytest.raises(SidecarValidationError, match="sidecar missing"):
+        guarded(out, make_rows("v1"))
+
+
+@pytest.mark.parametrize("field,value,match", [
+    ("artifact", "other.jsonl", "artifact name"),
+    ("sha256", "0" * 64, "artifact hash"),
+    ("n_rows", 999, "n_rows"),
+    ("n_unique_pairs", 999, "n_unique_pairs"),
+    ("families", ["wrong"], "families"),
+    ("reason", "", "reason"),
+    ("written_at", "", "written_at"),
+])
+def test_sidecar_tamper_matrix_fails_closed(tmp_path, field, value, match):
+    out = tmp_path / "cell.jsonl"
+    guarded(out, make_rows("v1"))
+    sidecar = out.with_suffix(".jsonl.provenance.json")
+    record = json.loads(sidecar.read_text())
+    record[field] = value
+    sidecar.write_text(json.dumps(record))
+    with pytest.raises(SidecarValidationError, match=match):
+        guarded(out, make_rows("v1"))
+
+
+def test_sidecar_detects_preserved_copy_tampering(tmp_path):
+    out = tmp_path / "cell.jsonl"
+    guarded(out, make_rows("v1"))
+    guarded(out, make_rows("v2"))
+    preserved = next((tmp_path / "historical").rglob("cell.jsonl"))
+    preserved.write_text("tampered\n")
+    with pytest.raises(SidecarValidationError, match="historical record"):
+        guarded(out, make_rows("v2"))
+
+
+def test_repair_refuses_artifact_without_preserved_copy_and_builder_grid(tmp_path):
+    artifact = tmp_path / "cell.jsonl"
+    artifact.write_text(json.dumps({"scenario_id": "x", "variant": 0,
+                                    "pos_text": "p", "neg_text": "n"}) + "\n")
+    with pytest.raises(BuilderIntegrityError, match="builder-specific"):
+        repair_sidecar(artifact, "test")
+    with pytest.raises(BuilderIntegrityError, match="preserved-copy"):
+        repair_sidecar(
+            artifact, "test", expected_families=("x",),
+            variant_fields=("variant",), expected_variant_counts=(1,))

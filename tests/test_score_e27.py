@@ -13,8 +13,10 @@ sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "src"))
 
 from src.eia_validation.score_e27 import (  # noqa: E402
-    JUDGE_PROMPTS, aggregate, iter_say_events, judge_event, main as e27_main,
+    AnthropicAdapter, DesignValidationError, JUDGE_PROMPTS, OpenAIAdapter,
+    aggregate, iter_say_events, judge_event, main as e27_main, make_adapter,
     make_input_id, parse_label, render_judge_input, resolve_out_path,
+    validate_design, validate_design_dimensions, validate_score_artifact,
 )
 
 
@@ -201,6 +203,18 @@ def test_judge_event_failures_stay_unknown_never_coerced():
     assert "TimeoutError" in verdict["attempts"][0]["error"]
 
 
+def test_accepted_artifact_validator_rejects_unknown_labels():
+    payload = {
+        "schema": "e27_scores/3", "mode": "judged", "judge": {},
+        "design_manifest": {}, "design_validation": {"ok": True},
+        "runs": [], "run_contract": {},
+        "evidence_eligibility": "accepted_confirmatory",
+        "detail": [{"label": "UNKNOWN"}],
+    }
+    with pytest.raises(ValueError, match="UNKNOWN"):
+        validate_score_artifact(payload)
+
+
 def test_judge_event_custom_parser():
     verdict = judge_event(lambda body: ok_response("4"), "judge-x", "prompt",
                           sleep_fn=lambda s: None,
@@ -208,6 +222,52 @@ def test_judge_event_custom_parser():
                           if t and t.strip().isdigit() else (None, "bad"))
     assert verdict["label"] == 4
     assert len(verdict["attempts"]) == 1  # no wasted retries on valid ratings
+
+
+@pytest.mark.parametrize("adapter_cls,payload,expected_api", [
+    (AnthropicAdapter,
+     {"id": "a1", "model": "claude-x-20260101", "stop_reason": "end_turn",
+      "usage": {"output_tokens": 1},
+      "content": [{"type": "text", "text": "SUPPORT"}]},
+     "anthropic-messages"),
+    (OpenAIAdapter,
+     {"id": "o1", "model": "gpt-x-2026-01-01",
+      "usage": {"completion_tokens": 1},
+      "choices": [{"finish_reason": "stop",
+                   "message": {"content": "SUPPORT"}}]},
+     "openai-chat-completions"),
+])
+def test_provider_adapters_request_response_and_metadata(adapter_cls, payload,
+                                                          expected_api):
+    calls = []
+    adapter = adapter_cls(transport=lambda body: (
+        calls.append(body) or (200, payload, None)))
+    model = payload["model"]
+    verdict = judge_event(adapter, model, "prompt", sleep_fn=lambda _: None,
+                          require_response_model_match=True)
+    assert verdict["label"] == "SUPPORT"
+    assert calls == [{"model": model, "max_tokens": 16, "temperature": 0.0,
+                      "messages": [{"role": "user", "content": "prompt"}]}]
+    attempt = verdict["attempts"][0]
+    assert attempt["request"]["api"] == expected_api
+    assert attempt["response_model"] == model
+    assert attempt["raw_response"] == payload
+
+
+def test_openai_adapter_retries_error_and_rejects_returned_model_mismatch():
+    payloads = iter([
+        (500, {"error": {"message": "busy"}}, None),
+        (200, {"id": "x", "model": "gpt-other-2026-01-01",
+               "choices": [{"finish_reason": "stop",
+                            "message": {"content": "SUPPORT"}}]}, None),
+    ])
+    adapter = make_adapter("openai", transport=lambda _: next(payloads))
+    verdict = judge_event(
+        adapter, "gpt-x-2026-01-01", "prompt", max_attempts=2,
+        sleep_fn=lambda _: None, require_response_model_match=True)
+    assert verdict["label"] == "UNKNOWN"
+    assert verdict["attempts"][0]["error"] == "http_500"
+    assert "response_model_mismatch" in verdict["attempts"][1]["error"]
 
 
 def synth_runs_events(support_counts):
@@ -226,6 +286,75 @@ def synth_runs_events(support_counts):
     return runs, events
 
 
+def design_for(conds, variants, seeds):
+    return {"conditions": list(conds), "variants": list(variants),
+            "seeds": list(seeds)}
+
+
+def write_design(root, conds=("baseline", "suppressors"),
+                 variants=("distress", "excited", "resolved"), seeds=(1, 2)):
+    path = Path(root) / "design.json"
+    path.write_text(json.dumps(design_for(conds, variants, seeds)))
+    return path
+
+
+@pytest.mark.parametrize("design,match", [
+    ({"conditions": ["baseline", "baseline"], "variants": ["v"],
+      "seeds": [1]}, "duplicate"),
+    ({"conditions": ["baseline"], "variants": ["v", "v"],
+      "seeds": [1]}, "duplicate"),
+    ({"conditions": ["baseline"], "variants": ["v"],
+      "seeds": [1, 1]}, "duplicate"),
+    ({"conditions": ["baseline"], "variants": ["v"],
+      "seeds": ["1"]}, "integers"),
+])
+def test_design_dimensions_are_unique_and_typed(design, match):
+    with pytest.raises(DesignValidationError, match=match):
+        validate_design_dimensions(design)
+
+
+def complete_design_runs():
+    design = design_for(("baseline", "suppressors"),
+                        ("distress", "excited", "resolved"), (1, 2))
+    runs = [{"condition": c, "variant": v, "seed": s,
+             "file": f"{c}/{v}/seed{s}/experiment.json",
+             "sha256": f"{c}-{v}-{s}"}
+            for c in design["conditions"] for v in design["variants"]
+            for s in design["seeds"]]
+    return design, runs
+
+
+@pytest.mark.parametrize("dimension,value", [
+    ("seed", 2), ("variant", "resolved"), ("condition", "suppressors"),
+])
+def test_design_rejects_whole_missing_dimension(dimension, value):
+    design, runs = complete_design_runs()
+    key = {"seed": "seed", "variant": "variant", "condition": "condition"}[dimension]
+    runs = [r for r in runs if r[key] != value]
+    with pytest.raises(DesignValidationError, match="missing"):
+        validate_design(runs, design)
+
+
+def test_design_rejects_duplicate_unexpected_failed_and_pin_mismatch():
+    design, runs = complete_design_runs()
+    with pytest.raises(DesignValidationError, match="duplicates"):
+        validate_design(runs + [dict(runs[0])], design)
+    unexpected = dict(runs[0], seed=99, file="unexpected")
+    with pytest.raises(DesignValidationError, match="unexpected"):
+        validate_design(runs + [unexpected], design)
+    failed = [{"file": "summary.json", "condition": "baseline",
+               "variant": "distress",
+               "runs": [{"seed": 1, "ok": False, "error": "parse"}]}]
+    with pytest.raises(DesignValidationError, match="failed_runs"):
+        validate_design(runs, design, run_summaries=failed)
+    cell = runs[0]
+    pinned = {**design, "cells": {
+        f"{cell['condition']}/{cell['variant']}/{cell['seed']}": {
+            "file": "wrong", "sha256": "wrong"}}}
+    with pytest.raises(DesignValidationError, match="pin_mismatches"):
+        validate_design(runs, pinned)
+
+
 def test_aggregate_interaction_and_unknowns():
     counts = {}
     for seed in (1, 2):
@@ -236,7 +365,9 @@ def test_aggregate_interaction_and_unknowns():
             counts[("suppressors", v, seed)] = 2
     runs, events = synth_runs_events(counts)
     events[0] = {**events[0], "label": "UNKNOWN"}  # one failure, distress b/l
-    report, interaction, n_unknown = aggregate(runs, events)
+    report, interaction, n_unknown = aggregate(
+        runs, events, design_for(("baseline", "suppressors"),
+                                 ("distress", "excited", "resolved"), (1, 2)))
     assert n_unknown == 1
     assert interaction["n_unknown_labels"] == 1
     # UNKNOWN is not a class count: baseline/distress SUPPORT = 4 - 1
@@ -255,14 +386,18 @@ def test_aggregate_aborts_on_missing_grid_cell():
               ("suppressors", "distress", 1): 1}
     runs, events = synth_runs_events(counts)
     with pytest.raises(SystemExit, match="incomplete grid"):
-        aggregate(runs, events)
+        aggregate(runs, events,
+                  design_for(("baseline", "suppressors"),
+                             ("distress", "excited"), (1,)))
 
 
 def test_aggregate_zero_say_run_is_registered():
     counts = {("baseline", "distress", 1): 0,
               ("suppressors", "distress", 1): 1}
     runs, events = synth_runs_events(counts)
-    report, _, _ = aggregate(runs, events)
+    report, _, _ = aggregate(
+        runs, events,
+        design_for(("baseline", "suppressors"), ("distress",), (1,)))
     assert report["baseline/distress"]["n_says"] == 0
 
 
@@ -279,7 +414,9 @@ def test_resolve_out_path_guards(tmp_path):
 
 def test_main_dry_run_exports_exact_inputs(tmp_path):
     make_tree(tmp_path)
+    design = write_design(tmp_path)
     assert e27_main(["--root", str(tmp_path), "--dry-run",
+                     "--design-manifest", str(design),
                      "--shuffle-seed", "7"]) == 0
     export = json.loads((tmp_path / "e27_judge_inputs_export.json").read_text())
     assert export["mode"] == "dry_run_export"
@@ -292,12 +429,45 @@ def test_main_dry_run_exports_exact_inputs(tmp_path):
 
     # rerunning refuses to overwrite the export
     with pytest.raises(SystemExit, match="refusing to overwrite"):
-        e27_main(["--root", str(tmp_path), "--dry-run"])
+        e27_main(["--root", str(tmp_path), "--dry-run",
+                  "--design-manifest", str(design)])
+
+
+def test_explicit_provider_dry_run_exports_adapter_metadata(tmp_path):
+    make_tree(tmp_path)
+    design = write_design(tmp_path)
+    out = tmp_path / "openai_export.json"
+    assert e27_main([
+        "--root", str(tmp_path), "--dry-run", "--provider", "openai",
+        "--judge-model", "gpt-4.1-2025-04-14",
+        "--design-manifest", str(design), "--out", str(out)]) == 0
+    export = json.loads(out.read_text())
+    assert export["judge"]["api"] == "openai-chat-completions"
+    assert export["judge"]["request_metadata"]["model"] == "gpt-4.1-2025-04-14"
 
 
 def test_main_live_requires_pinned_judge(tmp_path, capsys):
     make_tree(tmp_path)
+    design = write_design(tmp_path)
+    # live mode refuses an omitted provider ...
     with pytest.raises(SystemExit):
-        e27_main(["--root", str(tmp_path),
+        e27_main(["--root", str(tmp_path), "--design-manifest", str(design),
                   "--out", str(tmp_path / "new_scores.json")])
+    assert "--provider is required" in capsys.readouterr().err
+    # ... and an omitted judge model (QA Q2)
+    with pytest.raises(SystemExit):
+        e27_main(["--root", str(tmp_path), "--design-manifest", str(design),
+                  "--provider", "openai",
+                  "--out", str(tmp_path / "new_scores2.json")])
     assert "--judge-model is required" in capsys.readouterr().err
+
+
+def test_accepted_judge_rejects_floating_alias_before_transport(tmp_path, capsys):
+    make_tree(tmp_path)
+    design = write_design(tmp_path)
+    with pytest.raises(SystemExit):
+        e27_main([
+            "--root", str(tmp_path), "--design-manifest", str(design),
+            "--provider", "openai", "--judge-model", "gpt-4.1",
+            "--run-mode", "accepted", "--out", str(tmp_path / "accepted.json")])
+    assert "snapshot-shaped" in capsys.readouterr().err

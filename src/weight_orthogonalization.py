@@ -20,14 +20,22 @@ import torch
 try:
     from src.activation_patching import build_choice_prompt
     from src.component_sets import ComponentSetError, resolve_component_sets
+    from src.utils.evidence_run import (
+        EvidenceRunError, atomic_write_json, evaluate_run_contract,
+        require_keys_validator, revalidate_run_contract,
+    )
     from src.utils.run_provenance import (
-        collect_run_provenance, resolve_model_and_tokenizer,
+        collect_run_provenance, resolve_hf_commit, resolve_model_and_tokenizer,
     )
 except ModuleNotFoundError:
     from activation_patching import build_choice_prompt
     from component_sets import ComponentSetError, resolve_component_sets
+    from utils.evidence_run import (
+        EvidenceRunError, atomic_write_json, evaluate_run_contract,
+        require_keys_validator, revalidate_run_contract,
+    )
     from utils.run_provenance import (
-        collect_run_provenance, resolve_model_and_tokenizer,
+        collect_run_provenance, resolve_hf_commit, resolve_model_and_tokenizer,
     )
 
 
@@ -228,6 +236,54 @@ def restore_weights(snapshots):
         weight.copy_(original)
 
 
+class RestorationError(RuntimeError):
+    """A touched tensor does not match its pre-edit snapshot after restore."""
+
+
+@torch.no_grad()
+def verify_restoration(snapshots):
+    """Verify every snapshotted tensor against its pre-edit copy (QA Q5).
+
+    Restoration is assignment-based (``weight.copy_(original)``), so the
+    frozen rule is EXACT equality. Returns the persisted report; callers must
+    abort accepted finalization when ``report["ok"]`` is false (or use
+    ``assert_restored`` to raise).
+    """
+    entries = []
+    for (layer, is_mlp), (weight, original) in sorted(snapshots.items()):
+        exact = bool(torch.equal(weight, original))
+        entry = {
+            "layer": layer,
+            "tensor": "mlp.down_proj" if is_mlp else "self_attn.o_proj",
+            "rule": "exact_equality_assignment_restore",
+            "exact_match": exact,
+        }
+        if not exact:
+            diff = (weight.float() - original.float()).abs()
+            entry["max_abs_diff"] = float(diff.max())
+            entry["n_mismatched_elements"] = int((diff > 0).sum())
+        entries.append(entry)
+    return {"ok": all(e["exact_match"] for e in entries),
+            "n_tensors": len(entries), "tensors": entries}
+
+
+def assert_restored(snapshots):
+    """Raise ``RestorationError`` on any snapshot mismatch; return report."""
+    report = verify_restoration(snapshots)
+    if not report["ok"]:
+        bad = [e for e in report["tensors"] if not e["exact_match"]]
+        raise RestorationError(
+            "weight restoration failed exact-equality verification: "
+            + "; ".join(
+                f"layer {e['layer']} {e['tensor']} "
+                f"(max_abs_diff={e.get('max_abs_diff'):.3e}, "
+                f"n={e.get('n_mismatched_elements')})" for e in bad)
+            + " — condition-order contamination cannot be ruled out; the "
+            "run must not finalize as accepted evidence."
+        )
+    return report
+
+
 @torch.no_grad()
 def evaluate(model, tokenizer, m_pairs, t_pairs, direction, neutral_baseline,
              batch_size, max_tokens, seed, device, block=20):
@@ -266,7 +322,7 @@ def run_sequence(name, sequence, model, tokenizer, m_pairs, t_pairs, direction,
             })
     finally:
         restore_weights(snapshots)
-    return conditions
+    return {"conditions": conditions, "restoration": assert_restored(snapshots)}
 
 
 def run_individuals(name, sequence, model, tokenizer, m_pairs, t_pairs, direction,
@@ -287,7 +343,8 @@ def run_individuals(name, sequence, model, tokenizer, m_pairs, t_pairs, directio
             })
         finally:
             restore_weights(snapshots)
-    return conditions
+        conditions[-1]["restoration"] = assert_restored(snapshots)
+    return {"conditions": conditions}
 
 
 def main():
@@ -315,6 +372,18 @@ def main():
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--block", type=int, default=20,
                         help="readout block for decision_separation (B* for the model)")
+    parser.add_argument("--run-mode", choices=("accepted", "exploratory"),
+                        default="exploratory",
+                        help="accepted = evidence-eligible (immutable pinned "
+                             "revisions, verified direction binding, fresh "
+                             "output, clean source); exploratory runs are "
+                             "persisted as ineligible for confirmatory evidence")
+    parser.add_argument("--allow-direction-mismatch", action="store_true",
+                        help="EXPLORATORY-ONLY override for a direction/"
+                             "registry mismatch; persisted as non-confirmatory")
+    parser.add_argument("--allowed-dirty", action="append", default=[],
+                        help="explicit source-binding exclusion rule (glob) "
+                             "for accepted mode; persisted in the artifact")
     parser.add_argument("--out", default="results/weight_orthogonalization_gemma2_9b_it")
     args = parser.parse_args()
 
@@ -329,11 +398,41 @@ def main():
             },
             set_key=args.component_set,
             model=args.model,
+            direction_path=args.direction,
+            run_mode=args.run_mode,
+            allow_direction_mismatch=args.allow_direction_mismatch,
         )
     except ComponentSetError as exc:
         parser.error(str(exc))
     sets = resolution["sets"]
     log.info("component sets resolved: %s", resolution)
+
+    out = Path(args.out)
+    try:
+        contract = evaluate_run_contract(
+            args.run_mode,
+            revisions={
+                "model": {
+                    "requested": args.revision,
+                    "resolution": resolve_hf_commit(
+                        args.model, revision=args.revision or "main"),
+                },
+                "tokenizer": {
+                    "requested": args.tokenizer_revision or args.revision,
+                    "resolution": resolve_hf_commit(
+                        args.model,
+                        revision=(args.tokenizer_revision or args.revision
+                                  or "main")),
+                },
+            },
+            output_paths=(out / "summary.json",),
+            source_rules=args.allowed_dirty,
+            input_paths=(args.direction, args.m_pairs, args.t_pairs),
+        )
+    except EvidenceRunError as exc:
+        parser.error(str(exc))
+    if contract.get("warning"):
+        log.warning("%s", contract["warning"])
 
     from transformers import AutoModelForCausalLM, AutoTokenizer
 
@@ -368,6 +467,7 @@ def main():
         "revision": args.revision,
         "tokenizer_revision": args.tokenizer_revision or args.revision,
         "direction": args.direction,
+        "run_contract": contract,
         "component_sets": resolution,
         "edit": "rank-1 removal accounting for Gemma post-component RMSNorm",
         "hf_revisions": resolve_model_and_tokenizer(
@@ -405,9 +505,15 @@ def main():
             args.seed, device, block=args.block,
         ),
     }
-    out = Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
-    (out / "summary.json").write_text(json.dumps(summary, indent=2) + "\n")
+    revalidate_run_contract(
+        contract, source_rules=args.allowed_dirty,
+        input_paths=(args.direction, args.m_pairs, args.t_pairs))
+    atomic_write_json(out / "summary.json", summary,
+                      require_fresh=True,
+                      validate_fn=require_keys_validator(
+                          "model", "run_contract", "component_sets", "baseline",
+                          "targeted", "random", "positive_writers", "suppressors"))
     log.info("wrote %s", out / "summary.json")
 
 

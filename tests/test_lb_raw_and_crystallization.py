@@ -76,11 +76,11 @@ def test_save_raw_npz_round_trip_and_sha256(save_raw_npz, tmp_path):
     path = tmp_path / "raw.npz"
     ptr = save_raw_npz(path, **arrays)
 
-    assert set(ptr) == {"path", "sha256"}
+    assert {"path", "sha256"} <= set(ptr)
     assert ptr["path"] == str(path)
     assert ptr["sha256"] == hashlib.sha256(path.read_bytes()).hexdigest()
 
     loaded = np.load(path)
-    assert set(loaded.files) == set(arrays)
+    assert set(arrays) <= set(loaded.files)
     for key, arr in arrays.items():
         assert np.array_equal(loaded[key], arr), key

@@ -69,16 +69,19 @@ def test_rendered_prompt_is_blind_and_versioned():
     items, _ = mp.extract_items("need_v2_2")
     item = items[0]
     rendered = mp.render_rating_prompt(item["text"], "need_now",
-                                       mp.DEFAULT_PROMPT_VERSION)
+                                       mp.DEFAULT_PROMPT_VERSION,
+                                       target=item["target"]["descriptor"])
     spec = mp.PRETEST_PROMPTS[mp.DEFAULT_PROMPT_VERSION]
     q = spec["questions"]["need_now"]
     # byte-exact equality IS the blindness proof: nothing beyond the rated
-    # text and the versioned question/scale enters the judge input. (Arm
-    # LABELS like "excited" can legitimately occur inside stimulus prose,
-    # so blindness is about injected identity, not vocabulary.)
+    # text and the versioned question/scale (with the target descriptor
+    # substituted) enters the judge input. (Arm LABELS like "excited" can
+    # legitimately occur inside stimulus prose, so blindness is about
+    # injected identity, not vocabulary.)
     assert rendered == spec["template"].format(
-        text=item["text"], question=q["question"], scale=q["scale"],
-        low=q["low"], high=q["high"])
+        text=item["text"],
+        question=q["question"].format(target=item["target"]["descriptor"]),
+        scale=q["scale"], low=q["low"], high=q["high"])
     for leak in (item["family"], item["item_id"]):  # cx_..-style ids
         assert leak not in rendered
 
@@ -181,7 +184,70 @@ def test_main_dry_run_exports_exact_inputs(tmp_path):
 
 
 def test_main_live_requires_pinned_judge(tmp_path, capsys):
+    # live mode refuses an omitted provider ...
     with pytest.raises(SystemExit):
         mp.main(["--battery", "moral_v2_2",
                  "--out", str(tmp_path / "moral_v2.json")])
+    assert "--provider is required" in capsys.readouterr().err
+    # ... and an omitted judge model (QA Q2)
+    with pytest.raises(SystemExit):
+        mp.main(["--battery", "moral_v2_2", "--provider", "openai",
+                 "--out", str(tmp_path / "moral_v2b.json")])
     assert "--judge-model is required" in capsys.readouterr().err
+
+
+def test_moral_target_snapshots_name_p2_across_families_and_questions():
+    items, _ = mp.extract_items("moral_v2_2")
+    by_family = {item["family"]: item for item in items}
+    for family in ("mm_tutor", "mm_moderator"):
+        item = by_family[family]
+        descriptor = item["target"]["descriptor"]
+        for question in ("need_now", "respond_now"):
+            rendered = mp.render_rating_prompt(
+                item["text"], question, mp.DEFAULT_PROMPT_VERSION,
+                target=descriptor)
+            assert descriptor in rendered
+            assert "OTHER person" not in rendered
+        assert item["target"]["role"] == "P2_new_arrival"
+        assert item["target"]["manifest_sha256"] == mp.target_manifest_hash(
+            item["target"]["manifest_version"])
+
+
+def test_target_manifest_requires_exact_one_to_one_coverage(monkeypatch):
+    version = mp.BATTERIES["moral_v2_2"]["target"]["manifest_version"]
+    manifest = mp.MORAL_TARGET_MANIFESTS[version]
+    families = set(manifest["descriptors"])
+    broken = {**manifest, "descriptors": dict(manifest["descriptors"])}
+    broken["descriptors"].pop("mm_tutor")
+    monkeypatch.setitem(mp.MORAL_TARGET_MANIFESTS, version, broken)
+    with pytest.raises(mp.PretestExtractionError, match="one-to-one"):
+        mp.validate_target_coverage("moral_v2_2", families)
+
+
+def test_need_v2_wording_is_byte_identical_to_historical_fixed_target():
+    item = mp.extract_items("need_v2_2")[0][0]
+    old = mp.render_rating_prompt(
+        item["text"], "need_now", "pretest_rating_v1_2026-07-13")
+    new = mp.render_rating_prompt(
+        item["text"], "need_now", mp.DEFAULT_PROMPT_VERSION,
+        target=item["target"]["descriptor"])
+    assert new == old
+
+
+def test_explicit_provider_dry_run_records_adapter_metadata(tmp_path):
+    out = tmp_path / "need_openai.json"
+    assert mp.main([
+        "--battery", "need_v2_2", "--dry-run", "--provider", "openai",
+        "--judge-model", "gpt-4.1-2025-04-14", "--out", str(out)]) == 0
+    payload = json.loads(out.read_text())
+    assert payload["judge"]["api"] == "openai-chat-completions"
+    assert payload["judge"]["request_metadata"]["provider"] == "openai"
+
+
+def test_accepted_pretest_rejects_floating_judge_alias(tmp_path, capsys):
+    with pytest.raises(SystemExit):
+        mp.main([
+            "--battery", "need_v2_2", "--provider", "openai",
+            "--judge-model", "gpt-4.1", "--run-mode", "accepted",
+            "--out", str(tmp_path / "out.json")])
+    assert "snapshot-shaped" in capsys.readouterr().err

@@ -57,8 +57,16 @@ sys.path.insert(0, str(ROOT / "src"))
 
 try:
     from src.utils.run_provenance import collect_run_provenance
+    from src.utils.evidence_run import (
+        EvidenceRunError, atomic_write_json, evaluate_run_contract,
+        revalidate_run_contract,
+    )
 except ModuleNotFoundError:
     from utils.run_provenance import collect_run_provenance
+    from utils.evidence_run import (
+        EvidenceRunError, atomic_write_json, evaluate_run_contract,
+        revalidate_run_contract,
+    )
 
 LABELS = ("SUPPORT", "CHAT", "TASK")
 
@@ -156,6 +164,158 @@ def iter_say_events(root):
     return runs, events
 
 
+# ---------------------------------------------------------------------------
+# Explicit design manifest (Integrity Repair A QA Q9 / GATE0B frozen amendment)
+# ---------------------------------------------------------------------------
+# The expected grid is NEVER derived from whatever artifacts happen to exist:
+# an entirely missing seed/variant/condition must fail, so the design is an
+# explicit manifest validated BEFORE rendering, judging, or any API call.
+
+E27_DESIGN = {
+    "schema": "e27_design/1",
+    "name": "e27_listener_variants_2026-07-12",
+    "conditions": ["baseline", "suppressors"],
+    "variants": ["distress", "excited", "resolved"],
+    "seeds": [11, 22, 33, 44, 55, 66, 77, 88],
+}
+
+
+class DesignValidationError(ValueError):
+    """The observed run tree does not implement the explicit design."""
+
+
+def validate_design_dimensions(design):
+    """Require unique typed dimensions before constructing output paths."""
+    for key in ("conditions", "variants", "seeds"):
+        values = design.get(key)
+        if not isinstance(values, list) or not values:
+            raise DesignValidationError(
+                f"design dimension {key!r} must be a non-empty list")
+        if len(values) != len(set(values)):
+            raise DesignValidationError(
+                f"design dimension {key!r} contains duplicate values")
+    if not all(isinstance(v, str) and v for v in design["conditions"]):
+        raise DesignValidationError("design conditions must be non-empty strings")
+    if not all(isinstance(v, str) and v for v in design["variants"]):
+        raise DesignValidationError("design variants must be non-empty strings")
+    if not all(isinstance(v, int) and not isinstance(v, bool)
+               for v in design["seeds"]):
+        raise DesignValidationError("design seeds must be integers")
+    return design
+
+
+def load_design_manifest(path=None):
+    """Load an explicit design manifest (default: the frozen 2x3x8 E27 grid).
+
+    A manifest file must provide ``conditions``, ``variants``, and ``seeds``;
+    it may pin per-cell artifacts under ``cells``:
+    ``{"cond/variant/seed": {"file": ..., "sha256": ...}}``.
+    """
+    if path is None:
+        return validate_design_dimensions(dict(E27_DESIGN))
+    manifest = json.loads(Path(path).read_text())
+    missing = [k for k in ("conditions", "variants", "seeds")
+               if not manifest.get(k)]
+    if missing:
+        raise DesignValidationError(
+            f"design manifest {path} lacks required non-empty keys: {missing}")
+    return validate_design_dimensions(manifest)
+
+
+def design_cells(design):
+    return [(c, v, s) for c in design["conditions"]
+            for v in design["variants"] for s in design["seeds"]]
+
+
+def iter_run_summaries(root):
+    """Collect the game drivers' run_summary.json files (failure states)."""
+    root = Path(root)
+    summaries = []
+    for summary_path in sorted(root.glob("*/*/run_summary.json")):
+        try:
+            payload = json.loads(summary_path.read_text())
+        except (OSError, json.JSONDecodeError) as exc:
+            summaries.append({"file": str(summary_path.relative_to(root)),
+                              "error": f"{type(exc).__name__}: {exc}"})
+            continue
+        summaries.append({"file": str(summary_path.relative_to(root)),
+                          **payload})
+    return summaries
+
+
+def validate_design(runs, design, run_summaries=()):
+    """Validate the observed tree against the explicit design (QA Q9).
+
+    Rejects missing cells (including entirely absent conditions/variants/
+    seeds), duplicate cell artifacts, unexpected cells, failed-run summary
+    rows, and per-cell hash/path disagreements when the manifest pins them —
+    all BEFORE judging or aggregation. Returns the persisted report.
+    """
+    validate_design_dimensions(design)
+    expected = design_cells(design)
+    expected_set = set(expected)
+    by_cell = defaultdict(list)
+    for run in runs:
+        by_cell[(run["condition"], run["variant"], run["seed"])].append(run)
+    missing = sorted(cell for cell in expected_set if cell not in by_cell)
+    unexpected = sorted(cell for cell in by_cell if cell not in expected_set)
+    duplicates = sorted(
+        (cell, [r["file"] for r in rows])
+        for cell, rows in by_cell.items() if len(rows) > 1)
+    failed = []
+    for summary in run_summaries:
+        if summary.get("error"):
+            failed.append({"summary_file": summary["file"],
+                           "error": summary["error"]})
+            continue
+        for row in summary.get("runs", ()):
+            if not row.get("ok", False):
+                failed.append({
+                    "summary_file": summary["file"],
+                    "condition": summary.get("condition"),
+                    "variant": summary.get("variant"),
+                    "seed": row.get("seed"),
+                    "error": row.get("error"),
+                })
+    pin_mismatches = []
+    for cell_key, pin in (design.get("cells") or {}).items():
+        cond, variant, seed = cell_key.split("/")
+        cell = (cond, variant, int(seed))
+        observed = by_cell.get(cell, [])
+        for run in observed:
+            if pin.get("sha256") and run["sha256"] != pin["sha256"]:
+                pin_mismatches.append(
+                    {"cell": cell_key, "kind": "sha256",
+                     "expected": pin["sha256"], "observed": run["sha256"]})
+            if pin.get("file") and run["file"] != pin["file"]:
+                pin_mismatches.append(
+                    {"cell": cell_key, "kind": "file",
+                     "expected": pin["file"], "observed": run["file"]})
+    report = {
+        "design": design,
+        "n_expected_cells": len(expected),
+        "n_run_artifacts": len(runs),
+        "missing_cells": [list(c) for c in missing],
+        "unexpected_cells": [list(c) for c in unexpected],
+        "duplicate_cells": [[list(cell), files] for cell, files in duplicates],
+        "failed_runs": failed,
+        "pin_mismatches": pin_mismatches,
+    }
+    report["ok"] = not (missing or unexpected or duplicates or failed
+                        or pin_mismatches or len(runs) != len(expected))
+    if not report["ok"]:
+        raise DesignValidationError(
+            "observed E27 tree does not implement the explicit design "
+            f"({len(runs)} artifacts vs {len(expected)} expected cells): "
+            f"missing={report['missing_cells']} "
+            f"unexpected={report['unexpected_cells']} "
+            f"duplicates={report['duplicate_cells']} "
+            f"failed_runs={report['failed_runs']} "
+            f"pin_mismatches={report['pin_mismatches']}"
+        )
+    return report
+
+
 def render_judge_input(event, prompt_version):
     """Blind judge input: prior user context + player message ONLY.
 
@@ -186,6 +346,17 @@ def parse_label(text):
     return None, "not_exact_label"
 
 
+# ---------------------------------------------------------------------------
+# Provider-neutral judge transport (Integrity Repair A QA Q2)
+# ---------------------------------------------------------------------------
+# Two concrete adapters (Anthropic Messages, OpenAI Chat Completions) behind
+# one injected interface. Adapters are pure (request building / response
+# extraction); the live HTTP transport is constructed only for live judging,
+# so dry-run needs no provider SDK and performs no API call.
+
+PROVIDERS = ("anthropic", "openai")
+
+
 def anthropic_transport(api_key, timeout=60):
     """Live HTTP transport. Returns (status_code, parsed_json_or_None, text)."""
     import requests
@@ -204,11 +375,130 @@ def anthropic_transport(api_key, timeout=60):
     return send
 
 
+def openai_transport(api_key, timeout=60):
+    """Live HTTP transport for the independent (OpenAI) judge family."""
+    import requests
+
+    def send(body):
+        response = requests.post(
+            "https://api.openai.com/v1/chat/completions",
+            headers={"Authorization": f"Bearer {api_key}"},
+            json=body, timeout=timeout,
+        )
+        try:
+            return response.status_code, response.json(), None
+        except ValueError:
+            return response.status_code, None, response.text[:2000]
+    return send
+
+
+class AnthropicAdapter:
+    """Anthropic Messages API adapter (request building + extraction)."""
+
+    provider = "anthropic"
+    api = "anthropic-messages"
+    api_key_env = "ANTHROPIC_API_KEY"
+
+    def __init__(self, transport=None):
+        self.transport = transport
+
+    @staticmethod
+    def build_request(model, prompt, max_tokens, temperature):
+        return {
+            "model": model,
+            "max_tokens": max_tokens,
+            "temperature": temperature,
+            "messages": [{"role": "user", "content": prompt}],
+        }
+
+    def request_metadata(self, model, max_tokens, temperature):
+        return {"provider": self.provider, "api": self.api, "model": model,
+                "max_tokens": max_tokens, "temperature": temperature,
+                "anthropic_version": "2023-06-01"}
+
+    @staticmethod
+    def extract(payload):
+        blocks = [b.get("text") for b in payload.get("content", [])
+                  if b.get("type") == "text"]
+        return {
+            "text": blocks[-1] if blocks else None,
+            "response_id": payload.get("id"),
+            "response_model": payload.get("model"),
+            "stop_reason": payload.get("stop_reason"),
+            "usage": payload.get("usage"),
+        }
+
+    def live_transport(self, api_key):
+        return anthropic_transport(api_key)
+
+
+class OpenAIAdapter:
+    """OpenAI Chat Completions adapter — the independent judge family."""
+
+    provider = "openai"
+    api = "openai-chat-completions"
+    api_key_env = "OPENAI_API_KEY"
+
+    def __init__(self, transport=None):
+        self.transport = transport
+
+    @staticmethod
+    def build_request(model, prompt, max_tokens, temperature):
+        return {
+            "model": model,
+            "max_tokens": max_tokens,
+            "temperature": temperature,
+            "messages": [{"role": "user", "content": prompt}],
+        }
+
+    def request_metadata(self, model, max_tokens, temperature):
+        return {"provider": self.provider, "api": self.api, "model": model,
+                "max_tokens": max_tokens, "temperature": temperature}
+
+    @staticmethod
+    def extract(payload):
+        choices = payload.get("choices") or []
+        message = (choices[0].get("message") or {}) if choices else {}
+        return {
+            "text": message.get("content"),
+            "response_id": payload.get("id"),
+            "response_model": payload.get("model"),
+            "stop_reason": choices[0].get("finish_reason") if choices else None,
+            "usage": payload.get("usage"),
+        }
+
+    def live_transport(self, api_key):
+        return openai_transport(api_key)
+
+
+ADAPTERS = {"anthropic": AnthropicAdapter, "openai": OpenAIAdapter}
+
+
+def make_adapter(provider, transport=None, api_key=None):
+    """Build a provider adapter; injected ``transport`` keeps tests offline."""
+    if provider not in ADAPTERS:
+        raise ValueError(f"unknown provider {provider!r}; known: {PROVIDERS}")
+    adapter = ADAPTERS[provider](transport=transport)
+    if adapter.transport is None and api_key is not None:
+        adapter.transport = adapter.live_transport(api_key)
+    return adapter
+
+
+def _as_adapter(transport_or_adapter):
+    """Back-compat shim: a bare callable is treated as an Anthropic-shaped
+    transport (the pre-Q2 interface used by earlier tests/callers)."""
+    if hasattr(transport_or_adapter, "extract"):
+        return transport_or_adapter
+    return AnthropicAdapter(transport=transport_or_adapter)
+
+
 def judge_event(transport, judge_model, rendered_prompt, max_attempts=3,
                 max_tokens=16, temperature=0.0, sleep_s=2.0, sleep_fn=time.sleep,
-                parse_fn=parse_label):
+                parse_fn=parse_label, require_response_model_match=False):
     """Judge one event with full attempt/retry persistence.
 
+    ``transport`` is a provider adapter from ``make_adapter`` (or a bare
+    Anthropic-shaped callable, kept for backward compatibility).
     ``parse_fn(text) -> (value_or_None, status)`` decides whether a response
     counts as parsed (default: the strict SUPPORT/CHAT/TASK label parse; the
     manipulation-pretest runner passes an integer-rating parser instead).
@@ -216,21 +506,17 @@ def judge_event(transport, judge_model, rendered_prompt, max_attempts=3,
     attempts the label is the explicit error state "UNKNOWN" and every
     attempt's raw response/error is retained for later adjudication.
     """
-    request_body = {
-        "model": judge_model,
-        "max_tokens": max_tokens,
-        "temperature": temperature,
-        "messages": [{"role": "user", "content": rendered_prompt}],
-    }
+    adapter = _as_adapter(transport)
+    request_body = adapter.build_request(judge_model, rendered_prompt,
+                                         max_tokens, temperature)
     attempts = []
     for attempt in range(1, max_attempts + 1):
         record = {"attempt": attempt,
                   "requested_at": datetime.now(timezone.utc).isoformat(),
-                  "request": {"model": judge_model, "max_tokens": max_tokens,
-                              "temperature": temperature,
-                              "anthropic_version": "2023-06-01"}}
+                  "request": adapter.request_metadata(judge_model, max_tokens,
+                                                      temperature)}
         try:
-            status, payload, raw_text = transport(request_body)
+            status, payload, raw_text = adapter.transport(request_body)
             record["http_status"] = status
             if payload is not None:
                 record["raw_response"] = payload
@@ -247,13 +533,20 @@ def judge_event(transport, judge_model, rendered_prompt, max_attempts=3,
             attempts.append(record)
             sleep_fn(sleep_s)
             continue
-        record["response_id"] = payload.get("id")
-        record["stop_reason"] = payload.get("stop_reason")
-        record["usage"] = payload.get("usage")
-        record["response_model"] = payload.get("model")
-        blocks = [b.get("text") for b in payload.get("content", [])
-                  if b.get("type") == "text"]
-        text = blocks[-1] if blocks else None
+        extracted = adapter.extract(payload)
+        record["response_id"] = extracted["response_id"]
+        record["stop_reason"] = extracted["stop_reason"]
+        record["usage"] = extracted["usage"]
+        record["response_model"] = extracted["response_model"]
+        if (require_response_model_match
+                and extracted["response_model"] != judge_model):
+            record["error"] = (
+                "response_model_mismatch: requested "
+                f"{judge_model!r}, returned {extracted['response_model']!r}")
+            attempts.append(record)
+            sleep_fn(sleep_s)
+            continue
+        text = extracted["text"]
         label, parse_status = parse_fn(text)
         record["response_text"] = text
         record["parse_status"] = parse_status
@@ -278,28 +571,37 @@ def sign_test(diffs):
     return {"n_nonzero": n, "n_positive": k, "p": min(1.0, 2 * tail)}
 
 
-def aggregate(runs, labeled_events):
+def aggregate(runs, labeled_events, design=None):
     """Counts, grid completeness, pooled summary, and the paired interaction.
 
     UNKNOWN labels are counted separately and never enter a class count.
-    Raises SystemExit on an incomplete condition x variant x seed grid so a
-    missing/failed run can never pass as a zero-say run.
+    The expected grid comes from the EXPLICIT design manifest (QA Q9), never
+    from the observed cross-product, so a missing seed/variant/condition —
+    or a missing/failed run — can never pass as a zero-say run.
     """
+    design = design or E27_DESIGN
+    observed = {(run["condition"], run["variant"], run["seed"])
+                for run in runs}
+    expected = design_cells(design)
+    missing = [cell for cell in expected if cell not in observed]
+    if missing:
+        raise SystemExit(f"incomplete grid — missing cells: {missing}")
+    unexpected = sorted(observed - set(expected))
+    if unexpected:
+        raise SystemExit(
+            f"cells outside the explicit design manifest: {unexpected}")
+
     cells = defaultdict(lambda: defaultdict(int))
-    for run in runs:  # register every run, including zero-say ones
-        cells[(run["condition"], run["variant"], run["seed"])]["n_says"] += 0
+    for cell in expected:  # register every design cell, zero-say included
+        cells[cell]["n_says"] += 0
     for event in labeled_events:
         key = (event["condition"], event["variant"], event["seed"])
         cells[key]["n_says"] += 1
         cells[key][event["label"]] += 1
 
-    conds = sorted({c for (c, _, _) in cells})
-    variants = sorted({v for (_, v, _) in cells})
-    seeds = sorted({s for (_, _, s) in cells})
-    missing = [(c, v, s) for c in conds for v in variants for s in seeds
-               if (c, v, s) not in cells]
-    if missing:
-        raise SystemExit(f"incomplete grid — missing cells: {missing}")
+    conds = list(design["conditions"])
+    variants = list(design["variants"])
+    seeds = list(design["seeds"])
 
     pooled = defaultdict(lambda: defaultdict(int))
     for (cond, variant, _), counts in cells.items():
@@ -310,6 +612,17 @@ def aggregate(runs, labeled_events):
 
     def support(cond, variant, seed):
         return cells.get((cond, variant, seed), {}).get("SUPPORT", 0)
+
+    n_unknown_total = sum(1 for e in labeled_events if e["label"] == "UNKNOWN")
+    interaction_names = ({"baseline", "suppressors"} <= set(conds)
+                         and {"distress", "excited", "resolved"} <= set(variants))
+    if not interaction_names:
+        return report, {
+            "note": ("paired interaction not computed: design lacks the "
+                     "baseline/suppressors x distress/excited/resolved "
+                     "cells it is defined over"),
+            "n_unknown_labels": n_unknown_total,
+        }, n_unknown_total
 
     dids, per_seed = [], {}
     for seed in seeds:
@@ -338,6 +651,31 @@ def aggregate(runs, labeled_events):
 HISTORICAL_SCORES = "e27_scores.json"
 
 
+def is_snapshot_model_id(provider, model):
+    """Conservative provider-specific exact-version check for accepted judges."""
+    if not isinstance(model, str):
+        return False
+    patterns = {
+        "openai": r"^[a-z0-9][a-z0-9._-]*-\d{4}-\d{2}-\d{2}$",
+        "anthropic": r"^claude-[a-z0-9][a-z0-9._-]*-\d{8}$",
+    }
+    return bool(provider in patterns and re.fullmatch(patterns[provider], model))
+
+
+def validate_score_artifact(payload):
+    required = {"schema", "mode", "judge", "design_manifest",
+                "design_validation", "runs", "run_contract"}
+    missing = sorted(required - set(payload))
+    if missing:
+        raise ValueError(f"incomplete E27 score artifact: missing {missing}")
+    if not payload["design_validation"].get("ok"):
+        raise ValueError("E27 artifact has a failed design validation")
+    if (payload.get("evidence_eligibility") == "accepted_confirmatory"
+            and any(row.get("label") == "UNKNOWN"
+                    for row in payload.get("detail", []))):
+        raise ValueError("accepted E27 artifact contains UNKNOWN labels")
+
+
 def resolve_out_path(root, out_arg, dry_run):
     default_name = "e27_judge_inputs_export.json" if dry_run else "e27_scores_v2.json"
     out = Path(out_arg) if out_arg else Path(root) / default_name
@@ -363,6 +701,14 @@ def main(argv=None):
     ap.add_argument("--judge-model", default=None,
                     help="REQUIRED for live judging; pin an exact model "
                          "version for accepted runs (no floating aliases)")
+    ap.add_argument("--provider", default=None, choices=list(PROVIDERS),
+                    help="judge provider; REQUIRED for live judging. Gate 0B "
+                         "requires a version-pinned INDEPENDENT judge family "
+                         "(openai) — the historical judge was Claude-family")
+    ap.add_argument("--design-manifest", default=None,
+                    help="explicit design manifest JSON; default = the "
+                         "frozen 2x3x8 E27 grid (48 cells). Validation runs "
+                         "before rendering/judging, in dry-run too")
     ap.add_argument("--prompt-version", default=DEFAULT_PROMPT_VERSION,
                     choices=sorted(JUDGE_PROMPTS))
     ap.add_argument("--shuffle-seed", type=int, default=0,
@@ -374,37 +720,86 @@ def main(argv=None):
                     help="pause between judged events (rate limiting)")
     ap.add_argument("--dry-run", action="store_true",
                     help="export exact judge inputs; no API access")
+    ap.add_argument("--run-mode", choices=("accepted", "exploratory"),
+                    default="exploratory")
+    ap.add_argument("--allowed-dirty", action="append", default=[],
+                    help="accepted source-binding exclusion under results/")
     args = ap.parse_args(argv)
+
+    if args.run_mode == "accepted":
+        if args.dry_run:
+            ap.error("accepted mode is for completed judged artifacts, not dry-run exports")
+        if not args.provider or not is_snapshot_model_id(args.provider,
+                                                         args.judge_model):
+            ap.error("accepted mode requires an exact snapshot-shaped --judge-model")
 
     root = Path(args.root)
     out = resolve_out_path(root, args.out, args.dry_run)
+    design = load_design_manifest(args.design_manifest)
     runs, events = iter_say_events(root)
     print(f"{len(runs)} runs, {sum(r['n_says'] for r in runs)} say events")
 
+    # QA Q9: the explicit design manifest is validated BEFORE rendering,
+    # judging, or any API call — in dry-run exactly as in live mode.
+    try:
+        design_report = validate_design(runs, design,
+                                        run_summaries=iter_run_summaries(root))
+    except DesignValidationError as exc:
+        raise SystemExit(str(exc))
+    print(f"design validated: {design_report['n_run_artifacts']} run "
+          f"artifacts implement the explicit "
+          f"{len(design['conditions'])}x{len(design['variants'])}x"
+          f"{len(design['seeds'])} grid")
+
+    input_paths = [root / run["file"] for run in runs]
+    input_paths.extend(root / summary["file"]
+                       for summary in iter_run_summaries(root))
+    if args.design_manifest:
+        input_paths.append(Path(args.design_manifest))
+    contract = evaluate_run_contract(
+        args.run_mode, revisions={}, output_paths=(out,),
+        source_rules=args.allowed_dirty, input_paths=input_paths)
+
+    adapter_cls = ADAPTERS.get(args.provider)
+    adapter_metadata = (
+        adapter_cls().request_metadata(args.judge_model, args.max_tokens,
+                                       args.temperature)
+        if adapter_cls else None)
     order = list(range(len(events)))
     rng = np.random.default_rng(args.shuffle_seed)
     rng.shuffle(order)
 
     result = {
-        "schema": "e27_scores/2",
+        "schema": "e27_scores/3",
         "created_at": datetime.now(timezone.utc).isoformat(),
         "root": str(root),
+        "design_manifest": design,
+        "design_validation": design_report,
         "judge": {
+            "provider": args.provider,
             "model": args.judge_model,
             "prompt_version": args.prompt_version,
             "prompt_spec": JUDGE_PROMPTS[args.prompt_version],
             "max_tokens": args.max_tokens,
             "temperature": args.temperature,
             "max_attempts": args.max_attempts,
-            "api": None if args.dry_run else "anthropic-messages",
-            "anthropic_version": None if args.dry_run else "2023-06-01",
+            "api": adapter_cls.api if adapter_cls else None,
+            "request_metadata": adapter_metadata,
+            "identity_policy": (
+                "returned_model_must_exactly_match_requested"
+                if args.run_mode == "accepted" else "record_only"),
             "blinding": "judge input = prior user context + player message "
                         "only; presentation order shuffled",
         },
         "presentation": {"shuffle_seed": args.shuffle_seed,
                          "order_input_ids": [events[i]["input_id"] for i in order]},
         "runs": runs,
+        "run_mode": args.run_mode,
+        "evidence_eligibility": (
+            "accepted_confirmatory" if args.run_mode == "accepted"
+            else "exploratory_only_not_confirmatory"),
         "provenance": collect_run_provenance(),
+        "run_contract": contract,
     }
 
     if args.dry_run:
@@ -417,23 +812,36 @@ def main(argv=None):
              "rendered_judge_input": render_judge_input(e, args.prompt_version)}
             for e in events
         ]
-        out.write_text(json.dumps(result, indent=1))
+        revalidate_run_contract(
+            contract, source_rules=args.allowed_dirty, input_paths=input_paths)
+        atomic_write_json(out, result, require_fresh=True,
+                          validate_fn=validate_score_artifact, indent=1)
         print(f"dry run: wrote exact judge inputs for {len(events)} events -> {out}")
         return 0
 
+    if not args.provider:
+        ap.error("--provider is required for live judging (anthropic or "
+                 "openai; Gate 0B requires the independent family); use "
+                 "--dry-run for offline export")
     if not args.judge_model:
         ap.error("--judge-model is required for live judging (pin an exact "
                  "version for accepted runs); use --dry-run for offline export")
-    transport = anthropic_transport(os.environ["ANTHROPIC_API_KEY"])
+    key_env = ADAPTERS[args.provider].api_key_env
+    api_key = os.environ.get(key_env)
+    if not api_key:
+        ap.error(f"live judging with provider {args.provider!r} requires "
+                 f"the {key_env} environment variable")
+    adapter = make_adapter(args.provider, api_key=api_key)
 
     detail = [None] * len(events)
     for n_done, idx in enumerate(order, start=1):
         event = events[idx]
         rendered = render_judge_input(event, args.prompt_version)
         verdict = judge_event(
-            transport, args.judge_model, rendered,
+            adapter, args.judge_model, rendered,
             max_attempts=args.max_attempts, max_tokens=args.max_tokens,
             temperature=args.temperature,
+            require_response_model_match=args.run_mode == "accepted",
         )
         detail[idx] = {**event,
                        "rendered_judge_input": rendered,
@@ -443,11 +851,14 @@ def main(argv=None):
         if n_done % 25 == 0:
             print(f"judged {n_done}/{len(events)}")
 
-    report, interaction, n_unknown = aggregate(runs, detail)
+    report, interaction, n_unknown = aggregate(runs, detail, design)
     result["mode"] = "judged"
     result["summary"] = report
     result["interaction"] = interaction
     result["detail"] = detail
+    if n_unknown:
+        result["evidence_eligibility"] = (
+            "failed_ineligible_unknown_judge_labels")
 
     print(f"{'cond/variant':30s} {'says':>5s} {'support':>8s} {'chat':>6s} {'task':>6s}")
     for key, counts in report.items():
@@ -459,7 +870,10 @@ def main(argv=None):
           f"{interaction['mean_did']:+.2f} CI {interaction['ci95_seed_bootstrap']} "
           f"sign test {interaction['sign_test']}")
 
-    out.write_text(json.dumps(result, indent=1))
+    revalidate_run_contract(
+        contract, source_rules=args.allowed_dirty, input_paths=input_paths)
+    atomic_write_json(out, result, require_fresh=True,
+                      validate_fn=validate_score_artifact, indent=1)
     print(f"wrote {out}")
     if n_unknown:
         raise SystemExit(f"{n_unknown} says could not be labeled (UNKNOWN) — "

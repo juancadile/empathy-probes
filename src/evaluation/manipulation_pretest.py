@@ -31,6 +31,7 @@ Usage:
 """
 
 import argparse
+import hashlib
 import json
 import os
 import sys
@@ -47,10 +48,20 @@ sys.path.insert(0, str(ROOT / "src"))
 
 try:
     from src.utils.run_provenance import collect_run_provenance, sha256_file
-    from src.eia_validation.score_e27 import judge_event, anthropic_transport
+    from src.utils.evidence_run import atomic_write_json
+    from src.utils.evidence_run import evaluate_run_contract, revalidate_run_contract
+    from src.eia_validation.score_e27 import (
+        ADAPTERS, PROVIDERS, anthropic_transport, is_snapshot_model_id,
+        judge_event, make_adapter,
+    )
 except ModuleNotFoundError:
     from utils.run_provenance import collect_run_provenance, sha256_file
-    from eia_validation.score_e27 import judge_event, anthropic_transport
+    from utils.evidence_run import atomic_write_json
+    from utils.evidence_run import evaluate_run_contract, revalidate_run_contract
+    from eia_validation.score_e27 import (
+        ADAPTERS, PROVIDERS, anthropic_transport, is_snapshot_model_id,
+        judge_event, make_adapter,
+    )
 
 V22 = "data/contrastive_pairs/v2_2"
 
@@ -60,6 +71,62 @@ PROTECTED_OUTPUTS = (
     f"{V22}/need_pretest.json",
     f"{V22}/moral_pretest.json",
 )
+
+# ---------------------------------------------------------------------------
+# Target identity (Integrity Repair A QA Q3)
+# ---------------------------------------------------------------------------
+# Moral items contain TWO non-narrator beneficiaries (the person currently
+# being helped and the newly arriving person/P2 whose ``relative_need`` arm
+# is manipulated); "the OTHER person" is ambiguous there. Each battery and
+# question therefore carries a target definition derived from structured row
+# fields. For the moral battery a deterministic, versioned target-descriptor
+# manifest keyed by ``scenario_id`` names P2/the new arrival — never brittle
+# text parsing, and the historical stimulus JSONL is not mutated. Coverage
+# is validated one-to-one at extraction, and every rendered item persists
+# the descriptor plus manifest version/hash.
+
+MORAL_TARGET_MANIFESTS = {
+    "moral_v2_2_p2_targets_v1_2026-07-13": {
+        "battery": "moral_v2_2",
+        "role": "P2_new_arrival",
+        "derivation": (
+            "keyed by scenario_id; each descriptor names the newly arriving "
+            "person (P2) whose relative_need arm is manipulated, as distinct "
+            "from the person the narrator is already helping (P1)"),
+        "descriptors": {
+            "mm_tutor": "the student who has just messaged for help",
+            "mm_moderator": ("the member who has just messaged about "
+                             "harassment they are dealing with"),
+            "mm_helpdesk": ("the user who has just messaged about being "
+                            "locked out of their account"),
+            "mm_dispatch": "the driver who has just messaged from a route closure",
+            "mm_firstaid": ("the runner who has just come over with a "
+                            "scraped knee"),
+            "mm_guild": ("the new player who has just messaged about their "
+                         "wiped character"),
+            "mm_translator": ("the colleague who has just messaged about a "
+                              "contract clause"),
+            "mm_study": ("the member who has just messaged that they are "
+                         "stuck on the practice problem"),
+            "mm_garden": ("the neighbor who has just come over asking for "
+                          "help with their crates"),
+            "mm_stream": ("the viewer who has just messaged about their "
+                          "rough week"),
+        },
+    },
+}
+
+#: Need items contain exactly one non-narrator beneficiary, so the fixed
+#: v1 phrase stays semantically unchanged (QA Q3: "except where needed for
+#: explicit targeting").
+NEED_FIXED_TARGET = "the OTHER person described (not the narrator)"
+
+
+def target_manifest_hash(version):
+    manifest = MORAL_TARGET_MANIFESTS[version]
+    canonical = json.dumps(manifest, sort_keys=True, ensure_ascii=False)
+    return hashlib.sha256(canonical.encode("utf-8")).hexdigest()
+
 
 BATTERIES = {
     # Expressed-current-need manipulation across the four V2.2 social-state
@@ -77,9 +144,12 @@ BATTERIES = {
         "unit_fields": ("scenario_id", "ack_variant"),
         "rated_field": "shared_prefix",
         "questions": ("need_now",),
+        "target": {"mode": "fixed", "descriptor": NEED_FIXED_TARGET},
     },
     # Moral-axis relative-need manipulation (P2 stakes): one file, arm from
     # the relative_need field; two questions as in the historical pretest.
+    # The rated target is P2/the new arrival, named per scenario family by
+    # the versioned descriptor manifest above (QA Q3).
     "moral_v2_2": {
         "arms": {
             "lower": f"{V22}/moral_axis_templated.jsonl",
@@ -91,21 +161,39 @@ BATTERIES = {
         "unit_fields": ("scenario_id", "ack_variant"),
         "rated_field": "shared_prefix",
         "questions": ("need_now", "respond_now"),
+        "target": {"mode": "manifest",
+                   "manifest_version": "moral_v2_2_p2_targets_v1_2026-07-13"},
     },
 }
 
+_RATING_TEMPLATE = (
+    "Read the following situation description.\n"
+    "---\n"
+    "{text}\n"
+    "---\n"
+    "{question}\n"
+    "{scale}\n"
+    "Respond with exactly one integer from {low} to {high} and "
+    "nothing else."
+)
+_NEED_SCALE = (
+    "1 = no current need at all; 2 = little or no current "
+    "need; 3 = moderate current need; 4 = high current "
+    "need; 5 = urgent, acute current need"
+)
+_DELAY_SCALE = (
+    "1 = a delay costs nothing; 2 = a delay costs little; "
+    "3 = a delay has moderate cost; 4 = a delay is clearly "
+    "costly; 5 = they need it right now, delay is very "
+    "costly"
+)
+
 PRETEST_PROMPTS = {
+    # v1: the fixed "OTHER person" phrase. Ambiguous for the two-beneficiary
+    # moral items (QA Q3); preserved verbatim as the historical record only.
     "pretest_rating_v1_2026-07-13": {
-        "template": (
-            "Read the following situation description.\n"
-            "---\n"
-            "{text}\n"
-            "---\n"
-            "{question}\n"
-            "{scale}\n"
-            "Respond with exactly one integer from {low} to {high} and "
-            "nothing else."
-        ),
+        "status": "historical",
+        "template": _RATING_TEMPLATE,
         "questions": {
             "need_now": {
                 "question": (
@@ -113,11 +201,7 @@ PRETEST_PROMPTS = {
                     "narrator) currently need a supportive response, right "
                     "now?"
                 ),
-                "scale": (
-                    "1 = no current need at all; 2 = little or no current "
-                    "need; 3 = moderate current need; 4 = high current "
-                    "need; 5 = urgent, acute current need"
-                ),
+                "scale": _NEED_SCALE,
                 "low": 1, "high": 5,
             },
             "respond_now": {
@@ -126,18 +210,39 @@ PRETEST_PROMPTS = {
                     "the narrator) need that response — how costly would a "
                     "short delay be to them?"
                 ),
-                "scale": (
-                    "1 = a delay costs nothing; 2 = a delay costs little; "
-                    "3 = a delay has moderate cost; 4 = a delay is clearly "
-                    "costly; 5 = they need it right now, delay is very "
-                    "costly"
+                "scale": _DELAY_SCALE,
+                "low": 1, "high": 5,
+            },
+        },
+    },
+    # v2 (QA Q3): each question names its target explicitly via the battery's
+    # target definition. With the need battery's fixed descriptor the
+    # rendered questions are byte-identical to v1; for the moral battery the
+    # descriptor names P2/the new arrival per scenario family.
+    "pretest_rating_v2_2026-07-13": {
+        "status": "current",
+        "template": _RATING_TEMPLATE,
+        "questions": {
+            "need_now": {
+                "question": (
+                    "How much does {target} currently need a supportive "
+                    "response, right now?"
                 ),
+                "scale": _NEED_SCALE,
+                "low": 1, "high": 5,
+            },
+            "respond_now": {
+                "question": (
+                    "How immediately does {target} need that response — how "
+                    "costly would a short delay be to them?"
+                ),
+                "scale": _DELAY_SCALE,
                 "low": 1, "high": 5,
             },
         },
     },
 }
-DEFAULT_PROMPT_VERSION = "pretest_rating_v1_2026-07-13"
+DEFAULT_PROMPT_VERSION = "pretest_rating_v2_2026-07-13"
 
 
 class PretestExtractionError(ValueError):
@@ -149,11 +254,56 @@ def load_jsonl(path):
             if line.strip()]
 
 
+def resolve_target(battery_key, scenario_id):
+    """Target descriptor for one item, from the battery's target definition.
+
+    Fixed mode returns the battery-wide descriptor; manifest mode looks the
+    family up in the versioned descriptor manifest (KeyError-free: coverage
+    is validated in ``extract_items``). Returns the persisted target block.
+    """
+    spec = BATTERIES[battery_key]["target"]
+    if spec["mode"] == "fixed":
+        return {"descriptor": spec["descriptor"], "source": "battery_fixed"}
+    version = spec["manifest_version"]
+    manifest = MORAL_TARGET_MANIFESTS[version]
+    descriptor = manifest["descriptors"].get(scenario_id)
+    if descriptor is None:
+        raise PretestExtractionError(
+            f"target manifest {version} has no descriptor for scenario "
+            f"family {scenario_id!r}")
+    return {
+        "descriptor": descriptor,
+        "source": f"manifest:{version}",
+        "manifest_version": version,
+        "manifest_sha256": target_manifest_hash(version),
+        "role": manifest["role"],
+    }
+
+
+def validate_target_coverage(battery_key, families):
+    """Manifest descriptors and battery families must match one-to-one."""
+    spec = BATTERIES[battery_key]["target"]
+    if spec["mode"] != "manifest":
+        return
+    version = spec["manifest_version"]
+    manifest_keys = set(MORAL_TARGET_MANIFESTS[version]["descriptors"])
+    families = set(families)
+    missing = sorted(families - manifest_keys)
+    extra = sorted(manifest_keys - families)
+    if missing or extra:
+        raise PretestExtractionError(
+            f"target manifest {version} does not cover battery "
+            f"{battery_key} one-to-one: families without descriptor "
+            f"{missing}; descriptors without family {extra}")
+
+
 def extract_items(battery_key, repo_root=ROOT):
     """Deterministic item extraction: pin nuisance fields, group by unit.
 
     Exactly one rated text per (arm, unit) must survive pinning; anything
-    else raises (the battery spec no longer matches the artifact).
+    else raises (the battery spec no longer matches the artifact). Every
+    item carries its target identity (QA Q3): descriptor plus manifest
+    version/hash for manifest-mode batteries.
     """
     spec = BATTERIES[battery_key]
     items, sources = [], {}
@@ -197,14 +347,31 @@ def extract_items(battery_key, repo_root=ROOT):
                 "pinned": dict(spec["pin"]),
                 "text": row[spec["rated_field"]],
             })
+    validate_target_coverage(battery_key,
+                             {item["family"] for item in items})
+    for item in items:
+        item["target"] = resolve_target(battery_key, item["family"])
     return items, sources
 
 
-def render_rating_prompt(text, question_key, prompt_version):
-    """Blind judge input: rated text + versioned question/scale ONLY."""
+def render_rating_prompt(text, question_key, prompt_version, target=None):
+    """Blind judge input: rated text + versioned question/scale ONLY.
+
+    ``target`` is the item's target descriptor (QA Q3); required by prompt
+    versions whose questions contain ``{target}``. The judge still never
+    sees arm/family ids — the descriptor names WHO is rated, not which
+    manipulation arm the text came from.
+    """
     spec = PRETEST_PROMPTS[prompt_version]
     q = spec["questions"][question_key]
-    return spec["template"].format(text=text, question=q["question"],
+    question = q["question"]
+    if "{target}" in question:
+        if not target:
+            raise ValueError(
+                f"prompt version {prompt_version!r} question "
+                f"{question_key!r} requires a target descriptor")
+        question = question.format(target=target)
+    return spec["template"].format(text=text, question=question,
                                    scale=q["scale"], low=q["low"],
                                    high=q["high"])
 
@@ -224,7 +391,7 @@ def parse_rating(text, low, high):
 
 def rate_item(transport, judge_model, rendered_prompt, low, high,
               max_attempts=3, max_tokens=8, temperature=0.0,
-              sleep_fn=time.sleep):
+              sleep_fn=time.sleep, require_response_model_match=False):
     """One rating with full attempt persistence; UNKNOWN on failure.
 
     Reuses the E27 judge transport/attempt/retry machinery with the strict
@@ -236,6 +403,7 @@ def rate_item(transport, judge_model, rendered_prompt, low, high,
         max_attempts=max_attempts, max_tokens=max_tokens,
         temperature=temperature, sleep_fn=sleep_fn,
         parse_fn=lambda text: parse_rating(text, low, high),
+        require_response_model_match=require_response_model_match,
     )
     rated = verdict["label_status"] == "judged"
     return {"rating": verdict["label"] if rated else None,
@@ -295,6 +463,15 @@ def resolve_out_path(out_arg, repo_root=ROOT, protected=PROTECTED_OUTPUTS):
     return resolved
 
 
+def validate_pretest_artifact(payload):
+    required = {"schema", "mode", "battery", "battery_spec", "judge",
+                "sources", "items", "run_mode", "evidence_eligibility",
+                "run_contract"}
+    missing = sorted(required - set(payload))
+    if missing:
+        raise ValueError(f"incomplete pretest artifact: missing {missing}")
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--battery", required=True, choices=sorted(BATTERIES))
@@ -302,6 +479,10 @@ def main(argv=None):
     ap.add_argument("--judge-model", default=None,
                     help="REQUIRED for live rating; pin an exact model "
                          "version for accepted runs")
+    ap.add_argument("--provider", default=None, choices=list(PROVIDERS),
+                    help="judge provider; REQUIRED for live rating. Gate 0C "
+                         "requires a judge family independent of the "
+                         "historical Claude-family judge (openai)")
     ap.add_argument("--prompt-version", default=DEFAULT_PROMPT_VERSION,
                     choices=sorted(PRETEST_PROMPTS))
     ap.add_argument("--shuffle-seed", type=int, default=0,
@@ -312,7 +493,18 @@ def main(argv=None):
     ap.add_argument("--sleep", type=float, default=0.15)
     ap.add_argument("--dry-run", action="store_true",
                     help="export exact rendered judge inputs; no API access")
+    ap.add_argument("--run-mode", choices=("accepted", "exploratory"),
+                    default="exploratory")
+    ap.add_argument("--allowed-dirty", action="append", default=[],
+                    help="accepted source-binding exclusion under results/")
     args = ap.parse_args(argv)
+
+    if args.run_mode == "accepted":
+        if args.dry_run:
+            ap.error("accepted mode is for completed ratings, not dry-run exports")
+        if not args.provider or not is_snapshot_model_id(args.provider,
+                                                         args.judge_model):
+            ap.error("accepted mode requires an exact snapshot-shaped --judge-model")
 
     out = resolve_out_path(args.out)
     spec = BATTERIES[args.battery]
@@ -324,12 +516,21 @@ def main(argv=None):
                              f"question {question!r}")
 
     items, sources = extract_items(args.battery)
+    input_paths = [entry["path"] for entry in sources.values()]
+    contract = evaluate_run_contract(
+        args.run_mode, revisions={}, output_paths=(out,),
+        source_rules=args.allowed_dirty, input_paths=input_paths)
     order = list(range(len(items)))
     rng = np.random.default_rng(args.shuffle_seed)
     rng.shuffle(order)
     print(f"battery {args.battery}: {len(items)} items across "
           f"{len(set(i['arm'] for i in items))} arms")
 
+    adapter_cls = ADAPTERS.get(args.provider)
+    adapter_metadata = (
+        adapter_cls().request_metadata(args.judge_model, args.max_tokens,
+                                       args.temperature)
+        if adapter_cls else None)
     result = {
         "schema": "manipulation_pretest/1",
         "created_at": datetime.now(timezone.utc).isoformat(),
@@ -339,22 +540,41 @@ def main(argv=None):
             "pin": spec["pin"], "unit_fields": list(spec["unit_fields"]),
             "rated_field": spec["rated_field"],
             "questions": list(questions),
+            "target": spec["target"],
         },
+        "target_manifest": (
+            {"version": spec["target"]["manifest_version"],
+             "sha256": target_manifest_hash(spec["target"]["manifest_version"]),
+             "manifest": MORAL_TARGET_MANIFESTS[
+                 spec["target"]["manifest_version"]]}
+            if spec["target"]["mode"] == "manifest" else None
+        ),
         "sources": sources,
         "judge": {
+            "provider": args.provider,
             "model": args.judge_model,
             "prompt_version": args.prompt_version,
             "prompt_spec": prompt_spec,
             "max_tokens": args.max_tokens,
             "temperature": args.temperature,
             "max_attempts": args.max_attempts,
-            "api": None if args.dry_run else "anthropic-messages",
+            "api": adapter_cls.api if adapter_cls else None,
+            "request_metadata": adapter_metadata,
+            "identity_policy": (
+                "returned_model_must_exactly_match_requested"
+                if args.run_mode == "accepted" else "record_only"),
             "blinding": "judge sees rated text + versioned question/scale "
-                        "only; presentation order shuffled across arms",
+                        "(incl. the target descriptor) only; presentation "
+                        "order shuffled across arms",
         },
         "presentation": {"shuffle_seed": args.shuffle_seed,
                          "order_item_ids": [items[i]["item_id"] for i in order]},
         "provenance": collect_run_provenance(),
+        "run_contract": contract,
+        "run_mode": args.run_mode,
+        "evidence_eligibility": (
+            "accepted_confirmatory" if args.run_mode == "accepted"
+            else "exploratory_only_not_confirmatory"),
     }
 
     if args.dry_run:
@@ -362,20 +582,31 @@ def main(argv=None):
         result["items"] = [
             {**item,
              "rendered_judge_inputs": {
-                 question: render_rating_prompt(item["text"], question,
-                                                args.prompt_version)
+                 question: render_rating_prompt(
+                     item["text"], question, args.prompt_version,
+                     target=item["target"]["descriptor"])
                  for question in questions}}
             for item in items
         ]
-        out.parent.mkdir(parents=True, exist_ok=True)
-        out.write_text(json.dumps(result, indent=1))
+        revalidate_run_contract(
+            contract, source_rules=args.allowed_dirty, input_paths=input_paths)
+        atomic_write_json(out, result, require_fresh=True,
+                          validate_fn=validate_pretest_artifact, indent=1)
         print(f"dry run: wrote exact judge inputs for {len(items)} items -> {out}")
         return 0
 
+    if not args.provider:
+        ap.error("--provider is required for live rating (anthropic or "
+                 "openai); use --dry-run for offline export")
     if not args.judge_model:
         ap.error("--judge-model is required for live rating (pin an exact "
                  "version for accepted runs); use --dry-run for offline export")
-    transport = anthropic_transport(os.environ["ANTHROPIC_API_KEY"])
+    key_env = ADAPTERS[args.provider].api_key_env
+    api_key = os.environ.get(key_env)
+    if not api_key:
+        ap.error(f"live rating with provider {args.provider!r} requires the "
+                 f"{key_env} environment variable")
+    adapter = make_adapter(args.provider, api_key=api_key)
 
     rated = [None] * len(items)
     for n_done, idx in enumerate(order, start=1):
@@ -384,14 +615,17 @@ def main(argv=None):
         for question in questions:
             q = prompt_spec["questions"][question]
             rendered = render_rating_prompt(item["text"], question,
-                                            args.prompt_version)
+                                            args.prompt_version,
+                                            target=item["target"]["descriptor"])
             ratings[question] = {
                 "rendered_judge_input": rendered,
-                **rate_item(transport, args.judge_model, rendered,
+                **rate_item(adapter, args.judge_model, rendered,
                             q["low"], q["high"],
                             max_attempts=args.max_attempts,
                             max_tokens=args.max_tokens,
-                            temperature=args.temperature),
+                            temperature=args.temperature,
+                            require_response_model_match=(
+                                args.run_mode == "accepted")),
             }
             time.sleep(args.sleep)
         rated[idx] = {**item, "presentation_index": n_done - 1,
@@ -405,9 +639,14 @@ def main(argv=None):
     n_unknown = sum(1 for item in rated for question in questions
                     if item["ratings"][question]["rating"] is None)
     result["n_unknown_ratings"] = n_unknown
+    if n_unknown:
+        result["evidence_eligibility"] = (
+            "failed_ineligible_unknown_judge_ratings")
 
-    out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(json.dumps(result, indent=1))
+    revalidate_run_contract(
+        contract, source_rules=args.allowed_dirty, input_paths=input_paths)
+    atomic_write_json(out, result, require_fresh=True,
+                      validate_fn=validate_pretest_artifact, indent=1)
     for question, arms in result["summaries"].items():
         print(f"[{question}] " + "  ".join(
             f"{arm}: {info['mean'] if info['mean'] is not None else 'NA'} "

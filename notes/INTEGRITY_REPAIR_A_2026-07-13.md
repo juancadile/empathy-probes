@@ -322,3 +322,73 @@ New reusable runner covering both audit batteries:
    family and human sample) under the new runner, with monotonicity/
    separation gates predeclared.
 6. `results/PROVENANCE.json` regeneration only after the accepted reruns.
+
+---
+
+## QA Repair Addendum (Codex, 2026-07-13)
+
+This addendum records the independent repair of the incomplete Q1-Q10 patch.
+It does **not** clear any historical scientific result and did not run models,
+APIs, GPUs, or Spark. Gate 0B/0C remains blocked until accepted executions are
+performed from the repaired, committed code under the frozen protocols.
+
+### Defects closed
+
+- The MMLU parser now combines all explicit evidence before accepting a
+  letter: conflicting option lists and repeated answer markers (including the
+  same repeated letter) are `ambiguous`. Candidate likelihoods jointly
+  tokenize prompt+continuation bytes and fail closed on a BPE boundary merge;
+  multi-token continuations are scored completely and persisted.
+- The frozen capability reconstruction is named and validates Gemma-2-9B,
+  800 subject-stratified MMLU items, seed 946441184, all four conditions, both
+  MMLU readouts, and exact WikiText characters `[200000:400000]`. Short
+  corpora abort. Accepted loads require exact realized MMLU/WikiText
+  fingerprints before model loading.
+- Accepted source exclusions are restricted to generated roots; rules cannot
+  hide `src/`, `tests/`, `data/`, `third_party/`, scripts, configs, or
+  dependency manifests. Declared inputs and source binding are checked at
+  both run start and finalization. JSON publication uses atomic hard-link
+  no-clobber semantics plus per-artifact completeness validators.
+- Anthropic and OpenAI judge adapters persist provider/API/request and raw
+  response metadata. Explicit-provider dry-runs identify the selected API.
+  Accepted judge runs require snapshot-shaped model ids and reject a returned
+  model that differs from the requested snapshot. Judge and pretest artifacts
+  now share source/input binding and accepted/exploratory eligibility.
+- The direct-edit inventory is exact and AST alias-aware. Every historical
+  edit CLI has no accepted mode, persists its ineligibility, and refuses
+  existing output. Logit-lens NPZ files embed the ineligibility marker.
+- Gate 0C fractional ablation is bound to Gemma-2-9B, block 20, the current
+  residualized direction path/hash, and exact M/T-confirm bytes/families. The
+  accepted protocol requires 39 deterministic PCG64 controls, all fractions,
+  cells, and readouts. Pure analysis implements target-vs-all-null, plus-one
+  p, family bootstrap, leave-one-family-out, dose monotonicity tolerance, and
+  descriptive M/T selectivity gates.
+- Builder-sidecar reconstruction now requires a verified preserved copy and
+  builder-specific family/variant-grid validation; arbitrary JSONL cannot be
+  laundered into provenance. Sidecar field and preserved-copy tampering fail
+  closed.
+- E27 design dimensions must be unique and typed; missing whole dimensions,
+  duplicates, unexpected cells, failed runs, and pinned path/hash mismatches
+  fail before judging. The game driver now labels E27 as an adapted listener
+  assay (replaced message pools, 30-step default), hashes behavioral Python
+  and image assets, validates unique seeds/scenarios, and writes a final
+  completion artifact only after end-of-run revalidation.
+- Restoration tests cover shared multi-head tensors and deliberate incomplete
+  restoration. Capability summaries separate all-item and parsed-only
+  policies, persist parse rates and per-subject delta signs, and explicitly
+  avoid equivalence/no-cost language.
+- Moral-pretest target snapshots cover multiple families and both questions;
+  P2/new-arrival identity, one-to-one manifest coverage/hash, and unchanged
+  need-battery wording are tested.
+
+### Offline verification
+
+- `pytest -q tests`: **237 passed** (delivery rerun; number of record).
+- `python -m compileall -q src tests`: pass.
+- Every changed executable module imports and `--help` exits successfully.
+- Explicit OpenAI dry-runs, with no SDK/network dependency: E27 validates 48
+  runs and exports 356 events; `need_v2_2` exports 80 items; `moral_v2_2`
+  exports 60 items.
+- `git diff --check`: pass.
+- Protected pre-audit paths retain their original timestamps and remain
+  unstaged/unmodified by this repair.

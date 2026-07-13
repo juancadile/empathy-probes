@@ -60,12 +60,20 @@ def test_unknown_registry_key_raises():
         get_component_set("no_such_key")
 
 
+GEMMA_RESID_DIR = ("results/controlled_directions_gemma2_9b_it/"
+                   "direction_M_resid_block20.npy")
+GEMMA_PRE_DIR = ("results/controlled_directions_gemma2_9b_it/"
+                 "direction_M_block20.npy")
+
+
 def test_resolution_requires_explicitness():
     with pytest.raises(ComponentSetError, match="not specified"):
-        resolve_component_sets(("positive_writers",), explicit={})
+        resolve_component_sets(("positive_writers",), explicit={},
+                               direction_path=GEMMA_RESID_DIR)
     with pytest.raises(ComponentSetError, match="not specified"):
         resolve_component_sets(("positive_writers", "suppressors"),
-                               explicit={"positive_writers": "L1MLP"})
+                               explicit={"positive_writers": "L1MLP"},
+                               direction_path=GEMMA_RESID_DIR)
 
 
 def test_resolution_from_registry_and_overrides():
@@ -74,6 +82,7 @@ def test_resolution_from_registry_and_overrides():
         explicit={"positive_writers": None, "suppressors": "L9H9"},
         set_key="gemma2_9b_it_resid_2026-07-12",
         model="google/gemma-2-9b-it",
+        direction_path=GEMMA_RESID_DIR,
     )
     assert resolved["sets"]["positive_writers"] == "L19MLP,L20MLP"
     assert resolved["sets"]["suppressors"] == "L9H9"
@@ -89,6 +98,7 @@ def test_resolution_model_mismatch_raises():
             ("positive_writers",), explicit={},
             set_key="gemma2_9b_it_resid_2026-07-12",
             model="meta-llama/Llama-3.1-8B-Instruct",
+            direction_path=GEMMA_RESID_DIR,
         )
 
 
@@ -97,6 +107,7 @@ def test_superseded_set_carries_warning():
         ("targeted", "random"), explicit={},
         set_key="gemma2_9b_it_precorrection_2026-07-11",
         model="google/gemma-2-9b-it",
+        direction_path=GEMMA_PRE_DIR,
     )
     assert "superseded" in resolved["source"]["warning"]
     assert resolved["source"]["registry_status"] == "superseded"
@@ -104,7 +115,8 @@ def test_superseded_set_carries_warning():
 
 def test_explicit_only_resolution_records_origins():
     resolved = resolve_component_sets(
-        ("random",), explicit={"random": "L1MLP,L2MLP"})
+        ("random",), explicit={"random": "L1MLP,L2MLP"},
+        direction_path=GEMMA_RESID_DIR)
     assert resolved["sets"] == {"random": "L1MLP,L2MLP"}
     assert resolved["source"]["registry_key"] is None
     assert resolved["source"]["origins"] == {"random": "explicit"}

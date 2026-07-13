@@ -11,6 +11,7 @@ from pathlib import Path
 from types import SimpleNamespace
 
 import torch
+import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
@@ -20,7 +21,10 @@ from norm_matched_controls import (  # noqa: E402
     apply_norm_matched_random, orthogonalize_component_measured,
     summarize, summarize_joint_selectivity, targeted_delta_norm,
 )
-from weight_orthogonalization import effective_direction, parse_component  # noqa: E402
+from weight_orthogonalization import (  # noqa: E402
+    RestorationError, assert_restored, effective_direction, parse_component,
+    restore_weights, snapshot_weights,
+)
 
 D_MODEL, D_FF, N_HEADS, HEAD_DIM = 64, 128, 4, 16
 
@@ -194,3 +198,23 @@ def test_joint_selectivity_uses_target_and_control_task_deltas():
     assert abs(summary["targeted_value"] - 0.27) < 1e-12
     assert summary["n_null_as_or_more_extreme"] == 0
     assert summary["mc_p_one_sided"] == 1 / 3
+
+
+def test_snapshot_covers_shared_multihead_tensor_once_plus_mlp_tensor():
+    model = toy_model()
+    components = [parse_component(v) for v in ("L0H0", "L0H3", "L0MLP")]
+    snapshots = snapshot_weights(model, components)
+    assert len(snapshots) == 2
+    report = assert_restored(snapshots)
+    assert report["n_tensors"] == 2
+
+
+def test_incomplete_or_post_restore_mutation_aborts():
+    model = toy_model()
+    components = [parse_component(v) for v in ("L0H0", "L0MLP")]
+    snapshots = snapshot_weights(model, components)
+    model.model.layers[0].self_attn.o_proj.weight[0, 0] += 1
+    with pytest.raises(RestorationError, match="restoration failed"):
+        assert_restored(snapshots)
+    restore_weights(snapshots)
+    assert assert_restored(snapshots)["ok"] is True

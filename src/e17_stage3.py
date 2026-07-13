@@ -19,6 +19,12 @@ Usage (Spark, `empathy` env):
     --block 15 --out results/e17_stage3_llama31_8b_it
 """
 
+#: Integrity Repair A QA Q4 (2026-07-13): this CLI performs direct weight
+#: edits but has NOT been migrated to the shared accepted/exploratory
+#: evidence-run contract. Every artifact it emits is permanently classified
+#: below; there is deliberately NO accepted mode in this script.
+EVIDENCE_ELIGIBILITY = "historical_or_exploratory_only"
+
 import argparse
 import json
 import logging
@@ -177,15 +183,21 @@ def main():
                       "random": args.random_components},
             set_key=args.component_set,
             model=args.model,
+            direction_path=args.direction,
         )
     except ComponentSetError as exc:
         ap.error(str(exc))
     log.info("component sets resolved: %s", resolution)
+    log.warning("evidence eligibility: %s — this script has no accepted "
+                "mode; its artifacts cannot support confirmatory claims",
+                EVIDENCE_ELIGIBILITY)
 
     from transformers import AutoModelForCausalLM, AutoTokenizer
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
     out = Path(args.out)
+    if (out / "stage3.json").exists():
+        raise SystemExit(f"refusing to overwrite historical artifact in {out}; choose a fresh --out")
     out.mkdir(parents=True, exist_ok=True)
 
     tokenizer = AutoTokenizer.from_pretrained(args.model)
@@ -214,6 +226,7 @@ def main():
         log.info("eval set %s: %d pairs, %d families", name, len(pairs), len(set(families[name])))
 
     results = {"model": args.model, "direction": args.direction, "block": args.block,
+               "evidence_eligibility": EVIDENCE_ELIGIBILITY,
                "component_sets": resolution,
                "sets": {k: len(v) for k, v in pair_sets.items()}}
 

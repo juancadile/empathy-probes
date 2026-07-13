@@ -33,19 +33,33 @@ import torch
 try:
     from src.weight_orthogonalization import (
         NEUTRAL_PROMPTS,
-        component_weight, effective_direction, evaluate, final_logits,
-        load_pairs, orthogonalize_component, parse_component, restore_weights,
-        snapshot_weights,
+        assert_restored, component_weight, effective_direction, evaluate,
+        final_logits, load_pairs, orthogonalize_component, parse_component,
+        restore_weights, snapshot_weights,
     )
     from src.component_sets import ComponentSetError, resolve_component_sets
+    from src.utils.evidence_run import (
+        EvidenceRunError, atomic_write_json, evaluate_run_contract,
+        require_keys_validator, revalidate_run_contract,
+    )
+    from src.utils.run_provenance import (
+        collect_run_provenance, resolve_hf_commit, resolve_model_and_tokenizer,
+    )
 except ModuleNotFoundError:
     from weight_orthogonalization import (
         NEUTRAL_PROMPTS,
-        component_weight, effective_direction, evaluate, final_logits,
-        load_pairs, orthogonalize_component, parse_component, restore_weights,
-        snapshot_weights,
+        assert_restored, component_weight, effective_direction, evaluate,
+        final_logits, load_pairs, orthogonalize_component, parse_component,
+        restore_weights, snapshot_weights,
     )
     from component_sets import ComponentSetError, resolve_component_sets
+    from utils.evidence_run import (
+        EvidenceRunError, atomic_write_json, evaluate_run_contract,
+        require_keys_validator, revalidate_run_contract,
+    )
+    from utils.run_provenance import (
+        collect_run_provenance, resolve_hf_commit, resolve_model_and_tokenizer,
+    )
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 log = logging.getLogger("norm-matched")
@@ -164,7 +178,22 @@ def summarize_joint_selectivity(targeted, controls, task_penalty=3.0):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--model", default="google/gemma-2-9b-it")
+    parser.add_argument("--revision", default=None,
+                        help="explicit HF model revision (accepted runs must pin this)")
+    parser.add_argument("--tokenizer-revision", default=None,
+                        help="explicit tokenizer revision (defaults to --revision)")
     parser.add_argument("--direction", required=True)
+    parser.add_argument("--run-mode", choices=("accepted", "exploratory"),
+                        default="exploratory",
+                        help="accepted = evidence-eligible (pinned immutable "
+                             "revisions, verified direction binding, fresh "
+                             "output, clean source)")
+    parser.add_argument("--allow-direction-mismatch", action="store_true",
+                        help="EXPLORATORY-ONLY override; persisted as "
+                             "non-confirmatory")
+    parser.add_argument("--allowed-dirty", action="append", default=[],
+                        help="explicit source-binding exclusion rule (glob) "
+                             "for accepted mode; persisted")
     parser.add_argument("--n-seeds", type=int, default=10)
     parser.add_argument("--m-pairs", default="data/contrastive_pairs/v2_1/M_templated.jsonl")
     parser.add_argument("--t-pairs", default="data/contrastive_pairs/v2_1/T_templated.jsonl")
@@ -193,18 +222,51 @@ def main():
                       "suppressors": args.suppressors},
             set_key=args.component_set,
             model=args.model,
+            direction_path=args.direction,
+            run_mode=args.run_mode,
+            allow_direction_mismatch=args.allow_direction_mismatch,
         )
     except ComponentSetError as exc:
         parser.error(str(exc))
     log.info("component sets resolved: %s", resolution)
 
+    out = Path(args.out)
+    input_paths = [args.direction, args.m_pairs, args.t_pairs]
+    if args.reference:
+        input_paths.append(args.reference)
+    try:
+        contract = evaluate_run_contract(
+            args.run_mode,
+            revisions={
+                "model": {
+                    "requested": args.revision,
+                    "resolution": resolve_hf_commit(
+                        args.model, revision=args.revision or "main"),
+                },
+                "tokenizer": {
+                    "requested": args.tokenizer_revision or args.revision,
+                    "resolution": resolve_hf_commit(
+                        args.model,
+                        revision=(args.tokenizer_revision or args.revision
+                                  or "main")),
+                },
+            },
+            output_paths=(out / "norm_matched_controls.json",),
+            source_rules=args.allowed_dirty,
+            input_paths=input_paths,
+        )
+    except EvidenceRunError as exc:
+        parser.error(str(exc))
+    if contract.get("warning"):
+        log.warning("%s", contract["warning"])
+
     from transformers import AutoModelForCausalLM, AutoTokenizer
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
-    out = Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
 
-    tokenizer = AutoTokenizer.from_pretrained(args.model)
+    tokenizer = AutoTokenizer.from_pretrained(
+        args.model, revision=args.tokenizer_revision or args.revision)
     if tokenizer.pad_token is None:  # Llama-3.1 ships without one
         tokenizer.pad_token = tokenizer.eos_token
     # CRITICAL: choice_scores indexes logits at attention_mask.sum(1)-1, which
@@ -212,7 +274,8 @@ def main():
     # (Absence of this line mis-indexed E14/E14b readouts — see log E23/E14d.)
     tokenizer.padding_side = "right"
     model = AutoModelForCausalLM.from_pretrained(
-        args.model, dtype=torch.bfloat16, attn_implementation="eager"
+        args.model, dtype=torch.bfloat16, attn_implementation="eager",
+        revision=args.revision,
     ).to(device)
     model.eval()
 
@@ -254,6 +317,7 @@ def main():
                                args.seed, device, block=args.block)
         finally:
             restore_weights(snapshots)
+        assert_restored(snapshots)
         ref_deltas[set_name] = metrics["helping_choice"]["mean"] - base_help
         targeted_metrics[set_name] = {
             "helping_choice": metrics["helping_choice"],
@@ -266,7 +330,18 @@ def main():
                  set_name, ref_deltas[set_name], pilot_deltas[set_name])
 
     results = {
+        "model": args.model,
+        "revision": args.revision,
+        "tokenizer_revision": args.tokenizer_revision or args.revision,
+        "run_contract": contract,
         "component_sets": resolution,
+        "hf_revisions": resolve_model_and_tokenizer(
+            args.model, revision=args.revision or "main",
+            tokenizer_revision=args.tokenizer_revision or args.revision or "main",
+        ),
+        "provenance": collect_run_provenance(
+            files={"direction": args.direction},
+        ),
         "baseline": {
             "helping_choice": baseline["helping_choice"],
             "task_choice": baseline["task_choice"],
@@ -302,6 +377,7 @@ def main():
                                    args.seed, device, block=args.block)
             finally:
                 restore_weights(snapshots)
+            assert_restored(snapshots)
             delta = metrics["helping_choice"]["mean"] - base_help
             null_deltas.append(delta)
             conditions.append({"seed": s, "edits": edits,
@@ -334,8 +410,12 @@ def main():
                  results["sets"][set_name]["summary"]["mc_p_two_sided"],
                  results["sets"][set_name]["summary"]["z_score_secondary_descriptive"])
 
-    with open(out / "norm_matched_controls.json", "w") as f:
-        json.dump(results, f, indent=2)
+    revalidate_run_contract(
+        contract, source_rules=args.allowed_dirty, input_paths=input_paths)
+    atomic_write_json(
+        out / "norm_matched_controls.json", results, require_fresh=True,
+        validate_fn=require_keys_validator(
+            "model", "run_contract", "component_sets", "baseline", "sets"))
     log.info("wrote %s", out / "norm_matched_controls.json")
 
 
