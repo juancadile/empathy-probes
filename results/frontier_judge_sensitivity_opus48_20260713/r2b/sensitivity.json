@@ -1,0 +1,83 @@
+{
+  "schema": "empathy-action-probes/frontier-judge-sensitivity/1",
+  "role": "sensitivity only; cannot alter any gate",
+  "kind": "r2b",
+  "model": "claude-opus-4-8",
+  "lock": {
+    "path": "notes/FRONTIER_JUDGE_SENSITIVITY_LOCK_2026-07-13.md",
+    "sha256": "9f7e60583881b7c9fb60c2c486ac8a43926d9cdecf5eb1e5559df8a2862458f1"
+  },
+  "request_manifest_sha256": "ed6ca85d7876426ebc808844b5bee411f07eacb4b22210478ad55d5f11f74566",
+  "raw_results_sha256": "67a057ed9044ca438d640aff20069fc60f1760f6ec8034f17cccf95da23ca53a",
+  "analysis": {
+    "partitions": {
+      "R2b-v2-confirm": {
+        "family_count": 8,
+        "resolved_need_means": {
+          "zero": 1.0,
+          "low": 1.0,
+          "medium": 1.0,
+          "high": 1.0
+        },
+        "urgent_need_means": {
+          "zero": 3.75,
+          "low": 4.125,
+          "medium": 3.75,
+          "high": 3.75
+        },
+        "resolved_high_minus_zero_family_values": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "resolved_high_minus_zero_mean": 0.0,
+        "resolved_high_minus_zero_ci90": [
+          0.0,
+          0.0
+        ],
+        "precommitted_classification": "equivalently_flat"
+      },
+      "R2b-v2-dev": {
+        "family_count": 8,
+        "resolved_need_means": {
+          "zero": 1.0,
+          "low": 1.0,
+          "medium": 1.0,
+          "high": 1.0
+        },
+        "urgent_need_means": {
+          "zero": 4.5,
+          "low": 4.5,
+          "medium": 4.5,
+          "high": 4.5
+        },
+        "resolved_high_minus_zero_family_values": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "resolved_high_minus_zero_mean": 0.0,
+        "resolved_high_minus_zero_ci90": [
+          0.0,
+          0.0
+        ],
+        "precommitted_classification": "equivalently_flat"
+      }
+    },
+    "precommitted_overall": "judge_entanglement_corroborated"
+  },
+  "prior_model_comparisons": null,
+  "human_gate_pending": true,
+  "target_model_loaded": false,
+  "gate_effect": "none"
+}
