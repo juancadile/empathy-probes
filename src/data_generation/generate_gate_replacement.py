@@ -11,16 +11,18 @@ from pathlib import Path
 
 try:
     from .generate_gate_blueprints import (
-        KINDS, REPLACEMENTS, ROOT, SOURCES, V2_KIND_CONSTRAINTS, load_env,
-        output_path, parse_json_object, request_source, validate_families)
+        KINDS, REPLACEMENTS, ROOT, SOURCES, V2_KIND_CONSTRAINTS,
+        V3_KIND_CONSTRAINTS, V4_KIND_CONSTRAINTS, load_env, output_path,
+        parse_json_object, request_source, validate_families)
 except ImportError:  # direct script execution
     from generate_gate_blueprints import (
-        KINDS, REPLACEMENTS, ROOT, SOURCES, V2_KIND_CONSTRAINTS, load_env,
-        output_path, parse_json_object, request_source, validate_families)
+        KINDS, REPLACEMENTS, ROOT, SOURCES, V2_KIND_CONSTRAINTS,
+        V3_KIND_CONSTRAINTS, V4_KIND_CONSTRAINTS, load_env, output_path,
+        parse_json_object, request_source, validate_families)
 
 
 def prompt_for_replacement(kind: str, domain: str, fields: tuple[str, ...],
-                           exclusions: list[str]) -> str:
+                           exclusions: list[str], revision: int) -> str:
     field_lines = "\n".join(f'- "{field}": string' for field in fields)
     return f"""Create exactly one replacement semantic blueprint for a scientific interpretability dataset.
 
@@ -38,6 +40,8 @@ welfare, moral, ethical, task, objective, urgent, resolved, simulated, and
 archived. Do not write experiment labels, branch text, A/B options, or a final
 decision. No Markdown and no extra keys.
 {V2_KIND_CONSTRAINTS[kind]}
+{V3_KIND_CONSTRAINTS.get(kind, "") if revision >= 3 else ""}
+{V4_KIND_CONSTRAINTS.get(kind, "") if revision >= 4 else ""}
 """
 
 
@@ -51,7 +55,7 @@ def generate(kind: str, source: str, family_id: str, revision: int,
         if row["family_id"] == family_id)
     target = base["families"][target_index]
     prompt = prompt_for_replacement(
-        kind, target["domain"], KINDS[kind]["fields"], exclusions)
+        kind, target["domain"], KINDS[kind]["fields"], exclusions, revision)
     errors, previous = [], None
     for attempt in range(1, retries + 1):
         try:
