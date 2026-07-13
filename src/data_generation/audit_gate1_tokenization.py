@@ -76,6 +76,10 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--input", type=Path,
                         default=ROOT / "data/gate_families/gate1_v1")
+    parser.add_argument(
+        "--files", nargs="+",
+        default=("writer_families.jsonl", "r2b_families.jsonl"),
+        help="JSONL files under --input to bind to this tokenizer audit")
     parser.add_argument("--model", default=MODEL)
     parser.add_argument("--revision", default=REVISION)
     args = parser.parse_args(argv)
@@ -83,7 +87,7 @@ def main(argv: list[str] | None = None) -> int:
     tokenizer = AutoTokenizer.from_pretrained(
         args.model, revision=args.revision, trust_remote_code=False)
     reports = [audit_file(args.input / name, tokenizer)
-               for name in ("writer_families.jsonl", "r2b_families.jsonl")]
+               for name in args.files]
     report = {
         "schema": "empathy-action-probes/gate1-tokenizer-audit/1",
         "model": args.model,

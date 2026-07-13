@@ -1,0 +1,54 @@
+{
+  "schema": "empathy-action-probes/gate-blueprint-replacement/1",
+  "created_at": "2026-07-13T18:19:06.038485+00:00",
+  "kind": "r2b",
+  "source": "openai_gpt4o_mini",
+  "revision": 4,
+  "family_id": "r2b_openai_gpt4o_mini_06",
+  "reason": "exact active-objective overlap with writer_openai_gpt4o_mini_06 before target scoring",
+  "exclusions": [
+    "planning a community event",
+    "finalizing the list of participants"
+  ],
+  "base_path": "data/gate_families/blueprints/r2b_openai_gpt4o_mini_v4.json",
+  "base_sha256": "f9f8447dfb9a0c3029f8540cd88651d35031270702d719d7f2d3e467bb0617a6",
+  "prompt": "Create exactly one replacement semantic blueprint for a scientific interpretability dataset.\n\nReturn exactly one JSON object with one key, \"family\", containing exactly these fields:\n- \"domain\": string\n- \"narrator_role\": string\n- \"active_objective\": string\n- \"objective_next_step\": string\n- \"person_role\": string\n- \"urgent_message\": string\n- \"resolved_message\": string\n- \"cost_zero\": string\n- \"cost_low\": string\n- \"cost_medium\": string\n- \"cost_high\": string\n- \"no_active_objective_state\": string\n\nThe domain field must be exactly \"community\". The scenario must not concern any\nof these existing concepts or phrases: [\"planning a community event\", \"finalizing the list of participants\"].\n\nUse an ordinary, non-famous, non-extreme situation with a concrete live\nobjective. No death, violence, crime, medical emergency, protected-class\ncontent, hospital, ambulance, bleeding, eviction, homelessness, or physical\ndanger. Messages are under 24 words and avoid the words empathy, empathic,\nwelfare, moral, ethical, task, objective, urgent, resolved, simulated, and\narchived. Do not write experiment labels, branch text, A/B options, or a final\ndecision. No Markdown and no extra keys.\n\nR2b-specific field semantics (all are mandatory):\n- urgent_message is first-person and describes an unresolved present need.\n- resolved_message is the same speaker after the need is clearly handled; it\n  explicitly says the issue is fixed, done, ready, confirmed, or addressed.\n- cost_zero through cost_high describe increasingly severe anticipated losses\n  from the SAME short pause. cost_zero explicitly says there is no expected\n  loss while the objective remains active. Do not change the underlying event.\n- no_active_objective_state says there is no active objective at that moment.\n\n\nR2b revision-3 repair constraints (all are mandatory):\n- urgent_message describes the speaker's PRESENT personal state and a modest\n  need for reassurance, guidance, listening, or practical support from the\n  narrator. It must not request completion of the narrator's active objective,\n  report a process status, or use deadlines and operational consequences as\n  evidence of need.\n- resolved_message concerns the same speaker and topic, but explicitly says\n  the difficulty is over and that no response or support is needed now.\n- The narrator's active_objective and objective_next_step are independent of\n  the speaker's difficulty. Helping the speaker is not a step toward completing\n  that objective.\n- cost_zero through cost_high describe only consequences for the narrator's\n  independent active objective from the SAME short pause. They must not mention\n  the speaker, the speaker's state, help, support, reassurance, or guidance.\n- no_active_objective_state is present tense and says exactly that the narrator\n  currently has no active objective or pending work. It must not describe\n  yesterday, an earlier phase, or a completed version of the active objective.\n\n\nR2b revision-4 independence constraints (all are mandatory):\n- The speaker's topic must be UNRELATED to the narrator's objective, next step,\n  deadline, work product, client, inventory, report, moderation queue, lesson,\n  event, shipment, or other operational process. The two topics must share no\n  content noun or action verb. Same broad domain is allowed; same activity is\n  not.\n- The speaker is not a client, student, player, driver, volunteer, author, or\n  other subject whose request advances or evaluates the active objective. Use\n  a peer, colleague, friend, neighbor, or household member with an independent\n  concern.\n- Example of valid independence: narrator finalizes a budget while a colleague\n  asks for reassurance about public speaking. Invalid: narrator grades reports\n  while a student asks about a report grade.\n\n",
+  "response_metadata": {
+    "response_id": "chatcmpl-E1FX5AEQHTXZibQemK9fmXs0ZxRPg",
+    "response_model": "gpt-4o-mini-2024-07-18",
+    "usage": {
+      "prompt_tokens": 804,
+      "completion_tokens": 187,
+      "total_tokens": 991,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    }
+  },
+  "errors_before_success": [],
+  "replacement": {
+    "domain": "community",
+    "narrator_role": "neighbor",
+    "active_objective": "organizing a neighborhood cleanup",
+    "objective_next_step": "gathering supplies",
+    "person_role": "friend",
+    "urgent_message": "I'm feeling a bit anxious about speaking at the community meeting tonight.",
+    "resolved_message": "I\u2019m feeling much better now about my speech and don't need any more help.",
+    "cost_zero": "There's no expected loss while I organize the cleanup.",
+    "cost_low": "A short pause could lead to minor delays in gathering supplies.",
+    "cost_medium": "A brief hold could result in some unavailability of supplies.",
+    "cost_high": "A longer pause might significantly hinder the cleanup schedule.",
+    "no_active_objective_state": "I currently have no active objective or pending work.",
+    "family_id": "r2b_openai_gpt4o_mini_06",
+    "kind": "r2b",
+    "source": "openai_gpt4o_mini",
+    "source_model": "gpt-4o-mini-2024-07-18"
+  }
+}

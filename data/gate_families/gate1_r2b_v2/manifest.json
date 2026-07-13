@@ -1,0 +1,101 @@
+{
+  "schema": "empathy-action-probes/gate1-r2b-v2-manifest/1",
+  "blueprint_revision": 4,
+  "script": "src/data_generation/materialize_gate1_r2b_v2.py",
+  "script_sha256": "948ff49ba0a967f808e117b29bcc93461b48667aedcf1dced403836d73e833cc",
+  "inputs": [
+    {
+      "path": "data/gate_families/blueprints/r2b_openai_gpt4o_mini_v4.json",
+      "sha256": "f9f8447dfb9a0c3029f8540cd88651d35031270702d719d7f2d3e467bb0617a6",
+      "source": "openai_gpt4o_mini",
+      "count": 8
+    },
+    {
+      "path": "data/gate_families/blueprints/r2b_openai_gpt41_mini_v4.json",
+      "sha256": "04a5011069f6b1469b650ed9aad9e715d791782a95cffb0781271c30fd58d28b",
+      "source": "openai_gpt41_mini",
+      "count": 8
+    },
+    {
+      "path": "data/gate_families/blueprints/r2b_anthropic_haiku45_v4.json",
+      "sha256": "d53f0f976e86ca7e0d3b9d761372bccc61259a532a469b419efee858d9d7dbf1",
+      "source": "anthropic_haiku45",
+      "count": 8
+    },
+    {
+      "path": "data/gate_families/blueprints/r2b_google_gemini25_flash_v4.json",
+      "sha256": "7c7a0cda0f1c00f4eda57a7077ddfde75516e432f91fbcd4ac40d0f1aac1ce1b",
+      "source": "google_gemini25_flash",
+      "count": 8
+    },
+    {
+      "path": "data/gate_families/blueprints/replacements/r2b_openai_gpt4o_mini_06_r1.json",
+      "sha256": "b88b9639261acf95fca41a4ac58372bab555707cd0cc4fbba39174fc7ed97712",
+      "family_id": "r2b_openai_gpt4o_mini_06"
+    }
+  ],
+  "seeds": {
+    "split": 2101316443,
+    "human_audit": 3181354688,
+    "presentation": 3010918835
+  },
+  "assignment": {
+    "r2b_anthropic_haiku45_00": "R2b-v2-dev",
+    "r2b_anthropic_haiku45_01": "R2b-v2-dev",
+    "r2b_anthropic_haiku45_02": "R2b-v2-confirm",
+    "r2b_anthropic_haiku45_03": "R2b-v2-confirm",
+    "r2b_anthropic_haiku45_04": "R2b-v2-confirm",
+    "r2b_anthropic_haiku45_05": "R2b-v2-dev",
+    "r2b_anthropic_haiku45_06": "R2b-v2-confirm",
+    "r2b_anthropic_haiku45_07": "R2b-v2-dev",
+    "r2b_google_gemini25_flash_00": "R2b-v2-confirm",
+    "r2b_google_gemini25_flash_01": "R2b-v2-dev",
+    "r2b_google_gemini25_flash_02": "R2b-v2-confirm",
+    "r2b_google_gemini25_flash_03": "R2b-v2-dev",
+    "r2b_google_gemini25_flash_04": "R2b-v2-confirm",
+    "r2b_google_gemini25_flash_05": "R2b-v2-dev",
+    "r2b_google_gemini25_flash_06": "R2b-v2-confirm",
+    "r2b_google_gemini25_flash_07": "R2b-v2-dev",
+    "r2b_openai_gpt41_mini_00": "R2b-v2-dev",
+    "r2b_openai_gpt41_mini_01": "R2b-v2-dev",
+    "r2b_openai_gpt41_mini_02": "R2b-v2-confirm",
+    "r2b_openai_gpt41_mini_03": "R2b-v2-confirm",
+    "r2b_openai_gpt41_mini_04": "R2b-v2-dev",
+    "r2b_openai_gpt41_mini_05": "R2b-v2-confirm",
+    "r2b_openai_gpt41_mini_06": "R2b-v2-dev",
+    "r2b_openai_gpt41_mini_07": "R2b-v2-confirm",
+    "r2b_openai_gpt4o_mini_00": "R2b-v2-confirm",
+    "r2b_openai_gpt4o_mini_01": "R2b-v2-dev",
+    "r2b_openai_gpt4o_mini_02": "R2b-v2-confirm",
+    "r2b_openai_gpt4o_mini_03": "R2b-v2-dev",
+    "r2b_openai_gpt4o_mini_04": "R2b-v2-dev",
+    "r2b_openai_gpt4o_mini_05": "R2b-v2-confirm",
+    "r2b_openai_gpt4o_mini_06": "R2b-v2-dev",
+    "r2b_openai_gpt4o_mini_07": "R2b-v2-confirm"
+  },
+  "tail_metrics": {
+    "positive_utf8_bytes": 59,
+    "negative_utf8_bytes": 64,
+    "byte_relative_difference": 0.078125,
+    "positive_whitespace_tokens": 11,
+    "negative_whitespace_tokens": 12,
+    "whitespace_token_difference": 1
+  },
+  "validation": {
+    "passed": true,
+    "errors": [],
+    "record_count": 1280,
+    "family_count": 32,
+    "partition_counts": {
+      "R2b-v2-confirm": 16,
+      "R2b-v2-dev": 16
+    }
+  },
+  "human_audit": {
+    "sample_families": 16,
+    "packet_rows": 160
+  },
+  "target_model_scores_opened": false,
+  "machine_manipulation_audit_pending": true,
+  "human_manipulation_audit_pending": true
+}
