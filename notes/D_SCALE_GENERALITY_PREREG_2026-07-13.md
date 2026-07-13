@@ -28,12 +28,18 @@ Base-versus-instruct is a tuning comparison governed by C3, not a size point.
 
 ## Common protocol
 
-- Use sealed M-confirm2/task controls and Gate-2 stimuli.
+- Generate a common 16-family `D-scale-dev` and 16-family sealed
+  `D-scale-confirm` assay with matched task controls and Gate-2-compatible
+  currentness/persona factors. M-confirm2 and earlier Gate-2 confirmation sets
+  are diagnostic anchors only.
 - Use each model's documented interface; raw and chat protocols remain separate.
 - Select direction/block on development families with grouped CV and a relative-depth tie rule; freeze before confirmation.
 - Require confirmation headroom, behavior transfer, and nuisance-control gates per model.
 - Exact hook equivalence/reconstruction checks are mandatory for each architecture.
 - Quantization is disallowed for primary activation/component comparisons. Any 70B 8-bit result is coarse sensitivity only.
+- Open each model's `D-scale-confirm` outputs once. A model that fails headroom
+  or construct gates on development is excluded before confirmation, not tuned
+  against confirmation.
 
 ## Comparable concentration metrics
 
@@ -98,3 +104,10 @@ Test the hypothesis without selecting homologous components from confirmation be
 ## Claim ceiling
 
 Report exactly which representation, intervention, and construct gates transferred. “Universal empathy circuit,” “scaling law,” and raw component-count comparisons are prohibited without the corresponding evidence above.
+
+## Frozen amendment (2026-07-13, before scale-model runs)
+
+The original common protocol reused M-confirm2 and Gate-2 confirmations after
+their outcomes were known. Dedicated common scale development/confirmation
+families now support model-wise selection and one-time replication without
+recycling earlier confirmation labels.

@@ -14,6 +14,9 @@ A static base-versus-instruct weight difference is descriptive. It becomes causa
 2. Verify identical architecture, tensor names/shapes, tokenizer/vocabulary, tied-weight configuration, and layer/norm conventions.
 3. Use a common raw prompt protocol for primary base/IT comparison. Chat templates are model-specific and therefore secondary, not mixed into the primary contrast.
 4. Freeze the current component sets and behavioral assays before weight-difference inspection.
+5. Generate 16 `C3-dev` and 16 sealed `C3-confirm` costly-helping families
+   with matched task controls. They may use the Gate-1 schema but cannot reuse
+   Gate-1/circuit/WP3/B6/EIA families or close paraphrases.
 
 If lineage or tensor correspondence cannot be established, restrict the analysis to cross-checkpoint descriptive geometry and do not call the difference an instruction-tuning delta.
 
@@ -74,10 +77,13 @@ All fractional edits are constructed from the original checkpoint snapshot, neve
 
 Primary confirmation sets:
 
-- sealed M-confirm2 and matched fresh task controls;
-- WP3 current-versus-archived observation/agency cells if Gate 2 passes;
-- active-objective cost axis on fresh R2b families;
-- sampled capability/perplexity controls with complete provenance.
+- sealed `C3-confirm` and matched task controls;
+- a separately reserved C3 factorial confirmation subset if a Gate-2 construct
+  transfer claim is attempted;
+- a fresh, frozen capability sample for transplant/reversal conditions.
+
+M-confirm2, WP3-confirm, and R2b families are development/diagnostic transfers
+because their outcomes are known before C3. They cannot satisfy C3 confirmation.
 
 Report base and IT baselines before interventions. A transplant cannot be interpreted when the receiving checkpoint lacks assay headroom or prompt validity.
 
@@ -89,7 +95,10 @@ Report base and IT baselines before interventions. A transplant cannot be interp
 4. Specificity: selected delta effect exceeds matched component/rank controls and remains bounded on task/capability controls.
 5. Geometry: direction-aligned delta explains a predeclared fraction of the full selected-delta effect; otherwise the mechanism change is not reducible to the current rank-1 axis.
 
-Family-level effects and LOFO are mandatory. Thresholds for “predeclared fraction” are fixed from development data before M-confirm2 is opened.
+Family-level effects and LOFO are mandatory. Thresholds for “predeclared
+fraction” are fixed on `C3-dev` before `C3-confirm` is opened. At least 39
+realized-norm-matched random rank/component controls are frozen where an
+empirical rank is used; finite resolution is reported.
 
 ## Interpretation
 
@@ -103,3 +112,9 @@ Family-level effects and LOFO are mandatory. Thresholds for “predeclared fract
 | Matched deltas transfer similarly | broad tuning drift, not selected-mechanism specificity |
 
 Never infer moral improvement, empathy installation, or training intent from checkpoint differences alone.
+
+## Frozen amendment (2026-07-13, before checkpoint comparison)
+
+M-confirm2 and R2b are opened in earlier gates and cannot remain C3 primary
+confirmation. C3 now has dedicated development/confirmation families and a
+fresh capability sample; earlier assays are diagnostic transfer only.

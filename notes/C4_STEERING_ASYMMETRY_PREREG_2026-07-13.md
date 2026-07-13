@@ -22,7 +22,8 @@ No moral-character or workspace interpretation is attached before these alternat
 - Gate 0 provenance/schema repairs complete.
 - Use current `d_resid` only as an impure costly-helping intervention axis.
 - Repeat with Gate-2 `d_N`/subspace only if it passes held-out certification.
-- Primary behavioral evaluation uses sealed M-confirm2 and fresh task controls.
+- Generate 16 `C4-dev` and 16 sealed `C4-confirm` costly-helping families with
+  matched task controls. M-confirm2 is historical robustness only.
 - Model revision, block, hook semantics, prompt format, and generation settings are frozen.
 
 ## Intervention families
@@ -64,6 +65,10 @@ Patch projection values from naturally high/low development examples matched on 
 - current component weight edits, which alter the source rather than injecting activations;
 - raw versus chat prompt formats analyzed separately.
 
+Use at least 64 frozen random directions for the primary geometry/control
+comparison. Direction seeds, dose matching, and finite resolution are fixed
+before `C4-confirm`.
+
 ## Dose calibration
 
 1. On development families, measure natural projection quantiles and residual norms at intervention tokens.
@@ -83,11 +88,13 @@ Patch projection values from naturally high/low development examples matched on 
 
 ## Behavioral outcomes
 
-- both-order M-confirm2 forced choice;
+- both-order `C4-confirm` forced choice;
 - scaffold-free continuation likelihood;
 - fresh task controls and WP1 nuisance cells;
 - WP3 agency/current-need interaction if certified;
-- prospective EIA action logits and sealed trajectories under the action-space preregistration.
+- prospective EIA action logits and sealed trajectories under the action-space
+  preregistration. C4 doses/methods must be frozen on `C4-dev` before the EIA
+  confirmation partition is opened; otherwise EIA results are diagnostic only.
 
 All outcomes are reported for every dose; no “best alpha” headline is selected on confirmation data.
 
@@ -118,3 +125,9 @@ Use family-level paired effects, LOFO, and full dose curves. Small family counts
 ## Claim ceiling
 
 “Steering resistance,” “entrenchment,” “breaking character,” or “broadcast workspace” language requires a surviving geometry-matched, control-specific mechanism. Otherwise report signed intervention asymmetry under the tested protocol and its measured failure mode.
+
+## Frozen amendment (2026-07-13, before audited steering runs)
+
+The original design reused M-confirm2 and left random-control resolution open.
+Dedicated C4 families and 64 frozen random directions now separate dose/method
+selection from confirmation.
