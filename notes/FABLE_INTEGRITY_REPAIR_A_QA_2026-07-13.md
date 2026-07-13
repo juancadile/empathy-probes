@@ -117,11 +117,22 @@ either adopt the shared accepted/exploratory contract or be explicitly and
 persistently `historical_or_exploratory_only`, with no accepted mode. In the
 current tree this includes at least `weight_orthogonalization.py`,
 `capability_eval.py`, `norm_matched_controls.py`, `e17_stage3.py`,
-`e17b_null_audit.py`, `e18_interaction.py`, `e26_format_stress.py`,
+`e17b_null_audit.py`, `e18_interaction.py`,
+`e14d_random_component_sets.py`, `e26_format_stress.py`,
 `e26_matched_nulls.py`, `e28b_slope_nulls.py`, both EIA game drivers, and the
 edit path in `analysis/logit_lens_trajectory.py`. Historical scripts do not all
 need full migration in this batch, but none may emit an artifact whose evidence
 eligibility is absent or ambiguous.
+
+The independently refreshed direct-edit inventory at architect HEAD `e256dcf`
+confirms those are the result-producing callers of
+`orthogonalize_component()` or `orthogonalize_component_measured()`.
+`analysis/behavioral_dla.py` imports only the read-only pair loader and is not a
+weight-edit caller. `action_path_mediation.py` performs activation hooks rather
+than parameter edits and remains outside Q4, although future accepted circuit
+runs still require the Q6 run contract. The static acceptance test should use a
+frozen explicit inventory plus an AST/import scan so a newly added direct-edit
+caller fails until classified.
 
 Acceptance tests:
 
