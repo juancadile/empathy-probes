@@ -141,3 +141,31 @@ The roadmap preserves scope; this file fixes dependency order, decision gates, a
 6. Paper/showcase update only after steps 1-5.
 
 The next executable sequence is: **Gate 0A -> T-confirm/E27 closure -> R2b -> Gate 2 stimuli -> current circuit/SAE work**. Paper rewriting follows the accepted results; it does not lead them.
+
+## Current-state overlay (authoritative as of this audit)
+
+This table supersedes stale checkboxes for execution purposes; it does not erase historical roadmap entries.
+
+| Work item | State | Evidence / next action |
+|---|---|---|
+| A5 lexical battery | Complete | Shuffling exposes lexical saturation; matched cell M retains a deeper decision signal. |
+| Gemma current direction/set derivation | Complete, claim-limited | `d_resid` plus current writer/suppressor sets; no welfare-purity certification. |
+| R1 random-direction controls | Complete | Direction specificity passes only at 20-draw resolution; writer joint selectivity passes, suppressor joint selectivity fails. |
+| R2 matched component slope null | Complete, inconclusive | `p=.080` and failed realized-norm balance; does not localize the slope to four heads. Run R2b. |
+| R3 current-set need-by-cost profile | Complete at set level | Urgent-minus-resolved slope `+0.104 [0.064,0.146]`, 9/10 families; construct remains composite expressed-need status. |
+| E27 current-set game variants | Run complete, scoring open | Three UNKNOWN labels and incomplete judge/raw-history provenance. Close under Gate 0. |
+| Capability check | Run complete, provenance incomplete | No detected degradation on MMLU-400/WikiText; exact sample/parser provenance missing. |
+| LB1 behavioral DLA | Complete, exploratory | Direct final-logit writers concentrate around L38-L41, not selected L17-L20 components. |
+| LB2 trajectory | Complete, exploratory | Current edit effects amplify after hidden index 29. |
+| LB3 SVD alignment | Complete, exploratory | Structural corroboration against one random-direction reference; not localization. |
+| LB4/Jacobian lens | Failed before fit | Corpus duplication bug; method would estimate transported-norm amplification, not workspace membership. |
+| Historical path restoration | Hypothesis-generating only | Old direction/component shortlist and development M. Only current-current edge is L19MLP to L20MLP; rerun required. |
+| E20 SAE naming | Historical exploratory only | Old direction, development data, token pooling, no fidelity or causal feature test. |
+| Sparse feature circuit | Not started | Gate 3B after held-out construct controls are available. |
+| Faithfulness/completeness | Not started | Gate 3C. |
+| WP1 held-out gate families | Not started | Gate 2A; blocks all future purity claims. |
+| WP2/WP3/WP4 | Not started | Follow Gate 2 order; freeze stopping rule before confirmation. |
+| E22b moral redesign | Not started | Existing/current-set rerun on confounded v1 axis does not clear the redesign gate. |
+| Fractional cross-model ablation | Historical result, rerun required for Gemma | Existing exact 88% predates `d_resid` and lacks self-contained provenance. |
+| Paper/showcase | Draft exists, scientifically stale | Rewrite only after Gate 0, R2b, and accepted claim ceilings; resolve open review comments. |
+| Provenance manifest | Stale | Regenerate after accepted repairs/reruns, including raw E27 histories or external hashes. |
