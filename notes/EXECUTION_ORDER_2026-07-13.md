@@ -39,6 +39,7 @@ The roadmap preserves scope; this file fixes dependency order, decision gates, a
 - Retain the current claim ceiling unless a fresh test changes it: a mid-late MLP band intervention, with L19 dominant and L20 the strongest complement, reduces the tested costly-helping choice.
 - Do not claim a unique two-component circuit. The conditional 1/28 ranking becomes 2/28 after norm adjustment.
 - Rerun the clean T-confirm control after deduplication and dual-order scoring.
+- Build and seal a second confirmation battery with at least 10 new M families plus matched fresh task-control families. Freeze current sets, dual-order raw/chat/continuation protocol, and analysis before opening scores; existing six-family M-confirm is development/robustness history after repeated reuse.
 
 ### 1B. Suppressor set (R2b)
 
@@ -152,6 +153,7 @@ This table supersedes stale checkboxes for execution purposes; it does not erase
 |---|---|---|
 | A5 lexical battery | Complete | Shuffling exposes lexical saturation; matched cell M retains a deeper decision signal. |
 | Gemma current direction/set derivation | Complete, claim-limited | `d_resid` plus current writer/suppressor sets; no welfare-purity certification. |
+| M/M-confirm structural integrity | Pass, but confirmation exhausted | 40/40 and 48/48 unique, disjoint IDs; six M-confirm families repeatedly reused. Build sealed M-confirm2 for final replication. |
 | R1 random-direction controls | Complete | Direction specificity passes only at 20-draw resolution; writer joint selectivity passes, suppressor joint selectivity fails. |
 | R2 matched component slope null | Complete, inconclusive | `p=.080` and failed realized-norm balance; does not localize the slope to four heads. Run R2b. |
 | R3 current-set need-by-cost profile | Complete at set level | Urgent-minus-resolved slope `+0.104 [0.064,0.146]`, 9/10 families; construct remains composite expressed-need status. |
