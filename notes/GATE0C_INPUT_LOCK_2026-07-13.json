@@ -1,0 +1,46 @@
+{
+  "schema": "empathy-action-probes/gate0c-input-lock/1",
+  "created_at": "2026-07-13T14:30:00Z",
+  "protocol": "Gate0C capability fresh sample v1 2026-07-13",
+  "model": {
+    "id": "google/gemma-2-9b-it",
+    "revision": "11c9b309abf73637e4b6f9a3fa1e92e615547819",
+    "tokenizer_revision": "11c9b309abf73637e4b6f9a3fa1e92e615547819"
+  },
+  "mmlu": {
+    "id": "cais/mmlu",
+    "config": "all",
+    "split": "test",
+    "revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+    "fingerprint": "436299c1c09696bb",
+    "rows": 14042,
+    "sample_size": 800,
+    "sample_seed": 946441184
+  },
+  "wikitext": {
+    "id": "Salesforce/wikitext",
+    "config": "wikitext-2-raw-v1",
+    "split": "test",
+    "revision": "b08601e04326c79dfdd32d625aee71d232d685c3",
+    "fingerprint": "a46124b21ac53738",
+    "joined_nonempty_chars": 1288512,
+    "char_start": 200000,
+    "char_end": 400000,
+    "text_sha256": "ed51c1c8b4cc226fbd567c52abfb2810944de648930c83fed40c8b70440bae9f"
+  },
+  "direction": {
+    "path": "results/controlled_directions_gemma2_9b_it/direction_M_resid_block20.npy",
+    "sha256": "1b6d692e0e933d76c15f722fe996d01e1ca2ee8c8b72f19daf2f122cda294b42",
+    "block": 20
+  },
+  "stimuli": {
+    "M": {
+      "path": "data/contrastive_pairs/v2_1/M_templated.jsonl",
+      "sha256": "6e9d32dfdc816afcee43434bf2095a1f78091e2495cdd66d05737b04dedb7d91"
+    },
+    "T": {
+      "path": "data/contrastive_pairs/v2_1/T_templated.jsonl",
+      "sha256": "bb7ca413dcaccde65e2a6de22dedece43e9cf80b61c23830710f23201494a12e"
+    }
+  }
+}

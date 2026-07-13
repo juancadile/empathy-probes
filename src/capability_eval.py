@@ -552,6 +552,17 @@ def verify_dataset_fingerprint(label, observed, expected, *, accepted):
             f"observed {observed!r}")
 
 
+def verify_expected_hash(label, observed, expected, *, accepted):
+    """Bind accepted content to a caller-supplied frozen SHA-256."""
+    if accepted and not expected:
+        raise EvidenceRunError(
+            f"accepted mode requires --expected-{label}-sha256")
+    if accepted and observed != expected:
+        raise EvidenceRunError(
+            f"{label} SHA-256 mismatch: expected {expected!r}, "
+            f"observed {observed!r}")
+
+
 def validate_capability_artifact(payload):
     expected = {"baseline", "positive_writers_k2", "suppressors_k4",
                 "targeted_k6"}
@@ -634,6 +645,8 @@ def main():
                         help="Salesforce/wikitext dataset revision")
     parser.add_argument("--expected-mmlu-fingerprint", default=None)
     parser.add_argument("--expected-wikitext-fingerprint", default=None)
+    parser.add_argument("--expected-wikitext-text-sha256", default=None,
+                        help="frozen SHA-256 of the exact WikiText character slice")
     parser.add_argument("--wikitext-char-start", type=int, default=200_000)
     parser.add_argument("--wikitext-char-end", type=int, default=400_000)
     parser.add_argument("--batch-size", type=int, default=16)
@@ -770,6 +783,10 @@ def main():
             "wikitext", wiki_dataset_info.get("fingerprint"),
             args.expected_wikitext_fingerprint,
             accepted=args.run_mode == "accepted")
+        verify_expected_hash(
+            "wikitext-text", wiki_dataset_info.get("text_sha256"),
+            args.expected_wikitext_text_sha256,
+            accepted=args.run_mode == "accepted")
     except EvidenceRunError as exc:
         parser.error(str(exc))
 
@@ -814,6 +831,7 @@ def main():
             "mmlu": args.expected_mmlu_fingerprint,
             "wikitext": args.expected_wikitext_fingerprint,
         },
+        "expected_wikitext_text_sha256": args.expected_wikitext_text_sha256,
         "mmlu_sampling": sampling_info,
         "mmlu_items": [
             {"row_index": it["row_index"], "subject": it["subject"],

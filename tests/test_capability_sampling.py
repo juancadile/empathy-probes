@@ -18,7 +18,7 @@ from capability_eval import (  # noqa: E402
     stratified_sample_indices, subject_cluster_bootstrap_delta,
     summarize_generation_details, validate_gate0c_capability_binding,
     validate_gate0c_capability_protocol,
-    verify_dataset_fingerprint,
+    verify_dataset_fingerprint, verify_expected_hash,
 )
 from src.utils.evidence_run import EvidenceRunError  # noqa: E402
 
@@ -156,6 +156,14 @@ def test_accepted_dataset_fingerprint_is_exact():
         verify_dataset_fingerprint("mmlu", "fp", None, accepted=True)
     with pytest.raises(EvidenceRunError, match="mismatch"):
         verify_dataset_fingerprint("mmlu", "other", "fp", accepted=True)
+
+
+def test_accepted_content_hash_is_exact():
+    verify_expected_hash("wikitext-text", "sha", "sha", accepted=True)
+    with pytest.raises(EvidenceRunError, match="requires --expected"):
+        verify_expected_hash("wikitext-text", "sha", None, accepted=True)
+    with pytest.raises(EvidenceRunError, match="SHA-256 mismatch"):
+        verify_expected_hash("wikitext-text", "other", "sha", accepted=True)
 
 
 def test_frozen_gate0c_capability_protocol():

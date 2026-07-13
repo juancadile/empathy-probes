@@ -383,7 +383,7 @@ performed from the repaired, committed code under the frozen protocols.
 
 ### Offline verification
 
-- `pytest -q tests`: **237 passed** (delivery rerun; number of record).
+- `pytest -q tests`: **239 passed** (delivery rerun; number of record).
 - `python -m compileall -q src tests`: pass.
 - Every changed executable module imports and `--help` exits successfully.
 - Explicit OpenAI dry-runs, with no SDK/network dependency: E27 validates 48
