@@ -7,10 +7,14 @@ equally large edit to the *same* weights would reproduce the helping effect.
 
 Control here: for each seed, edit the SAME components (positive writers
 L19MLP+L20H15; separately suppressors) against a RANDOM unit direction, with
-the rank-1 delta SCALED so its Frobenius norm exactly matches the targeted
-edit's delta norm for that component. Same weights, same damage size, random
-content. The targeted helping deltas (-0.206 / +0.263) should fall far outside
-the null distribution if the effect is direction-specific.
+the rank-1 delta SCALED so its Frobenius norm matches the ACTUAL realized
+post-bf16 delta norm of the in-run targeted edit for that component (measured
+by cloning the edited weight block before/after; the theoretical pre-cast norm
+is recorded alongside). Same weights, same realized damage size, random
+content. Every null edit's realized norm is gated at <=3% relative error from
+the corresponding targeted realized norm. The targeted helping deltas
+(-0.206 / +0.263) should fall far outside the null distribution if the effect
+is direction-specific.
 
 Usage (Spark, `empathy` env):
   python -u src/norm_matched_controls.py \
@@ -47,7 +51,9 @@ log = logging.getLogger("norm-matched")
 
 @torch.no_grad()
 def targeted_delta_norm(model, component, direction):
-    """Frobenius norm of the rank-1 delta the targeted edit would apply."""
+    """THEORETICAL (float32, pre-bf16-cast) Frobenius norm of the rank-1 delta
+    the targeted edit would apply. The realized post-cast norm is measured
+    separately in apply_norm_matched_random."""
     weight, columns = component_weight(model, component)
     effective = effective_direction(model, component, direction).to(weight.device)
     original = (weight if columns is None else weight[:, columns]).float()
@@ -56,9 +62,31 @@ def targeted_delta_norm(model, component, direction):
 
 
 @torch.no_grad()
+def orthogonalize_component_measured(model, component, direction):
+    """Targeted orthogonalization with the ACTUAL realized post-bf16 delta norm
+    measured on the edited weight block (cloned before/after). Returns the
+    orthogonalize_component metadata plus theoretical_delta_norm (float32,
+    pre-cast), realized_delta_norm, and their relative error. The realized
+    norm is what norm-matched random controls must reproduce."""
+    weight, columns = component_weight(model, component)
+    before = (weight if columns is None else weight[:, columns]).detach().clone()
+    theoretical = targeted_delta_norm(model, component, direction)
+    info = orthogonalize_component(model, component, direction)
+    after = weight if columns is None else weight[:, columns]
+    realized = float(torch.linalg.matrix_norm((before - after).float()))
+    info["theoretical_delta_norm"] = theoretical
+    info["realized_delta_norm"] = realized
+    info["realized_vs_theoretical_rel_error"] = (
+        realized / theoretical - 1.0 if theoretical > 0 else 0.0)
+    return info
+
+
+@torch.no_grad()
 def apply_norm_matched_random(model, component, direction, target_norm, generator,
                               rand_vec=None):
-    """Rank-1 edit along a random unit direction, scaled to target_norm.
+    """Rank-1 edit along a random unit direction, scaled so the THEORETICAL
+    (float32, pre-cast) delta norm equals target_norm; the REALIZED post-bf16
+    delta norm is measured on the weights themselves and gated at 3%.
 
     Pass rand_vec to share ONE random vector across the components of a set
     (procedure-matched to the targeted edit, which removes the same direction
@@ -76,12 +104,22 @@ def apply_norm_matched_random(model, component, direction, target_norm, generato
     norm = float(torch.linalg.vector_norm(alignment))
     scale = target_norm / max(norm, 1e-12)
     delta = (rand_effective[:, None] * alignment[None, :]) * scale
+    before = (weight if columns is None else weight[:, columns]).detach().clone()
     if columns is None:
         weight.sub_(delta.to(weight.dtype))
+        after = weight
     else:
         weight[:, columns].sub_(delta.to(weight.dtype))
+        after = weight[:, columns]
+    realized = float(torch.linalg.matrix_norm((before - after).float()))
+    rel_err = realized / target_norm - 1.0 if target_norm > 0 else 0.0
+    assert abs(rel_err) <= 0.03, (
+        f"{component['name']}: realized post-bf16 delta norm {realized:.4f} "
+        f"deviates {rel_err:+.2%} from requested {target_norm:.4f} (3% gate)")
     return {"component": component["name"], "scale": scale,
-            "applied_delta_norm": target_norm}
+            "requested_delta_norm": target_norm,
+            "realized_delta_norm": realized,
+            "relative_norm_error": rel_err}
 
 
 def summarize(name, targeted_delta, null_deltas):
@@ -155,13 +193,16 @@ def main():
             "suppressors": [parse_component(v) for v in args.suppressors.split(",")]}
 
     # recompute targeted deltas IN-RUN so the z-score compares like with like
-    # (the pilot's baseline may differ in loading config / aggregation)
-    ref_deltas = {}
+    # (the pilot's baseline may differ in loading config / aggregation), and
+    # measure the ACTUAL realized post-bf16 delta norm of every targeted edit —
+    # these realized norms are the requested norms for all random edits below
+    ref_deltas, targeted_edits = {}, {}
     for set_name, components in sets.items():
         snapshots = snapshot_weights(model, components)
         try:
-            for c in components:
-                orthogonalize_component(model, c, direction)
+            targeted_edits[set_name] = [
+                orthogonalize_component_measured(model, c, direction)
+                for c in components]
             metrics = evaluate(model, tokenizer, m_pairs, t_pairs, direction,
                                neutral_baseline, args.batch_size, args.max_tokens,
                                args.seed, device, block=args.block)
@@ -173,16 +214,26 @@ def main():
 
     results = {"baseline_helping": base_help, "n_seeds": args.n_seeds, "sets": {}}
     for set_name, components in sets.items():
-        target_norms = {c["name"]: targeted_delta_norm(model, c, direction) for c in components}
-        log.info("%s targeted delta norms: %s", set_name,
-                 {k: round(v, 4) for k, v in target_norms.items()})
+        target_norms = {e["component"]: e["realized_delta_norm"]
+                        for e in targeted_edits[set_name]}
+        theoretical_norms = {e["component"]: e["theoretical_delta_norm"]
+                             for e in targeted_edits[set_name]}
+        log.info("%s targeted delta norms (realized | theoretical): %s", set_name,
+                 {k: (round(v, 4), round(theoretical_norms[k], 4))
+                  for k, v in target_norms.items()})
         null_deltas, conditions = [], []
         for s in range(args.n_seeds):
             generator = torch.Generator().manual_seed(args.seed * 1000 + s)
+            # ONE random direction per seed, shared across every component of
+            # the set — the targeted edit removes one shared direction, so the
+            # null must perturb along one shared direction too.
+            rand_vec = torch.randn(model.config.hidden_size, generator=generator,
+                                   dtype=torch.float32)
             snapshots = snapshot_weights(model, components)
             try:
                 edits = [apply_norm_matched_random(model, c, direction,
-                                                   target_norms[c["name"]], generator)
+                                                   target_norms[c["name"]], generator,
+                                                   rand_vec=rand_vec)
                          for c in components]
                 metrics = evaluate(model, tokenizer, m_pairs, t_pairs, direction,
                                    neutral_baseline, args.batch_size, args.max_tokens,
@@ -196,10 +247,19 @@ def main():
                                "task_delta": metrics["task_choice"]["mean"] - baseline["task_choice"]["mean"],
                                "neutral_kl": metrics["neutral_drift"]["mean_kl_from_baseline"]})
             log.info("%s seed %d: helping delta %+.4f", set_name, s, delta)
+        max_norm_err = max(abs(e["relative_norm_error"])
+                           for c_ in conditions for e in c_["edits"])
         results["sets"][set_name] = {
             "summary": summarize(set_name, ref_deltas[set_name], null_deltas),
             "pilot_helping_delta": pilot_deltas[set_name],
-            "target_delta_norms": target_norms,
+            "targeted_edits": targeted_edits[set_name],
+            "targeted_realized_delta_norms": target_norms,
+            "targeted_theoretical_delta_norms": theoretical_norms,
+            "norm_matching": "random edits scaled so each realized post-bf16 "
+                             "delta norm is within 3% of the ACTUAL realized "
+                             "targeted delta norm for that component",
+            "max_abs_relative_norm_error": max_norm_err,
+            "shared_random_vector_per_seed": True,
             "conditions": conditions,
         }
         log.info("%s: targeted %+0.4f | null %+0.4f ± %.4f | z=%.2f",

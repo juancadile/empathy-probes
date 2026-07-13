@@ -147,6 +147,25 @@ def main():
         # exactness: frozen-r linearization should reconstruct the true logit diff
         recon_r = float(np.corrcoef(ld_true, ld_recon)[0, 1])
         recon_ratio = float(np.mean(ld_recon) / np.mean(ld_true))
+        # per-example error gates (pre-softcap target): scale-stable relative
+        # error guards small-|LD| examples via the 1e-3 floor
+        abs_err = np.abs(ld_recon - ld_true)
+        rel_err = abs_err / np.maximum(np.abs(ld_true), 1e-3)
+        err_stats = {
+            "max_abs": float(abs_err.max()),
+            "median_abs": float(np.median(abs_err)),
+            "p95_abs": float(np.percentile(abs_err, 95)),
+            "max_rel": float(rel_err.max()),
+            "median_rel": float(np.median(rel_err)),
+            "p95_rel": float(np.percentile(rel_err, 95)),
+            "gates": {"max_abs": 0.05, "p95_rel": 0.02},
+        }
+        if err_stats["max_abs"] > 0.05 or err_stats["p95_rel"] > 0.02:
+            raise RuntimeError(
+                f"{name}: DLA reconstruction gate failed "
+                f"(max_abs={err_stats['max_abs']:.4f} > 0.05 or "
+                f"p95_rel={err_stats['p95_rel']:.4f} > 0.02) — "
+                f"decomposition not exact, aborting before ranking")
         # rank all components by mean contribution
         comps = {}
         for l in range(n_layers):
@@ -161,6 +180,7 @@ def main():
             "logit_diff_mean_post_softcap": float(ld_capped.mean()),
             "logit_diff_mean_reconstructed": float(ld_recon.mean()),
             "reconstruction_corr": recon_r, "reconstruction_ratio": recon_ratio,
+            "reconstruction_error": err_stats,
             "embed_mean": float(E.mean()),
             "top20": ranked[:20],
             "targeted_ranks": {c: {"rank": rank_of[c], "mean_contribution": comps[c]}

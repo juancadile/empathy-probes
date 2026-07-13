@@ -11,6 +11,19 @@ persisted per-pair arrays of the E21 run (which includes both E18 axes):
      sign counts
   3. the need x cost surface: the edit effect's cost slope within each need
      level (resolved / mild / urgent), exposing the three-way structure
+  4. per-family MEAN edit effect at each need level (resolved / mild /
+     urgent) — a LEVEL estimand, kept strictly distinct from the cost-slope
+     estimands above — plus family-paired urgent-minus-resolved and
+     mild-minus-resolved mean-effect contrasts (bootstrap CIs, sign counts)
+
+Claim gates (predeclared, distinct per set):
+  - WRITER "need-gated level effect" requires the family-paired
+    urgent-minus-resolved MEAN-EFFECT contrast 95% CI to exclude zero AND the
+    resolved-need mean effect to be practically null (95% CI within the
+    predeclared +/-MEAN_EQUIV_BOUND equivalence band). It must NOT be
+    inferred from cost slopes.
+  - SUPPRESSOR "conjunctive need x cost" remains the family-paired
+    urgent-minus-resolved COST-SLOPE contrast (CI excluding zero).
 
 Usage: python src/analysis/e18c_slope_interaction.py
 Writes results/e18c_slope_interaction_gemma2_9b_it/e18c.json
@@ -32,6 +45,12 @@ CELL_JSONL = {
 }
 COST_RANK = {"free": 0, "low": 1, "medium": 2, "high": 3}
 CONDS = ["positive_writers_k2", "suppressors_k4", "targeted_k6", "random_k6"]
+NEED_CELLS = [("resolved", "need_resolved"), ("mild", "need_mild"),
+              ("urgent", "cost_axis")]
+# predeclared equivalence band for "resolved mean effect is practically null"
+# (choice-score units; ~1/5 of the writers' confirm-battery level effect
+# |-0.28|): the resolved 95% CI must lie entirely within +/- this bound
+MEAN_EQUIV_BOUND = 0.05
 
 
 def cell_meta(name):
@@ -47,6 +66,35 @@ def family_cost_slopes(delta, fams, ranks):
         m = fams == f
         out[f] = float(np.polyfit(ranks[m], delta[m], 1)[0])
     return out
+
+
+def family_mean_effects(delta, fams):
+    """Mean edit effect within each family (LEVEL estimand, not a slope)."""
+    return {f: float(delta[fams == f].mean()) for f in sorted(set(fams))}
+
+
+def paired_contrast(per_family_a, per_family_b):
+    """Family-paired a-minus-b contrast with bootstrap CI + zero-exclusion."""
+    paired = {f: per_family_a[f] - per_family_b[f]
+              for f in per_family_a if f in per_family_b}
+    stat = boot_family_stat(paired)
+    stat["n_paired_families"] = len(paired)
+    stat["ci95_excludes_zero"] = bool(stat["ci95"][0] > 0 or stat["ci95"][1] < 0)
+    return stat
+
+
+def writer_need_gate(urgent_minus_resolved_mean_stat, resolved_mean_stat,
+                     bound=MEAN_EQUIV_BOUND):
+    """WRITER need-gated LEVEL-effect gate: the paired urgent-resolved
+    MEAN-effect CI excludes zero AND the resolved mean effect is equivalent to
+    zero (95% CI inside +/-bound). Cost slopes do not bear on this gate."""
+    contrast_ok = urgent_minus_resolved_mean_stat["ci95_excludes_zero"]
+    lo, hi = resolved_mean_stat["ci95"]
+    resolved_ok = bool(lo >= -bound and hi <= bound)
+    return {"equivalence_bound": bound,
+            "urgent_minus_resolved_mean_ci_excludes_zero": bool(contrast_ok),
+            "resolved_mean_ci_within_equivalence_bound": resolved_ok,
+            "satisfied": bool(contrast_ok and resolved_ok)}
 
 
 def boot_family_stat(per_family, n=5000, seed=42):
@@ -75,9 +123,18 @@ def main():
            "run_provenance": run.get("provenance"),
            "cell_files": {n: {"path": p, "sha256": sha(ROOT / p)}
                           for n, p in CELL_JSONL.items()},
-           "gate": "the new-set need x cost claim requires the family-paired "
-                   "slope_urgent_minus_resolved_paired 95% CI to EXCLUDE zero; "
-                   "an ordered set of point estimates does not qualify",
+           "gates": {
+               "suppressor_conjunctive_need_x_cost":
+                   "requires the family-paired slope_urgent_minus_resolved_paired "
+                   "(COST-SLOPE contrast) 95% CI to EXCLUDE zero; an ordered set "
+                   "of point estimates does not qualify",
+               "writer_need_gated_level_effect":
+                   "requires the family-paired mean_effect_urgent_minus_resolved_"
+                   "paired (MEAN-EFFECT contrast) 95% CI to EXCLUDE zero AND the "
+                   "resolved mean effect's 95% CI to lie within the predeclared "
+                   f"equivalence band +/-{MEAN_EQUIV_BOUND}; must NOT be inferred "
+                   "from cost slopes",
+           },
            "conditions": {}}
 
     for cond in CONDS:
@@ -95,33 +152,53 @@ def main():
         entry["slope_welfare"] = boot_family_stat(slopes["cost_axis"])
         entry["slope_nonsocial"] = boot_family_stat(slopes["nonsocial_axis"])
         entry["slope_interaction_welfare_minus_nonsocial"] = boot_family_stat(diff)
-        # 3: cost slope within each need level
+        # 3: cost slope within each need level, plus 4: mean LEVEL effect per
+        # need level — two distinct estimands, never mixed
         entry["cost_slope_by_need"] = {}
-        need_slopes = {}
-        for label, cell in [("resolved", "need_resolved"), ("mild", "need_mild"),
-                            ("urgent", "cost_axis")]:
+        entry["mean_effect_by_need"] = {}
+        need_slopes, need_means = {}, {}
+        for label, cell in NEED_CELLS:
             d = np.asarray(e[cell]["per_pair_delta"])
             fams, ranks = meta[cell]
             assert len(d) == len(fams), f"{cond}/{cell}: {len(d)} deltas vs {len(fams)} pairs"
             need_slopes[label] = family_cost_slopes(d, fams, ranks)
             entry["cost_slope_by_need"][label] = boot_family_stat(need_slopes[label])
+            need_means[label] = family_mean_effects(d, fams)
+            entry["mean_effect_by_need"][label] = boot_family_stat(need_means[label])
         # pre-registered three-way contrast (codex, rescue3c design):
-        # family-paired slope_urgent - slope_resolved, NOT ordering of point estimates
-        paired = {f: need_slopes["urgent"][f] - need_slopes["resolved"][f]
-                  for f in need_slopes["urgent"] if f in need_slopes["resolved"]}
-        stat = boot_family_stat(paired)
-        stat["n_paired_families"] = len(paired)
-        stat["ci95_excludes_zero"] = bool(stat["ci95"][0] > 0 or stat["ci95"][1] < 0)
-        entry["slope_urgent_minus_resolved_paired"] = stat
+        # family-paired slope_urgent - slope_resolved, NOT ordering of point
+        # estimates — the SUPPRESSOR conjunctive need x cost gate
+        entry["slope_urgent_minus_resolved_paired"] = paired_contrast(
+            need_slopes["urgent"], need_slopes["resolved"])
+        # family-paired MEAN-effect contrasts — the LEVEL estimand behind the
+        # WRITER need-gated claim (kept distinct from the slope contrasts)
+        entry["mean_effect_urgent_minus_resolved_paired"] = paired_contrast(
+            need_means["urgent"], need_means["resolved"])
+        entry["mean_effect_mild_minus_resolved_paired"] = paired_contrast(
+            need_means["mild"], need_means["resolved"])
+        entry["writer_need_gated_level_effect"] = writer_need_gate(
+            entry["mean_effect_urgent_minus_resolved_paired"],
+            entry["mean_effect_by_need"]["resolved"])
         out["conditions"][cond] = entry
         si = entry["slope_interaction_welfare_minus_nonsocial"]
         pr = entry["slope_urgent_minus_resolved_paired"]
+        mr = entry["mean_effect_urgent_minus_resolved_paired"]
+        wg = entry["writer_need_gated_level_effect"]
         print(f"{cond}: slope-interaction {si['mean']:+.4f} CI {si['ci95']} "
               f"({si['sign_positive_families']}/{si['n_families']} fams +) | "
               f"cost-slope by need: " + " ".join(
                   f"{k}={v['mean']:+.3f}" for k, v in entry["cost_slope_by_need"].items())
-              + f" | paired urgent-resolved {pr['mean']:+.4f} CI {pr['ci95']} "
+              + f" | paired urgent-resolved SLOPE {pr['mean']:+.4f} CI {pr['ci95']} "
               f"excludes-zero={pr['ci95_excludes_zero']}")
+        print(f"{cond}: mean effect by need: " + " ".join(
+                  f"{k}={v['mean']:+.3f} CI {v['ci95']}"
+                  for k, v in entry["mean_effect_by_need"].items())
+              + f" | paired urgent-resolved MEAN {mr['mean']:+.4f} CI {mr['ci95']} "
+              f"({mr['sign_positive_families']}/{mr['n_paired_families']} fams +) "
+              f"excludes-zero={mr['ci95_excludes_zero']} | "
+              f"writer level-gate satisfied={wg['satisfied']} "
+              f"(resolved-null={wg['resolved_mean_ci_within_equivalence_bound']}, "
+              f"bound ±{MEAN_EQUIV_BOUND})")
 
     dest = Path(args.out)
     dest.mkdir(parents=True, exist_ok=True)

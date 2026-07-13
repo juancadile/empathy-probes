@@ -6,23 +6,33 @@ null for direction-removal edits on this battery. This builds the empirical
 null the suppressor slope claim needs. Design (QA-revised):
   - NORM-AND-LAYER-MULTISET-MATCHED sets: exactly one head from each targeted
     layer (L17/L18/L19/L20), targeted heads excluded, drawn per layer from the
-    --pool-size heads whose realized rank-1 delta norm under d_resid is
+    --pool-size heads whose theoretical (pre-cast) rank-1 delta norm under d_resid is
     nearest the targeted head's norm in that layer. The layer multiset is
     preserved exactly; the per-component edit magnitude is matched by
     selection (matching a raw uniform draw would leave edit norm confounded —
-    the E26b lesson: the targeted set had the largest delta norms).
+    the E26b lesson: the targeted set had the largest delta norms). Matching
+    by selection is APPROXIMATE, not exact: each null set's ACTUAL realized
+    post-bf16 delta norms are recorded, and total-norm mismatch vs the
+    targeted set is computed on both realized and theoretical norms. Exact
+    norm matching is claimed only if every null set's |total realized
+    mismatch| <= NULL_TOTAL_NORM_TOL (predeclared 5%); otherwise the sets are
+    labeled norm-SELECTED only and edit norm must be retained as a
+    covariate / stratification variable in any downstream reading.
   - primary inference: two-sided empirical Monte Carlo p =
     (1 + #{|null| >= |targeted|}) / (n_sets + 1). With n_sets=24 the minimum
     attainable p is 1/25 = .04; sets are SAMPLED from the matched pool
     product, not exhaustive. z-score is secondary/descriptive only.
   - statistic = mean per-family cost-slope difference (welfare - nonsocial)
   - SAME-HEAD random-DIRECTION controls (--n-random-directions): the targeted
-    four heads edited with NORM-MATCHED rank-1 deltas (apply_norm_matched_
+    set runs FIRST with its ACTUAL realized post-bf16 delta norm measured per
+    component (orthogonalize_component_measured); the controls then edit the
+    same four heads with NORM-MATCHED rank-1 deltas (apply_norm_matched_
     random): one shared random unit vector per replicate, per-component delta
-    scaled to that component's targeted realized norm. Same weights, same
-    per-component damage size, random content. (Raw orthogonalization along a
-    random vector would leave the removed norm uncontrolled.)
-All realized per-component norms are recorded throughout.
+    scaled to that component's targeted REALIZED norm. Same weights, same
+    realized per-component damage size, random content. (Raw orthogonalization
+    along a random vector would leave the removed norm uncontrolled.) Each
+    control edit's realized norm is gated at 3% relative error from the
+    targeted realized norm.
 
 Usage (Spark, `empathy` env):
   python -u src/e28b_slope_nulls.py \
@@ -42,28 +52,36 @@ import torch
 
 try:
     from src.weight_orthogonalization import (
-        choice_scores, load_pairs, orthogonalize_component, parse_component,
+        choice_scores, load_pairs, parse_component,
         restore_weights, snapshot_weights,
     )
     from src.norm_matched_controls import (
-        apply_norm_matched_random, targeted_delta_norm,
+        apply_norm_matched_random, orthogonalize_component_measured,
+        targeted_delta_norm,
     )
 except ModuleNotFoundError:
     from weight_orthogonalization import (
-        choice_scores, load_pairs, orthogonalize_component, parse_component,
+        choice_scores, load_pairs, parse_component,
         restore_weights, snapshot_weights,
     )
-    from norm_matched_controls import apply_norm_matched_random, targeted_delta_norm
+    from norm_matched_controls import (
+        apply_norm_matched_random, orthogonalize_component_measured,
+        targeted_delta_norm,
+    )
 
 N_HEADS = 16  # gemma-2-9b
+# predeclared: exact norm matching is claimed for the multiset-matched null
+# ONLY if every null set's |total realized delta norm / targeted - 1| <= this
+NULL_TOTAL_NORM_TOL = 0.05
 
 
 def norm_matched_multiset_sets(norm_fn, target_names, n_sets, rng, pool_size):
     """Distinct sets, one head per targeted layer, targets excluded, each layer
-    pool = pool_size heads with realized delta norm nearest the target's.
+    pool = pool_size heads with theoretical delta norm nearest the target's.
 
-    norm_fn(name) -> realized rank-1 delta norm for that component.
-    Returns (sets, pools, candidate_norms, target_norms_by_layer).
+    norm_fn(name) -> THEORETICAL (float32, pre-bf16-cast) rank-1 delta norm
+    for that component. Returns (sets, pools, candidate_norms,
+    target_norms_by_layer).
     """
     by_layer = {}
     for n in target_names:
@@ -71,7 +89,7 @@ def norm_matched_multiset_sets(norm_fn, target_names, n_sets, rng, pool_size):
     pools, cand_norms, tgt_by_layer = [], {}, {}
     for l in sorted(by_layer):
         tnorm = norm_fn(by_layer[l])
-        tgt_by_layer[f"L{l}"] = {"component": by_layer[l], "norm": tnorm}
+        tgt_by_layer[f"L{l}"] = {"component": by_layer[l], "theoretical_norm": tnorm}
         cands = []
         for h in range(N_HEADS):
             name = f"L{l}H{h}"
@@ -162,25 +180,37 @@ def main():
                 for n, prs in cells.items()}
 
     def run_set(names):
+        """Orthogonalize the named components with per-edit realized post-bf16
+        delta norm measurement; returns (slope_diff, per_family, edits)."""
         comps = [parse_component(n) for n in names]
-        norms = {c["name"]: round(targeted_delta_norm(model, c, direction), 3)
-                 for c in comps}
         snap = snapshot_weights(model, comps)
         try:
-            for c in comps:
-                orthogonalize_component(model, c, direction)
+            edits = [orthogonalize_component_measured(model, c, direction)
+                     for c in comps]
             edited = eval_cells()
         finally:
             restore_weights(snap)
         deltas = {n: edited[n] - base[n] for n in cells}
         sd, per_fam = slope_diff(deltas, meta)
-        return sd, per_fam, norms
+        return sd, per_fam, edits
 
     base = eval_cells()
     print("baseline uptake:", {n: round(float(v.mean()), 3) for n, v in base.items()})
 
     target_names = args.suppressors.split(",")
     rng = pyrandom.Random(args.seed)
+
+    # targeted set runs FIRST: its ACTUAL realized norms anchor both the
+    # same-head random-direction controls and the null-set mismatch accounting
+    tgt_sd, tgt_fam, tgt_edits = run_set(target_names)
+    tgt_realized = {e["component"]: e["realized_delta_norm"] for e in tgt_edits}
+    tgt_norms = {e["component"]: round(e["theoretical_delta_norm"], 3)
+                 for e in tgt_edits}
+    tgt_total = sum(e["theoretical_delta_norm"] for e in tgt_edits)
+    tgt_total_realized = sum(tgt_realized.values())
+    print(f"targeted {target_names}: slope-diff {tgt_sd:+.4f} "
+          f"(total delta norm realized {tgt_total_realized:.3f} / "
+          f"theoretical {tgt_total:.3f})")
 
     def norm_fn(name):
         return float(targeted_delta_norm(model, parse_component(name), direction))
@@ -192,31 +222,39 @@ def main():
           f"(one head per targeted layer, targets excluded; per-layer pool = "
           f"{args.pool_size} nearest-norm heads; {n_combos} distinct combos)")
 
-    tgt_sd, tgt_fam, tgt_norms = run_set(target_names)
-    tgt_total = sum(tgt_norms.values())
-    print(f"targeted {target_names}: slope-diff {tgt_sd:+.4f} "
-          f"(total delta norm {tgt_total:.3f})")
     rows = []
     for i, names in enumerate(null_names):
-        sd, per_fam, norms = run_set(names)
-        total = sum(norms.values())
+        sd, per_fam, edits = run_set(names)
+        theo = {e["component"]: e["theoretical_delta_norm"] for e in edits}
+        real = {e["component"]: e["realized_delta_norm"] for e in edits}
+        total_theo, total_real = sum(theo.values()), sum(real.values())
         rows.append({"set": names, "slope_diff": sd, "per_family": per_fam,
-                     "delta_norms": norms, "total_delta_norm": round(total, 3),
-                     "total_norm_rel_mismatch": round(total / tgt_total - 1, 4)})
+                     "theoretical_delta_norms": {k: round(v, 3) for k, v in theo.items()},
+                     "realized_delta_norms": {k: round(v, 4) for k, v in real.items()},
+                     "total_theoretical_delta_norm": round(total_theo, 3),
+                     "total_realized_delta_norm": round(total_real, 4),
+                     "total_norm_rel_mismatch": round(total_theo / tgt_total - 1, 4),
+                     "total_norm_rel_mismatch_realized":
+                         round(total_real / tgt_total_realized - 1, 4)})
         print(f"  null {i+1}/{len(null_names)} {names}: {sd:+.4f} "
-              f"(norm mismatch {rows[-1]['total_norm_rel_mismatch']:+.1%})")
+              f"(norm mismatch theo {rows[-1]['total_norm_rel_mismatch']:+.1%} / "
+              f"realized {rows[-1]['total_norm_rel_mismatch_realized']:+.1%})")
 
     nd = np.array([r["slope_diff"] for r in rows])
     mis = np.array([abs(r["total_norm_rel_mismatch"]) for r in rows])
+    mis_real = np.array([abs(r["total_norm_rel_mismatch_realized"]) for r in rows])
+    exact_match_ok = bool(mis_real.max() <= NULL_TOTAL_NORM_TOL)
     k, p = mc_p(nd, tgt_sd)
     res = {
         "direction": {"path": args.direction, "sha256": sha256(args.direction)},
         "cell_files": {n: {"path": p_, "sha256": sha256(p_)} for n, p_ in CELLS.items()},
         "design": {
             "null": "layer multiset preserved (one head per targeted layer, targets "
-                    "excluded); per-layer pool = the pool_size heads whose realized "
-                    "rank-1 delta norm under d_resid is nearest the targeted head's; "
-                    "sets sampled distinct from the pool product",
+                    "excluded); per-layer pool = the pool_size heads whose "
+                    "THEORETICAL (pre-cast) rank-1 delta norm under d_resid is "
+                    "nearest the targeted head's; sets sampled distinct from the "
+                    "pool product; ACTUAL realized norms recorded per set with "
+                    "realized+theoretical total-norm mismatch vs the targeted set",
             "primary_inference": f"two-sided empirical Monte Carlo p = (1+k)/(n+1); "
                                  f"n_sets={len(rows)} gives min attainable p = "
                                  f"{1/(len(rows)+1):.3f}; sampled from {n_combos} "
@@ -224,34 +262,58 @@ def main():
             "secondary_inference": "z-score vs null mean/std (descriptive)",
             "direction_control": "same four heads; one shared random unit vector per "
                                  "replicate; per-component rank-1 delta scaled to the "
-                                 "targeted realized norm (apply_norm_matched_random); "
+                                 "targeted ACTUAL REALIZED post-bf16 norm "
+                                 "(apply_norm_matched_random); each edit's realized "
+                                 "norm gated at 3% rel error vs the targeted realized "
+                                 "norm; "
                                  f"min attainable p = {1/(args.n_random_directions+1):.3f}"
                                  if args.n_random_directions else "skipped",
         },
         "pool_size": args.pool_size, "pools": pools,
-        "candidate_delta_norms": {k_: round(v, 3) for k_, v in cand_norms.items()},
-        "targeted_norms_by_layer": tgt_by_layer,
+        "candidate_theoretical_delta_norms": {k_: round(v, 3)
+                                              for k_, v in cand_norms.items()},
+        "targeted_theoretical_norms_by_layer": tgt_by_layer,
         "targeted_set": target_names, "targeted_slope_diff": tgt_sd,
-        "targeted_per_family": tgt_fam, "targeted_delta_norms": tgt_norms,
-        "targeted_total_delta_norm": round(tgt_total, 3),
+        "targeted_per_family": tgt_fam,
+        "targeted_edits": tgt_edits,
+        "targeted_theoretical_delta_norms": tgt_norms,
+        "targeted_realized_delta_norms": {k_: round(v, 4)
+                                          for k_, v in tgt_realized.items()},
+        "targeted_total_theoretical_delta_norm": round(tgt_total, 3),
+        "targeted_total_realized_delta_norm": round(tgt_total_realized, 4),
         "null_sets": rows, "null_mean": float(nd.mean()),
         "null_std": float(nd.std(ddof=1)),
         "null_range": [float(nd.min()), float(nd.max())],
-        "norm_match_quality": {"mean_abs_rel_mismatch": float(mis.mean()),
-                               "max_abs_rel_mismatch": float(mis.max())},
+        "norm_match_quality": {
+            "theoretical": {"mean_abs_rel_mismatch": float(mis.mean()),
+                            "max_abs_rel_mismatch": float(mis.max())},
+            "realized": {"mean_abs_rel_mismatch": float(mis_real.mean()),
+                         "max_abs_rel_mismatch": float(mis_real.max())},
+            "predeclared_total_norm_tol": NULL_TOTAL_NORM_TOL,
+            "exact_norm_matching": exact_match_ok,
+            "claim": ("all null sets within the predeclared total realized-norm "
+                      f"tolerance ({NULL_TOTAL_NORM_TOL:.0%})" if exact_match_ok else
+                      "NOT exact: null sets are norm-SELECTED (nearest-norm pools) "
+                      "but exceed the predeclared total realized-norm tolerance "
+                      f"({NULL_TOTAL_NORM_TOL:.0%}); retain edit norm as a "
+                      "covariate / stratify by norm in any downstream inference"),
+        },
         "z_secondary": float((tgt_sd - nd.mean()) / nd.std(ddof=1)),
         "n_null_as_extreme": k,
         "mc_p": p,
     }
     print(f"targeted {tgt_sd:+.4f} | null {res['null_mean']:+.4f}±{res['null_std']:.4f} "
           f"| {k}/{len(rows)} as extreme | MC p={p:.3f} (min {1/(len(rows)+1):.3f}) "
-          f"| norm mismatch mean {mis.mean():.1%} max {mis.max():.1%}")
+          f"| norm mismatch (realized) mean {mis_real.mean():.1%} max {mis_real.max():.1%} "
+          f"| exact-matching claim: {exact_match_ok} (tol {NULL_TOTAL_NORM_TOL:.0%})")
+    if not exact_match_ok:
+        print("WARNING: null-set total realized norms exceed the predeclared "
+              f"{NULL_TOTAL_NORM_TOL:.0%} tolerance — do NOT describe the null as "
+              "exactly norm-matched; norm-covariate/stratified caveat applies")
 
     if args.n_random_directions:
         np_rng = np.random.default_rng(args.seed)
         comps = [parse_component(n) for n in target_names]
-        # unrounded targeted norms for exact matching of the applied delta
-        tgt_norm_full = {v["component"]: v["norm"] for v in tgt_by_layer.values()}
         drows = []
         for i in range(args.n_random_directions):
             rd = torch.tensor(np_rng.standard_normal(direction.shape[0]),
@@ -259,8 +321,10 @@ def main():
             rd /= torch.linalg.vector_norm(rd)
             snap = snapshot_weights(model, comps)
             try:
+                # requested norm = the targeted edit's ACTUAL realized norm,
+                # so the 3% gate inside the helper is realized-vs-realized
                 edits = [apply_norm_matched_random(
-                    model, c, direction, tgt_norm_full[c["name"]], None, rand_vec=rd)
+                    model, c, direction, tgt_realized[c["name"]], None, rand_vec=rd)
                     for c in comps]
                 edited = eval_cells()
             finally:
@@ -272,10 +336,20 @@ def main():
                   f"{i+1}/{args.n_random_directions}: {sd:+.4f}")
         dd = np.array([r["slope_diff"] for r in drows])
         dk, dp = mc_p(dd, tgt_sd)
+        # realized post-bf16 delta norms come back from apply_norm_matched_random
+        # (per-edit 3% assert inside the helper); persist + re-gate the max here
+        norm_errs = [abs(e["relative_norm_error"])
+                     for r in drows for e in r["edits"]]
+        assert max(norm_errs) <= 0.03, (
+            f"same-head random-direction realized norm error "
+            f"{max(norm_errs):.4f} exceeds 3% gate")
         res["same_head_random_directions"] = {
             "rows": drows, "mean": float(dd.mean()), "std": float(dd.std(ddof=1)),
             "n_as_extreme": dk, "mc_p": dp,
             "min_attainable_p": 1 / (len(dd) + 1),
+            "requested_norms": "targeted ACTUAL realized post-bf16 delta norms",
+            "max_abs_relative_norm_error": float(max(norm_errs)),
+            "realized_norm_gate": 0.03,
         }
         print(f"same-head norm-matched random-dir null: "
               f"{dd.mean():+.4f}±{dd.std(ddof=1):.4f} | {dk}/{len(dd)} as extreme "
