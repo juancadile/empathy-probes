@@ -1,0 +1,20 @@
+{
+  "schema": "empathy-action-probes/wp2-permutation-calibration-lock/1",
+  "experiment_id": "WP2-paired-permutation-calibration-20260713",
+  "status": "frozen-before-null-results",
+  "permutation_count": 32,
+  "permutation_indices": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31],
+  "master_seed": 2459917311,
+  "claim_authorized": false,
+  "confirmation_authorized": false,
+  "bindings": {
+    "spec_sha256": "663c8751bdacb25040ef792a4066e72931db46b54ea9352fc53516f9cde49b0f",
+    "selector_core_sha256": "27f54240598549a5108c2a10c72bcd2ac466630b421c3068310fe1e1411b7e77",
+    "broadened_selector_sha256": "68fcaf7875c6a1bf792508e93e3d3e47019cf0d08f3e899c1ae18989953d7998",
+    "broadened_lock_sha256": "c279faf6239860e468411e7f4c48d8bf5ab493c2aaa8d723f97f92a4fe51ae35",
+    "activation_plan_sha256": "263a0b7cb5bf9690c2e7cb932d36541b76a6215f0283f390d2f22dde1676cce3",
+    "activations_sha256": "d3476e51c9737e970ea4661ea9d01b7784347abedf4122f4b1e527b4e4ac7112",
+    "rows_sha256": "32b83438af1265b68f27b662a73b6e2a74f46b144ee9333032fb84df82f230ce",
+    "observed_selection_sha256": "904faf6db74775dbe9600ecba9e64f0c7f7d75f8978a95d90401e3e1530bc323"
+  }
+}

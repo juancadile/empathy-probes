@@ -1,0 +1,16 @@
+{
+  "schema": "empathy-action-probes/wp2-broadened-development-result-manifest/1",
+  "experiment_id": "WP2-broadened-dev-allblocks-20260713",
+  "claim_authorized": false,
+  "confirmation_authorized": false,
+  "local_artifacts": {
+    "activations/extraction_plan.json": "263a0b7cb5bf9690c2e7cb932d36541b76a6215f0283f390d2f22dde1676cce3",
+    "selection/selection.json": "904faf6db74775dbe9600ecba9e64f0c7f7d75f8978a95d90401e3e1530bc323"
+  },
+  "spark_cached_artifacts": {
+    "activations/activations.npz": "d3476e51c9737e970ea4661ea9d01b7784347abedf4122f4b1e527b4e4ac7112",
+    "activations/rows.jsonl": "32b83438af1265b68f27b662a73b6e2a74f46b144ee9333032fb84df82f230ce"
+  },
+  "execution_commit": "c901b280d32cde9b1ab2d3eb28698ac0d9a340c0",
+  "spark_worktree": "~/juan/empathy-probes-wp2-allblocks-c901b28"
+}

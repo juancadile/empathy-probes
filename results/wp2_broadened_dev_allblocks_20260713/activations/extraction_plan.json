@@ -1,0 +1,92 @@
+{
+  "schema": "empathy-action-probes/gate2-activation-plan/1",
+  "phase": "dev",
+  "model": "google/gemma-2-9b-it",
+  "revision": "11c9b309abf73637e4b6f9a3fa1e92e615547819",
+  "num_layers": 42,
+  "relative_depth_anchors": [
+    0.33,
+    0.48,
+    0.62
+  ],
+  "blocks": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31,
+    32,
+    33,
+    34,
+    35,
+    36,
+    37,
+    38,
+    39,
+    40,
+    41
+  ],
+  "site_policy": "all_blocks",
+  "historical_block": 20,
+  "row_count": 1568,
+  "prompt_final_rows": 1440,
+  "quote_boundary_rows": 128,
+  "inputs": [
+    {
+      "path": "data/gate_families/gate2_v2/wp1_families.jsonl",
+      "sha256": "831ce9230fba586d127414205bf75881302e87a1c70cb7707aebc58224a713e1"
+    },
+    {
+      "path": "data/gate_families/gate2_v2/wp3_families.jsonl",
+      "sha256": "571a08a318fd7cb6461fd92745b8526b2566cb27050f7ac78491518dc45625fd"
+    }
+  ],
+  "hidden_size": 3584,
+  "code": {
+    "path": "src/analysis/extract_gate2_activations.py",
+    "sha256": "31098a1856519e7977f32aa1ea9fb79e72a401f4095a45077a5b8263d15c6d9e"
+  },
+  "authorization_mode": "broadened_exploratory_dev",
+  "claim_authorized": false,
+  "human_gate": null,
+  "exploratory_dev_lock": null,
+  "broadened_dev_lock": {
+    "path": "notes/WP2_BROADENED_DEV_LOCK_2026-07-13.json",
+    "sha256": "c279faf6239860e468411e7f4c48d8bf5ab493c2aaa8d723f97f92a4fe51ae35",
+    "experiment_id": "WP2-broadened-dev-all-blocks-20260713"
+  },
+  "selection_lock": null,
+  "artifacts": {
+    "activations": "activations.npz",
+    "activations_sha256": "d3476e51c9737e970ea4661ea9d01b7784347abedf4122f4b1e527b4e4ac7112",
+    "rows": "rows.jsonl",
+    "rows_sha256": "32b83438af1265b68f27b662a73b6e2a74f46b144ee9333032fb84df82f230ce"
+  }
+}

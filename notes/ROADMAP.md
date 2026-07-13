@@ -14,8 +14,8 @@ The operative sequence is therefore gate-driven:
 1. single-naive-rater Form A calibration of the exact WP2 development target
    and four failed controls (single-rater corroboration, not certification);
 2. single-naive-rater R2b Form B calibration for the existing need×cost claim;
-3. run the separately locked all-block WP2 development screen while human work
-   proceeds; do not open confirmation or promote a post-null candidate;
+3. preserve the completed all-block WP2 development screen and calibrate its
+   unstable search surface with paired-family target permutations;
 4. build and pretest E22b.2 as the next fresh construct-validity assay;
 5. start any confirmatory replacement representation search only under a new
    preregistration and new confirmation families;
@@ -30,6 +30,14 @@ conditional null is interpretable: it directly audits all sixteen development
 B families, source-balanced development Spos/O/Ctext families, and all sixteen
 WP3 development target families. E22b.2 stimulus construction runs in parallel
 under its separate need × immediacy structural lock.
+
+The separately locked all-block screen also returned `no-candidate`. Its four
+outer folds selected blocks 28/15/2/7 and alternated token roles; pooled nested
+quietness failed T/B/Spos. Although 62 individual configurations pass when
+averaged over the full development CV, the selector does not recover a stable
+site out of sample. Block 3 is retained only as a post-hoc diagnostic, not a
+candidate. A paired-family permutation calibration now tests whether the 62
+apparent passes and fold scatter differ from the null search surface.
 
 ## North star
 
@@ -110,7 +118,7 @@ Context: E25b held-out certification failed (T_confirm 0.79 two-sided, inverted)
 
 - [x] **WP1 · Held-out nuisance families complete**: `gate2_v2/wp1_families.jsonl` contains 640 rows across ten nuisance contrasts, four source strata, and disjoint development/confirmation partitions. Structural/token audits are complete; human calibration remains open.
 - [x] **WP2 · Frozen cross-validated representation selection — stopped at development**: target AUROC 1.0, but B_new (0.359), Spos_new (0.625), O_new (0.609), and Ctext_new (0.641) failed nuisance quietness. Outcome `no-representation`; no frozen representation emitted; confirmation stays unopened. Conditional negative result only, not evidence of general nonexistence. `notes/WP2_DEV_EXPLORATORY_RESULT_2026-07-13.md`
-- [ ] **WP2b · Post-null all-block development screen**: separately frozen discovery search over all 42 blocks, the same two token roles, and the unchanged estimable WP2 candidate classes. Higher dimensions/nonlinear models are excluded because inner folds contain only about eight independent target-family contrasts. Neither outcome authorizes confirmation or a claim; human Form A determines whether its target/control interpretation is valid. `notes/WP2_BROADENED_DEV_SEARCH_SPEC_2026-07-13.md`
+- [x] **WP2b · Post-null all-block development screen**: `no-candidate`; outer folds selected blocks 28/15/2/7, and pooled nested quietness failed T/B/Spos despite 62 configurations passing averaged full-development CV. This is selection instability, not permission to choose the clean block-3 diagnostic post hoc. Higher dimensions/nonlinear models remain excluded because inner folds contain only about eight independent target-family contrasts. Neither outcome authorizes confirmation or a claim; human Form A determines whether its target/control interpretation is valid. `notes/WP2_BROADENED_DEV_RESULT_2026-07-13.md`
 - [x] **WP3 · Decision-free welfare identification families complete**: `gate2_v2/wp3_families.jsonl` contains 480 rows spanning observation, resolved/neutral controls, agency, cost, and persona cells with byte-matched continuations and disjoint development/confirmation partitions. Human manipulation calibration determines which cells WP2 may use.
 - [ ] **WP4 · Beyond one linear direction — feature- and variable-level purity**: three sub-routes, any one suffices. (a) **SAE decomposition** (Gemma Scope, B18–20; E20 Neuronpedia labels already in hand): decompose d_resid into SAE features, profile EACH feature on the full cell matrix — a welfare-pure *feature* can exist inside an impure direction; edit/ablate only the pure features and rerun the M/T behavioral battery. (b) **DAS / causal abstraction (= B8, now with a concrete purity use):** train an interchange-intervention subspace for a Welfare variable using V2.1 cells as bases (B = cost clamped, E = need absent); purity criterion = interchange accuracy high on M_confirm, chance on T_confirm — certified on WP1 held-out families like any direction. (c) **2-D plane model:** fit a (task, welfare) plane jointly instead of residualizing sequentially; test whether the oblique welfare axis within the plane is held-out-quiet. `src/analysis/wp4_sae_purity.py`, `src/analysis/wp4_das_welfare.py`
 - [ ] **WP5 · Pre-registered stopping rule / negative result**: if WP2–WP4 all fail held-out quietness, declare linear-welfare-purity-at-B20 NOT FOUND and publish it as a finding: welfare-in-action and task-interruption are non-separable in the residual stream at this depth because costly-helping stimuli entangle them by construction (the WP3 decision-free cell is the discriminating test — if even IT fails to transfer while staying quiet, the entanglement is representational, not just a stimulus artifact). Paper keeps the component×direction claim either way; WP5 just fixes, in advance, when we stop looking.
