@@ -46,7 +46,7 @@ The roadmap preserves scope; this file fixes dependency order, decision gates, a
 - Execute the fixed realized-norm-paired design from `SCIENCE_AUDIT_2026-07-13.md`.
 - Preserve exactly one head from each of layers 17, 18, 19, and 20.
 - Compute joint edit norm as `sqrt(sum(component Frobenius norm^2))`. Pair at the smaller natural full-edit norm and dose-reduce whichever set is larger; never over-edit target or null.
-- Treat existing V2.2 families as development only. Run the primary component-specificity test once on at least 12 sealed fresh families using active-objective cost levels; keep no-active-objective separate.
+- Treat existing V2.2 families as development only. Run the primary component-specificity test once on 16 sealed fresh families using active-objective cost levels; keep no-active-objective separate and do not stop early.
 - Require monotone target dose response, paired target-minus-null family CI excluding zero, and LOFO stability.
 
 **Gate 1 outcomes:**
