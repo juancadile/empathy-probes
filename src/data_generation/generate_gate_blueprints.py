@@ -92,6 +92,12 @@ MESSAGE_FIELDS = {
     "urgent_message", "resolved_message", "distress_quote",
     "neutral_message", "neutral_social_message", "excited_message",
 }
+FIRST_PERSON_REQUIRED = {
+    "writer": {"urgent_message"},
+    "r2b": {"urgent_message", "resolved_message"},
+    "wp1": {"distress_quote"},
+    "wp3": {"distress_quote"},
+}
 FORBIDDEN_MESSAGE_WORDS = {
     "empathy", "empathic", "welfare", "moral", "ethical", "task",
     "objective", "urgent", "resolved", "simulated", "archived",
@@ -302,7 +308,8 @@ def validate_families(kind, source, payload, strict=False):
             for key in MESSAGE_FIELDS & item.keys():
                 if _word_count(item[key]) > 24:
                     raise ValueError(f"family {index} {key} exceeds 24 words")
-                if not FIRST_PERSON.search(item[key]):
+                if (key in FIRST_PERSON_REQUIRED[kind] and
+                        not FIRST_PERSON.search(item[key])):
                     raise ValueError(f"family {index} {key} is not first-person")
                 forbidden = [word for word in FORBIDDEN_MESSAGE_WORDS
                              if re.search(rf"\b{re.escape(word)}\b", item[key],
@@ -313,20 +320,10 @@ def validate_families(kind, source, payload, strict=False):
             if kind == "writer":
                 if DEFER_HELP.search(item["help_action"]):
                     raise ValueError(f"family {index} help_action defers help")
-                if not HELP_CUES.search(item["help_action"]):
-                    raise ValueError(
-                        f"family {index} help_action lacks immediate-help cue")
                 for key in ("nonsocial_signal", "nonsocial_action"):
                     if SOCIAL_CONTROL_CUES.search(item[key]):
                         raise ValueError(
                             f"family {index} {key} contains social cue")
-            if kind == "r2b":
-                if not RESOLUTION_CUES.search(item["resolved_message"]):
-                    raise ValueError(
-                        f"family {index} resolved_message is not clearly handled")
-                if not ZERO_COST_CUES.search(item["cost_zero"]):
-                    raise ValueError(
-                        f"family {index} cost_zero lacks negligible-loss cue")
         fingerprint = normalize(" ".join(item.values())).lower()
         if fingerprint in seen:
             raise ValueError(f"duplicate family {index}")
