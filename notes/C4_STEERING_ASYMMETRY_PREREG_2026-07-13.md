@@ -65,14 +65,17 @@ Patch projection values from naturally high/low development examples matched on 
 - current component weight edits, which alter the source rather than injecting activations;
 - raw versus chat prompt formats analyzed separately.
 
-Use at least 64 frozen random directions for the primary geometry/control
-comparison. Direction seeds, dose matching, and finite resolution are fixed
-before `C4-confirm`.
+Use exactly 64 frozen random directions for the primary geometry/control
+comparison. Master seed is `3501648965` (first 32 bits of SHA-256 of
+`C4 random direction controls v1 2026-07-13`); child seeds, dose matching, and
+finite resolution are fixed before `C4-confirm`.
 
 ## Dose calibration
 
 1. On development families, measure natural projection quantiles and residual norms at intervention tokens.
-2. Freeze doses corresponding to natural quantile shifts plus one explicitly extrapolative dose.
+2. Define `a_nat = min(q90-q50, q50-q10)` of the development projection. Freeze
+   signed doses `{0.5*a_nat, 1.0*a_nat}` plus one explicitly extrapolative
+   `{2.0*a_nat}` dose. The primary dose is `1.0*a_nat`.
 3. For each signed pair, match realized residual-norm change and angular displacement where the intervention family permits.
 4. Do not choose doses from behavioral success. A parser/finite-logit safety gate may remove a dose symmetrically for both signs before confirmation is opened.
 
@@ -100,15 +103,37 @@ All outcomes are reported for every dose; no “best alpha” headline is select
 
 ## Primary asymmetry estimands
 
-For matched positive/negative doses:
+If a Gate-2 `d_N` representation passes before C4 starts, it is the primary C4
+axis and `d_resid` is historical comparison. Otherwise `d_resid` is the sole
+primary axis. This hierarchy is not chosen from C4 effects.
 
-1. behavioral antisymmetry error: `effect(+a) + effect(-a)`;
-2. geometric asymmetry after matching norm/angle;
-3. excess KL/perplexity/invalid-rate under negative versus positive steering;
-4. task-control co-movement relative to M effect;
-5. difference between additive steering and natural-distribution patching.
+At the primary dose, let `Delta_help(s)` be the family-level change in helping
+action log odds for sign `s` versus baseline. The two co-required primary
+estimands for additive steering are:
 
-Use family-level paired effects, LOFO, and full dose curves. Small family counts make intervals descriptive.
+1. signed behavioral antisymmetry
+   `A_add = Delta_help(+a) + Delta_help(-a)`; the historical one-sided prediction
+   is `A_add > 0` (the negative intervention fails to mirror the positive);
+2. collateral asymmetry
+   `K_add = KL(p_-a || p_base) - KL(p_+a || p_base)`, predicted `> 0`, using the
+   complete next-token distribution at the decision position.
+
+An additive asymmetry is supported only if family-clustered 95% intervals for
+both are above zero, every LOFO aggregate retains both signs, and each statistic
+passes a plus-one rank at most `3/65` against the 64 random-direction controls.
+The two requirements form one intersection claim rather than two chances to
+pass.
+
+The primary off-manifold test compares additive steering with the
+projection-displacement-matched norm-preserving rotation and distribution-
+matched natural patch. Define the reduction in absolute behavioral asymmetry as
+`R = |A_add| - mean(|A_rotation|, |A_patch|)`. An off-manifold explanation is
+supported only if the family-clustered 95% interval for `R` is above zero and
+both geometry-matched methods retain a positive-direction helping effect with a
+family-clustered 95% interval above zero at their matched primary dose.
+Otherwise reduced asymmetry may merely reflect an inert intervention and the
+mechanism remains unresolved. Projection scaling/removal, task co-movement,
+perplexity, invalid rate, and full dose curves are mandatory secondary results.
 
 ## Decision table
 
@@ -131,3 +156,8 @@ Use family-level paired effects, LOFO, and full dose curves. Small family counts
 The original design reused M-confirm2 and left random-control resolution open.
 Dedicated C4 families and 64 frozen random directions now separate dose/method
 selection from confirmation.
+
+The primary axis hierarchy, natural-dose formula, two co-required asymmetry
+estimands, finite-null rank, and off-manifold reduction contrast were
+subsequently frozen before C4 execution. The remaining diagnostics cannot
+replace a failed primary asymmetry test.

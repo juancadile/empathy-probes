@@ -132,7 +132,10 @@
 - Preregistration: `B8_CAUSAL_ABSTRACTION_PREREG_2026-07-13.md`
 - Issue: #31.
 - Prerequisites: WP3 construct and high-level policy headroom.
-- Exit: intervention-consistent `N/O/C -> A` partial/full operational abstraction or not-identified/entangled result.
+- Exit: intervention-consistent `N/C_text -> A` partial/full operational
+  abstraction within response-available contexts, with O=0 selectivity controls,
+  or a not-identified/entangled result. O is not a neural swap target unless a
+  later common-action-space design makes that intervention coherent.
 
 ### Base versus instruct weights
 

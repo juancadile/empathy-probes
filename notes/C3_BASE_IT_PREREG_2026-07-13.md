@@ -17,6 +17,12 @@ A static base-versus-instruct weight difference is descriptive. It becomes causa
 5. Generate 16 `C3-dev` and 16 sealed `C3-confirm` costly-helping families
    with matched task controls. They may use the Gate-1 schema but cannot reuse
    Gate-1/circuit/WP3/B6/EIA families or close paraphrases.
+   Split seed is `2081466070` (first 32 bits of SHA-256 of
+   `C3 assay split v1 2026-07-13`), stratified by domain/source.
+6. If a Gate-2 construct-transfer claim is attempted, generate a separate 16
+   `C3-factorial-dev` and 16 `C3-factorial-confirm` pool before checkpoint
+   differences are inspected. Without it, C3 remains a costly-helping-assay
+   result and WP3/B6 transfers are diagnostic only.
 
 If lineage or tensor correspondence cannot be established, restrict the analysis to cross-checkpoint descriptive geometry and do not call the difference an instruction-tuning delta.
 
@@ -27,6 +33,11 @@ If lineage or tensor correspondence cannot be established, restrict the analysis
 - Current writers: L19MLP, L20MLP.
 - Current suppressors: L18H13, L20H10, L19H12, L17H7.
 - Matched component controls are fixed before behavior evaluation and preserve type/layer/norm structure.
+
+The primary intervention unit is the joint six-component selected delta (two
+writer MLPs plus four suppressor heads). Writer-only, suppressor-only, and
+single-component deltas are mandatory decompositions but cannot rescue a failed
+joint primary test.
 
 ## Descriptive decomposition
 
@@ -65,22 +76,31 @@ Test parallel and remainder transplants separately at matched realized norm. Thi
 
 ### Controls
 
-- layer/type/norm-matched component deltas;
-- random rank-matched projections of each selected delta;
+- exactly 39 layer/type/norm-matched six-component IT-minus-base delta sets;
+- exactly 39 random rank-matched projections of the selected deltas within the
+  same six tensors;
 - parameter-count and realized-joint-norm matched edits;
 - sham snapshot/restore condition;
 - tokenizer/prompt parity and parser gates.
 
 All fractional edits are constructed from the original checkpoint snapshot, never applied cumulatively.
+Control master seed is `4240959829` (first 32 bits of SHA-256 of
+`C3 matched delta nulls v1 2026-07-13`); separate child streams are persisted
+for component-set and within-tensor projection nulls. Every target/null pair is
+matched on realized post-cast joint norm within 3% without over-editing.
 
 ## Behavioral evaluation
 
 Primary confirmation sets:
 
 - sealed `C3-confirm` and matched task controls;
-- a separately reserved C3 factorial confirmation subset if a Gate-2 construct
-  transfer claim is attempted;
-- a fresh, frozen capability sample for transplant/reversal conditions.
+- the separately generated `C3-factorial-confirm` pool only if a Gate-2
+  construct-transfer claim is attempted;
+- a fresh 800-item subject-stratified MMLU sample and disjoint WikiText segment
+  for transplant/reversal conditions, following the Gate-0C forced-option,
+  subject-cluster, and no-post-hoc-equivalence rules. MMLU sample seed is
+  `1581550924` (first 32 bits of SHA-256 of
+  `C3 capability sample v1 2026-07-13`) and must exclude Gate-0C item IDs.
 
 M-confirm2, WP3-confirm, and R2b families are development/diagnostic transfers
 because their outcomes are known before C3. They cannot satisfy C3 confirmation.
@@ -89,16 +109,38 @@ Report base and IT baselines before interventions. A transplant cannot be interp
 
 ## Primary contrasts
 
-1. Base transplant slope: does adding selected IT delta move base behavior toward the IT baseline monotonically?
-2. IT reversal slope: does removing it move IT toward base monotonically?
+On C3-dev, freeze polarity `s = sign(mean(Y_IT - Y_base))`, where Y is the
+dual-order costly-helping action log odds. For each confirmation family, fit the
+predeclared OLS slope over `alpha={0,.25,.5,.75,1}` separately for:
+
+1. base transplant, `S_base = s * dY_base/dalpha`;
+2. IT reversal, `S_reverse = -s * dY_IT/dalpha`;
 3. Bidirectional consistency: transplant and reversal effects have opposite signs under a common metric.
 4. Specificity: selected delta effect exceeds matched component/rank controls and remains bounded on task/capability controls.
 5. Geometry: direction-aligned delta explains a predeclared fraction of the full selected-delta effect; otherwise the mechanism change is not reducible to the current rank-1 axis.
 
-Family-level effects and LOFO are mandatory. Thresholds for “predeclared
-fraction” are fixed on `C3-dev` before `C3-confirm` is opened. At least 39
-realized-norm-matched random rank/component controls are frozen where an
-empirical rank is used; finite resolution is reported.
+The joint C3 causal result passes only if:
+
+1. the unedited base-versus-IT gap on C3-confirm has polarity `s`, a
+   family-clustered 95% interval excluding zero, and at least 13/16 family signs;
+2. family-clustered 95% intervals for both `S_base` and `S_reverse` are above
+   zero, at least 13/16 family slopes are positive for each, every LOFO aggregate
+   is positive, and aggregate dose means are monotone;
+3. the bidirectional mean `(S_base + S_reverse)/2` exceeds both 39-draw null
+   families at plus-one rank at most `2/40`;
+4. under both directions, the matched task slope has absolute magnitude below
+   one third of the costly-helping slope; and
+5. the fresh capability results support only the separately calibrated language
+   allowed by their own preregistration.
+
+For the stronger rank-1 geometry claim, the parallel delta must pass both
+checkpoint slopes, reach at least 50% of the full joint-delta point estimate in
+both directions, and exceed the realized-norm-matched orthogonal remainder with
+a family-paired 95% interval above zero. Otherwise report selected-block tuning
+causality without reduction to the current rank-1 axis.
+
+Family-level effects, all doses, all nulls, and LOFO are mandatory. Finite
+resolution is reported; no Gaussian z-score extrapolation is allowed.
 
 ## Interpretation
 
@@ -118,3 +160,8 @@ Never infer moral improvement, empathy installation, or training intent from che
 M-confirm2 and R2b are opened in earlier gates and cannot remain C3 primary
 confirmation. C3 now has dedicated development/confirmation families and a
 fresh capability sample; earlier assays are diagnostic transfer only.
+
+The joint intervention unit, dedicated optional factorial pool, bidirectional
+slope gates, exact matched-null families, and rank-1 geometry threshold were
+subsequently frozen before checkpoint comparison. Writer/suppressor
+decompositions cannot replace a failed joint test.

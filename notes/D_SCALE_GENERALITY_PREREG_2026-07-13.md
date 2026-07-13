@@ -66,6 +66,18 @@ Raw `k50`/`k80` is reported but never compared alone across models.
 
 No “sparse circuit” conclusion comes from attribution mass alone.
 
+The primary scale metric is signed causal effect coverage from the top 10% of
+the preregistered component universe, `coverage10_causal`. Component order and
+the universe are frozen on `D-scale-dev`; the restored/ablated effect and source
+intervention denominator are recomputed within every `D-scale-confirm` family.
+Do not clamp values below 0 or above 1. A model whose source intervention fails
+its own confirmation/headroom gate is a failed mechanism replication and has no
+comparable concentration value; this exclusion is reported rather than
+silently dropped from a trend.
+
+All other attribution/causal concentration metrics are mandatory secondary
+descriptions and cannot replace `coverage10_causal` after confirmation.
+
 ### Feature concentration
 
 SAE feature counts are comparable only within matched SAE release/width/sparsity regimes or after explicit normalization for dictionary width, activation density, and reconstruction fidelity. Different SAE suites are not raw-count scaling points.
@@ -90,11 +102,27 @@ Test the hypothesis without selecting homologous components from confirmation be
 - With few sizes, avoid asymptotic/exponent language; show points and uncertainty.
 - Do not use parameter count as the only predictor when layer/head/width architecture changes; report these covariates descriptively.
 
+On `D-scale-dev`, freeze the predicted sign of the `coverage10_causal`
+association with log parameter count. On the common confirmation families, fit
+one paired family-level linear slope of `coverage10_causal` on log parameter count and bootstrap
+families jointly across models with master seed `291112035` (first 32 bits of
+SHA-256 of `D scale family bootstrap v1 2026-07-13`). A bounded monotonic scale
+trend requires all of:
+
+1. at least four comparable same-family sizes pass their individual gates;
+2. the family-bootstrap 95% interval for the slope excludes zero in the frozen
+   development direction;
+3. aggregate point estimates are monotone in that direction; and
+4. every leave-one-model-out slope retains the direction.
+
+Failure of this primary metric cannot be rescued by selecting Gini, entropy,
+attribution `k80`, or a cross-family subset. Those remain descriptive.
+
 ## Decision table
 
 | Outcome | Supported claim |
 |---|---|
-| Same mechanism passes in >=4 same-family sizes with monotone normalized metric | bounded within-family scaling trend |
+| Same mechanism passes in >=4 same-family sizes and primary `coverage10_causal` slope gate passes | bounded within-family monotonic scale trend |
 | Mechanism passes but concentration is non-monotone | replication without scaling law |
 | Representation passes, component intervention fails | decodability conserved; causal implementation differs |
 | Another family requires new direction/components | family-specific mechanism, not transfer |
@@ -111,3 +139,7 @@ The original common protocol reused M-confirm2 and Gate-2 confirmations after
 their outcomes were known. Dedicated common scale development/confirmation
 families now support model-wise selection and one-time replication without
 recycling earlier confirmation labels.
+
+The primary scale metric is now `coverage10_causal`, with its sign frozen on
+development and a paired family-bootstrap slope test on confirmation. Secondary
+concentration metrics cannot be selected post hoc as the scaling headline.
