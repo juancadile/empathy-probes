@@ -1,0 +1,121 @@
+{
+  "schema": "empathy-action-probes/gate2-v2-tokenizer-audit/1",
+  "model": "google/gemma-2-9b-it",
+  "revision": "11c9b309abf73637e4b6f9a3fa1e92e615547819",
+  "tokenizer_class": "GemmaTokenizerFast",
+  "files": [
+    {
+      "path": "data/gate_families/gate2_v2/wp1_families.jsonl",
+      "sha256": "4717ac70e78b69fd8ad2c9e6ac1be98ad74ca5038ecfd84a1abf885ca11160ff",
+      "record_count": 640,
+      "family_count": 32,
+      "prompt_token_range_by_label": {
+        "B_new": {
+          "max": 20,
+          "mean": 9.96875
+        },
+        "Ctext_new": {
+          "max": 4,
+          "mean": 4.0
+        },
+        "D_new": {
+          "max": 0,
+          "mean": 0.0
+        },
+        "G_new": {
+          "max": 0,
+          "mean": 0.0
+        },
+        "L_new": {
+          "max": 0,
+          "mean": 0.0
+        },
+        "O_new": {
+          "max": 0,
+          "mean": 0.0
+        },
+        "P_new": {
+          "max": 0,
+          "mean": 0.0
+        },
+        "R_new": {
+          "max": 14,
+          "mean": 7.0
+        },
+        "Spos_new": {
+          "max": 6,
+          "mean": 2.40625
+        },
+        "T_new": {
+          "max": 2,
+          "mean": 2.0
+        }
+      },
+      "response_tail_token_ids": [],
+      "task_tail_token_ids": [],
+      "failures": [],
+      "passed": true
+    },
+    {
+      "path": "data/gate_families/gate2_v2/wp3_families.jsonl",
+      "sha256": "358d86eab8b4ba783d96a5eaca544c844365e392fb9cb816103c6568bd307d12",
+      "record_count": 480,
+      "family_count": 48,
+      "prompt_token_range_by_label": {
+        "agency": {
+          "max": 0,
+          "mean": 0.0
+        },
+        "cost": {
+          "max": 20,
+          "mean": 12.625
+        },
+        "observation": {
+          "max": 0,
+          "mean": 0.0
+        },
+        "persona": {
+          "max": 8,
+          "mean": 2.4583333333333335
+        },
+        "resolved_neutral_controls": {
+          "max": 9,
+          "mean": 3.8541666666666665
+        }
+      },
+      "response_tail_token_ids": [
+        235285,
+        25867,
+        970,
+        2474,
+        1160,
+        578,
+        8702,
+        577,
+        573,
+        1552,
+        1490,
+        235265
+      ],
+      "task_tail_token_ids": [
+        235285,
+        5374,
+        970,
+        2474,
+        1160,
+        578,
+        749,
+        780,
+        8702,
+        577,
+        573,
+        1552,
+        1490,
+        235265
+      ],
+      "failures": [],
+      "passed": true
+    }
+  ],
+  "passed": true
+}
