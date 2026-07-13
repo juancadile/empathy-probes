@@ -14,10 +14,13 @@ quiet on independently authored nuisance controls.
 ### Family design and split
 
 Create at least 32 new master control families: 16 development and 16 sealed
-confirmation. Each family supplies as many structurally compatible contrasts as
-possible; missing cells are documented and balanced across domains rather than
-filled by close paraphrases. No family/entity/quote/skeleton overlaps WP3, B6,
-Gate 1, circuit, E22b, or EIA pools.
+confirmation. Each frozen nuisance contrast below must have one valid instance
+in all 16 development and all 16 confirmation families; a family may supply
+multiple structurally compatible contrasts. A structurally impossible cell is
+replaced with a new independent master family before any target-model score,
+not silently accepted as a smaller-n cell or filled by a close paraphrase. No
+family/entity/quote/skeleton overlaps WP3, B6, Gate 1, circuit, E22b, or EIA
+pools.
 
 Split seed is `2000982249`, the first 32 bits of SHA-256 of
 `Gate2 WP1 control split v1 2026-07-13`. Stratify domain and stimulus source;
@@ -84,7 +87,14 @@ winner. Any architecture-specific mapping is frozen before extraction.
 
 ### Candidate representation classes
 
-Fit all classes only on WP3/WP1 development families:
+Fit all classes only on the target-specific development pools:
+
+- `N`: WP3 observation development plus WP1 nuisance development;
+- `P` and `R`: B6 master development plus WP1 nuisance development;
+- `A`: B6 policy development plus WP1 nuisance development.
+
+Do not pool target labels from structurally different pools or fit `P/R/A` from
+WP3 examples that do not instantiate those factors. Candidate classes are:
 
 1. unit mean-difference direction;
 2. direction residualized against a nuisance subspace fitted from WP1 contrasts;
@@ -143,3 +153,10 @@ No result from this gate alone establishes subjective empathy, moral reasoning,
 or external-world truth. A pass supports an assay-bounded representation of the
 prompt-stipulated variable; causal use requires WP3/B6 interventions.
 
+## Frozen consistency amendment (2026-07-13, before generation)
+
+Every nuisance contrast now requires the full 16/16 family coverage rather than
+an unspecified subset of compatible master families. Representation fitting is
+also target-specific: N uses WP3, P/R use B6 master, and A uses B6 policy
+development families, with WP1 nuisance data shared only for nuisance control.
+No target is trained from a pool that does not instantiate its factor.

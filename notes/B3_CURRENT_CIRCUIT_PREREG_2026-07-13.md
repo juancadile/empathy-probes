@@ -25,11 +25,15 @@ WP3 construct certification is required before any node is named for welfare rel
 - Sealed `M-circuit-validation` families select the finite graph and all
   thresholds once; they are exhausted after selection.
 - Sealed `M-circuit-confirm` families evaluate the graph once and are never used for Gate-1 component certification.
-- Repaired T-confirm plus fresh task controls test selectivity.
+- Fresh task controls paired to `M-circuit-validation` and
+  `M-circuit-confirm` are the primary selectivity tests. Repaired T-confirm is
+  already opened under Gate 0 and is a historical transfer diagnostic only.
 - WP3/WP1 cells are construct-profile tests only after their own gates pass.
 
 Scenario family is the inferential unit. Prompt order, paraphrase, and token positions are repeated observations within family.
-Use at least ten circuit-confirmation scenario families plus their matched task controls; increase the generation batch before scoring if the disjoint partition would provide fewer.
+Use all 16 reserved circuit-confirmation scenario families plus their matched
+task controls. Replace a structurally invalid family before any confirmation
+score; do not reduce the analysis to a favorable subset.
 
 ## Part A: Current component paths
 
@@ -76,11 +80,26 @@ An edge is confirmed only if:
 
 1. its `M-circuit-confirm` rescue effect has the predicted sign and family-clustered 95% interval excluding zero;
 2. dual-order raw and continuation-likelihood readouts agree in sign;
-3. its repaired T-confirm and fresh task-control profile does not exceed the frozen source intervention's control spillover; writer paths must preserve writer selectivity, while suppressor paths are explicitly labeled arbitration paths and must reproduce rather than conceal suppressor task co-movement;
-4. rescue is larger than at least 64 layer/type/activation-norm-matched random target restorations under an empirical finite-null rank;
+3. its fresh matched task-control profile does not exceed the frozen source
+   intervention's control spillover; repaired T-confirm is reported separately
+   as historical transfer. Writer paths must preserve writer selectivity, while
+   suppressor paths are explicitly labeled arbitration paths and must reproduce
+   rather than conceal suppressor task co-movement;
+4. rescue passes the joint max-statistic null below;
 5. no single confirmation family reverses the result.
 
 Negative restoration is no edge evidence. A target that rescues several sources is a convergence node, not proof that the sources connect directly to one another.
+
+To control edge-wise search, generate 255 frozen joint null replicates. For each
+replicate and every candidate edge entering confirmation, sample one
+layer/type/activation-norm-matched random restoration target and compute its
+family-level standardized rescue, then retain the maximum across all frozen
+edges. A named edge passes only if its standardized rescue exceeds the joint
+null under a plus-one max-statistic rank at most `12/256` and all other edge
+criteria pass. Seeds and the complete matching universe are frozen on
+validation. The master seed is `632956925` (first 32 bits of SHA-256 of
+`B3 edge max null v1 2026-07-13`). Do not extrapolate Gaussian z scores from
+this finite null.
 
 ## Part B: Pretrained SAE feature circuit
 
@@ -119,7 +138,14 @@ Intervene using the SAE residual-preserving form:
 
 This changes selected feature contributions without replacing the full activation by an imperfect SAE reconstruction. Test zero/mean ablation, matched source-to-base feature patching, and dose response where defined.
 
-Each candidate is compared with at least 64 activation-frequency, decoder-norm, and site-matched random SAE features. A feature is causally supported only if its family-clustered held-out action effect exceeds the finite null, transfers across the primary readouts, and respects task/control bounds.
+Use 255 frozen joint random-feature replicates. Each replicate matches every
+confirmation candidate on activation frequency, decoder norm, and site, then
+retains the maximum family-standardized action effect across the frozen feature
+set. A feature is causally supported only if its effect passes the plus-one
+max-statistic rank at most `12/256`, its family-clustered interval excludes zero,
+it transfers across primary readouts, and it respects task/control bounds.
+The master seed is `3271156983` (first 32 bits of SHA-256 of
+`B3 SAE max null v1 2026-07-13`).
 
 ## Part C: Circuit faithfulness and coverage
 
@@ -132,7 +158,12 @@ Define the effect to be explained as the accepted Gate-1 weight-edit delta relat
 3. **Sufficiency/retention:** corrupt the broader candidate region while restoring only graph nodes, then measure the fraction of uncorrupted behavior recovered.
 4. **Outside-graph control:** perturb matched non-graph nodes at equal realized activation or parameter norm and measure collateral effects.
 
-Primary coverage is calculated on action log odds relative to baselines produced in the same run. Report the cumulative coverage curve, family-clustered intervals, random-graph envelope, and task/capability spillover at every graph size.
+Primary coverage is calculated on action log odds relative to baselines produced
+in the same run. Report the cumulative coverage curve, family-clustered
+intervals, a 255-draw size/layer/type-matched random-graph envelope, and
+task/capability spillover at every graph size. The random-graph master seed is
+`3002312853` (first 32 bits of SHA-256 of
+`B3 random graph null v1 2026-07-13`).
 
 Use descriptive bands rather than an all-or-nothing label:
 
@@ -163,3 +194,12 @@ Unexplained residual effect is reported as unresolved parallel/distributed media
 - Necessity passes but sufficiency fails: selected nodes matter but omit alternate/redundant routes.
 - Random graphs match: generic disruption or restoration artifact.
 - Coverage plateaus below 60%: report a distributed partial mechanism; do not claim circuit completion.
+
+## Frozen consistency amendment (2026-07-13, before circuit runs)
+
+The circuit confirmation role is now fixed to all 16 reserved families; the
+already-opened repaired T-confirm is historical transfer rather than primary
+selectivity evidence. Edge and SAE-feature confirmation use 255-draw joint
+max-statistic nulls, preventing up to twelve screened edges or features from
+each receiving an unadjusted finite-null test. Coverage uses a separate
+255-draw matched random-graph envelope.

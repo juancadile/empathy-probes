@@ -17,14 +17,21 @@
 | V1/V2 narrative pairs | historical discovery | lexically saturated; never behavioral confirmation |
 | M development | discovery | repeatedly inspected |
 | M-confirm | development/robustness history | confirmation-exhausted by repeated reuse |
-| repaired T / T-confirm | task-control development / Gate-0 closure | score only after Integrity Repair A and Gate 0B freeze |
-| M-confirm2 Gate-1 partition | final writer/component replication | sealed; never circuit/persona selection |
-| M-circuit-confirm partition | Stage-B edge/feature graph confirmation | must be disjoint from Gate-1 M-confirm2; generate new families if not partitioned before scores |
+| repaired T / T-confirm | task-control development / Gate-0 closure | opened at Gate 0; historical transfer only in later gates |
+| M-confirm2 Gate-1 partition (16) | final writer/component replication | sealed; never circuit/persona selection |
+| M-circuit-validation partition (16) | Stage-B graph/feature selection | opened only for circuit selection; not confirmation |
+| M-circuit-confirm partition (16) | Stage-B edge/feature graph confirmation | disjoint from Gate-1 M-confirm2 and circuit validation |
 | R2b fresh 16 families | suppressor component localization | sealed; old V2.2 families diagnostic only |
-| WP3 confirmation families | welfare-content construct test | sealed; no direction/layer/prompt tuning |
-| B6 policy-confirm families | concept/persona/policy dissociation | disjoint from M-confirm2 and circuit families |
-| E22b confirmation families | moral-allocation transfer | old E22 is method history only |
-| EIA confirmation maps/seeds/messages | prospective/enacted action test | disjoint from parser/dose/map development |
+| WP1 development / confirmation (16/16) | nuisance construction / held-out nuisance certification | `T_new` is the primary post-Gate-0 task nuisance control |
+| WP3 development / confirmation (16/16) | welfare-content representation selection / construct test | sealed confirmation; no direction/layer/prompt tuning |
+| B8-confirm families (16) | causal-abstraction confirmation | reserved before WP3 scoring; not WP3 confirmation |
+| B6 master development / confirmation (16/16) | N/P/R construct dissociation | disjoint from WP3 and all policy/circuit families |
+| B6 policy development / confirmation (16/16) | policy representation and WP3 transfer | disjoint from M-confirm2 and circuit families |
+| E22b development / confirmation (16/16) | moral-allocation development / transfer | old E22 is method history only |
+| EIA development / confirmation (16/16) | parser/dose/map development / enacted action test | map/message families disjoint across split |
+| C3 development / confirmation (16/16) | base-versus-instruct selection / confirmation | earlier Gate pools are diagnostic only |
+| C4 development / confirmation (16/16) | steering-method/dose selection / confirmation | M-confirm2 is historical robustness only |
+| D-scale common development / confirmation (16/16) | normalized scale/family selection / common per-model confirmation assay | earlier Gate pools are diagnostic only |
 
 ## Gate 0: Integrity and closure
 
@@ -58,7 +65,9 @@
 
 - Preregistration: `GATE1_PARAMETER_LOCALIZATION_PREREG_2026-07-13.md` Part A;
   issue #37.
-- Requirement: at least ten new sealed M-confirm2 families plus matched fresh task controls; frozen current writer set and dual-order raw/chat/continuation protocol.
+- Requirement: 16 new sealed M-confirm2 families plus matched fresh task
+  controls; frozen current writer set and dual-order raw/chat/continuation
+  protocol.
 - Claim ceiling on pass: band-localized costly-helping writer intervention, not a unique two-component circuit.
 
 ### Suppressor R2b

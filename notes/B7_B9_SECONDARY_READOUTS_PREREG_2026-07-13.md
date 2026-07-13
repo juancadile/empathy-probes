@@ -25,9 +25,13 @@ Neither result is ground truth about what the model "really thinks."
 2. Gate 2 must freeze one primary representation and site for each surviving
    target variable before either method sees protected scores.
 3. AO prompt development and J-lens implementation validation use development
-   families only. Final summaries use the existing sealed WP3/B6 confirmation
-   families once; no new direction, layer, token position, question, sparsity,
-   or polarity is selected from those outcomes.
+   families only. Within each 16-family development pool, split eight for AO
+   prompt/rubric construction and eight for calibration holdout using seed
+   `1959697405` (first 32 bits of SHA-256 of
+   `B7 AO calibration split v1 2026-07-13`), stratified by domain/source. Final
+   summaries use the existing sealed WP3/B6 confirmation families once; no new
+   direction, layer, token position, question, sparsity, or polarity is selected
+   from those outcomes.
 4. B7 and B9 are secondary analyses of the same confirmation families. They do
    not create independent confirmation sample size.
 
@@ -74,11 +78,22 @@ battery with known labels and the following controls:
 - positive and negative direction polarity evaluated separately; and
 - question-order and answer-order counterbalancing.
 
-The AO is considered usable for a variable only if its family-clustered held-out
-development accuracy exceeds the strongest text-only/base-rate control and its
-wrong-example performance returns to the frozen chance band. Exact thresholds
-and the chance band are determined from the fixed response format, not tuned to
-observed results.
+Treat `none/uncertain` as incorrect for target-label accuracy. The AO is usable
+for a variable only if all of the following hold on held-out development
+families:
+
+1. the family-clustered 95% interval for accuracy is above the exact balanced
+   chance rate implied by the frozen response format;
+2. the family-paired 95% interval for AO-minus-strongest-text/base-rate-control
+   accuracy is above zero; and
+3. on wrong-example and sample-shuffled controls, label discrimination has
+   `abs(AUROC - 0.5) <= 0.10` and a family-clustered 90% interval for the
+   development-standardized score effect entirely inside `[-0.30,+0.30]`.
+
+Failure on any question variant is reported; the pre-frozen average across the
+three variants is primary. The variable-level B7 tests form one family and use
+Holm correction. A variable that fails calibration is not queried
+confirmatorily.
 
 ### Confirmation analysis
 
@@ -134,8 +149,10 @@ used to produce a workspace claim without implementing the protocol below.
 #### Tier 1: transported effect
 
 `||J_l d||` and decoded tokens describe an average first-order route from a
-direction to output space. Compare both `+d` and `-d` with at least 64
-isotropic, norm-matched random directions and frozen task/lexical directions.
+direction to output space. Compare both `+d` and `-d` with 255 isotropic,
+norm-matched random directions and frozen task/lexical directions. The master
+null seed is `1936053813` (first 32 bits of SHA-256 of
+`B9 J-space nulls v1 2026-07-13`).
 
 Claim ceiling: **transported-norm amplification and J-lens token readout**.
 
@@ -143,16 +160,33 @@ Claim ceiling: **transported-norm amplification and J-lens token readout**.
 
 Implement the paper's sparse nonnegative decomposition by gradient pursuit over
 token-indexed J-lens vectors. Because the J-space is a cone, decompose `+d` and
-`-d` separately. Report results for pre-frozen `k = 10, 16, 25`:
+`-d` separately. The primary sparsity is `k=16`; report `k = 10, 25` as frozen
+sensitivity analyses:
 
-- reconstruction fraction and excess over same-size random-vector dictionaries;
+- reconstruction fraction and excess over 255 norm-matched isotropic control
+  sets of `k` vectors;
 - selected token vectors and coefficient concentration;
 - stability across lens-fit samples, confirmation families, and token roles;
 - matched results for task, lexical/status, persona, recognition, and policy
   control directions; and
-- 64 norm-matched random target directions.
+- 255 norm-matched random target directions.
 
-Claim ceiling on a stable excess: **sparse J-space alignment**. A large ordinary
+The frozen direction is one geometric object, so no family-level interval is
+manufactured for its reconstruction. Call sparse J-space alignment only if, for
+the same polarity at `k=16`, both independent lens fits satisfy all of:
+
+1. reconstruction exceeds all but at most one of 255 random target directions
+   under the plus-one finite rank;
+2. reconstruction exceeds all but at most one of the 255 matched random
+   `k`-vector sets; and
+3. the two reconstructed J-space components have cosine at least `0.80` after
+   transport into a common layer basis.
+
+Family-clustered intervals are reserved for the separate local-activation and
+behavioral analyses. `k=10/25` and the opposite polarity are sensitivity results
+and cannot rescue failure. Apply Holm across frozen target-variable directions.
+
+Claim ceiling on passing: **sparse J-space alignment**. A large ordinary
 subspace projection is insufficient because the overcomplete J-lens vectors may
 span the residual stream.
 
@@ -167,10 +201,21 @@ non-J-space remainder. At matched realized activation norm, compare:
 4. full-direction and matched-random interventions; and
 5. re-entry controls that clamp the selected J-lens coordinates downstream.
 
-The J-space component must outperform the non-J-space remainder on report and
-flexible use, the remainder's residual effect must shrink under the re-entry
-clamp, and the automatic-task control must remain materially less affected.
-Report family-clustered intervals and all dose/K sensitivities.
+Only one direction is confirmatory at Tier 3, selected by the frozen hierarchy
+`N > A > P > R` among representations that passed Gate 2 and Tier 2. The
+hierarchy is construct-prioritized, not selected from B9 effects. Other
+directions are descriptive Tier-3 transfers.
+
+At primary `k=16`, the J-space component must outperform the realized-norm-
+matched non-J-space remainder on both report and flexible use with
+family-clustered 95% intervals for each paired difference above zero and a
+plus-one finite rank at most `2/65` against 64 matched random decompositions.
+These are intersection requirements, not two opportunities for significance.
+If the remainder has a detectable effect, its absolute effect must fall by at
+least 50% under the re-entry clamp; otherwise report it as already negligible.
+The automatic-task effect must pass the development-standardized TOST region
+`[-0.30,+0.30]` with a family-clustered 90% interval. Report all dose/K
+sensitivities, including failures.
 
 Claim ceiling on passing all tests: **workspace-like functional role under the
 tested J-lens operationalization**. It is not evidence that the model has the

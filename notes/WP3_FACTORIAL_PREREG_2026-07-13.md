@@ -114,23 +114,24 @@ If a gate fails, revise stimuli using development families only and rerun the fu
 
 ## Representation analysis
 
-1. Choose candidate blocks using family-CV on development families only, with a predeclared relative-depth tie anchor.
-2. Compare:
-   - mean-difference `d_N`;
-   - nuisance-subspace residualized `d_N`;
-   - jointly fitted 2-D `(N, task)` plane.
-3. Selection objective is lexicographic, not a tunable weighted score:
-   - maximize held-out-development N discrimination;
-   - among models within 0.02 AUROC, minimize task/persona/social-salience discrimination;
-   - among remaining ties, choose the simpler/lower-dimensional model.
-4. Freeze block/model/direction before opening confirmation activations.
+Representation classes, candidate relative-depth sites, nested family-CV,
+nuisance-basis fitting, and lexicographic selection are governed by
+`GATE2_CONTROL_MODEL_SELECTION_PREREG_2026-07-13.md`. For `N`, only WP3
+observation-development and WP1 nuisance-development families enter fitting.
+Freeze exactly one primary site/representation/polarity, or the explicit
+no-representation outcome, before opening WP1/WP3/B6 confirmation. This section
+does not define a narrower competing model search.
 
 ## Confirmation gates
 
 All gates use family-level uncertainty and two-sided nuisance checks.
 
 - Observation N discrimination: AUROC at least 0.75 on confirmation families.
-- T-confirm, persona-only, task-pressure-only, and archived-vs-neutral nuisance cells: `abs(AUROC - 0.5) <= 0.10` each. Passing an in-sample residualization identity does not count.
+- Sealed WP1 `T_new`, persona-only, task-pressure-only, and
+  archived-vs-neutral nuisance cells: `abs(AUROC - 0.5) <= 0.10` each. Repaired
+  T-confirm is already opened under Gate 0 and is reported only as a historical
+  transfer diagnostic. Passing an in-sample residualization identity does not
+  count.
 - Transfer to the separately sealed B6 policy-confirm action contrast:
   one-sided AUROC at least 0.65. M/M-confirm/M-confirm2 are diagnostic only and
   cannot satisfy this confirmation gate.
@@ -176,3 +177,8 @@ too small while also being named as a transfer to exhausted M-confirm. The 2x2
 status design, 16/16/16 partition, and separate B6 policy-confirm transfer above
 repair those identification and data-reuse defects without inspecting any WP3
 target-model result.
+
+The confirmation nuisance control was also corrected from already-opened
+T-confirm to sealed WP1 `T_new`. T-confirm remains a historical transfer only.
+The older three-class WP3 selection text was superseded by the Gate-2 frozen
+candidate set so that one, and only one, selection protocol governs `d_N`.

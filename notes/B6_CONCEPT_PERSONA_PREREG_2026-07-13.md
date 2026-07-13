@@ -85,7 +85,12 @@ Fit on development families only:
 4. `d_A`: costly-helping action/policy contrast at the frozen decision site;
 5. a jointly fitted low-dimensional `N/P/A` subspace with nuisance controls for task state, warmth, verbosity, and valence.
 
-Use family-level nested CV for block, dimension, and regularization selection. The selection objective is lexicographic: held-out target discrimination first, then two-sided nuisance quietness, then lower dimension. Freeze one primary representation per variable before confirmation.
+Use the target-specific pools, candidate classes, sites, family-level nested CV,
+and lexicographic rule frozen in
+`GATE2_CONTROL_MODEL_SELECTION_PREREG_2026-07-13.md`. Freeze one primary
+representation per variable before confirmation. This document adds the B6
+construct definitions and cross-decoding gates; it does not authorize a second
+site/dimension search.
 
 Persona Vectors methodology may produce a comparison `d_PV`, but `d_PV` is a benchmark representation, not ground truth.
 
@@ -181,3 +186,7 @@ The original 14/10 and 10/10 pools were expanded to 16/16, stimulus source is
 balanced rather than made split-specific, the nuisance equivalence region is
 numerically fixed before development outcomes, and `d_N` is imported from WP3
 rather than reselected on B6 data.
+
+The representation-search authority was subsequently consolidated in the
+Gate-2 preregistration before generation. B6 defines target constructs and
+cross-decoding/causal gates but cannot run a second block or dimension search.
