@@ -129,8 +129,11 @@ not a complete circuit or welfare-value writer label.
 
 ### Fresh factorial families
 
-Create 16 new families with an expressed-current-need x active-objective-cost
-factorial. Primary factors:
+Create 32 new families with an expressed-current-need x active-objective-cost
+factorial, split before any target-model score into 16 `R2b-dev` and 16 sealed
+`R2b-confirm` families. Split seed is `1448514577` (first 32 bits of SHA-256 of
+`Gate1 R2b dev confirm split v1 2026-07-13`), stratified by domain and stimulus
+source. Primary factors:
 
 - need: resolved/no-current-need versus urgent/current-need;
 - stipulated/anticipated interruption loss: zero, low, medium, high, while an
@@ -142,7 +145,8 @@ only the structured prefix manipulation changes. Surface variants are nested
 within family. These are textual consequence manipulations, not mechanically
 incurred costs; mechanically realized cost is reserved for Gate 4.
 
-Before target-model scoring, blinded manipulation checks must show:
+Before target-model scoring, blinded manipulation checks must show in each
+split:
 
 - urgent rated above resolved in at least 13/16 families at every cost level;
 - aggregate cost ratings strictly ordered zero < low < medium < high;
@@ -151,6 +155,10 @@ Before target-model scoring, blinded manipulation checks must show:
 - no arm-label leakage in decision tails;
 - independent-model/human disagreement is reported and any systematic target
   ambiguity invalidates the batch.
+
+Only `R2b-dev` wording may be revised after a failed manipulation check.
+Structurally invalid sealed families are replaced before any sealed target
+score; after that point confirmation is immutable.
 
 Presentation seed is `216633504`, the first 32 bits of SHA-256 of
 `Gate1 R2b manipulation order v1 2026-07-13`.
@@ -188,12 +196,13 @@ Primary effect is the mean over null sets within each family, then the mean over
 bootstrap interval, family signs, and LOFO. Resampling null sets is a sensitivity
 analysis because all comparisons share the target.
 
-Target dose monotonicity is checked over the full observed matched-dose range
-using development families before sealed scores. On confirmation families, a
+Target dose monotonicity and any numerical solver tolerance beyond the fixed 3%
+norm gate are checked only on `R2b-dev` before sealed scores. On confirmation
+families, a
 sign reversal or gross nonmonotonicity invalidates the component-specific
 interpretation rather than triggering dose selection.
 
-R2b passes only if:
+R2b passes on `R2b-confirm` only if:
 
 1. every retained pair clears the 3% realized-norm gate;
 2. target dose response is monotone in the predicted direction;
@@ -213,3 +222,10 @@ Fable engineer interpretation, independent adversarial review, and an
 experiment-log entry preserving failures and claim ceilings. Gate 1 closes only
 after both parts are resolved; Gate 3 may use individual suppressor heads only
 if Part B passes.
+
+## Frozen R2b split amendment (2026-07-13, before generation)
+
+The earlier text referred to development families for dose monotonicity but
+defined only one 16-family R2b pool. R2b now has 16 development and 16 sealed
+confirmation families. Development may calibrate implementation behavior;
+component-specific inference uses confirmation once.

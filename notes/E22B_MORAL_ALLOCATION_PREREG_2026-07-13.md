@@ -24,6 +24,12 @@ Need and immediacy are distinct: a severe but stable condition can wait briefly;
 
 Create at least 32 independently authored master families: 16 development and 16 sealed confirmation. Domains include health navigation, crisis support, accessibility, education, community response, moderation/safety, resource coordination, and everyday care. Avoid fantastical trolley cases in the primary set; a small dilemma-style sensitivity set may be secondary.
 
+Family split seed is `1447038350` (first 32 bits of SHA-256 of
+`E22b moral allocation split v1 2026-07-13`), stratified by domain and stimulus
+source. Option/order/name/incumbency counterbalances use master seed
+`911967809` (first 32 bits of SHA-256 of
+`E22b option counterbalance v1 2026-07-13`).
+
 No person, institution, distinctive phrase, or scenario skeleton crosses
 development/confirmation. Stimulus-source/domain strata are balanced across
 splits rather than made split-specific; source is retained for sensitivity
@@ -102,6 +108,13 @@ remain explicitly exploratory frozen interventions:
 
 The suppressor edit is described as the frozen joint set unless R2b separately certifies individual-head localization. No intervention is called welfare-specific in advance.
 
+The 39 isotropic direction controls use master seed `3242403030` (first 32
+bits of SHA-256 of `E22b random direction controls v1 2026-07-13`) and the same
+ordered directions for writer and suppressor component sets. Target and null
+edits start from fresh checkpoints and must match realized post-cast joint norm
+within 3% without over-editing. R2b component-null identities remain frozen from
+Gate 1; they are rescored here but not reselected.
+
 ## Primary estimands
 
 Compute one effect per scenario family before aggregation.
@@ -169,3 +182,6 @@ stimulus author with split, left nuisance/equivalence bounds and null resolution
 unspecified, and exposed several estimands without a multiplicity hierarchy.
 The `S_text` naming, balanced source strata, numeric bounds, fixed controls, and
 confirmatory hierarchy above repair those issues before any E22b result exists.
+
+Family/counterbalance/null seeds and the 3% realized-norm contract were
+subsequently frozen before generation or target-model scoring.

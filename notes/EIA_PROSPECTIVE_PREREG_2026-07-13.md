@@ -36,8 +36,12 @@ Primary step-level outcome is a welfare-vs-task action probability margin when
 both action classes are available. Use an explicitly instrumented two-stage
 interface: first choose one finite valid `action_id` from the environment's
 state-dependent menu; only then generate free parameters such as a `say`
-message. Score the complete action-ID tokens and aggregate class probability by
-log-sum-exp over valid IDs. This avoids pretending the infinite space of free
+message. Prefer counterbalanced single-token option labels verified under the
+frozen tokenizer. Otherwise teacher-force every complete action-ID string,
+normalize their sequence log probabilities over the full valid ID menu, and
+aggregate normalized class probability by log-sum-exp. Persist the unnormalized
+sequence scores and report probability mass assigned outside the constrained
+menu under ordinary generation. This avoids pretending the infinite space of free
 message strings is enumerable. If a one-stage canonical JSON sensitivity is
 reported, restrict it to states with finite enumerated parameters, teacher-force
 the full candidate strings, and record mass outside that candidate set. Never
@@ -55,12 +59,19 @@ primary policy margin.
 - Construct at least 32 map/message families spanning at least four game
   mechanics: 16 development and 16 sealed confirmation. A family includes its
   map topology, objective mechanics, social-state script, and cost schedule.
+- Family split seed is `3017737939` (first 32 bits of SHA-256 of
+  `EIA prospective family split v1 2026-07-13`), stratified by mechanic,
+  objective type, cost schedule, and source.
 - Development: map families/seeds/message templates used for parser, dose, and
   model-selection work.
 - Confirmation: sealed map families, seeds, and message paraphrases never used for direction/layer/component/prompt/dose selection.
 - Group inference by game/map family; steps within a trajectory are repeated observations, not independent samples.
 - Source/game strata are balanced across splits. Seeds and paraphrases are
   nested robustness repetitions, not extra families.
+- Run exactly four closed-loop trajectory seeds per family and condition,
+  derived from master seed `857358250` (first 32 bits of SHA-256 of
+  `EIA prospective trajectory seeds v1 2026-07-13`). The family/condition seed
+  derivation is frozen, and condition order cannot affect the player RNG.
 
 ### Fixed-state bank
 
@@ -88,6 +99,13 @@ Capture at the final prompt token immediately before action generation:
 
 No direction is refit on confirmation trajectories.
 
+If Gate-2 `d_N` passes, it is the primary named prospective projection;
+`d_resid` remains a historical costly-helping comparator. If `d_N` fails, no
+other projection is promoted to a welfare-content claim: `d_resid` remains the
+primary assay comparator and full-residual prediction is labeled multivariate
+prediction rather than a named representation. This hierarchy is frozen before
+EIA development scores.
+
 ## Baselines
 
 ### Observable-state baseline
@@ -107,8 +125,10 @@ actuality is not external ground truth about whether a person is real.
 
 ### Random representation controls
 
-Use at least 64 frozen norm-matched random directions plus task/state directions
-at the same blocks. Finite-control seeds, generator, and resolution are persisted.
+Use exactly 64 frozen norm-matched random directions plus task/state directions
+at the same blocks. Master seed is `1138704895` (first 32 bits of SHA-256 of
+`EIA prospective random directions v1 2026-07-13`); child seeds, generator, and
+finite resolution are persisted.
 
 ## Predictive analyses
 
@@ -134,7 +154,9 @@ at the same blocks. Finite-control seeds, generator, and resolution are persiste
 - Evaluate the frozen writer intervention only if Gate 1A passes, individual
   suppressor heads only if R2b passes (otherwise the joint set), and any later
   Gate-3 circuit edit only under its accepted claim ceiling.
-- Same states/seeds/prompts across conditions; no prompt retuning by edit.
+- Use the identical fixed-state bank across conditions and paired initial
+  trajectory seeds/prompts. Post-divergence trajectory states are not treated as
+  matched. No prompt retuning by edit.
 - Capability/parser/invalid-action rates are mandatory controls.
 
 ## Realized-cost factorial
@@ -171,3 +193,7 @@ logit definition underspecified for multi-token JSON commands. The fixed-state
 bank, canonical full-action likelihood, 16/16 family split, and explicit
 fixed-state/trajectory claim separation above repair those defects without
 opening any new prospective result.
+
+The exact family/trajectory/null seeds, four-seed trajectory schedule,
+normalized finite-action likelihood, and primary representation hierarchy were
+subsequently frozen before EIA development runs.

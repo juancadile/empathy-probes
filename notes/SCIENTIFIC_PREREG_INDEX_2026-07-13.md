@@ -21,7 +21,7 @@
 | M-confirm2 Gate-1 partition (16) | final writer/component replication | sealed; never circuit/persona selection |
 | M-circuit-validation partition (16) | Stage-B graph/feature selection | opened only for circuit selection; not confirmation |
 | M-circuit-confirm partition (16) | Stage-B edge/feature graph confirmation | disjoint from Gate-1 M-confirm2 and circuit validation |
-| R2b fresh 16 families | suppressor component localization | sealed; old V2.2 families diagnostic only |
+| R2b development / confirmation (16/16) | dose/solver development / suppressor component localization | old V2.2 families diagnostic only |
 | WP1 development / confirmation (16/16) | nuisance construction / held-out nuisance certification | `T_new` is the primary post-Gate-0 task nuisance control |
 | WP3 development / confirmation (16/16) | welfare-content representation selection / construct test | sealed confirmation; no direction/layer/prompt tuning |
 | B8-confirm families (16) | causal-abstraction confirmation | reserved before WP3 scoring; not WP3 confirmation |
@@ -74,7 +74,10 @@
 
 - Preregistration: `GATE1_PARAMETER_LOCALIZATION_PREREG_2026-07-13.md` Part B;
   audit history in `SCIENCE_AUDIT_2026-07-13.md`; issue #36.
-- Requirement: sixteen fresh active-objective families; realized joint-L2 norm pairing; one head per L17-L20; dose monotonicity; family-paired target-minus-null inference.
+- Requirement: 16 R2b development + 16 sealed active-objective confirmation
+  families; realized joint-L2 norm pairing; one head per L17-L20; development-
+  only dose/solver checks; family-paired target-minus-null inference on
+  confirmation.
 - Claim ceiling on pass: selected-head localization conditional on the tested layer/type universe. Failure retains set-level/direction-specific evidence only.
 
 ## Gate 2: Construct identification
