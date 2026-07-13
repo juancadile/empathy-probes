@@ -109,7 +109,8 @@ Return only JSON with this exact schema:
 
 @torch.no_grad()
 def judge_requests(requests: list[dict], model, tokenizer, batch_size: int,
-                   max_input_tokens: int, max_new_tokens: int = 96) -> list[dict]:
+                   max_input_tokens: int, max_new_tokens: int = 96,
+                   chat_template_kwargs: dict | None = None) -> list[dict]:
     outputs = []
     for start in range(0, len(requests), batch_size):
         batch = requests[start:start + batch_size]
@@ -118,7 +119,8 @@ def judge_requests(requests: list[dict], model, tokenizer, batch_size: int,
                 "You are a careful measurement annotator. Follow the requested "
                 "JSON schema exactly and do not add commentary.")},
              {"role": "user", "content": item["prompt"]}], tokenize=False,
-            add_generation_prompt=True) for item in batch]
+            add_generation_prompt=True,
+            **(chat_template_kwargs or {})) for item in batch]
         encoded = tokenizer(
             rendered, return_tensors="pt", padding=True, truncation=True,
             max_length=max_input_tokens).to(model.device)
@@ -223,7 +225,7 @@ def analyze_writer(records: list[dict]) -> dict:
                 row["all_task_controls_clear"] for row in partitions.values())}
 
 
-def analyze_r2b(records: list[dict]) -> dict:
+def analyze_r2b(records: list[dict], seed: int = SEED) -> dict:
     lookup = {(record["family_id"], record["need"], record["cost"]):
               record["rating"] for record in records}
     metadata = {record["family_id"]: record for record in records}
@@ -247,7 +249,7 @@ def analyze_r2b(records: list[dict]) -> dict:
         family_need_interactions = need_diffs["high"] - need_diffs["zero"]
         need_summary = {}
         for index, (cost, values) in enumerate(need_diffs.items()):
-            interval = bootstrap_interval(values, .95, SEED + index)
+            interval = bootstrap_interval(values, .95, seed + index)
             need_summary[cost] = {
                 "mean": float(values.mean()),
                 "positive_families": int((values > 0).sum()),
@@ -255,7 +257,7 @@ def analyze_r2b(records: list[dict]) -> dict:
                 "gate": int((values > 0).sum()) >= 13 and interval[0] > 0,
             }
         interaction_ci = bootstrap_interval(
-            family_need_interactions, .90, SEED + 20)
+            family_need_interactions, .90, seed + 20)
         active_correct = []
         leakage = []
         for record in records:
