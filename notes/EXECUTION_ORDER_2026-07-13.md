@@ -143,9 +143,16 @@ Fresh writer and enacted-behavior confirmation still belong to Gates 1 and 4.
 ## Gate 5: Generality and advanced methods
 
 - Replicate only the surviving Gate 1-4 claims on Llama, then 2B/27B/32B as compute permits. Do not scale a failed construct label.
-- Activation Oracles are triangulating readouts, never causal evidence.
+- Activation Oracles are calibrated triangulating readouts, never causal
+  evidence. Freeze all questions on development data, include abstention and
+  wrong-example/text-only controls, and report prompt disagreement rather than
+  selecting the best verbalization.
 - DAS/causal abstraction follows a fixed high-level variable model and untouched interchange tests.
-- Jacobian-lens work is called transported-norm amplification unless the full workspace method is reproduced. It cannot rescue construct purity.
+- Jacobian-lens work is called transported-norm amplification unless the
+  published sparse nonnegative J-space decomposition is reproduced. Even then,
+  use "sparse J-space alignment" unless matched J-space/remainder interventions,
+  re-entry clamps, and flexible-versus-automatic controls establish a
+  workspace-like functional role. It cannot rescue construct purity.
 - Persona-vector comparison, tonic/phasic analysis, and steering asymmetry tests use Gate-2-certified stimuli or are labeled exploratory.
 
 ## Deliverable order

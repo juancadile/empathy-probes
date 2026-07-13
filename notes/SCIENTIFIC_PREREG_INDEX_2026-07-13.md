@@ -137,6 +137,19 @@
 - Issues: #8 and #20.
 - Compare additive steering, projection scaling/removal, norm-preserving rotation, and natural patching at geometry-matched doses. No entrenchment/workspace story without survival.
 
+### Secondary activation readouts
+
+- Preregistration: `B7_B9_SECONDARY_READOUTS_PREREG_2026-07-13.md`.
+- Issues: #30 and #32.
+- Activation Oracles are calibrated, provider-released verbalization assays;
+  they do not establish mechanism or rescue a failed construct gate.
+- Jacobian analysis has three separate ceilings: transported-norm amplification,
+  sparse J-space alignment, and workspace-like functional role. The last two
+  require the published sparse nonnegative decomposition and matched functional
+  interventions; the existing transported-norm script is Tier 1 only.
+- Prerequisite: Gate-2-frozen representations. These analyses consume no new
+  independent confirmation families and remain secondary to causal evidence.
+
 ### Scale and family generality
 
 - Preregistration: `D_SCALE_GENERALITY_PREREG_2026-07-13.md`
@@ -152,5 +165,6 @@
 5. Gate-2 representation confirmation.
 6. Current circuit/SAE work on disjoint circuit families.
 7. Prospective EIA and E22b.
-8. B8/C3/C4 and normalized generality work only on claims that survived earlier gates.
+8. B7/B9 secondary readouts, B8/C3/C4, and normalized generality work only on
+   claims that survived earlier gates.
 9. Paper/showcase rewrite after result-level engineer interpretation and independent adversarial review.
