@@ -421,3 +421,24 @@ alone is not clearance.
 - Q1 and Q2 remain visibly failing at the CLI surfaces: the EIA driver cannot
   import because of removed component constants, and the judge/pretest CLIs
   still expose no provider selection.
+
+## Reset Handoff Refresh (2026-07-13 05:06 EDT)
+
+- Current architect HEAD is `e7f3380`. Commits since the 04:45 handoff modify
+  preregistration/QA documents only: Gate-1 localization gates, Gate-2 causal
+  interchange/dissociation estimands, and circuit mediation/coverage claim
+  semantics. They do not change the Integrity Repair A implementation target.
+- The exact preserved dirty paths remain:
+  `notes/ROADMAP.md`, `paper-v2/figures/fig1.png`,
+  `paper-v2/figures/fig2.png`,
+  `results/controlled_directions_gemma2_9b_it/activations/`,
+  `results/e27_game_variants/baseline/`, and
+  `results/e27_game_variants/suppressors/`. Do not stage, delete, rewrite, or
+  content-address these paths in Repair A.
+- Fresh offline baseline: `pytest -q tests` -> `118 passed in 5.84s`;
+  `python3 -c 'import src.eia_validation.run_eia_local'` and module `--help`
+  still fail on the stale removed constants. This is the required Q1 red test.
+- The Claude/Fable account is quota-limited until the reported reset window
+  (approximately 07:50 EDT). Do not shorten the repair or set a token budget
+  when resuming. Run the complete Q1-Q10 batch after reset, then stop for
+  independent review before any Gate-0B/Spark/API/GPU work.
