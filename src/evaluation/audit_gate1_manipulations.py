@@ -324,6 +324,19 @@ def main(argv: list[str] | None = None) -> int:
     torch.manual_seed(SEED)
     records = judge_requests(
         requests, model, tokenizer, args.batch_size, args.max_input_tokens)
+    args.out.mkdir(parents=True)
+    raw_output = args.out / "raw_judge_records.json"
+    raw_output.write_text(json.dumps({
+        "schema": "empathy-action-probes/gate1-manipulation-raw/1",
+        "model": args.model, "revision": args.revision, "seed": SEED,
+        "input_files": [
+            {"path": str(writer_path.relative_to(ROOT)),
+             "sha256": sha256_path(writer_path)},
+            {"path": str(r2b_path.relative_to(ROOT)),
+             "sha256": sha256_path(r2b_path)},
+        ],
+        "records": records,
+    }, indent=2) + "\n")
     invalid = []
     for record in records:
         errors = validate_rating(record)
@@ -331,7 +344,17 @@ def main(argv: list[str] | None = None) -> int:
         if errors:
             invalid.append({"request_id": record["request_id"], "errors": errors})
     if invalid:
-        raise ValueError(f"{len(invalid)} invalid judge outputs; first={invalid[0]}")
+        invalid_output = args.out / "invalid_outputs.json"
+        invalid_output.write_text(json.dumps({
+            "schema": "empathy-action-probes/gate1-manipulation-invalid/1",
+            "raw_output": str(raw_output.relative_to(ROOT)),
+            "invalid": invalid,
+        }, indent=2) + "\n")
+        print(json.dumps({"status": "INVALID_JUDGE_OUTPUTS",
+                          "count": len(invalid),
+                          "first": invalid[0],
+                          "raw_output": str(raw_output)}, indent=2))
+        return 2
     writer_records = [record for record in records if record["kind"] == "writer"]
     r2b_records = [record for record in records if record["kind"] == "r2b"]
     report = {
@@ -359,7 +382,6 @@ def main(argv: list[str] | None = None) -> int:
         "target_model_loaded": False,
         "human_gate_pending": True,
     }
-    args.out.mkdir(parents=True)
     output = args.out / "manipulation_audit.json"
     output.write_text(json.dumps(report, indent=2) + "\n")
     print(json.dumps({"writer_pass": report["writer"]["passed_machine_gate"],
