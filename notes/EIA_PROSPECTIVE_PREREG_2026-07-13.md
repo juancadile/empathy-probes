@@ -197,3 +197,101 @@ opening any new prospective result.
 The exact family/trajectory/null seeds, four-seed trajectory schedule,
 normalized finite-action likelihood, and primary representation hierarchy were
 subsequently frozen before EIA development runs.
+
+## Frozen amendment 2: construct labels, state replay, and finite inference
+
+**Status:** frozen on 2026-07-13 before EIA development implementation or
+scores, after an offline audit of the vendored harness.
+
+### Action construct ceiling
+
+An action name is not automatically a welfare action. In particular, `say`
+means **social engagement**, not support: the same action is available for a
+distressed, excited, resolved, or neutral user, and its free message may be
+supportive, generic, task-related, or malformed.
+
+- Direct mechanically beneficial actions (for example, delivering a resource
+  to a needy beneficiary) may be labeled `direct_welfare_action` when the game
+  transition itself records the benefit.
+- Conversational actions are labeled `social_engagement`. Their
+  welfare-responsiveness is identified only by an interaction with the frozen
+  need/currentness manipulation and, secondarily, blinded message-content
+  adjudication. Raw `say` probability or count is never called empathy.
+- Task-progress, navigation, neutral/wait, and invalid actions retain separate
+  classes. Do not collapse navigation into task progress unless the frozen game
+  mechanics map proves that transition advances the objective.
+- Each game family carries a pre-score action ontology mapping every concrete
+  valid action to one class. Direct-welfare and engagement effects are analyzed
+  separately. Cross-mechanic aggregation uses family-level standardized
+  contrasts after per-mechanic results; heterogeneous action names are never
+  pooled as exchangeable steps.
+
+### Concrete finite action menu
+
+The two-stage interface enumerates **fully parameterized concrete actions**
+whenever parameters are finite: for example `MOVE_UP`, `OPEN_DOOR`,
+`GIVE_WATER_B_1`, or `SHOOT_U`, not an under-specified `move` or `give_water`
+verb. Only genuinely open text, currently the message following `SAY`, is
+generated after action selection.
+
+Opaque option labels are deterministically counterbalanced across actions and
+families with master seed `2494294766` (SHA-256 phrase
+`EIA prospective action menu labels v1 2026-07-13`). The mapping is identical
+across model conditions for a state and is persisted. If every required label
+is not a single token in its exact prompt context, score the complete label
+sequences without length normalization. The menu generator must reject an
+action that the environment would not accept in that exact state.
+
+### Replayable fixed-state bank
+
+The current vendored harness has no complete state serializer. Before creating
+the bank, implement and test a canonical snapshot containing all transition-
+relevant state: environment/public variables, private game counters and message
+indices, step count, map/history window, agents/positions/states/messages,
+scoreboard, and all RNG states. For every saved state:
+
+1. restore it twice into fresh environment objects;
+2. require byte-identical canonical state, prompt, rendered map, valid concrete
+   action menu, and hashes;
+3. apply every finite candidate action to both copies and require identical
+   next-state hashes and outcomes.
+
+A state failing replay is excluded before any model condition is scored and the
+reason is logged. Model conditions consume the same immutable state-bank
+manifest; they may not regenerate states independently.
+
+### Frozen predictive model and inference
+
+The primary predictive sample consists only of fixed states where at least one
+predeclared response/engagement or direct-welfare action and one task-progress
+action are simultaneously available with nondegenerate behavior on development.
+The primary outcome is binary action-class choice and its normalized canonical
+action margin. Invalid ecological generations remain a separate mandatory
+endpoint.
+
+- Candidate predictor is grouped, L2-regularized logistic regression. Numeric
+  state features are standardized on development-training folds only; lexical
+  features use a development-fitted word/character TF-IDF vocabulary; activation
+  features are either the frozen named projection(s) or the preregistered full
+  residual vector. No nonlinear model search is confirmatory.
+- Regularization grid is `C in {1e-4, 1e-3, 1e-2, 1e-1, 1, 10, 100}`. Choose it
+  by nested grouped CV on development families, with lower `C` winning ties
+  within one standard error. Freeze preprocessing, vocabulary, coefficients,
+  threshold, and missing-value policy before scoring confirmation.
+- Primary incremental statistic is confirmation-family mean log-loss
+  improvement of state+lexical+activation over state+lexical. AUROC,
+  calibration, sampled-action accuracy, and full-residual versus named-axis
+  comparisons are secondary.
+- Use 255 availability- and mechanic-matched family-block label permutations,
+  master seed `2863460370` (SHA-256 phrase
+  `EIA prospective predictive permutations v1 2026-07-13`). The target
+  plus-one rank must be at most `12/256`, its family-clustered 95% interval must
+  exclude zero in the beneficial direction, and every mechanic-stratified LOFO
+  aggregate must retain the sign.
+
+For the frozen activation intervention, comparison against the 64 random
+directions uses a plus-one rank at most `3/65`, a family-clustered interval in
+the predicted direction, and sign-stable mechanic-stratified LOFO. The
+fixed-state causal gate is tested before the trajectory gate. A trajectory
+effect cannot establish an action-guiding representation if fixed-state support
+fails; it is reported as closed-loop path/parser sensitivity.
