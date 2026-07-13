@@ -1,0 +1,13 @@
+{
+  "schema": "empathy-action-probes/e27-gate0b-binding-audit/1",
+  "accepted_artifact": "results/gate0b_e27_model_accepted_20260713/e27_scores_model.json",
+  "accepted_artifact_sha256": "b8cdbbf098d163fb792e678d1f1386317c27d991d24daf308b91e34915baf1a6",
+  "tree_manifest": "results/e27_game_variants/PROVENANCE.json",
+  "tree_manifest_sha256": "7eaf5cc8b411d3b4cc4a5b68e55c83b06646fa8c5070c2fcd2b76b6d12e48166",
+  "accepted_declared_file_count": 54,
+  "observed_file_count": 54,
+  "missing": [],
+  "extra": [],
+  "hash_mismatches": [],
+  "exact_match": true
+}

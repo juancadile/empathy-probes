@@ -1,0 +1,282 @@
+{
+  "schema": "empathy-action-probes/artifact-tree-manifest/1",
+  "roots": [
+    "results/e27_game_variants/baseline",
+    "results/e27_game_variants/suppressors"
+  ],
+  "file_count": 54,
+  "total_bytes": 1231503,
+  "aggregate_sha256": "5ea413102e4b53f97802e4999155a600e848febb80950b28ccf8cd322296dd02",
+  "files": [
+    {
+      "path": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed11/experiment.json",
+      "bytes": 27937,
+      "sha256": "e79bb26eb4e50e43db66e071bd8c801eda1945f0cc5e35a0f2b58b7c642d72d4"
+    },
+    {
+      "path": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed22/experiment.json",
+      "bytes": 29183,
+      "sha256": "b9dce40543270ebdd5f9bbeb021780bbee9b6a829c394097638b097b6d1260b7"
+    },
+    {
+      "path": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed33/experiment.json",
+      "bytes": 26968,
+      "sha256": "ff81e6cd645c6ab6b9356c891288aa829f523ad4c663ed254c8749568406f021"
+    },
+    {
+      "path": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed44/experiment.json",
+      "bytes": 27356,
+      "sha256": "4c0d8927028665f2c3c05e5b94e4d170b3583ed78b0d36ce774b1217501a8f68"
+    },
+    {
+      "path": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed55/experiment.json",
+      "bytes": 26679,
+      "sha256": "0bfb035ff9a993689bbf8d70589febc3666467c02414e52402fbb9381bef6783"
+    },
+    {
+      "path": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed66/experiment.json",
+      "bytes": 28314,
+      "sha256": "6c2bd970df097be5135095272418fcc4fe8c8aa74692e097e5029cd14915c643"
+    },
+    {
+      "path": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed77/experiment.json",
+      "bytes": 29195,
+      "sha256": "8915d4830f9411b167a635bc41cd3cd5cbb98d5e6c4db4fa3d4e2936f5c86e9f"
+    },
+    {
+      "path": "results/e27_game_variants/baseline/distress/baseline_distress/the_listener/listener_distress_seed88/experiment.json",
+      "bytes": 28004,
+      "sha256": "8ff628100749bf205f52cd4ee29bf9b18de55be0116fc4f8c87154a8db87b490"
+    },
+    {
+      "path": "results/e27_game_variants/baseline/distress/run_summary.json",
+      "bytes": 678,
+      "sha256": "0678d72eb80f4c62f9cbdcd04f2b730894a75ceefcabe5d7d0f0643de7812f71"
+    },
+    {
+      "path": "results/e27_game_variants/baseline/excited/baseline_excited/the_listener/listener_excited_seed11/experiment.json",
+      "bytes": 24491,
+      "sha256": "c89375f19fc23f6b935fb9f0dd0f6f1f6f6db0af9d0b698cde3f17a15583318a"
+    },
+    {
+      "path": "results/e27_game_variants/baseline/excited/baseline_excited/the_listener/listener_excited_seed22/experiment.json",
+      "bytes": 24290,
+      "sha256": "fd8504d9fb8a0da578c2244ec62149dcaa40cbbbe3464ea542037b0ba030d00e"
+    },
+    {
+      "path": "results/e27_game_variants/baseline/excited/baseline_excited/the_listener/listener_excited_seed33/experiment.json",
+      "bytes": 24416,
+      "sha256": "acde4f09b96e24866096f6b6469dc1fdceb07a0925d9a9b2dfc2b2a0f5410f39"
+    },
+    {
+      "path": "results/e27_game_variants/baseline/excited/baseline_excited/the_listener/listener_excited_seed44/experiment.json",
+      "bytes": 24119,
+      "sha256": "9c105e16473164b499de9eae1707db4242abdfeb979d7998e469300a7ed00e44"
+    },
+    {
+      "path": "results/e27_game_variants/baseline/excited/baseline_excited/the_listener/listener_excited_seed55/experiment.json",
+      "bytes": 24120,
+      "sha256": "ff3160106d885223052654512cfee5e5735123b6f6eceaef96fcb99277cabe83"
+    },
+    {
+      "path": "results/e27_game_variants/baseline/excited/baseline_excited/the_listener/listener_excited_seed66/experiment.json",
+      "bytes": 24264,
+      "sha256": "12a396a647fc7240d8a4c0284979245de1c6b2c9f89cccd5365ebdcdd2926972"
+    },
+    {
+      "path": "results/e27_game_variants/baseline/excited/baseline_excited/the_listener/listener_excited_seed77/experiment.json",
+      "bytes": 24122,
+      "sha256": "c27cec1049dc1360adf013a3e74e8ac7f45d4ac4377f2d175ffa31755d0cd72b"
+    },
+    {
+      "path": "results/e27_game_variants/baseline/excited/baseline_excited/the_listener/listener_excited_seed88/experiment.json",
+      "bytes": 24120,
+      "sha256": "4d864c677229bc5c28f311eb15092e44282bb9c39ffcd9e3fb1bdc76b468f817"
+    },
+    {
+      "path": "results/e27_game_variants/baseline/excited/run_summary.json",
+      "bytes": 677,
+      "sha256": "20f89a8aa5bf90050b302fb2d6bd059de2a6c58653338739ef1c4836bcd3a901"
+    },
+    {
+      "path": "results/e27_game_variants/baseline/resolved/baseline_resolved/the_listener/listener_resolved_seed11/experiment.json",
+      "bytes": 24126,
+      "sha256": "6d171c86da364931b7b4b2e25665f76daebd540ff8a132f7bc163b026374d1da"
+    },
+    {
+      "path": "results/e27_game_variants/baseline/resolved/baseline_resolved/the_listener/listener_resolved_seed22/experiment.json",
+      "bytes": 24141,
+      "sha256": "9983d7fbbde657c3f9f3bc658c82e28c1752d7e63e92fa947ef0e870d7ab7a93"
+    },
+    {
+      "path": "results/e27_game_variants/baseline/resolved/baseline_resolved/the_listener/listener_resolved_seed33/experiment.json",
+      "bytes": 24118,
+      "sha256": "48ed2fdad3a18120cd39121e3507252b10b1a329808e7a8344d79bd6b7855ded"
+    },
+    {
+      "path": "results/e27_game_variants/baseline/resolved/baseline_resolved/the_listener/listener_resolved_seed44/experiment.json",
+      "bytes": 24125,
+      "sha256": "cc38c3b5748762a2efe3db501fafd96a0be3d71db9f9a026006e2d40f763760e"
+    },
+    {
+      "path": "results/e27_game_variants/baseline/resolved/baseline_resolved/the_listener/listener_resolved_seed55/experiment.json",
+      "bytes": 24119,
+      "sha256": "3e8143e202b37e98775637ff5e360c1372cadae83aa698d071116e147e0aa4da"
+    },
+    {
+      "path": "results/e27_game_variants/baseline/resolved/baseline_resolved/the_listener/listener_resolved_seed66/experiment.json",
+      "bytes": 24141,
+      "sha256": "10e7058ac8da3570cde40b629ec64cda40733cd54be44cab54ece4e610a610fe"
+    },
+    {
+      "path": "results/e27_game_variants/baseline/resolved/baseline_resolved/the_listener/listener_resolved_seed77/experiment.json",
+      "bytes": 24125,
+      "sha256": "ad8aa63232bc856da1608a08217315e703ebf32687fcad16fecc287f4606f1b1"
+    },
+    {
+      "path": "results/e27_game_variants/baseline/resolved/baseline_resolved/the_listener/listener_resolved_seed88/experiment.json",
+      "bytes": 24118,
+      "sha256": "c0c574d0918143d8de6e4e19f0882d9ddb158a4e7e8e5a1a76df15d35d9adba3"
+    },
+    {
+      "path": "results/e27_game_variants/baseline/resolved/run_summary.json",
+      "bytes": 678,
+      "sha256": "dd2f1535509a8b6fdae1b44af432ca60f1bcf44498dc804da3147c1a84581647"
+    },
+    {
+      "path": "results/e27_game_variants/suppressors/distress/run_summary.json",
+      "bytes": 681,
+      "sha256": "e0d2e02a41848115b72088d876e72fd682c80f452fba54b884345bf49b55290c"
+    },
+    {
+      "path": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed11/experiment.json",
+      "bytes": 29735,
+      "sha256": "d16aabdd1acad8a249ab7f75ceceb347f3da9573f1a06e087c949c20d2a7c365"
+    },
+    {
+      "path": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed22/experiment.json",
+      "bytes": 27722,
+      "sha256": "63925843c8b1bff55b6c1c28e3fbe7838738f42caafa837c4c1f72e574ea37c4"
+    },
+    {
+      "path": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed33/experiment.json",
+      "bytes": 29410,
+      "sha256": "0770b88dbd682643db6a80ae76eb2af77644e318e8043c66d82c4435e200f568"
+    },
+    {
+      "path": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed44/experiment.json",
+      "bytes": 27159,
+      "sha256": "1f6dd8d04c3ec710091bc5267fe3a69901eaed4b934307228e6c93e3f03835dd"
+    },
+    {
+      "path": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed55/experiment.json",
+      "bytes": 26740,
+      "sha256": "38a06aa77994c51152c75c43a9257b3a3f78354ac53f0f73cdbda3e22c4a83df"
+    },
+    {
+      "path": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed66/experiment.json",
+      "bytes": 30333,
+      "sha256": "767e00651a01e0056e123159cea76cce9bfb8a930b5768e79d653da21c9e822f"
+    },
+    {
+      "path": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed77/experiment.json",
+      "bytes": 27488,
+      "sha256": "f8adba9aa64e01d96a8071ac8353e45a3fb3b53fa693d8bdb6df52ae4337b63f"
+    },
+    {
+      "path": "results/e27_game_variants/suppressors/distress/suppressors_distress/the_listener/listener_distress_seed88/experiment.json",
+      "bytes": 30611,
+      "sha256": "f51dadb452a59d2733c832054f69e3abc3245fbf92001387c599f49dc7c51859"
+    },
+    {
+      "path": "results/e27_game_variants/suppressors/excited/run_summary.json",
+      "bytes": 680,
+      "sha256": "16bb896a12bae4de6deacd49bba63e451ffcc70c4ac490ef8d445eee8788d6e8"
+    },
+    {
+      "path": "results/e27_game_variants/suppressors/excited/suppressors_excited/the_listener/listener_excited_seed11/experiment.json",
+      "bytes": 24741,
+      "sha256": "67a52de4debe0abda5250755ff3277c2ef083f4b818426cdc4ce897ac72460ca"
+    },
+    {
+      "path": "results/e27_game_variants/suppressors/excited/suppressors_excited/the_listener/listener_excited_seed22/experiment.json",
+      "bytes": 24329,
+      "sha256": "e7924d8c8c97015a22f4facda95e44ca152e783797d0e7f2197688597395dbda"
+    },
+    {
+      "path": "results/e27_game_variants/suppressors/excited/suppressors_excited/the_listener/listener_excited_seed33/experiment.json",
+      "bytes": 24478,
+      "sha256": "d45173808cedc9b42d88cd2d83ce0eed10e4a08922d2e45725ce475488db00a6"
+    },
+    {
+      "path": "results/e27_game_variants/suppressors/excited/suppressors_excited/the_listener/listener_excited_seed44/experiment.json",
+      "bytes": 24122,
+      "sha256": "2bf75d5d51a83bffeb8717bc1f1a47057e39780283c34b00d71d3540a7133949"
+    },
+    {
+      "path": "results/e27_game_variants/suppressors/excited/suppressors_excited/the_listener/listener_excited_seed55/experiment.json",
+      "bytes": 24320,
+      "sha256": "f32bcc1586be4e7e1dd952a506342d352a350afce478ead9be40f732d87205b1"
+    },
+    {
+      "path": "results/e27_game_variants/suppressors/excited/suppressors_excited/the_listener/listener_excited_seed66/experiment.json",
+      "bytes": 24387,
+      "sha256": "7775e1ad60aa6425ca5305569703362c0c99a97c1b17f5bf063b1a593ffadda5"
+    },
+    {
+      "path": "results/e27_game_variants/suppressors/excited/suppressors_excited/the_listener/listener_excited_seed77/experiment.json",
+      "bytes": 24124,
+      "sha256": "b3255323b10c59944e5e5374374f76d5c3c5dd4e53b39829f23f3b3af47536b9"
+    },
+    {
+      "path": "results/e27_game_variants/suppressors/excited/suppressors_excited/the_listener/listener_excited_seed88/experiment.json",
+      "bytes": 24122,
+      "sha256": "c828c1b112dc9bc99576c2a98ce4f38c1e3b90d9697e42ab5ab4cdb32f769d88"
+    },
+    {
+      "path": "results/e27_game_variants/suppressors/resolved/run_summary.json",
+      "bytes": 681,
+      "sha256": "05561ac95d060a3c5d500e93279916267b670890635739137809af0141bf9569"
+    },
+    {
+      "path": "results/e27_game_variants/suppressors/resolved/suppressors_resolved/the_listener/listener_resolved_seed11/experiment.json",
+      "bytes": 24129,
+      "sha256": "257e27717b874c99b6d262e7ab67e87b867e113281afaf53796dc7be7a1ed1d7"
+    },
+    {
+      "path": "results/e27_game_variants/suppressors/resolved/suppressors_resolved/the_listener/listener_resolved_seed22/experiment.json",
+      "bytes": 24123,
+      "sha256": "7b8b44d81ba22b1ccd0c078de03865161cf629439ef5d9697eeec72ccb454d81"
+    },
+    {
+      "path": "results/e27_game_variants/suppressors/resolved/suppressors_resolved/the_listener/listener_resolved_seed33/experiment.json",
+      "bytes": 24126,
+      "sha256": "b3bc7c201917d8da79b5fb937c5e92007c2ab9a1a75aa6b9346731a38e4db46d"
+    },
+    {
+      "path": "results/e27_game_variants/suppressors/resolved/suppressors_resolved/the_listener/listener_resolved_seed44/experiment.json",
+      "bytes": 24123,
+      "sha256": "6c348512ba14a5e5b03737317f14f0ea1ae80556b61645274d0492f42e652bc9"
+    },
+    {
+      "path": "results/e27_game_variants/suppressors/resolved/suppressors_resolved/the_listener/listener_resolved_seed55/experiment.json",
+      "bytes": 24122,
+      "sha256": "e2621f1645ef7e03d50a7c875941c02321e9a22b0e39cede874a534cbb3b69a0"
+    },
+    {
+      "path": "results/e27_game_variants/suppressors/resolved/suppressors_resolved/the_listener/listener_resolved_seed66/experiment.json",
+      "bytes": 24144,
+      "sha256": "34fbd8fb74db71f84568f6978e9f1dfed09d49c5c4b602b6302fe0702017d883"
+    },
+    {
+      "path": "results/e27_game_variants/suppressors/resolved/suppressors_resolved/the_listener/listener_resolved_seed77/experiment.json",
+      "bytes": 24128,
+      "sha256": "e996a9005edd73b6eb1e2b7f466a09d2e9e0cedb3e4c70cb32e631f61099d0a0"
+    },
+    {
+      "path": "results/e27_game_variants/suppressors/resolved/suppressors_resolved/the_listener/listener_resolved_seed88/experiment.json",
+      "bytes": 24121,
+      "sha256": "6f5060fd2edcf525d7cc521dbfff58679ac2567d260b7648e35259d265e27fbd"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "schema": "empathy-action-probes/human-audit-bundle/1",
+  "total_rows": 604,
+  "blinding": {
+    "annotator_directory_contains_design_labels": false,
+    "private_key_must_not_be_sent": true,
+    "forms_remain_separate_because_rating_instruments_differ": true
+  },
+  "sources": [
+    {
+      "form": "A",
+      "rows": 444,
+      "source_packet": "data/gate_families/gate2_v2/human_audit/gate2_v2_packet.csv",
+      "source_packet_sha256": "f45b5b1293b77996f353b06d5fea65a92f39732d503bdd8ad54f79dc77c7982b",
+      "source_key": "data/gate_families/gate2_v2/human_audit/gate2_v2_key.csv",
+      "source_key_sha256": "89aaff963bd8989f86c48a55929b798cfad7bbfbacc4204d1da3edf48d4fdd6c",
+      "annotator_packet": "data/gate_families/human_audit_604_20260713/annotator/form_A.csv",
+      "annotator_packet_sha256": "f45b5b1293b77996f353b06d5fea65a92f39732d503bdd8ad54f79dc77c7982b"
+    },
+    {
+      "form": "B",
+      "rows": 160,
+      "source_packet": "data/gate_families/gate1_r2b_v2/human_audit/r2b_v2_packet.csv",
+      "source_packet_sha256": "e6b6c8a6ec69daaf390019139b46599f143a2906fc4e163c1df9b9c31446ce43",
+      "source_key": "data/gate_families/gate1_r2b_v2/human_audit/r2b_v2_key.csv",
+      "source_key_sha256": "98c7db9c6e9c42a5422c11bc335f8e6506ce6234c5de2cda584150fc4abb82c5",
+      "annotator_packet": "data/gate_families/human_audit_604_20260713/annotator/form_B.csv",
+      "annotator_packet_sha256": "e6b6c8a6ec69daaf390019139b46599f143a2906fc4e163c1df9b9c31446ce43"
+    }
+  ],
+  "private_key": "data/gate_families/human_audit_604_20260713/private_do_not_send/combined_key.csv",
+  "private_key_sha256": "72d50da6149ab501fb9824ccf093d47d5cfd6ea9c47345228504cdff1a03de71"
+}

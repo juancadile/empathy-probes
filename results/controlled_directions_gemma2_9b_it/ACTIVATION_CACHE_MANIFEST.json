@@ -1,0 +1,56 @@
+{
+  "schema": "empathy-action-probes/artifact-tree-manifest/1",
+  "roots": [
+    "results/controlled_directions_gemma2_9b_it/activations"
+  ],
+  "file_count": 9,
+  "total_bytes": 229760209,
+  "aggregate_sha256": "7e070c6cfd209d0032431df2e4a74d98899ef99b38925d2aa162a472e42cdcae",
+  "files": [
+    {
+      "path": "results/controlled_directions_gemma2_9b_it/activations/cell_A.npz",
+      "bytes": 19453596,
+      "sha256": "148549d7c372cce873cf3d3fc235a3f0ea1a1f9ec76ccc487f801dbfa8610103"
+    },
+    {
+      "path": "results/controlled_directions_gemma2_9b_it/activations/cell_B.npz",
+      "bytes": 15450368,
+      "sha256": "8b70dd5e7fa3c4adac040d6b2b5a175d212bc4859258bb6735316788021e4f87"
+    },
+    {
+      "path": "results/controlled_directions_gemma2_9b_it/activations/cell_D.npz",
+      "bytes": 47492997,
+      "sha256": "939646236f55f0fec5a0d2b0cf74ff8f756473217e731a7fe28202ef9679fa51"
+    },
+    {
+      "path": "results/controlled_directions_gemma2_9b_it/activations/cell_E.npz",
+      "bytes": 37204116,
+      "sha256": "82f0bc3fbe9660c84463153eaaac3b4c917d383763bfddba6443f4471c8903f3"
+    },
+    {
+      "path": "results/controlled_directions_gemma2_9b_it/activations/cell_F.npz",
+      "bytes": 24606094,
+      "sha256": "e61ffe9bc4532132ae4428aaf37bf8baafe29252e51aabcf1ecfd66bf2cf8abc"
+    },
+    {
+      "path": "results/controlled_directions_gemma2_9b_it/activations/cell_G.npz",
+      "bytes": 30906739,
+      "sha256": "c8a65b44c43f36ef1621389d971934f41716b73d5e0775ebbeea9fcc9abc7f60"
+    },
+    {
+      "path": "results/controlled_directions_gemma2_9b_it/activations/cell_H.npz",
+      "bytes": 20601433,
+      "sha256": "933a095008131872166a122631f1f4b43d53bddda3a6aa99b2d248d7948aee1b"
+    },
+    {
+      "path": "results/controlled_directions_gemma2_9b_it/activations/cell_M.npz",
+      "bytes": 22469858,
+      "sha256": "418a3191d089bd323a123df394ed820a1720adf97696f549f5365e4d5852600f"
+    },
+    {
+      "path": "results/controlled_directions_gemma2_9b_it/activations/cell_T.npz",
+      "bytes": 11575008,
+      "sha256": "897519895474ffb826eea77c58e9f3aa46583f36a808584a71612f4bf411ffa2"
+    }
+  ]
+}

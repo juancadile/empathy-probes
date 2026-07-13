@@ -1,0 +1,46 @@
+{
+  "condition": "suppressors",
+  "variant": "distress",
+  "runs": [
+    {
+      "seed": 11,
+      "ok": true,
+      "n_player_calls": 31
+    },
+    {
+      "seed": 22,
+      "ok": true,
+      "n_player_calls": 31
+    },
+    {
+      "seed": 33,
+      "ok": true,
+      "n_player_calls": 31
+    },
+    {
+      "seed": 44,
+      "ok": true,
+      "n_player_calls": 31
+    },
+    {
+      "seed": 55,
+      "ok": true,
+      "n_player_calls": 31
+    },
+    {
+      "seed": 66,
+      "ok": true,
+      "n_player_calls": 31
+    },
+    {
+      "seed": 77,
+      "ok": true,
+      "n_player_calls": 31
+    },
+    {
+      "seed": 88,
+      "ok": true,
+      "n_player_calls": 31
+    }
+  ]
+}

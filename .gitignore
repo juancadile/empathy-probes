@@ -66,6 +66,9 @@ venv.bak/
 transformers_cache/
 huggingface/
 
+# Large reproducible activation cache; see the tracked SHA-256 manifest beside it.
+/results/controlled_directions_gemma2_9b_it/activations/
+
 # Logs
 *.log
 logs/
