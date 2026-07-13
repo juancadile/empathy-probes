@@ -78,6 +78,13 @@ Required repair:
   both `need_now` and `respond_now` questions.
 - Preserve target identity in the item-level output schema.
 
+The existing historical moral JSONL has `scenario_id` and role prose but no
+beneficiary-name field. Do not infer identity by brittle text parsing and do not
+mutate that historical stimulus artifact in this repair. Use a deterministic,
+versioned target-descriptor manifest keyed by `scenario_id` (for example, “the
+student who has just messaged for help”), validate complete one-to-one coverage,
+and persist the descriptor plus manifest version/hash in every rendered item.
+
 Acceptance tests:
 
 - Snapshot/render tests show that moral prompts identify P2/new arrival and do
