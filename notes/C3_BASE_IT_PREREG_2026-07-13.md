@@ -165,3 +165,82 @@ The joint intervention unit, dedicated optional factorial pool, bidirectional
 slope gates, exact matched-null families, and rank-1 geometry threshold were
 subsequently frozen before checkpoint comparison. Writer/suppressor
 decompositions cannot replace a failed joint test.
+
+## Frozen parameter-block amendment (2026-07-13, before checkpoint loading)
+
+### Exact selected deltas and endpoint identity
+
+The primary six blocks are exactly the parameter slices targeted by the
+accepted Gate-1 rank-one edit, not every parameter in the surrounding module:
+
+- `L19MLP` and `L20MLP`: the complete `mlp.down_proj.weight` matrix at each
+  layer;
+- each selected attention head: only the columns
+  `[head_index * head_dim : (head_index + 1) * head_dim]` of that layer's
+  `self_attn.o_proj.weight`.
+
+No Q/K/V matrix, RMSNorm gain, embedding, bias, or other MLP matrix enters the
+primary transplant. Those tensors remain descriptive maps unless separately
+preregistered. Persist exact state-dict keys, slice bounds, shapes, dtypes, and
+source-file hashes.
+
+Read base and IT checkpoint values, cast each selected block once to float32,
+and form `Delta_i = W_IT_i - W_base_i` in float32. For each alpha and direction,
+construct the edited block from the untouched receiver snapshot in float32 and
+cast once to the model dtype. Before behavioral scoring, alpha `1.0` base
+transplant must be exactly equal after casting to the corresponding IT block,
+and alpha `1.0` IT reversal must equal the base block. Persist elementwise
+max error and SHA-256 for donor, receiver, and realized endpoints; any mismatch
+aborts causal interpretation.
+
+### Fixed matched-component universe
+
+Each alternate six-component set contains:
+
+- two MLPs at distinct layers sampled from layers 16-23 excluding 19 and 20;
+- one non-target attention head at each exact layer 17, 18, 19, and 20.
+
+The complete finite universe is all such six-sets, excluding any set containing
+a selected component. Uniformly sample 39 unique sets without replacement
+before behavioral evaluation. For every sampled set, use its own exact
+IT-minus-base deltas on the same down-projection/head-output slices. Match each
+target/null joint realized post-cast norm to the smaller natural full norm by
+dose reduction from fresh snapshots; do not amplify either delta.
+
+### Reproducible within-block geometry nulls
+
+A within-block null preserves each selected `Delta_i`'s shape, Frobenius norm,
+rank, and singular spectrum by independently permuting rows and columns and
+applying independent Rademacher sign flips to rows and columns. It does not use
+a newly sampled Gaussian matrix or a low-rank approximation. Apply one such
+transformation to every block in each of 39 joint null replicates, then match
+the target/null realized joint norm at the smaller natural norm without
+amplification.
+
+Derive both null streams with NumPy `SeedSequence`: let
+`root = SeedSequence(4240959829)`, assign
+`component_root, geometry_root = root.spawn(2)`, and use the 39 children from
+`component_root.spawn(39)` and `geometry_root.spawn(39)` in order. Component
+sampling and row/column permutation/sign draws use a fresh `default_rng(child)`
+per replicate. Persist the complete universe, every child seed state, selected
+set, permutation, and sign vector. Batch partitioning cannot change selection.
+
+### Parallel/remainder estimands
+
+For each selected block, define the frozen Gate-1 geometry `E_i` as the
+theoretical float32 rank-one delta computed before model-dtype casting on the
+accepted IT checkpoint by its set-of-record direction and component. Project
+with the Frobenius inner
+product:
+
+`Delta_parallel_i = <Delta_i,E_i> / <E_i,E_i> * E_i`, and
+`Delta_orth_i = Delta_i - Delta_parallel_i`.
+
+Persist reconstruction error and require numerical orthogonality before any
+behavior. Natural-dose parallel and orthogonal alpha curves are both reported;
+the requirement that parallel reaches at least 50% of the full joint-delta
+effect uses each decomposition at its own natural alpha `1.0`. The
+parallel-versus-orthogonal specificity comparison separately dose-reduces the
+larger joint delta to the smaller realized norm. Do not use a norm-matched dose
+for the 50% decomposition fraction or a natural unmatched dose for the
+specificity contrast.
