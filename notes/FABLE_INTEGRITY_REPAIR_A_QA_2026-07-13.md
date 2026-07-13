@@ -453,3 +453,23 @@ alone is not clearance.
   (approximately 07:50 EDT). Do not shorten the repair or set a token budget
   when resuming. Run the complete Q1-Q10 batch after reset, then stop for
   independent review before any Gate-0B/Spark/API/GPU work.
+
+## Final Pre-Reset Refresh (2026-07-13)
+
+- The architect parent HEAD immediately before this handoff refresh is
+  `53d1db9`. All intervening commits are preregistration, QA, execution-index,
+  or issue-tracking changes; no Repair-A source/test implementation and no
+  protected result changed. Always inspect the actual branch HEAD rather than
+  checking out this recorded parent.
+- For Q2/Q3/Q5/Q7 implementation details, read the latest
+  `GATE0C_RECONSTRUCTION_PREREG_2026-07-13.md` in addition to Q1-Q10. It now
+  fixes the complete-sequence MMLU label-likelihood prompt/estimator, exact
+  disjoint WikiText character slice, signed fractional-ablation statistic and
+  PCG64 controls, and paired manipulation-audit/order gates. Tests should prove
+  these are representable by the repaired CLIs, but no score/API/model run is
+  authorized in Repair A.
+- The direct weight-edit inventory was refreshed and includes
+  `e14d_random_component_sets.py`; it must be explicitly non-evidential if not
+  migrated. An AST/static test must fail for future unclassified callers.
+- No token budget is requested. The repair remains one complete Q1-Q10 batch,
+  followed by independent Codex diff/test/CLI/dry-run review before clearance.
