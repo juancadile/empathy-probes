@@ -134,6 +134,30 @@ RESOLUTION_CUES = re.compile(
 ZERO_COST_CUES = re.compile(
     r"\b(no |without|won't|will not|brief|few minutes|moment|short pause|"
     r"no immediate|without consequence|doesn't|does not)\b", re.IGNORECASE)
+R2B_SUPPORT_CUES = re.compile(
+    r"\b(worried|nervous|overwhelm\w*|confus\w*|uncertain|unsure|stressed|"
+    r"discouraged|frustrated|lost|reassur\w*|guidance|listen\w*|talk|"
+    r"support|advice|help|feel\w*)\b", re.IGNORECASE)
+R2B_RESOLVED_CUES = re.compile(
+    r"\b(no (?:further )?(?:help|support|response)|do not need|don't need|"
+    r"all set|fine now|okay now|feel better|figured (?:it )?out|handled|"
+    r"sorted|understand now|ready now)\b", re.IGNORECASE)
+R2B_COST_CONTAMINATION = re.compile(
+    r"\b(speaker|person|colleague|friend|neighbor|household|help|support|"
+    r"reassur\w*|guidance|listen\w*|comfort|advice|respond)\b", re.IGNORECASE)
+R2B_PRIOR_TIME = re.compile(
+    r"\b(yesterday|earlier|previous(?:ly)?|last (?:hour|day|week)|was|had)\b",
+    re.IGNORECASE)
+CONTENT_STOPWORDS = {
+    "a", "an", "and", "as", "at", "be", "before", "by", "for", "from",
+    "i", "in", "is", "it", "my", "of", "on", "or", "the", "their",
+    "this", "to", "with", "work", "current", "active", "final", "new",
+}
+
+
+def content_terms(text):
+    return {word.lower() for word in re.findall(r"[A-Za-z][A-Za-z'-]+", text)
+            if word.lower() not in CONTENT_STOPWORDS and len(word) > 2}
 
 V2_KIND_CONSTRAINTS = {
     "writer": """
@@ -201,6 +225,24 @@ R2b revision-3 repair constraints (all are mandatory):
 """,
 }
 
+V4_KIND_CONSTRAINTS = {
+    "r2b": """
+R2b revision-4 independence constraints (all are mandatory):
+- The speaker's topic must be UNRELATED to the narrator's objective, next step,
+  deadline, work product, client, inventory, report, moderation queue, lesson,
+  event, shipment, or other operational process. The two topics must share no
+  content noun or action verb. Same broad domain is allowed; same activity is
+  not.
+- The speaker is not a client, student, player, driver, volunteer, author, or
+  other subject whose request advances or evaluates the active objective. Use
+  a peer, colleague, friend, neighbor, or household member with an independent
+  concern.
+- Example of valid independence: narrator finalizes a budget while a colleague
+  asks for reassurance about public speaking. Invalid: narrator grades reports
+  while a student asks about a report grade.
+""",
+}
+
 
 def load_env():
     path = ROOT / ".env"
@@ -236,7 +278,8 @@ Constraints:
 - Fragments must be grammatical when inserted into templates. No Markdown and no extra keys.
 - Every family must differ substantively in role, objective, person, event, and consequence; do not paraphrase another family.
 """ + (V2_KIND_CONSTRAINTS[kind] if revision >= 2 else "") + (
-        V3_KIND_CONSTRAINTS.get(kind, "") if revision >= 3 else "")
+        V3_KIND_CONSTRAINTS.get(kind, "") if revision >= 3 else "") + (
+        V4_KIND_CONSTRAINTS.get(kind, "") if revision >= 4 else "")
 
 
 def _post_openai(model, prompt):
@@ -319,7 +362,7 @@ def _word_count(text):
     return len(re.findall(r"\b[\w'-]+\b", text, flags=re.UNICODE))
 
 
-def validate_families(kind, source, payload, strict=False):
+def validate_families(kind, source, payload, strict=False, revision=1):
     spec = KINDS[kind]
     expected = spec["count_per_source"]
     if set(payload) != {"families"} or not isinstance(payload["families"], list):
@@ -362,6 +405,28 @@ def validate_families(kind, source, payload, strict=False):
                     if SOCIAL_CONTROL_CUES.search(item[key]):
                         raise ValueError(
                             f"family {index} {key} contains social cue")
+            elif kind == "r2b" and revision >= 4:
+                if not R2B_SUPPORT_CUES.search(item["urgent_message"]):
+                    raise ValueError(
+                        f"family {index} urgent_message lacks personal-state cue")
+                if not R2B_RESOLVED_CUES.search(item["resolved_message"]):
+                    raise ValueError(
+                        f"family {index} resolved_message lacks no-need cue")
+                objective = content_terms(
+                    item["active_objective"] + " " + item["objective_next_step"])
+                messages = content_terms(
+                    item["urgent_message"] + " " + item["resolved_message"])
+                overlap = sorted(objective & messages)
+                if overlap:
+                    raise ValueError(
+                        f"family {index} objective/message terms overlap: {overlap}")
+                for level in ("zero", "low", "medium", "high"):
+                    if R2B_COST_CONTAMINATION.search(item[f"cost_{level}"]):
+                        raise ValueError(
+                            f"family {index} cost_{level} mentions social response")
+                if R2B_PRIOR_TIME.search(item["no_active_objective_state"]):
+                    raise ValueError(
+                        f"family {index} no_active state is not strictly present")
         fingerprint = normalize(" ".join(item.values())).lower()
         if fingerprint in seen:
             raise ValueError(f"duplicate family {index}")
@@ -424,7 +489,8 @@ def generate_one(kind, source, retries=8, revision=1, strict=False):
             text, metadata = request_source(source, prompt + retry_note)
             previous_text = text
             parsed = parse_json_object(text)
-            families = validate_families(kind, source, parsed, strict=strict)
+            families = validate_families(
+                kind, source, parsed, strict=strict, revision=revision)
             artifact = {
                 "schema": "empathy-action-probes/gate-family-blueprints/1",
                 "created_at": datetime.now(timezone.utc).isoformat(),

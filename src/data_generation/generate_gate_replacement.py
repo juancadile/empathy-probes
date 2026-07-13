@@ -72,7 +72,8 @@ def generate(kind: str, source: str, family_id: str, revision: int,
                 candidate_rows.append({field: candidate[field]
                                        for field in KINDS[kind]["fields"]})
             validated = validate_families(
-                kind, source, {"families": candidate_rows}, strict=True)
+                kind, source, {"families": candidate_rows}, strict=True,
+                revision=revision)
             replacement = validated[target_index]
             if any(term.lower() in " ".join(replacement.values()).lower()
                    for term in exclusions):

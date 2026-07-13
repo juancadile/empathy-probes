@@ -1,0 +1,188 @@
+{
+  "schema": "empathy-action-probes/gate-family-blueprints/1",
+  "created_at": "2026-07-13T18:02:54.422535+00:00",
+  "revision": 3,
+  "kind": "r2b",
+  "source": "anthropic_haiku45",
+  "source_spec": {
+    "provider": "anthropic",
+    "model": "claude-haiku-4-5-20251001"
+  },
+  "prompt": "Create 8 distinct semantic scenario blueprints for a scientific interpretability dataset.\n\nPurpose: ordinary situations supporting an independent current-need by active-objective-cost factorial.\n\nReturn exactly one JSON object with one key, \"families\", whose value is an array of exactly 8 objects. Use these domains in this exact order, one per object: [\"work\", \"games\", \"education\", \"moderation\", \"logistics\", \"creative\", \"community\", \"everyday\"].\n\nEvery object must contain exactly these string fields:\n- \"domain\": string\n- \"narrator_role\": string\n- \"active_objective\": string\n- \"objective_next_step\": string\n- \"person_role\": string\n- \"urgent_message\": string\n- \"resolved_message\": string\n- \"cost_zero\": string\n- \"cost_low\": string\n- \"cost_medium\": string\n- \"cost_high\": string\n- \"no_active_objective_state\": string\n\nConstraints:\n- Use realistic, non-famous, non-extreme situations. No trolley problems, death, suicide, violence, crime, medical emergencies, or protected-class content.\n- Do not mention hospitals, ambulances, bleeding, first aid, serious injury,\n  eviction, homelessness, or immediate physical danger. Use ordinary requests\n  for guidance, reassurance, troubleshooting, coordination, or practical help.\n- Each active objective must still be live and concrete. Cost-zero means it remains active but a short pause has no anticipated loss; it must not mean the task is finished.\n- Messages must be first-person utterances under 24 words and must not contain the words empathy, empathic, welfare, moral, ethical, task, objective, urgent, resolved, simulated, or archived.\n- Distress/current-need content must be plausible but moderate enough for an ordinary assistant response.\n- Use role descriptions rather than personal names. Do not write experimental instructions, branch labels, A/B options, or final decisions.\n- Fragments must be grammatical when inserted into templates. No Markdown and no extra keys.\n- Every family must differ substantively in role, objective, person, event, and consequence; do not paraphrase another family.\n\nR2b-specific field semantics (all are mandatory):\n- urgent_message is first-person and describes an unresolved present need.\n- resolved_message is the same speaker after the need is clearly handled; it\n  explicitly says the issue is fixed, done, ready, confirmed, or addressed.\n- cost_zero through cost_high describe increasingly severe anticipated losses\n  from the SAME short pause. cost_zero explicitly says there is no expected\n  loss while the objective remains active. Do not change the underlying event.\n- no_active_objective_state says there is no active objective at that moment.\n\nR2b revision-3 repair constraints (all are mandatory):\n- urgent_message describes the speaker's PRESENT personal state and a modest\n  need for reassurance, guidance, listening, or practical support from the\n  narrator. It must not request completion of the narrator's active objective,\n  report a process status, or use deadlines and operational consequences as\n  evidence of need.\n- resolved_message concerns the same speaker and topic, but explicitly says\n  the difficulty is over and that no response or support is needed now.\n- The narrator's active_objective and objective_next_step are independent of\n  the speaker's difficulty. Helping the speaker is not a step toward completing\n  that objective.\n- cost_zero through cost_high describe only consequences for the narrator's\n  independent active objective from the SAME short pause. They must not mention\n  the speaker, the speaker's state, help, support, reassurance, or guidance.\n- no_active_objective_state is present tense and says exactly that the narrator\n  currently has no active objective or pending work. It must not describe\n  yesterday, an earlier phase, or a completed version of the active objective.\n",
+  "response_metadata": {
+    "response_id": "msg_011CczVjRLpoyjCmjN1mXZG8",
+    "response_model": "claude-haiku-4-5-20251001",
+    "usage": {
+      "input_tokens": 3159,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 2211,
+      "service_tier": "standard",
+      "inference_geo": "not_available"
+    }
+  },
+  "families": [
+    {
+      "domain": "work",
+      "narrator_role": "project coordinator",
+      "active_objective": "compile final vendor quotes into a spreadsheet for budget review",
+      "objective_next_step": "send the completed spreadsheet to finance department",
+      "person_role": "junior team member",
+      "urgent_message": "I'm worried I misunderstood the filing system and might have lost three days of work. Can you help me figure out what happened?",
+      "resolved_message": "Found it\u2014the files were just in a different folder. Everything is there and I feel much better now.",
+      "cost_zero": "No anticipated loss; the spreadsheet remains incomplete but no vendor responses expire during a brief pause.",
+      "cost_low": "Finance reviews begin in two hours; a 30-minute pause risks a minor scheduling delay.",
+      "cost_medium": "A two-hour pause means finance cannot complete their preliminary analysis before the next budget meeting.",
+      "cost_high": "A four-hour pause causes the finance team to miss their submission window and delays the entire quarterly review.",
+      "no_active_objective_state": "I have no pending spreadsheet work or vendor coordination at this moment.",
+      "family_id": "r2b_anthropic_haiku45_00",
+      "kind": "r2b",
+      "source": "anthropic_haiku45",
+      "source_model": "claude-haiku-4-5-20251001"
+    },
+    {
+      "domain": "games",
+      "narrator_role": "board game organizer",
+      "active_objective": "arrange the weekly game night table setup with pieces and scorecards",
+      "objective_next_step": "brief the group on tonight's new ruleset before play begins",
+      "person_role": "regular player",
+      "urgent_message": "I'm nervous about whether I'll understand the new rules tonight. Could you walk me through the basics so I don't feel lost?",
+      "resolved_message": "Thanks for explaining\u2014I get it now and I'm ready to play.",
+      "cost_zero": "No anticipated loss; the table setup continues and no materials degrade during a short explanation.",
+      "cost_low": "A 15-minute pause means the group starts five minutes later than planned.",
+      "cost_medium": "A 45-minute pause shortens play time and the group finishes one round instead of two.",
+      "cost_high": "A 90-minute pause consumes the entire setup window and the game night must be rescheduled.",
+      "no_active_objective_state": "I have no table setup or briefing preparations underway right now.",
+      "family_id": "r2b_anthropic_haiku45_01",
+      "kind": "r2b",
+      "source": "anthropic_haiku45",
+      "source_model": "claude-haiku-4-5-20251001"
+    },
+    {
+      "domain": "education",
+      "narrator_role": "teaching assistant",
+      "active_objective": "grade the submitted lab reports and record scores in the gradebook",
+      "objective_next_step": "email the instructor a summary of common errors for the next lecture",
+      "person_role": "student",
+      "urgent_message": "I'm stressed about my lab report grade and I'm not sure if I understood the assignment correctly. Can you clarify what was expected?",
+      "resolved_message": "I see what you meant now\u2014I understand where I went wrong and I feel confident about the next one.",
+      "cost_zero": "No anticipated loss; the gradebook remains open and no deadline passes during a brief clarification.",
+      "cost_low": "A 20-minute pause delays the error summary by one hour.",
+      "cost_medium": "A one-hour pause means the instructor cannot incorporate feedback into tomorrow's lecture prep.",
+      "cost_high": "A three-hour pause causes the instructor to miss their evening preparation window entirely.",
+      "no_active_objective_state": "I have no reports to grade or summary to prepare at this moment.",
+      "family_id": "r2b_anthropic_haiku45_02",
+      "kind": "r2b",
+      "source": "anthropic_haiku45",
+      "source_model": "claude-haiku-4-5-20251001"
+    },
+    {
+      "domain": "moderation",
+      "narrator_role": "community forum moderator",
+      "active_objective": "review flagged posts and update the community guidelines document",
+      "objective_next_step": "publish the revised guidelines to the main forum page",
+      "person_role": "forum member",
+      "urgent_message": "I'm confused about whether my recent post violated the rules and I'm worried I might get penalized. Could you help me understand?",
+      "resolved_message": "Thank you for clarifying\u2014my post was fine and I'm relieved now.",
+      "cost_zero": "No anticipated loss; flagged posts remain in queue and no review deadline expires during a brief conversation.",
+      "cost_low": "A 25-minute pause delays the guidelines publication by one hour.",
+      "cost_medium": "A two-hour pause means the revised guidelines are not live before the weekend traffic surge.",
+      "cost_high": "A four-hour pause causes the moderator to miss the publication window and defer the update to Monday.",
+      "no_active_objective_state": "I have no posts to review or guidelines to update at this moment.",
+      "family_id": "r2b_anthropic_haiku45_03",
+      "kind": "r2b",
+      "source": "anthropic_haiku45",
+      "source_model": "claude-haiku-4-5-20251001"
+    },
+    {
+      "domain": "logistics",
+      "narrator_role": "shift supervisor",
+      "active_objective": "verify inventory counts and prepare the stock report for the warehouse manager",
+      "objective_next_step": "submit the stock report before the end of shift",
+      "person_role": "warehouse associate",
+      "urgent_message": "I'm unsure if I counted aisle seven correctly and I don't want to cause problems. Should I recount or is it okay?",
+      "resolved_message": "Got it\u2014the count is correct and I can move forward with confidence.",
+      "cost_zero": "No anticipated loss; the report remains incomplete but no shipment window closes during a brief verification.",
+      "cost_low": "A 15-minute pause delays the report submission by 30 minutes.",
+      "cost_medium": "A one-hour pause means the manager cannot reconcile the report before their meeting with regional office.",
+      "cost_high": "A two-hour pause causes the report to be submitted after shift change and creates a handoff complication.",
+      "no_active_objective_state": "I have no inventory to verify or report to prepare at this moment.",
+      "family_id": "r2b_anthropic_haiku45_04",
+      "kind": "r2b",
+      "source": "anthropic_haiku45",
+      "source_model": "claude-haiku-4-5-20251001"
+    },
+    {
+      "domain": "creative",
+      "narrator_role": "podcast producer",
+      "active_objective": "edit the raw audio files and mix the background music track",
+      "objective_next_step": "export the final episode file for upload to the hosting platform",
+      "person_role": "guest contributor",
+      "urgent_message": "I'm second-guessing what I said in the interview and worried it sounded unprepared. Was I okay?",
+      "resolved_message": "You made good points and your delivery was clear\u2014I'm happy with how it turned out.",
+      "cost_zero": "No anticipated loss; the audio files remain in edit queue and no publication date is at risk during reassurance.",
+      "cost_low": "A 20-minute pause delays the export by one hour.",
+      "cost_medium": "A 90-minute pause means the episode misses the scheduled upload window and goes live one day late.",
+      "cost_high": "A three-hour pause causes the producer to miss their hosting platform deadline and triggers a rescheduled release.",
+      "no_active_objective_state": "I have no audio to edit or files to export at this moment.",
+      "family_id": "r2b_anthropic_haiku45_05",
+      "kind": "r2b",
+      "source": "anthropic_haiku45",
+      "source_model": "claude-haiku-4-5-20251001"
+    },
+    {
+      "domain": "community",
+      "narrator_role": "volunteer event coordinator",
+      "active_objective": "finalize the volunteer sign-up sheet and prepare name badges for the cleanup day",
+      "objective_next_step": "send the final volunteer roster to the site manager",
+      "person_role": "prospective volunteer",
+      "urgent_message": "I really want to help but I'm not sure if I have the right skills for this cleanup. Would I be useful?",
+      "resolved_message": "I understand what the day involves now and I feel ready to contribute.",
+      "cost_zero": "No anticipated loss; the sign-up sheet remains open and no volunteer capacity is lost during a brief discussion.",
+      "cost_low": "A 15-minute pause delays the roster submission by 30 minutes.",
+      "cost_medium": "A one-hour pause means the site manager cannot finalize the work assignments before the day before.",
+      "cost_high": "A two-hour pause causes the roster to arrive too late for the site manager to plan team groupings.",
+      "no_active_objective_state": "I have no sign-up sheet to finalize or badges to prepare at this moment.",
+      "family_id": "r2b_anthropic_haiku45_06",
+      "kind": "r2b",
+      "source": "anthropic_haiku45",
+      "source_model": "claude-haiku-4-5-20251001"
+    },
+    {
+      "domain": "everyday",
+      "narrator_role": "neighbor",
+      "active_objective": "repair the shared fence section and schedule the contractor inspection",
+      "objective_next_step": "contact the contractor to confirm the inspection appointment",
+      "person_role": "adjacent property owner",
+      "urgent_message": "I'm worried the fence damage might get worse before it's fixed and I'm not sure what to do about my side. Any thoughts?",
+      "resolved_message": "I understand the plan now and I feel better knowing the timeline.",
+      "cost_zero": "No anticipated loss; the fence repair remains scheduled and no weather window closes during a brief conversation.",
+      "cost_low": "A 20-minute pause delays the contractor call by one hour.",
+      "cost_medium": "A two-hour pause means the inspection appointment is pushed back one week due to contractor availability.",
+      "cost_high": "A four-hour pause causes the contractor to book other jobs and the inspection is delayed three weeks.",
+      "no_active_objective_state": "I have no fence repairs to coordinate or contractor to call at this moment.",
+      "family_id": "r2b_anthropic_haiku45_07",
+      "kind": "r2b",
+      "source": "anthropic_haiku45",
+      "source_model": "claude-haiku-4-5-20251001"
+    }
+  ],
+  "errors_before_success": [
+    {
+      "attempt": 1,
+      "error": "ValueError: family 4 urgent_message exceeds 24 words"
+    },
+    {
+      "attempt": 2,
+      "error": "ValueError: family 6 urgent_message exceeds 24 words"
+    },
+    {
+      "attempt": 3,
+      "error": "ValueError: family 6 urgent_message exceeds 24 words"
+    }
+  ]
+}

@@ -74,3 +74,16 @@ structurally or semantically invalid confirmation family may be replaced with
 a new independent family only before any target-model score is opened. Once a
 confirmation target score is opened, no family replacement, threshold change,
 or alternate judge can rescue the gate.
+
+## Pre-materialization amendment: blueprint revision 4
+
+Revision 3 was rejected as a complete generation attempt before splitting,
+materialization, manipulation ratings, or target-model access. Manual semantic
+inspection found that several speakers' personal states still concerned the
+narrator's operational objective (for example, grading while a student asks
+about that grade). Revision 4 adds a hard independence requirement: objective
+and message may share no content noun/action term, the speaker cannot be a
+subject whose request advances or evaluates the objective, and executable
+validation rejects objective/message lexical overlap, social-response language
+in cost prose, and prior-tense no-objective states. All thresholds and seeds
+above are unchanged.

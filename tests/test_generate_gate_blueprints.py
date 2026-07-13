@@ -64,6 +64,25 @@ def test_r2b_revision3_separates_welfare_need_from_objective_cost():
     assert "present tense" in prompt
 
 
+def test_r2b_revision4_rejects_objective_message_overlap():
+    payload = valid_payload("r2b")
+    for row in payload["families"]:
+        row.update({
+            "active_objective": "finish the quarterly budget report",
+            "objective_next_step": "review budget totals",
+            "urgent_message": "I'm worried about the budget and need advice.",
+            "resolved_message": "I'm okay now and don't need support.",
+            "cost_zero": "There is no expected delay",
+            "cost_low": "The review starts five minutes late",
+            "cost_medium": "The review window becomes compressed",
+            "cost_high": "The report misses its filing window",
+            "no_active_objective_state": "I currently have no pending work",
+        })
+    with pytest.raises(ValueError, match="terms overlap"):
+        validate_families(
+            "r2b", next(iter(SOURCES)), payload, strict=True, revision=4)
+
+
 def test_strict_writer_validation_rejects_deferred_help():
     payload = valid_payload("writer")
     for row in payload["families"]:
