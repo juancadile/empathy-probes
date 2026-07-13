@@ -577,8 +577,13 @@ def validate_e17b_artifact(payload):
         raise ValueError(f"incomplete e17b artifact: missing {missing}")
     if payload["run_contract"].get("run_mode") == "accepted":
         test3 = payload.get("test3_fractional_ablation") or {}
-        if not test3.get("gate0c_analysis", {}).get("all_required_gates_pass"):
-            raise ValueError("accepted e17b artifact failed Gate-0C analysis gates")
+        analysis = test3.get("gate0c_analysis")
+        if not isinstance(analysis, dict):
+            raise ValueError(
+                "accepted e17b artifact lacks Gate-0C analysis")
+        if not isinstance(analysis.get("all_required_gates_pass"), bool):
+            raise ValueError(
+                "accepted e17b artifact lacks a boolean Gate-0C verdict")
 
 
 def main():

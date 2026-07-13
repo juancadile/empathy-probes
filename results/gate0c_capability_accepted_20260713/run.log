@@ -1,0 +1,38 @@
+2026-07-13 10:09:49,776 INFO component sets resolved: {'source': {'registry_key': 'gemma2_9b_it_resid_2026-07-12', 'registry_status': 'current', 'origins': {'positive_writers': 'registry:gemma2_9b_it_resid_2026-07-12', 'suppressors': 'registry:gemma2_9b_it_resid_2026-07-12', 'targeted': 'derived:positive_writers+suppressors'}, 'run_mode': 'accepted', 'direction_binding': {'supplied_path': 'results/controlled_directions_gemma2_9b_it/direction_M_resid_block20.npy', 'normalized_path': 'results/controlled_directions_gemma2_9b_it/direction_M_resid_block20.npy', 'observed_sha256': '1b6d692e0e933d76c15f722fe996d01e1ca2ee8c8b72f19daf2f122cda294b42', 'registry_path': 'results/controlled_directions_gemma2_9b_it/direction_M_resid_block20.npy', 'registry_sha256': '1b6d692e0e933d76c15f722fe996d01e1ca2ee8c8b72f19daf2f122cda294b42', 'path_match': True, 'hash_match': True, 'mismatch_override': False}, 'confirmatory_evidence_eligible': True, 'ineligibility_reasons': []}, 'sets': {'positive_writers': 'L19MLP,L20MLP', 'suppressors': 'L18H13,L20H10,L19H12,L17H7', 'targeted': 'L19MLP,L20MLP,L18H13,L20H10,L19H12,L17H7'}}
+2026-07-13 10:09:50,292 INFO HTTP Request: HEAD https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/mmlu.py "HTTP/1.1 404 Not Found"
+2026-07-13 10:09:50,416 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/cais/mmlu/cais/mmlu.py "HTTP/1.1 404 Not Found"
+2026-07-13 10:09:50,550 INFO HTTP Request: GET https://huggingface.co/api/datasets/cais/mmlu/revision/c30699e8356da336a370243923dbaf21066bb9fe "HTTP/1.1 200 OK"
+2026-07-13 10:09:50,606 INFO HTTP Request: HEAD https://huggingface.co/datasets/cais/mmlu/resolve/c30699e8356da336a370243923dbaf21066bb9fe/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-07-13 10:09:50,684 INFO HTTP Request: GET https://huggingface.co/api/datasets/cais/mmlu/tree/c30699e8356da336a370243923dbaf21066bb9fe/abstract_algebra?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-07-13 10:09:50,759 INFO HTTP Request: GET https://huggingface.co/api/datasets/cais/mmlu/tree/c30699e8356da336a370243923dbaf21066bb9fe?recursive=false&expand=false "HTTP/1.1 200 OK"
+2026-07-13 10:09:50,840 INFO HTTP Request: GET https://huggingface.co/api/datasets/cais/mmlu/tree/c30699e8356da336a370243923dbaf21066bb9fe/all?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-07-13 10:09:51,056 INFO HTTP Request: HEAD https://huggingface.co/datasets/Salesforce/wikitext/resolve/b08601e04326c79dfdd32d625aee71d232d685c3/wikitext.py "HTTP/1.1 404 Not Found"
+2026-07-13 10:09:51,130 INFO HTTP Request: HEAD https://s3.amazonaws.com/datasets.huggingface.co/datasets/datasets/Salesforce/wikitext/Salesforce/wikitext.py "HTTP/1.1 404 Not Found"
+2026-07-13 10:09:51,197 INFO HTTP Request: GET https://huggingface.co/api/datasets/Salesforce/wikitext/revision/b08601e04326c79dfdd32d625aee71d232d685c3 "HTTP/1.1 200 OK"
+2026-07-13 10:09:51,250 INFO HTTP Request: HEAD https://huggingface.co/datasets/Salesforce/wikitext/resolve/b08601e04326c79dfdd32d625aee71d232d685c3/.huggingface.yaml "HTTP/1.1 404 Not Found"
+2026-07-13 10:09:51,314 INFO HTTP Request: GET https://huggingface.co/api/datasets/Salesforce/wikitext/tree/b08601e04326c79dfdd32d625aee71d232d685c3/wikitext-103-raw-v1?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-07-13 10:09:51,391 INFO HTTP Request: GET https://huggingface.co/api/datasets/Salesforce/wikitext/tree/b08601e04326c79dfdd32d625aee71d232d685c3?recursive=false&expand=false "HTTP/1.1 200 OK"
+2026-07-13 10:09:51,454 INFO HTTP Request: HEAD https://huggingface.co/datasets/Salesforce/wikitext/resolve/b08601e04326c79dfdd32d625aee71d232d685c3/dataset_infos.json "HTTP/1.1 404 Not Found"
+2026-07-13 10:09:51,513 INFO HTTP Request: GET https://huggingface.co/api/datasets/Salesforce/wikitext/tree/b08601e04326c79dfdd32d625aee71d232d685c3/wikitext-2-raw-v1?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-07-13 10:09:53,182 INFO HTTP Request: GET https://huggingface.co/api/models/google/gemma-2-9b-it/tree/11c9b309abf73637e4b6f9a3fa1e92e615547819/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-07-13 10:09:53,260 INFO HTTP Request: GET https://huggingface.co/api/models/google/gemma-2-9b-it/tree/11c9b309abf73637e4b6f9a3fa1e92e615547819?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-07-13 10:09:53,913 INFO HTTP Request: GET https://huggingface.co/api/models/google/gemma-2-9b-it "HTTP/1.1 200 OK"
+Loading weights:   0%|          | 0/464 [00:00<?, ?it/s]Loading weights: 100%|██████████| 464/464 [00:00<00:00, 12740.38it/s]
+2026-07-13 10:11:37,650 INFO MMLU sample: 800 questions (subject_stratified_largest_remainder_v1)
+2026-07-13 10:20:50,457 INFO example completion: 'B'
+2026-07-13 10:20:50,458 INFO example completion: 'C'
+2026-07-13 10:22:32,252 INFO prediction distribution: {'A': 211, 'B': 187, 'C': 218, 'D': 175, 'unparsed': 9, 'ambiguous': 0}
+2026-07-13 10:22:55,699 INFO baseline: MMLU(likelihood) 0.6950 | ppl 12.3854
+2026-07-13 10:32:13,040 INFO example completion: 'B'
+2026-07-13 10:32:13,040 INFO example completion: 'C'
+2026-07-13 10:33:55,382 INFO prediction distribution: {'A': 210, 'B': 186, 'C': 220, 'D': 175, 'unparsed': 9, 'ambiguous': 0}
+2026-07-13 10:34:18,798 INFO positive_writers_k2: MMLU(likelihood) 0.6925 | ppl 12.3769
+2026-07-13 10:43:38,555 INFO example completion: 'B'
+2026-07-13 10:43:38,555 INFO example completion: 'C'
+2026-07-13 10:45:20,279 INFO prediction distribution: {'A': 212, 'B': 186, 'C': 220, 'D': 173, 'unparsed': 9, 'ambiguous': 0}
+2026-07-13 10:45:43,750 INFO suppressors_k4: MMLU(likelihood) 0.6913 | ppl 12.3860
+2026-07-13 10:55:07,185 INFO example completion: 'B'
+2026-07-13 10:55:07,185 INFO example completion: 'C'
+2026-07-13 10:56:48,933 INFO prediction distribution: {'A': 211, 'B': 185, 'C': 218, 'D': 177, 'unparsed': 9, 'ambiguous': 0}
+2026-07-13 10:57:12,334 INFO targeted_k6: MMLU(likelihood) 0.6900 | ppl 12.3575
+2026-07-13 10:57:13,667 INFO wrote results/gate0c_capability_accepted_20260713/capability_eval.json
