@@ -64,6 +64,9 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--scale-reminder", action="store_true",
                         help="append the original 1-5 boundary rule to repairs")
     args = parser.parse_args(argv)
+    args.input = args.input.resolve()
+    args.first_pass = args.first_pass.resolve()
+    args.out = args.out.resolve()
     if args.out.exists():
         raise FileExistsError(f"refusing to overwrite {args.out}")
 
