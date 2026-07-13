@@ -1,0 +1,11 @@
+{
+  "invalid": [
+    {
+      "request_id": "wp3-wp3_anthropic_haiku45_03-observation-archived_actual",
+      "errors": [
+        "response_opportunity_1_to_5"
+      ]
+    }
+  ],
+  "raw_path": "results/gate2_manipulation_llama31_v1_repair/raw_judge_records.json"
+}

@@ -61,6 +61,8 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--batch-size", type=int, default=16)
     parser.add_argument("--max-input-tokens", type=int, default=1280)
     parser.add_argument("--max-new-tokens", type=int, default=320)
+    parser.add_argument("--scale-reminder", action="store_true",
+                        help="append the original 1-5 boundary rule to repairs")
     args = parser.parse_args(argv)
     if args.out.exists():
         raise FileExistsError(f"refusing to overwrite {args.out}")
@@ -80,6 +82,11 @@ def main(argv: list[str] | None = None) -> int:
     if missing:
         raise ValueError(f"missing requests: {sorted(missing)[:3]}")
     repair_requests = [request_map[request_id] for request_id in sorted(invalid_ids)]
+    if args.scale_reminder:
+        for request in repair_requests:
+            request["prompt"] += (
+                "\n\nSCALE REMINDER: Every numeric rating must be between 1 and "
+                "5 inclusive. Use 1, never 0, when a property is absent.")
 
     tokenizer = AutoTokenizer.from_pretrained(
         args.model, revision=args.revision, trust_remote_code=False)
@@ -107,7 +114,8 @@ def main(argv: list[str] | None = None) -> int:
                        "sha256": sha256_path(args.first_pass),
                        "invalid_count": len(invalid_ids)},
         "repair": {"request_count": len(repaired),
-                   "max_new_tokens": args.max_new_tokens},
+                   "max_new_tokens": args.max_new_tokens,
+                   "scale_reminder": args.scale_reminder},
         "records": merged,
     }, indent=2) + "\n")
     if remaining:
@@ -132,7 +140,8 @@ def main(argv: list[str] | None = None) -> int:
                        "sha256": sha256_path(args.first_pass),
                        "invalid_count": len(invalid_ids)},
         "repair": {"request_count": len(repaired),
-                   "max_new_tokens": args.max_new_tokens},
+                   "max_new_tokens": args.max_new_tokens,
+                   "scale_reminder": args.scale_reminder},
         "code": {"path": str(Path(__file__).resolve().relative_to(ROOT)),
                  "sha256": sha256_path(Path(__file__).resolve()),
                  "git_commit": git_commit()},
