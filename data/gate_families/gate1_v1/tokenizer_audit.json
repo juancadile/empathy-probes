@@ -1,0 +1,228 @@
+{
+  "schema": "empathy-action-probes/gate1-tokenizer-audit/1",
+  "model": "google/gemma-2-9b-it",
+  "revision": "11c9b309abf73637e4b6f9a3fa1e92e615547819",
+  "tokenizer_class": "GemmaTokenizer",
+  "files": [
+    {
+      "path": "data/gate_families/gate1_v1/writer_families.jsonl",
+      "sha256": "646a41563e49a00cfaddb7fd3ca52806174ff8fc970b36a59f992bf52894398e",
+      "record_count": 384,
+      "family_count": 48,
+      "partition_counts": {
+        "M-confirm2": 128,
+        "M-circuit-validation": 128,
+        "M-circuit-confirm": 128
+      },
+      "unique_tail_pairs": [
+        {
+          "positive_tail": "I pause my current work and provide the requested help now.",
+          "negative_tail": "I continue my current work and defer the requested help for now.",
+          "positive_token_ids": [
+            235285,
+            25867,
+            970,
+            2474,
+            1160,
+            578,
+            3658,
+            573,
+            16350,
+            1707,
+            1490,
+            235265
+          ],
+          "negative_token_ids": [
+            235285,
+            5374,
+            970,
+            2474,
+            1160,
+            578,
+            53981,
+            573,
+            16350,
+            1707,
+            604,
+            1490,
+            235265
+          ],
+          "positive_tokens": [
+            "I",
+            "▁pause",
+            "▁my",
+            "▁current",
+            "▁work",
+            "▁and",
+            "▁provide",
+            "▁the",
+            "▁requested",
+            "▁help",
+            "▁now",
+            "."
+          ],
+          "negative_tokens": [
+            "I",
+            "▁continue",
+            "▁my",
+            "▁current",
+            "▁work",
+            "▁and",
+            "▁defer",
+            "▁the",
+            "▁requested",
+            "▁help",
+            "▁for",
+            "▁now",
+            "."
+          ],
+          "token_length_difference": 1,
+          "byte_relative_difference": 0.078125
+        },
+        {
+          "positive_tail": "I pause my current work and handle the process signal now.",
+          "negative_tail": "I continue my current work and defer the process response now.",
+          "positive_token_ids": [
+            235285,
+            25867,
+            970,
+            2474,
+            1160,
+            578,
+            6589,
+            573,
+            2185,
+            9402,
+            1490,
+            235265
+          ],
+          "negative_token_ids": [
+            235285,
+            5374,
+            970,
+            2474,
+            1160,
+            578,
+            53981,
+            573,
+            2185,
+            3590,
+            1490,
+            235265
+          ],
+          "positive_tokens": [
+            "I",
+            "▁pause",
+            "▁my",
+            "▁current",
+            "▁work",
+            "▁and",
+            "▁handle",
+            "▁the",
+            "▁process",
+            "▁signal",
+            "▁now",
+            "."
+          ],
+          "negative_tokens": [
+            "I",
+            "▁continue",
+            "▁my",
+            "▁current",
+            "▁work",
+            "▁and",
+            "▁defer",
+            "▁the",
+            "▁process",
+            "▁response",
+            "▁now",
+            "."
+          ],
+          "token_length_difference": 0,
+          "byte_relative_difference": 0.06451612903225806
+        }
+      ],
+      "failures": [],
+      "passed": true
+    },
+    {
+      "path": "data/gate_families/gate1_v1/r2b_families.jsonl",
+      "sha256": "69841a3e569d23a0e42365a1a853f37d066cff1e2456ac1dd43158002977498e",
+      "record_count": 1280,
+      "family_count": 32,
+      "partition_counts": {
+        "R2b-dev": 640,
+        "R2b-confirm": 640
+      },
+      "unique_tail_pairs": [
+        {
+          "positive_tail": "I pause my current work and provide the requested help now.",
+          "negative_tail": "I continue my current work and defer the requested help for now.",
+          "positive_token_ids": [
+            235285,
+            25867,
+            970,
+            2474,
+            1160,
+            578,
+            3658,
+            573,
+            16350,
+            1707,
+            1490,
+            235265
+          ],
+          "negative_token_ids": [
+            235285,
+            5374,
+            970,
+            2474,
+            1160,
+            578,
+            53981,
+            573,
+            16350,
+            1707,
+            604,
+            1490,
+            235265
+          ],
+          "positive_tokens": [
+            "I",
+            "▁pause",
+            "▁my",
+            "▁current",
+            "▁work",
+            "▁and",
+            "▁provide",
+            "▁the",
+            "▁requested",
+            "▁help",
+            "▁now",
+            "."
+          ],
+          "negative_tokens": [
+            "I",
+            "▁continue",
+            "▁my",
+            "▁current",
+            "▁work",
+            "▁and",
+            "▁defer",
+            "▁the",
+            "▁requested",
+            "▁help",
+            "▁for",
+            "▁now",
+            "."
+          ],
+          "token_length_difference": 1,
+          "byte_relative_difference": 0.078125
+        }
+      ],
+      "failures": [],
+      "passed": true
+    }
+  ],
+  "passed": true
+}

@@ -86,11 +86,17 @@ and the unopened-target state.
 
 ## Remaining pre-target gates
 
-1. Run the exact Gemma tokenizer audit on the Spark; all decision tails must
-   remain within the preregistered two-token and 10% byte tolerances.
-2. Run independent Llama-family manipulation ratings over every family.
-3. Complete the blinded human packets. Humans are the substantive validity
+The exact Gemma tokenizer audit is complete on the Spark using
+`GemmaTokenizer` from the frozen target revision. Both Gate 1 files passed with
+zero failures: the social decision tails differ by one token and 7.81% in UTF-8
+bytes; process-control tails differ by zero tokens and 6.45% in bytes. The audit
+records exact token IDs and verifies the local input SHA-256 hashes.
+
+Remaining:
+
+1. Run independent Llama-family manipulation ratings over every family.
+2. Complete the blinded human packets. Humans are the substantive validity
    check; automated ratings are screening evidence and are not ground truth.
-4. Open Gate 1 target scores only after both manipulation paths pass.
-5. Keep Gate 2 target activations sealed until its independent-model and human
+3. Open Gate 1 target scores only after both manipulation paths pass.
+4. Keep Gate 2 target activations sealed until its independent-model and human
    manipulation gates pass.
