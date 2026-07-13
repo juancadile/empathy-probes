@@ -1,0 +1,1006 @@
+{
+  "baseline_helping": 4.466145833333333,
+  "n_seeds": 20,
+  "sets": {
+    "positive_writers": {
+      "summary": {
+        "set": "positive_writers",
+        "targeted_helping_delta": -0.27864583333333304,
+        "null_mean": 0.0011067708333336145,
+        "null_std": 0.015198133624207496,
+        "null_values": [
+          -0.020833333333333037,
+          -0.00390625,
+          -0.0065104166666660745,
+          -0.020833333333333037,
+          -0.01171875,
+          0.015625,
+          0.010416666666666963,
+          0.0,
+          -0.009114583333333037,
+          0.014322916666666963,
+          -0.00390625,
+          0.044270833333333925,
+          0.014322916666666963,
+          0.0,
+          -0.005208333333333037,
+          -0.0026041666666660745,
+          -0.010416666666666075,
+          0.0052083333333339255,
+          0.018229166666666963,
+          -0.005208333333333037
+        ],
+        "z_score": -18.407036750951995,
+        "fraction_null_as_extreme": 0.0
+      },
+      "pilot_helping_delta": NaN,
+      "target_delta_norms": {
+        "L20MLP": 0.8518194556236267,
+        "L19MLP": 0.8261083960533142
+      },
+      "conditions": [
+        {
+          "seed": 0,
+          "edits": [
+            {
+              "component": "L20MLP",
+              "scale": 1.3102794501306736,
+              "applied_delta_norm": 0.8518194556236267
+            },
+            {
+              "component": "L19MLP",
+              "scale": 1.2669822650077185,
+              "applied_delta_norm": 0.8261083960533142
+            }
+          ],
+          "helping_delta": -0.020833333333333037,
+          "task_delta": -0.05624999999999991,
+          "neutral_kl": 0.0007026754901744425
+        },
+        {
+          "seed": 1,
+          "edits": [
+            {
+              "component": "L20MLP",
+              "scale": 1.2923642478747126,
+              "applied_delta_norm": 0.8518194556236267
+            },
+            {
+              "component": "L19MLP",
+              "scale": 1.2876291143296525,
+              "applied_delta_norm": 0.8261083960533142
+            }
+          ],
+          "helping_delta": -0.00390625,
+          "task_delta": -0.0031249999999998224,
+          "neutral_kl": 0.0009235385805368423
+        },
+        {
+          "seed": 2,
+          "edits": [
+            {
+              "component": "L20MLP",
+              "scale": 1.2919117694917313,
+              "applied_delta_norm": 0.8518194556236267
+            },
+            {
+              "component": "L19MLP",
+              "scale": 1.3069948057047662,
+              "applied_delta_norm": 0.8261083960533142
+            }
+          ],
+          "helping_delta": -0.0065104166666660745,
+          "task_delta": -0.018749999999999822,
+          "neutral_kl": 0.000734800414647907
+        },
+        {
+          "seed": 3,
+          "edits": [
+            {
+              "component": "L20MLP",
+              "scale": 1.3256363303611125,
+              "applied_delta_norm": 0.8518194556236267
+            },
+            {
+              "component": "L19MLP",
+              "scale": 1.2855874742264264,
+              "applied_delta_norm": 0.8261083960533142
+            }
+          ],
+          "helping_delta": -0.020833333333333037,
+          "task_delta": -0.015625,
+          "neutral_kl": 0.0007163533591665328
+        },
+        {
+          "seed": 4,
+          "edits": [
+            {
+              "component": "L20MLP",
+              "scale": 1.329328401295511,
+              "applied_delta_norm": 0.8518194556236267
+            },
+            {
+              "component": "L19MLP",
+              "scale": 1.2699737654067873,
+              "applied_delta_norm": 0.8261083960533142
+            }
+          ],
+          "helping_delta": -0.01171875,
+          "task_delta": -0.018749999999999822,
+          "neutral_kl": 0.0007340566371567547
+        },
+        {
+          "seed": 5,
+          "edits": [
+            {
+              "component": "L20MLP",
+              "scale": 1.281843606235946,
+              "applied_delta_norm": 0.8518194556236267
+            },
+            {
+              "component": "L19MLP",
+              "scale": 1.3073576343765714,
+              "applied_delta_norm": 0.8261083960533142
+            }
+          ],
+          "helping_delta": 0.015625,
+          "task_delta": -0.02499999999999991,
+          "neutral_kl": 0.000509552366565913
+        },
+        {
+          "seed": 6,
+          "edits": [
+            {
+              "component": "L20MLP",
+              "scale": 1.2994204818249548,
+              "applied_delta_norm": 0.8518194556236267
+            },
+            {
+              "component": "L19MLP",
+              "scale": 1.2849544668946984,
+              "applied_delta_norm": 0.8261083960533142
+            }
+          ],
+          "helping_delta": 0.010416666666666963,
+          "task_delta": -0.009374999999999911,
+          "neutral_kl": 0.00038607142050750554
+        },
+        {
+          "seed": 7,
+          "edits": [
+            {
+              "component": "L20MLP",
+              "scale": 1.30407088971302,
+              "applied_delta_norm": 0.8518194556236267
+            },
+            {
+              "component": "L19MLP",
+              "scale": 1.2961966364425264,
+              "applied_delta_norm": 0.8261083960533142
+            }
+          ],
+          "helping_delta": 0.0,
+          "task_delta": 0.0031250000000002665,
+          "neutral_kl": 0.0006559395114891231
+        },
+        {
+          "seed": 8,
+          "edits": [
+            {
+              "component": "L20MLP",
+              "scale": 1.324330377786266,
+              "applied_delta_norm": 0.8518194556236267
+            },
+            {
+              "component": "L19MLP",
+              "scale": 1.2923030489003935,
+              "applied_delta_norm": 0.8261083960533142
+            }
+          ],
+          "helping_delta": -0.009114583333333037,
+          "task_delta": -0.04062499999999991,
+          "neutral_kl": 0.00043726639705710113
+        },
+        {
+          "seed": 9,
+          "edits": [
+            {
+              "component": "L20MLP",
+              "scale": 1.306526480156624,
+              "applied_delta_norm": 0.8518194556236267
+            },
+            {
+              "component": "L19MLP",
+              "scale": 1.2918887967754882,
+              "applied_delta_norm": 0.8261083960533142
+            }
+          ],
+          "helping_delta": 0.014322916666666963,
+          "task_delta": 0.0031250000000002665,
+          "neutral_kl": 0.0008293809951283038
+        },
+        {
+          "seed": 10,
+          "edits": [
+            {
+              "component": "L20MLP",
+              "scale": 1.2839854803710804,
+              "applied_delta_norm": 0.8518194556236267
+            },
+            {
+              "component": "L19MLP",
+              "scale": 1.2686319519018587,
+              "applied_delta_norm": 0.8261083960533142
+            }
+          ],
+          "helping_delta": -0.00390625,
+          "task_delta": 0.004687500000000178,
+          "neutral_kl": 0.0006874427199363708
+        },
+        {
+          "seed": 11,
+          "edits": [
+            {
+              "component": "L20MLP",
+              "scale": 1.3064884976628186,
+              "applied_delta_norm": 0.8518194556236267
+            },
+            {
+              "component": "L19MLP",
+              "scale": 1.290143523567103,
+              "applied_delta_norm": 0.8261083960533142
+            }
+          ],
+          "helping_delta": 0.044270833333333925,
+          "task_delta": 0.020312500000000178,
+          "neutral_kl": 0.0007890873239375651
+        },
+        {
+          "seed": 12,
+          "edits": [
+            {
+              "component": "L20MLP",
+              "scale": 1.323339887146504,
+              "applied_delta_norm": 0.8518194556236267
+            },
+            {
+              "component": "L19MLP",
+              "scale": 1.2832685007919622,
+              "applied_delta_norm": 0.8261083960533142
+            }
+          ],
+          "helping_delta": 0.014322916666666963,
+          "task_delta": -0.02187500000000009,
+          "neutral_kl": 0.00035639069392345846
+        },
+        {
+          "seed": 13,
+          "edits": [
+            {
+              "component": "L20MLP",
+              "scale": 1.2914536558458434,
+              "applied_delta_norm": 0.8518194556236267
+            },
+            {
+              "component": "L19MLP",
+              "scale": 1.3033820999031478,
+              "applied_delta_norm": 0.8261083960533142
+            }
+          ],
+          "helping_delta": 0.0,
+          "task_delta": -0.06718749999999973,
+          "neutral_kl": 0.0004260079294908792
+        },
+        {
+          "seed": 14,
+          "edits": [
+            {
+              "component": "L20MLP",
+              "scale": 1.2950125580658196,
+              "applied_delta_norm": 0.8518194556236267
+            },
+            {
+              "component": "L19MLP",
+              "scale": 1.292626661063338,
+              "applied_delta_norm": 0.8261083960533142
+            }
+          ],
+          "helping_delta": -0.005208333333333037,
+          "task_delta": 0.02499999999999991,
+          "neutral_kl": 0.00047816603910177946
+        },
+        {
+          "seed": 15,
+          "edits": [
+            {
+              "component": "L20MLP",
+              "scale": 1.30612287983593,
+              "applied_delta_norm": 0.8518194556236267
+            },
+            {
+              "component": "L19MLP",
+              "scale": 1.2873222278353753,
+              "applied_delta_norm": 0.8261083960533142
+            }
+          ],
+          "helping_delta": -0.0026041666666660745,
+          "task_delta": -0.0031249999999998224,
+          "neutral_kl": 0.0006026055198162794
+        },
+        {
+          "seed": 16,
+          "edits": [
+            {
+              "component": "L20MLP",
+              "scale": 1.3196230782527503,
+              "applied_delta_norm": 0.8518194556236267
+            },
+            {
+              "component": "L19MLP",
+              "scale": 1.278598351746585,
+              "applied_delta_norm": 0.8261083960533142
+            }
+          ],
+          "helping_delta": -0.010416666666666075,
+          "task_delta": 0.06406249999999991,
+          "neutral_kl": 0.0006140554323792458
+        },
+        {
+          "seed": 17,
+          "edits": [
+            {
+              "component": "L20MLP",
+              "scale": 1.3053233418280552,
+              "applied_delta_norm": 0.8518194556236267
+            },
+            {
+              "component": "L19MLP",
+              "scale": 1.2891230571373482,
+              "applied_delta_norm": 0.8261083960533142
+            }
+          ],
+          "helping_delta": 0.0052083333333339255,
+          "task_delta": -0.015625,
+          "neutral_kl": 0.0006353179924190044
+        },
+        {
+          "seed": 18,
+          "edits": [
+            {
+              "component": "L20MLP",
+              "scale": 1.3015210259197518,
+              "applied_delta_norm": 0.8518194556236267
+            },
+            {
+              "component": "L19MLP",
+              "scale": 1.3008749684279823,
+              "applied_delta_norm": 0.8261083960533142
+            }
+          ],
+          "helping_delta": 0.018229166666666963,
+          "task_delta": 0.014062500000000089,
+          "neutral_kl": 0.0005342448712326586
+        },
+        {
+          "seed": 19,
+          "edits": [
+            {
+              "component": "L20MLP",
+              "scale": 1.3124528820330956,
+              "applied_delta_norm": 0.8518194556236267
+            },
+            {
+              "component": "L19MLP",
+              "scale": 1.2771969488372916,
+              "applied_delta_norm": 0.8261083960533142
+            }
+          ],
+          "helping_delta": -0.005208333333333037,
+          "task_delta": 0.0078125,
+          "neutral_kl": 0.0007963943644426763
+        }
+      ]
+    },
+    "suppressors": {
+      "summary": {
+        "set": "suppressors",
+        "targeted_helping_delta": 0.15234375,
+        "null_mean": -0.00019531249999968914,
+        "null_std": 0.016082456214080984,
+        "null_values": [
+          0.040364583333333925,
+          -0.024739583333333037,
+          0.01953125,
+          0.015625,
+          -0.01953125,
+          0.0013020833333339255,
+          -0.010416666666666075,
+          0.0026041666666669627,
+          0.006510416666666963,
+          -0.0078125,
+          0.013020833333333925,
+          -0.029947916666666075,
+          -0.0065104166666660745,
+          0.0078125,
+          -0.0065104166666660745,
+          -0.0026041666666660745,
+          0.0,
+          -0.013020833333333037,
+          0.00390625,
+          0.006510416666666963
+        ],
+        "z_score": 9.484811304285984,
+        "fraction_null_as_extreme": 0.0
+      },
+      "pilot_helping_delta": NaN,
+      "target_delta_norms": {
+        "L18H13": 0.24960531294345856,
+        "L20H10": 0.201275035738945,
+        "L19H12": 0.2178170084953308,
+        "L17H7": 0.1252724528312683
+      },
+      "conditions": [
+        {
+          "seed": 0,
+          "edits": [
+            {
+              "component": "L18H13",
+              "scale": 2.1565818879338186,
+              "applied_delta_norm": 0.24960531294345856
+            },
+            {
+              "component": "L20H10",
+              "scale": 1.4976452622343526,
+              "applied_delta_norm": 0.201275035738945
+            },
+            {
+              "component": "L19H12",
+              "scale": 1.6986596378086678,
+              "applied_delta_norm": 0.2178170084953308
+            },
+            {
+              "component": "L17H7",
+              "scale": 1.1044813062133947,
+              "applied_delta_norm": 0.1252724528312683
+            }
+          ],
+          "helping_delta": 0.040364583333333925,
+          "task_delta": -0.015625,
+          "neutral_kl": 0.0007801767787896097
+        },
+        {
+          "seed": 1,
+          "edits": [
+            {
+              "component": "L18H13",
+              "scale": 1.857536273332274,
+              "applied_delta_norm": 0.24960531294345856
+            },
+            {
+              "component": "L20H10",
+              "scale": 1.4629980819143553,
+              "applied_delta_norm": 0.201275035738945
+            },
+            {
+              "component": "L19H12",
+              "scale": 1.8567064986084023,
+              "applied_delta_norm": 0.2178170084953308
+            },
+            {
+              "component": "L17H7",
+              "scale": 1.0404759889166286,
+              "applied_delta_norm": 0.1252724528312683
+            }
+          ],
+          "helping_delta": -0.024739583333333037,
+          "task_delta": -0.03125,
+          "neutral_kl": 0.000311177660478279
+        },
+        {
+          "seed": 2,
+          "edits": [
+            {
+              "component": "L18H13",
+              "scale": 2.1104891913637753,
+              "applied_delta_norm": 0.24960531294345856
+            },
+            {
+              "component": "L20H10",
+              "scale": 1.377021656529648,
+              "applied_delta_norm": 0.201275035738945
+            },
+            {
+              "component": "L19H12",
+              "scale": 1.9943203806568774,
+              "applied_delta_norm": 0.2178170084953308
+            },
+            {
+              "component": "L17H7",
+              "scale": 1.1271260163051258,
+              "applied_delta_norm": 0.1252724528312683
+            }
+          ],
+          "helping_delta": 0.01953125,
+          "task_delta": -0.026562499999999822,
+          "neutral_kl": 0.0006763246492482722
+        },
+        {
+          "seed": 3,
+          "edits": [
+            {
+              "component": "L18H13",
+              "scale": 2.0145216032103943,
+              "applied_delta_norm": 0.24960531294345856
+            },
+            {
+              "component": "L20H10",
+              "scale": 1.5024320613424489,
+              "applied_delta_norm": 0.201275035738945
+            },
+            {
+              "component": "L19H12",
+              "scale": 1.8561368874180553,
+              "applied_delta_norm": 0.2178170084953308
+            },
+            {
+              "component": "L17H7",
+              "scale": 1.0189690426755584,
+              "applied_delta_norm": 0.1252724528312683
+            }
+          ],
+          "helping_delta": 0.015625,
+          "task_delta": 0.0078125,
+          "neutral_kl": 0.0005927215679548681
+        },
+        {
+          "seed": 4,
+          "edits": [
+            {
+              "component": "L18H13",
+              "scale": 2.1528651524522058,
+              "applied_delta_norm": 0.24960531294345856
+            },
+            {
+              "component": "L20H10",
+              "scale": 1.3633434636957218,
+              "applied_delta_norm": 0.201275035738945
+            },
+            {
+              "component": "L19H12",
+              "scale": 1.8334773173307166,
+              "applied_delta_norm": 0.2178170084953308
+            },
+            {
+              "component": "L17H7",
+              "scale": 1.1136835540195789,
+              "applied_delta_norm": 0.1252724528312683
+            }
+          ],
+          "helping_delta": -0.01953125,
+          "task_delta": -0.0078125,
+          "neutral_kl": 0.00046570796985179186
+        },
+        {
+          "seed": 5,
+          "edits": [
+            {
+              "component": "L18H13",
+              "scale": 1.947231395769356,
+              "applied_delta_norm": 0.24960531294345856
+            },
+            {
+              "component": "L20H10",
+              "scale": 1.5210672721204048,
+              "applied_delta_norm": 0.201275035738945
+            },
+            {
+              "component": "L19H12",
+              "scale": 1.807517628687362,
+              "applied_delta_norm": 0.2178170084953308
+            },
+            {
+              "component": "L17H7",
+              "scale": 1.1268114057779481,
+              "applied_delta_norm": 0.1252724528312683
+            }
+          ],
+          "helping_delta": 0.0013020833333339255,
+          "task_delta": -0.006250000000000089,
+          "neutral_kl": 0.0007573342300020158
+        },
+        {
+          "seed": 6,
+          "edits": [
+            {
+              "component": "L18H13",
+              "scale": 2.151173805930573,
+              "applied_delta_norm": 0.24960531294345856
+            },
+            {
+              "component": "L20H10",
+              "scale": 1.54172688024152,
+              "applied_delta_norm": 0.201275035738945
+            },
+            {
+              "component": "L19H12",
+              "scale": 1.8578882118941333,
+              "applied_delta_norm": 0.2178170084953308
+            },
+            {
+              "component": "L17H7",
+              "scale": 1.0957563497693465,
+              "applied_delta_norm": 0.1252724528312683
+            }
+          ],
+          "helping_delta": -0.010416666666666075,
+          "task_delta": 0.0,
+          "neutral_kl": 0.0007600434473715723
+        },
+        {
+          "seed": 7,
+          "edits": [
+            {
+              "component": "L18H13",
+              "scale": 2.0896539808359003,
+              "applied_delta_norm": 0.24960531294345856
+            },
+            {
+              "component": "L20H10",
+              "scale": 1.526124696409703,
+              "applied_delta_norm": 0.201275035738945
+            },
+            {
+              "component": "L19H12",
+              "scale": 1.7411194872259717,
+              "applied_delta_norm": 0.2178170084953308
+            },
+            {
+              "component": "L17H7",
+              "scale": 1.0510549598035388,
+              "applied_delta_norm": 0.1252724528312683
+            }
+          ],
+          "helping_delta": 0.0026041666666669627,
+          "task_delta": 0.02499999999999991,
+          "neutral_kl": 0.0006039732252247632
+        },
+        {
+          "seed": 8,
+          "edits": [
+            {
+              "component": "L18H13",
+              "scale": 2.2108140529591647,
+              "applied_delta_norm": 0.24960531294345856
+            },
+            {
+              "component": "L20H10",
+              "scale": 1.5111263633302343,
+              "applied_delta_norm": 0.201275035738945
+            },
+            {
+              "component": "L19H12",
+              "scale": 1.8860929045900303,
+              "applied_delta_norm": 0.2178170084953308
+            },
+            {
+              "component": "L17H7",
+              "scale": 1.0091120132325369,
+              "applied_delta_norm": 0.1252724528312683
+            }
+          ],
+          "helping_delta": 0.006510416666666963,
+          "task_delta": -0.009374999999999911,
+          "neutral_kl": 0.00042052287608385086
+        },
+        {
+          "seed": 9,
+          "edits": [
+            {
+              "component": "L18H13",
+              "scale": 2.202883007805231,
+              "applied_delta_norm": 0.24960531294345856
+            },
+            {
+              "component": "L20H10",
+              "scale": 1.470158714817265,
+              "applied_delta_norm": 0.201275035738945
+            },
+            {
+              "component": "L19H12",
+              "scale": 1.781530993104261,
+              "applied_delta_norm": 0.2178170084953308
+            },
+            {
+              "component": "L17H7",
+              "scale": 1.0211856534387596,
+              "applied_delta_norm": 0.1252724528312683
+            }
+          ],
+          "helping_delta": -0.0078125,
+          "task_delta": -0.043749999999999734,
+          "neutral_kl": 0.000700580480042845
+        },
+        {
+          "seed": 10,
+          "edits": [
+            {
+              "component": "L18H13",
+              "scale": 2.299515859722733,
+              "applied_delta_norm": 0.24960531294345856
+            },
+            {
+              "component": "L20H10",
+              "scale": 1.479433844614386,
+              "applied_delta_norm": 0.201275035738945
+            },
+            {
+              "component": "L19H12",
+              "scale": 1.7115305963663094,
+              "applied_delta_norm": 0.2178170084953308
+            },
+            {
+              "component": "L17H7",
+              "scale": 1.03464709275139,
+              "applied_delta_norm": 0.1252724528312683
+            }
+          ],
+          "helping_delta": 0.013020833333333925,
+          "task_delta": -0.018749999999999822,
+          "neutral_kl": 0.0005700176698155701
+        },
+        {
+          "seed": 11,
+          "edits": [
+            {
+              "component": "L18H13",
+              "scale": 2.1952485748706088,
+              "applied_delta_norm": 0.24960531294345856
+            },
+            {
+              "component": "L20H10",
+              "scale": 1.5821739956486915,
+              "applied_delta_norm": 0.201275035738945
+            },
+            {
+              "component": "L19H12",
+              "scale": 1.623084326711209,
+              "applied_delta_norm": 0.2178170084953308
+            },
+            {
+              "component": "L17H7",
+              "scale": 1.0335001825890169,
+              "applied_delta_norm": 0.1252724528312683
+            }
+          ],
+          "helping_delta": -0.029947916666666075,
+          "task_delta": -0.035937499999999734,
+          "neutral_kl": 0.0008391037699766457
+        },
+        {
+          "seed": 12,
+          "edits": [
+            {
+              "component": "L18H13",
+              "scale": 2.0929526665930314,
+              "applied_delta_norm": 0.24960531294345856
+            },
+            {
+              "component": "L20H10",
+              "scale": 1.568325223498442,
+              "applied_delta_norm": 0.201275035738945
+            },
+            {
+              "component": "L19H12",
+              "scale": 1.7421886108462874,
+              "applied_delta_norm": 0.2178170084953308
+            },
+            {
+              "component": "L17H7",
+              "scale": 1.0628554920858475,
+              "applied_delta_norm": 0.1252724528312683
+            }
+          ],
+          "helping_delta": -0.0065104166666660745,
+          "task_delta": 0.0031250000000002665,
+          "neutral_kl": 0.0004442481731530279
+        },
+        {
+          "seed": 13,
+          "edits": [
+            {
+              "component": "L18H13",
+              "scale": 1.9425882870851219,
+              "applied_delta_norm": 0.24960531294345856
+            },
+            {
+              "component": "L20H10",
+              "scale": 1.4287180457040796,
+              "applied_delta_norm": 0.201275035738945
+            },
+            {
+              "component": "L19H12",
+              "scale": 1.7503625720182114,
+              "applied_delta_norm": 0.2178170084953308
+            },
+            {
+              "component": "L17H7",
+              "scale": 1.0493607829103404,
+              "applied_delta_norm": 0.1252724528312683
+            }
+          ],
+          "helping_delta": 0.0078125,
+          "task_delta": 0.042187500000000266,
+          "neutral_kl": 0.0007664174772799015
+        },
+        {
+          "seed": 14,
+          "edits": [
+            {
+              "component": "L18H13",
+              "scale": 2.128480008660948,
+              "applied_delta_norm": 0.24960531294345856
+            },
+            {
+              "component": "L20H10",
+              "scale": 1.5194258790867925,
+              "applied_delta_norm": 0.201275035738945
+            },
+            {
+              "component": "L19H12",
+              "scale": 1.981938975196903,
+              "applied_delta_norm": 0.2178170084953308
+            },
+            {
+              "component": "L17H7",
+              "scale": 1.046389558025735,
+              "applied_delta_norm": 0.1252724528312683
+            }
+          ],
+          "helping_delta": -0.0065104166666660745,
+          "task_delta": -0.018749999999999822,
+          "neutral_kl": 0.0005821689846925437
+        },
+        {
+          "seed": 15,
+          "edits": [
+            {
+              "component": "L18H13",
+              "scale": 2.129674631027678,
+              "applied_delta_norm": 0.24960531294345856
+            },
+            {
+              "component": "L20H10",
+              "scale": 1.3701351507481083,
+              "applied_delta_norm": 0.201275035738945
+            },
+            {
+              "component": "L19H12",
+              "scale": 1.8589812329712054,
+              "applied_delta_norm": 0.2178170084953308
+            },
+            {
+              "component": "L17H7",
+              "scale": 1.0286319911962556,
+              "applied_delta_norm": 0.1252724528312683
+            }
+          ],
+          "helping_delta": -0.0026041666666660745,
+          "task_delta": -0.010937499999999822,
+          "neutral_kl": 0.0005939745460636914
+        },
+        {
+          "seed": 16,
+          "edits": [
+            {
+              "component": "L18H13",
+              "scale": 2.102816999361776,
+              "applied_delta_norm": 0.24960531294345856
+            },
+            {
+              "component": "L20H10",
+              "scale": 1.5031421414636366,
+              "applied_delta_norm": 0.201275035738945
+            },
+            {
+              "component": "L19H12",
+              "scale": 1.914837369285803,
+              "applied_delta_norm": 0.2178170084953308
+            },
+            {
+              "component": "L17H7",
+              "scale": 1.0581576291225032,
+              "applied_delta_norm": 0.1252724528312683
+            }
+          ],
+          "helping_delta": 0.0,
+          "task_delta": -0.02968750000000009,
+          "neutral_kl": 0.0004014084115624428
+        },
+        {
+          "seed": 17,
+          "edits": [
+            {
+              "component": "L18H13",
+              "scale": 2.170486848815066,
+              "applied_delta_norm": 0.24960531294345856
+            },
+            {
+              "component": "L20H10",
+              "scale": 1.529671854155389,
+              "applied_delta_norm": 0.201275035738945
+            },
+            {
+              "component": "L19H12",
+              "scale": 1.9593748906707444,
+              "applied_delta_norm": 0.2178170084953308
+            },
+            {
+              "component": "L17H7",
+              "scale": 1.0386295596756994,
+              "applied_delta_norm": 0.1252724528312683
+            }
+          ],
+          "helping_delta": -0.013020833333333037,
+          "task_delta": -0.012499999999999734,
+          "neutral_kl": 0.00044890757999382913
+        },
+        {
+          "seed": 18,
+          "edits": [
+            {
+              "component": "L18H13",
+              "scale": 2.030834731315285,
+              "applied_delta_norm": 0.24960531294345856
+            },
+            {
+              "component": "L20H10",
+              "scale": 1.671193325440926,
+              "applied_delta_norm": 0.201275035738945
+            },
+            {
+              "component": "L19H12",
+              "scale": 1.870715983940009,
+              "applied_delta_norm": 0.2178170084953308
+            },
+            {
+              "component": "L17H7",
+              "scale": 1.0813251322894237,
+              "applied_delta_norm": 0.1252724528312683
+            }
+          ],
+          "helping_delta": 0.00390625,
+          "task_delta": 0.015625,
+          "neutral_kl": 0.0010154488263651729
+        },
+        {
+          "seed": 19,
+          "edits": [
+            {
+              "component": "L18H13",
+              "scale": 2.389164902683921,
+              "applied_delta_norm": 0.24960531294345856
+            },
+            {
+              "component": "L20H10",
+              "scale": 1.397683052098112,
+              "applied_delta_norm": 0.201275035738945
+            },
+            {
+              "component": "L19H12",
+              "scale": 1.7719429504622886,
+              "applied_delta_norm": 0.2178170084953308
+            },
+            {
+              "component": "L17H7",
+              "scale": 1.0907779038280154,
+              "applied_delta_norm": 0.1252724528312683
+            }
+          ],
+          "helping_delta": 0.006510416666666963,
+          "task_delta": 0.0,
+          "neutral_kl": 0.0007037632749415934
+        }
+      ]
+    }
+  }
+}
