@@ -295,3 +295,98 @@ the predicted direction, and sign-stable mechanic-stratified LOFO. The
 fixed-state causal gate is tested before the trajectory gate. A trajectory
 effect cannot establish an action-guiding representation if fixed-state support
 fails; it is reported as closed-loop path/parser sensitivity.
+
+## Frozen amendment 3: causal operation and trajectory estimands
+
+**Status:** frozen before EIA development implementation or scores.
+
+### One primary activation operation per surviving axis
+
+If Gate-2 `d_N`/subspace passes, its primary EIA intervention is the exact full
+bidirectional current-actual/archived-actual coordinate interchange frozen in
+WP3, applied after the selected block at the selected matched token role. Every
+fixed state is rendered under both matched social-status prompts with identical
+environment mechanics/action menu. The family effect is the WP3 signed
+bidirectional swap effect on the normalized canonical action-class margin.
+
+If Gate-2 fails, `d_resid` remains only an assay comparator. Its primary
+operation is full projection removal at block 20 on the final non-padding prompt
+token:
+`h_removed = h - (h dot d_resid) d_resid`. The predicted signed effect is a
+reduction in the costly-helping/direct-response action margin. Additive steering,
+partial fractions, every-generated-token hooks, and source weight edits are
+separate named sensitivities; none can replace the applicable primary operation.
+
+Each fixed-state primary passes only if its family-clustered 95% interval has
+the predicted sign, at least 13/16 family means have that sign, every
+mechanic-stratified LOFO aggregate retains it, and it beats all 64 random
+controls at plus-one rank at most `3/65`. Direct-welfare and social-engagement
+margins are tested and named separately. Invalid/menu-external mass and task
+margin are co-reported; a primary effect accompanied by a family-clustered
+increase in invalid mass is not an action-guiding pass.
+
+### Exact random controls
+
+Generate random controls by consuming child seeds from
+`numpy.random.Generator(PCG64(1138704895)).integers(0,2**32,dtype=uint32)` in
+order. A one-dimensional comparator draws a float64 standard-normal vector,
+casts once to float32, and unit-normalizes. A k-dimensional comparator draws a
+`d_model x k` matrix, uses reduced QR, and canonicalizes each column sign by its
+largest-magnitude entry. Use fresh PCG64 per child.
+
+For each receiver, apply the same operation class as the target. For coordinate
+interchange, project the identical source-receiver difference into the random
+subspace; for projection removal, remove the receiver's random coordinate.
+Then rescale the random injected vector to the target injected L2 norm for that
+receiver. A random norm at or below `1e-8` consumes the next deterministic seed
+before any outcome is read. Persist attempted/retained seeds, bases, pre/post
+norms, hashes, and every state/control score. No random control is oriented or
+selected using EIA behavior.
+
+### Closed-loop family outcomes
+
+Average the four paired initial seeds within family before inference. Do not
+pool steps or post-divergence states. Use the intervention-specific polarity
+frozen on EIA development; the fixed-state confirmation must pass before
+trajectory confirmation is opened, and a trajectory sign cannot reverse that
+polarity.
+
+For mechanics with a direct beneficial transition, primary family outcomes are:
+
+1. probability of completing at least one `direct_welfare_action` before
+   termination;
+2. mechanically incurred task cost attributable to that transition; and
+3. objective completion/progress.
+
+For conversational mechanics, the primary welfare-responsiveness outcome is
+the condition-by-social-state interaction in selecting `social_engagement`:
+distress/current minus the mean of excited-positive and resolved/archived
+states. Message-content SUPPORT coding is secondary and cannot replace the
+action-selection interaction.
+
+Report direct-welfare and conversational families separately. For each claimed
+outcome, require a predicted-sign family-clustered 95% interval and the sign in
+at least `ceil(0.80*n_relevant_families)` family means. A cross-mechanic enacted
+claim additionally requires the predicted sign in at least three of the four
+preregistered mechanic strata and every leave-one-mechanic-out mean. If fewer
+than three mechanics instantiate the relevant outcome, restrict the claim to
+the named mechanics rather than imputing zeros or combining it with the other
+action construct.
+
+### Realized-cost interaction
+
+Within current-need, response-available, active-objective states, code realized
+cost `{zero,low,high}` by the normalized linear contrast `[-1,0,+1]`. For each
+family compute the intervention-induced change in this cost slope. The primary
+specificity contrast subtracts the analogous slope change in the
+resolved/archived matched social state. Its predicted sign is frozen from EIA
+development before confirmation; confirmation requires a family-clustered 95%
+interval in that sign, at least 13/16 family signs, and sign-stable LOFO.
+No-active-objective remains a separate boundary sensitivity. Textual stated
+cost is crossed and reported separately; it cannot stand in for the mechanical
+transition/cost record.
+
+An immediate fixed-state pass with failed trajectory gates supports an action-
+probability intervention below closed-loop behavioral thresholds. A trajectory
+effect without the fixed-state pass, with invalidity drift, or confined to one
+mechanic remains path/parser sensitivity and is not enacted-policy evidence.
