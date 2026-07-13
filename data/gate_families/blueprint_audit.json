@@ -1,0 +1,2367 @@
+{
+  "schema": "empathy-action-probes/gate-blueprint-audit/1",
+  "created_at": "2026-07-13T16:50:59.917904+00:00",
+  "input_directory": "data/gate_families/blueprints",
+  "artifacts": [
+    {
+      "path": "data/gate_families/blueprints/writer_openai_gpt4o_mini.json",
+      "sha256": "d8f25add5538e211e1adef6df97bb522aad4f57678a0afed92fbdbc56922e3bf",
+      "kind": "writer",
+      "source": "openai_gpt4o_mini",
+      "count": 12,
+      "checks": {
+        "schema": true,
+        "kind": true,
+        "source": true,
+        "source_spec": true,
+        "count": true
+      }
+    },
+    {
+      "path": "data/gate_families/blueprints/writer_openai_gpt41_mini.json",
+      "sha256": "c11f1e0f3366e3f9c689f58641c1f6df4710e4d37274db0372e002822a46e48c",
+      "kind": "writer",
+      "source": "openai_gpt41_mini",
+      "count": 12,
+      "checks": {
+        "schema": true,
+        "kind": true,
+        "source": true,
+        "source_spec": true,
+        "count": true
+      }
+    },
+    {
+      "path": "data/gate_families/blueprints/writer_anthropic_haiku45.json",
+      "sha256": "c41bf8fe69db10412ae5715b6f7763cc364734513ed39bcbca37d522284b6be2",
+      "kind": "writer",
+      "source": "anthropic_haiku45",
+      "count": 12,
+      "checks": {
+        "schema": true,
+        "kind": true,
+        "source": true,
+        "source_spec": true,
+        "count": true
+      }
+    },
+    {
+      "path": "data/gate_families/blueprints/writer_google_gemini25_flash.json",
+      "sha256": "4756e07d0ba77e39c68938d86cfd8661dda1ef3af6444cc2b195e013e818a8e4",
+      "kind": "writer",
+      "source": "google_gemini25_flash",
+      "count": 12,
+      "checks": {
+        "schema": true,
+        "kind": true,
+        "source": true,
+        "source_spec": true,
+        "count": true
+      }
+    },
+    {
+      "path": "data/gate_families/blueprints/r2b_openai_gpt4o_mini.json",
+      "sha256": "13cd1fce9102cc645df39ddd767dc5727e20e9e559747542832a1a006520eebf",
+      "kind": "r2b",
+      "source": "openai_gpt4o_mini",
+      "count": 8,
+      "checks": {
+        "schema": true,
+        "kind": true,
+        "source": true,
+        "source_spec": true,
+        "count": true
+      }
+    },
+    {
+      "path": "data/gate_families/blueprints/r2b_openai_gpt41_mini.json",
+      "sha256": "460f8e37406151c4815f06d0cb9fcd04f25109f15d7e8edb36e3364d0782b1ab",
+      "kind": "r2b",
+      "source": "openai_gpt41_mini",
+      "count": 8,
+      "checks": {
+        "schema": true,
+        "kind": true,
+        "source": true,
+        "source_spec": true,
+        "count": true
+      }
+    },
+    {
+      "path": "data/gate_families/blueprints/r2b_anthropic_haiku45.json",
+      "sha256": "3c5848eec5bb709e98ab61002222cfdf62488b0a3e5d975b7971711f482ceb5e",
+      "kind": "r2b",
+      "source": "anthropic_haiku45",
+      "count": 8,
+      "checks": {
+        "schema": true,
+        "kind": true,
+        "source": true,
+        "source_spec": true,
+        "count": true
+      }
+    },
+    {
+      "path": "data/gate_families/blueprints/r2b_google_gemini25_flash.json",
+      "sha256": "999ae356848a2a4c6d6ceab8771d95fef6ff4def065bee832c565a75dcb03f95",
+      "kind": "r2b",
+      "source": "google_gemini25_flash",
+      "count": 8,
+      "checks": {
+        "schema": true,
+        "kind": true,
+        "source": true,
+        "source_spec": true,
+        "count": true
+      }
+    },
+    {
+      "path": "data/gate_families/blueprints/wp1_openai_gpt4o_mini.json",
+      "sha256": "153a54d3e84e5c7d91057648038be7aac9b1a24e883a2914f2b3bc0185e350aa",
+      "kind": "wp1",
+      "source": "openai_gpt4o_mini",
+      "count": 8,
+      "checks": {
+        "schema": true,
+        "kind": true,
+        "source": true,
+        "source_spec": true,
+        "count": true
+      }
+    },
+    {
+      "path": "data/gate_families/blueprints/wp1_openai_gpt41_mini.json",
+      "sha256": "81a755ef6c4ac3c4435ad9584f16a359f69680eb3eecc16fa4f0f27a13c6a0b3",
+      "kind": "wp1",
+      "source": "openai_gpt41_mini",
+      "count": 8,
+      "checks": {
+        "schema": true,
+        "kind": true,
+        "source": true,
+        "source_spec": true,
+        "count": true
+      }
+    },
+    {
+      "path": "data/gate_families/blueprints/wp1_anthropic_haiku45.json",
+      "sha256": "9fc461e26103f85b5000a363ac4c38461b19e889dcba718c008a9a078c7e3a0c",
+      "kind": "wp1",
+      "source": "anthropic_haiku45",
+      "count": 8,
+      "checks": {
+        "schema": true,
+        "kind": true,
+        "source": true,
+        "source_spec": true,
+        "count": true
+      }
+    },
+    {
+      "path": "data/gate_families/blueprints/wp1_google_gemini25_flash.json",
+      "sha256": "5adbe387c5650e1fb7cdd30ee3011d31435056aa557d17751c9f016aec2e5a63",
+      "kind": "wp1",
+      "source": "google_gemini25_flash",
+      "count": 8,
+      "checks": {
+        "schema": true,
+        "kind": true,
+        "source": true,
+        "source_spec": true,
+        "count": true
+      }
+    },
+    {
+      "path": "data/gate_families/blueprints/wp3_openai_gpt4o_mini.json",
+      "sha256": "de8f62d13ea76c896a6bc0731b7acfb8d54c19f91c66ad2c8998b02944b1d49c",
+      "kind": "wp3",
+      "source": "openai_gpt4o_mini",
+      "count": 12,
+      "checks": {
+        "schema": true,
+        "kind": true,
+        "source": true,
+        "source_spec": true,
+        "count": true
+      }
+    },
+    {
+      "path": "data/gate_families/blueprints/wp3_openai_gpt41_mini.json",
+      "sha256": "65d0c312644959ecbca877d1e0e4b8a71ba1fda26caf38deef13d907a7f1907e",
+      "kind": "wp3",
+      "source": "openai_gpt41_mini",
+      "count": 12,
+      "checks": {
+        "schema": true,
+        "kind": true,
+        "source": true,
+        "source_spec": true,
+        "count": true
+      }
+    },
+    {
+      "path": "data/gate_families/blueprints/wp3_anthropic_haiku45.json",
+      "sha256": "e71d43c11cd6b0dec30bf7c88186a00c1a2a867da673c2788825991ac6681db4",
+      "kind": "wp3",
+      "source": "anthropic_haiku45",
+      "count": 12,
+      "checks": {
+        "schema": true,
+        "kind": true,
+        "source": true,
+        "source_spec": true,
+        "count": true
+      }
+    },
+    {
+      "path": "data/gate_families/blueprints/wp3_google_gemini25_flash.json",
+      "sha256": "05c7571ef7d17befa61b700d039a830eaa80026e225ad2c9ff5adc0e3a7d2aa1",
+      "kind": "wp3",
+      "source": "google_gemini25_flash",
+      "count": 12,
+      "checks": {
+        "schema": true,
+        "kind": true,
+        "source": true,
+        "source_spec": true,
+        "count": true
+      }
+    }
+  ],
+  "top_level_errors": [],
+  "summary": {
+    "artifact_count": 16,
+    "family_count": 160,
+    "hard_valid_families": 117,
+    "hard_invalid_families": 43,
+    "finding_severity_counts": {
+      "hard": 53,
+      "review": 123
+    },
+    "finding_code_counts": {
+      "forbidden_message_word": 3,
+      "help_action_deferred": 11,
+      "help_action_weak": 11,
+      "message_not_first_person": 94,
+      "message_too_long": 7,
+      "resolved_state_unclear": 6,
+      "social_task_control": 31,
+      "unsafe_content": 1,
+      "zero_cost_unclear": 12
+    },
+    "near_duplicate_pair_count": 0
+  },
+  "families": [
+    {
+      "family_id": "writer_openai_gpt4o_mini_00",
+      "kind": "writer",
+      "source": "openai_gpt4o_mini",
+      "hard_valid": false,
+      "findings": [
+        {
+          "severity": "hard",
+          "code": "social_task_control",
+          "detail": "nonsocial_signal contains an apparent person/social cue"
+        }
+      ]
+    },
+    {
+      "family_id": "writer_openai_gpt4o_mini_01",
+      "kind": "writer",
+      "source": "openai_gpt4o_mini",
+      "hard_valid": false,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "help_action_weak",
+          "detail": "help_action lacks an immediate response cue"
+        },
+        {
+          "severity": "hard",
+          "code": "social_task_control",
+          "detail": "nonsocial_signal contains an apparent person/social cue"
+        }
+      ]
+    },
+    {
+      "family_id": "writer_openai_gpt4o_mini_02",
+      "kind": "writer",
+      "source": "openai_gpt4o_mini",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "writer_openai_gpt4o_mini_03",
+      "kind": "writer",
+      "source": "openai_gpt4o_mini",
+      "hard_valid": false,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "urgent_message may not be a first-person utterance"
+        },
+        {
+          "severity": "review",
+          "code": "help_action_weak",
+          "detail": "help_action lacks an immediate response cue"
+        },
+        {
+          "severity": "hard",
+          "code": "social_task_control",
+          "detail": "nonsocial_signal contains an apparent person/social cue"
+        }
+      ]
+    },
+    {
+      "family_id": "writer_openai_gpt4o_mini_04",
+      "kind": "writer",
+      "source": "openai_gpt4o_mini",
+      "hard_valid": false,
+      "findings": [
+        {
+          "severity": "hard",
+          "code": "social_task_control",
+          "detail": "nonsocial_signal contains an apparent person/social cue"
+        },
+        {
+          "severity": "hard",
+          "code": "social_task_control",
+          "detail": "nonsocial_action contains an apparent person/social cue"
+        }
+      ]
+    },
+    {
+      "family_id": "writer_openai_gpt4o_mini_05",
+      "kind": "writer",
+      "source": "openai_gpt4o_mini",
+      "hard_valid": false,
+      "findings": [
+        {
+          "severity": "hard",
+          "code": "social_task_control",
+          "detail": "nonsocial_signal contains an apparent person/social cue"
+        }
+      ]
+    },
+    {
+      "family_id": "writer_openai_gpt4o_mini_06",
+      "kind": "writer",
+      "source": "openai_gpt4o_mini",
+      "hard_valid": false,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "help_action_weak",
+          "detail": "help_action lacks an immediate response cue"
+        },
+        {
+          "severity": "hard",
+          "code": "social_task_control",
+          "detail": "nonsocial_signal contains an apparent person/social cue"
+        }
+      ]
+    },
+    {
+      "family_id": "writer_openai_gpt4o_mini_07",
+      "kind": "writer",
+      "source": "openai_gpt4o_mini",
+      "hard_valid": false,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "help_action_weak",
+          "detail": "help_action lacks an immediate response cue"
+        },
+        {
+          "severity": "hard",
+          "code": "social_task_control",
+          "detail": "nonsocial_signal contains an apparent person/social cue"
+        }
+      ]
+    },
+    {
+      "family_id": "writer_openai_gpt4o_mini_08",
+      "kind": "writer",
+      "source": "openai_gpt4o_mini",
+      "hard_valid": false,
+      "findings": [
+        {
+          "severity": "hard",
+          "code": "social_task_control",
+          "detail": "nonsocial_signal contains an apparent person/social cue"
+        }
+      ]
+    },
+    {
+      "family_id": "writer_openai_gpt4o_mini_09",
+      "kind": "writer",
+      "source": "openai_gpt4o_mini",
+      "hard_valid": false,
+      "findings": [
+        {
+          "severity": "hard",
+          "code": "social_task_control",
+          "detail": "nonsocial_signal contains an apparent person/social cue"
+        }
+      ]
+    },
+    {
+      "family_id": "writer_openai_gpt4o_mini_10",
+      "kind": "writer",
+      "source": "openai_gpt4o_mini",
+      "hard_valid": false,
+      "findings": [
+        {
+          "severity": "hard",
+          "code": "social_task_control",
+          "detail": "nonsocial_signal contains an apparent person/social cue"
+        }
+      ]
+    },
+    {
+      "family_id": "writer_openai_gpt4o_mini_11",
+      "kind": "writer",
+      "source": "openai_gpt4o_mini",
+      "hard_valid": false,
+      "findings": [
+        {
+          "severity": "hard",
+          "code": "social_task_control",
+          "detail": "nonsocial_signal contains an apparent person/social cue"
+        },
+        {
+          "severity": "hard",
+          "code": "social_task_control",
+          "detail": "nonsocial_action contains an apparent person/social cue"
+        }
+      ]
+    },
+    {
+      "family_id": "writer_openai_gpt41_mini_00",
+      "kind": "writer",
+      "source": "openai_gpt41_mini",
+      "hard_valid": false,
+      "findings": [
+        {
+          "severity": "hard",
+          "code": "help_action_deferred",
+          "detail": "help_action postpones rather than performs the response"
+        }
+      ]
+    },
+    {
+      "family_id": "writer_openai_gpt41_mini_01",
+      "kind": "writer",
+      "source": "openai_gpt41_mini",
+      "hard_valid": false,
+      "findings": [
+        {
+          "severity": "hard",
+          "code": "help_action_deferred",
+          "detail": "help_action postpones rather than performs the response"
+        },
+        {
+          "severity": "review",
+          "code": "help_action_weak",
+          "detail": "help_action lacks an immediate response cue"
+        },
+        {
+          "severity": "hard",
+          "code": "social_task_control",
+          "detail": "nonsocial_action contains an apparent person/social cue"
+        }
+      ]
+    },
+    {
+      "family_id": "writer_openai_gpt41_mini_02",
+      "kind": "writer",
+      "source": "openai_gpt41_mini",
+      "hard_valid": false,
+      "findings": [
+        {
+          "severity": "hard",
+          "code": "help_action_deferred",
+          "detail": "help_action postpones rather than performs the response"
+        }
+      ]
+    },
+    {
+      "family_id": "writer_openai_gpt41_mini_03",
+      "kind": "writer",
+      "source": "openai_gpt41_mini",
+      "hard_valid": false,
+      "findings": [
+        {
+          "severity": "hard",
+          "code": "help_action_deferred",
+          "detail": "help_action postpones rather than performs the response"
+        }
+      ]
+    },
+    {
+      "family_id": "writer_openai_gpt41_mini_04",
+      "kind": "writer",
+      "source": "openai_gpt41_mini",
+      "hard_valid": false,
+      "findings": [
+        {
+          "severity": "hard",
+          "code": "help_action_deferred",
+          "detail": "help_action postpones rather than performs the response"
+        },
+        {
+          "severity": "review",
+          "code": "help_action_weak",
+          "detail": "help_action lacks an immediate response cue"
+        }
+      ]
+    },
+    {
+      "family_id": "writer_openai_gpt41_mini_05",
+      "kind": "writer",
+      "source": "openai_gpt41_mini",
+      "hard_valid": false,
+      "findings": [
+        {
+          "severity": "hard",
+          "code": "help_action_deferred",
+          "detail": "help_action postpones rather than performs the response"
+        }
+      ]
+    },
+    {
+      "family_id": "writer_openai_gpt41_mini_06",
+      "kind": "writer",
+      "source": "openai_gpt41_mini",
+      "hard_valid": false,
+      "findings": [
+        {
+          "severity": "hard",
+          "code": "help_action_deferred",
+          "detail": "help_action postpones rather than performs the response"
+        },
+        {
+          "severity": "review",
+          "code": "help_action_weak",
+          "detail": "help_action lacks an immediate response cue"
+        }
+      ]
+    },
+    {
+      "family_id": "writer_openai_gpt41_mini_07",
+      "kind": "writer",
+      "source": "openai_gpt41_mini",
+      "hard_valid": false,
+      "findings": [
+        {
+          "severity": "hard",
+          "code": "help_action_deferred",
+          "detail": "help_action postpones rather than performs the response"
+        },
+        {
+          "severity": "review",
+          "code": "help_action_weak",
+          "detail": "help_action lacks an immediate response cue"
+        }
+      ]
+    },
+    {
+      "family_id": "writer_openai_gpt41_mini_08",
+      "kind": "writer",
+      "source": "openai_gpt41_mini",
+      "hard_valid": false,
+      "findings": [
+        {
+          "severity": "hard",
+          "code": "help_action_deferred",
+          "detail": "help_action postpones rather than performs the response"
+        },
+        {
+          "severity": "review",
+          "code": "help_action_weak",
+          "detail": "help_action lacks an immediate response cue"
+        }
+      ]
+    },
+    {
+      "family_id": "writer_openai_gpt41_mini_09",
+      "kind": "writer",
+      "source": "openai_gpt41_mini",
+      "hard_valid": false,
+      "findings": [
+        {
+          "severity": "hard",
+          "code": "help_action_deferred",
+          "detail": "help_action postpones rather than performs the response"
+        },
+        {
+          "severity": "hard",
+          "code": "social_task_control",
+          "detail": "nonsocial_action contains an apparent person/social cue"
+        }
+      ]
+    },
+    {
+      "family_id": "writer_openai_gpt41_mini_10",
+      "kind": "writer",
+      "source": "openai_gpt41_mini",
+      "hard_valid": false,
+      "findings": [
+        {
+          "severity": "hard",
+          "code": "help_action_deferred",
+          "detail": "help_action postpones rather than performs the response"
+        }
+      ]
+    },
+    {
+      "family_id": "writer_openai_gpt41_mini_11",
+      "kind": "writer",
+      "source": "openai_gpt41_mini",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "writer_anthropic_haiku45_00",
+      "kind": "writer",
+      "source": "anthropic_haiku45",
+      "hard_valid": false,
+      "findings": [
+        {
+          "severity": "hard",
+          "code": "social_task_control",
+          "detail": "nonsocial_signal contains an apparent person/social cue"
+        },
+        {
+          "severity": "hard",
+          "code": "social_task_control",
+          "detail": "nonsocial_action contains an apparent person/social cue"
+        }
+      ]
+    },
+    {
+      "family_id": "writer_anthropic_haiku45_01",
+      "kind": "writer",
+      "source": "anthropic_haiku45",
+      "hard_valid": false,
+      "findings": [
+        {
+          "severity": "hard",
+          "code": "social_task_control",
+          "detail": "nonsocial_signal contains an apparent person/social cue"
+        },
+        {
+          "severity": "hard",
+          "code": "social_task_control",
+          "detail": "nonsocial_action contains an apparent person/social cue"
+        }
+      ]
+    },
+    {
+      "family_id": "writer_anthropic_haiku45_02",
+      "kind": "writer",
+      "source": "anthropic_haiku45",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "writer_anthropic_haiku45_03",
+      "kind": "writer",
+      "source": "anthropic_haiku45",
+      "hard_valid": false,
+      "findings": [
+        {
+          "severity": "hard",
+          "code": "social_task_control",
+          "detail": "nonsocial_signal contains an apparent person/social cue"
+        }
+      ]
+    },
+    {
+      "family_id": "writer_anthropic_haiku45_04",
+      "kind": "writer",
+      "source": "anthropic_haiku45",
+      "hard_valid": false,
+      "findings": [
+        {
+          "severity": "hard",
+          "code": "social_task_control",
+          "detail": "nonsocial_signal contains an apparent person/social cue"
+        },
+        {
+          "severity": "hard",
+          "code": "social_task_control",
+          "detail": "nonsocial_action contains an apparent person/social cue"
+        }
+      ]
+    },
+    {
+      "family_id": "writer_anthropic_haiku45_05",
+      "kind": "writer",
+      "source": "anthropic_haiku45",
+      "hard_valid": false,
+      "findings": [
+        {
+          "severity": "hard",
+          "code": "social_task_control",
+          "detail": "nonsocial_action contains an apparent person/social cue"
+        }
+      ]
+    },
+    {
+      "family_id": "writer_anthropic_haiku45_06",
+      "kind": "writer",
+      "source": "anthropic_haiku45",
+      "hard_valid": false,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "urgent_message may not be a first-person utterance"
+        },
+        {
+          "severity": "hard",
+          "code": "social_task_control",
+          "detail": "nonsocial_action contains an apparent person/social cue"
+        }
+      ]
+    },
+    {
+      "family_id": "writer_anthropic_haiku45_07",
+      "kind": "writer",
+      "source": "anthropic_haiku45",
+      "hard_valid": false,
+      "findings": [
+        {
+          "severity": "hard",
+          "code": "social_task_control",
+          "detail": "nonsocial_signal contains an apparent person/social cue"
+        },
+        {
+          "severity": "hard",
+          "code": "social_task_control",
+          "detail": "nonsocial_action contains an apparent person/social cue"
+        }
+      ]
+    },
+    {
+      "family_id": "writer_anthropic_haiku45_08",
+      "kind": "writer",
+      "source": "anthropic_haiku45",
+      "hard_valid": false,
+      "findings": [
+        {
+          "severity": "hard",
+          "code": "social_task_control",
+          "detail": "nonsocial_signal contains an apparent person/social cue"
+        },
+        {
+          "severity": "hard",
+          "code": "social_task_control",
+          "detail": "nonsocial_action contains an apparent person/social cue"
+        }
+      ]
+    },
+    {
+      "family_id": "writer_anthropic_haiku45_09",
+      "kind": "writer",
+      "source": "anthropic_haiku45",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "urgent_message may not be a first-person utterance"
+        }
+      ]
+    },
+    {
+      "family_id": "writer_anthropic_haiku45_10",
+      "kind": "writer",
+      "source": "anthropic_haiku45",
+      "hard_valid": false,
+      "findings": [
+        {
+          "severity": "hard",
+          "code": "social_task_control",
+          "detail": "nonsocial_action contains an apparent person/social cue"
+        }
+      ]
+    },
+    {
+      "family_id": "writer_anthropic_haiku45_11",
+      "kind": "writer",
+      "source": "anthropic_haiku45",
+      "hard_valid": false,
+      "findings": [
+        {
+          "severity": "hard",
+          "code": "social_task_control",
+          "detail": "nonsocial_signal contains an apparent person/social cue"
+        }
+      ]
+    },
+    {
+      "family_id": "writer_google_gemini25_flash_00",
+      "kind": "writer",
+      "source": "google_gemini25_flash",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "writer_google_gemini25_flash_01",
+      "kind": "writer",
+      "source": "google_gemini25_flash",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "help_action_weak",
+          "detail": "help_action lacks an immediate response cue"
+        }
+      ]
+    },
+    {
+      "family_id": "writer_google_gemini25_flash_02",
+      "kind": "writer",
+      "source": "google_gemini25_flash",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "writer_google_gemini25_flash_03",
+      "kind": "writer",
+      "source": "google_gemini25_flash",
+      "hard_valid": false,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "help_action_weak",
+          "detail": "help_action lacks an immediate response cue"
+        },
+        {
+          "severity": "hard",
+          "code": "social_task_control",
+          "detail": "nonsocial_action contains an apparent person/social cue"
+        }
+      ]
+    },
+    {
+      "family_id": "writer_google_gemini25_flash_04",
+      "kind": "writer",
+      "source": "google_gemini25_flash",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "writer_google_gemini25_flash_05",
+      "kind": "writer",
+      "source": "google_gemini25_flash",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "writer_google_gemini25_flash_06",
+      "kind": "writer",
+      "source": "google_gemini25_flash",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "writer_google_gemini25_flash_07",
+      "kind": "writer",
+      "source": "google_gemini25_flash",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "writer_google_gemini25_flash_08",
+      "kind": "writer",
+      "source": "google_gemini25_flash",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "writer_google_gemini25_flash_09",
+      "kind": "writer",
+      "source": "google_gemini25_flash",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "writer_google_gemini25_flash_10",
+      "kind": "writer",
+      "source": "google_gemini25_flash",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "writer_google_gemini25_flash_11",
+      "kind": "writer",
+      "source": "google_gemini25_flash",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "r2b_openai_gpt4o_mini_00",
+      "kind": "r2b",
+      "source": "openai_gpt4o_mini",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "resolved_state_unclear",
+          "detail": "resolved_message lacks a clear completion cue"
+        }
+      ]
+    },
+    {
+      "family_id": "r2b_openai_gpt4o_mini_01",
+      "kind": "r2b",
+      "source": "openai_gpt4o_mini",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "r2b_openai_gpt4o_mini_02",
+      "kind": "r2b",
+      "source": "openai_gpt4o_mini",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "r2b_openai_gpt4o_mini_03",
+      "kind": "r2b",
+      "source": "openai_gpt4o_mini",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "r2b_openai_gpt4o_mini_04",
+      "kind": "r2b",
+      "source": "openai_gpt4o_mini",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "resolved_message may not be a first-person utterance"
+        }
+      ]
+    },
+    {
+      "family_id": "r2b_openai_gpt4o_mini_05",
+      "kind": "r2b",
+      "source": "openai_gpt4o_mini",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "resolved_message may not be a first-person utterance"
+        },
+        {
+          "severity": "review",
+          "code": "zero_cost_unclear",
+          "detail": "cost_zero lacks an explicit negligible-loss cue"
+        }
+      ]
+    },
+    {
+      "family_id": "r2b_openai_gpt4o_mini_06",
+      "kind": "r2b",
+      "source": "openai_gpt4o_mini",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "r2b_openai_gpt4o_mini_07",
+      "kind": "r2b",
+      "source": "openai_gpt4o_mini",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "resolved_message may not be a first-person utterance"
+        },
+        {
+          "severity": "review",
+          "code": "resolved_state_unclear",
+          "detail": "resolved_message lacks a clear completion cue"
+        },
+        {
+          "severity": "review",
+          "code": "zero_cost_unclear",
+          "detail": "cost_zero lacks an explicit negligible-loss cue"
+        }
+      ]
+    },
+    {
+      "family_id": "r2b_openai_gpt41_mini_00",
+      "kind": "r2b",
+      "source": "openai_gpt41_mini",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "resolved_message may not be a first-person utterance"
+        }
+      ]
+    },
+    {
+      "family_id": "r2b_openai_gpt41_mini_01",
+      "kind": "r2b",
+      "source": "openai_gpt41_mini",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "resolved_message may not be a first-person utterance"
+        }
+      ]
+    },
+    {
+      "family_id": "r2b_openai_gpt41_mini_02",
+      "kind": "r2b",
+      "source": "openai_gpt41_mini",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "urgent_message may not be a first-person utterance"
+        },
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "resolved_message may not be a first-person utterance"
+        }
+      ]
+    },
+    {
+      "family_id": "r2b_openai_gpt41_mini_03",
+      "kind": "r2b",
+      "source": "openai_gpt41_mini",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "urgent_message may not be a first-person utterance"
+        },
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "resolved_message may not be a first-person utterance"
+        }
+      ]
+    },
+    {
+      "family_id": "r2b_openai_gpt41_mini_04",
+      "kind": "r2b",
+      "source": "openai_gpt41_mini",
+      "hard_valid": false,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "urgent_message may not be a first-person utterance"
+        },
+        {
+          "severity": "hard",
+          "code": "forbidden_message_word",
+          "detail": "resolved_message contains ['urgent']"
+        },
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "resolved_message may not be a first-person utterance"
+        },
+        {
+          "severity": "review",
+          "code": "resolved_state_unclear",
+          "detail": "resolved_message lacks a clear completion cue"
+        }
+      ]
+    },
+    {
+      "family_id": "r2b_openai_gpt41_mini_05",
+      "kind": "r2b",
+      "source": "openai_gpt41_mini",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "urgent_message may not be a first-person utterance"
+        },
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "resolved_message may not be a first-person utterance"
+        }
+      ]
+    },
+    {
+      "family_id": "r2b_openai_gpt41_mini_06",
+      "kind": "r2b",
+      "source": "openai_gpt41_mini",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "resolved_message may not be a first-person utterance"
+        }
+      ]
+    },
+    {
+      "family_id": "r2b_openai_gpt41_mini_07",
+      "kind": "r2b",
+      "source": "openai_gpt41_mini",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "resolved_message may not be a first-person utterance"
+        }
+      ]
+    },
+    {
+      "family_id": "r2b_anthropic_haiku45_00",
+      "kind": "r2b",
+      "source": "anthropic_haiku45",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "r2b_anthropic_haiku45_01",
+      "kind": "r2b",
+      "source": "anthropic_haiku45",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "resolved_state_unclear",
+          "detail": "resolved_message lacks a clear completion cue"
+        }
+      ]
+    },
+    {
+      "family_id": "r2b_anthropic_haiku45_02",
+      "kind": "r2b",
+      "source": "anthropic_haiku45",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "r2b_anthropic_haiku45_03",
+      "kind": "r2b",
+      "source": "anthropic_haiku45",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "r2b_anthropic_haiku45_04",
+      "kind": "r2b",
+      "source": "anthropic_haiku45",
+      "hard_valid": false,
+      "findings": [
+        {
+          "severity": "hard",
+          "code": "message_too_long",
+          "detail": "urgent_message has 26 words"
+        },
+        {
+          "severity": "review",
+          "code": "resolved_state_unclear",
+          "detail": "resolved_message lacks a clear completion cue"
+        }
+      ]
+    },
+    {
+      "family_id": "r2b_anthropic_haiku45_05",
+      "kind": "r2b",
+      "source": "anthropic_haiku45",
+      "hard_valid": false,
+      "findings": [
+        {
+          "severity": "hard",
+          "code": "message_too_long",
+          "detail": "urgent_message has 27 words"
+        },
+        {
+          "severity": "review",
+          "code": "zero_cost_unclear",
+          "detail": "cost_zero lacks an explicit negligible-loss cue"
+        }
+      ]
+    },
+    {
+      "family_id": "r2b_anthropic_haiku45_06",
+      "kind": "r2b",
+      "source": "anthropic_haiku45",
+      "hard_valid": false,
+      "findings": [
+        {
+          "severity": "hard",
+          "code": "message_too_long",
+          "detail": "urgent_message has 29 words"
+        },
+        {
+          "severity": "review",
+          "code": "resolved_state_unclear",
+          "detail": "resolved_message lacks a clear completion cue"
+        },
+        {
+          "severity": "review",
+          "code": "zero_cost_unclear",
+          "detail": "cost_zero lacks an explicit negligible-loss cue"
+        }
+      ]
+    },
+    {
+      "family_id": "r2b_anthropic_haiku45_07",
+      "kind": "r2b",
+      "source": "anthropic_haiku45",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "zero_cost_unclear",
+          "detail": "cost_zero lacks an explicit negligible-loss cue"
+        }
+      ]
+    },
+    {
+      "family_id": "r2b_google_gemini25_flash_00",
+      "kind": "r2b",
+      "source": "google_gemini25_flash",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "resolved_message may not be a first-person utterance"
+        }
+      ]
+    },
+    {
+      "family_id": "r2b_google_gemini25_flash_01",
+      "kind": "r2b",
+      "source": "google_gemini25_flash",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "zero_cost_unclear",
+          "detail": "cost_zero lacks an explicit negligible-loss cue"
+        }
+      ]
+    },
+    {
+      "family_id": "r2b_google_gemini25_flash_02",
+      "kind": "r2b",
+      "source": "google_gemini25_flash",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "urgent_message may not be a first-person utterance"
+        },
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "resolved_message may not be a first-person utterance"
+        },
+        {
+          "severity": "review",
+          "code": "zero_cost_unclear",
+          "detail": "cost_zero lacks an explicit negligible-loss cue"
+        }
+      ]
+    },
+    {
+      "family_id": "r2b_google_gemini25_flash_03",
+      "kind": "r2b",
+      "source": "google_gemini25_flash",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "resolved_message may not be a first-person utterance"
+        },
+        {
+          "severity": "review",
+          "code": "zero_cost_unclear",
+          "detail": "cost_zero lacks an explicit negligible-loss cue"
+        }
+      ]
+    },
+    {
+      "family_id": "r2b_google_gemini25_flash_04",
+      "kind": "r2b",
+      "source": "google_gemini25_flash",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "resolved_message may not be a first-person utterance"
+        },
+        {
+          "severity": "review",
+          "code": "zero_cost_unclear",
+          "detail": "cost_zero lacks an explicit negligible-loss cue"
+        }
+      ]
+    },
+    {
+      "family_id": "r2b_google_gemini25_flash_05",
+      "kind": "r2b",
+      "source": "google_gemini25_flash",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "resolved_message may not be a first-person utterance"
+        },
+        {
+          "severity": "review",
+          "code": "zero_cost_unclear",
+          "detail": "cost_zero lacks an explicit negligible-loss cue"
+        }
+      ]
+    },
+    {
+      "family_id": "r2b_google_gemini25_flash_06",
+      "kind": "r2b",
+      "source": "google_gemini25_flash",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "resolved_message may not be a first-person utterance"
+        },
+        {
+          "severity": "review",
+          "code": "zero_cost_unclear",
+          "detail": "cost_zero lacks an explicit negligible-loss cue"
+        }
+      ]
+    },
+    {
+      "family_id": "r2b_google_gemini25_flash_07",
+      "kind": "r2b",
+      "source": "google_gemini25_flash",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "resolved_message may not be a first-person utterance"
+        },
+        {
+          "severity": "review",
+          "code": "zero_cost_unclear",
+          "detail": "cost_zero lacks an explicit negligible-loss cue"
+        }
+      ]
+    },
+    {
+      "family_id": "wp1_openai_gpt4o_mini_00",
+      "kind": "wp1",
+      "source": "openai_gpt4o_mini",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "excited_message may not be a first-person utterance"
+        }
+      ]
+    },
+    {
+      "family_id": "wp1_openai_gpt4o_mini_01",
+      "kind": "wp1",
+      "source": "openai_gpt4o_mini",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "excited_message may not be a first-person utterance"
+        },
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "neutral_social_message may not be a first-person utterance"
+        }
+      ]
+    },
+    {
+      "family_id": "wp1_openai_gpt4o_mini_02",
+      "kind": "wp1",
+      "source": "openai_gpt4o_mini",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "excited_message may not be a first-person utterance"
+        },
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "neutral_social_message may not be a first-person utterance"
+        }
+      ]
+    },
+    {
+      "family_id": "wp1_openai_gpt4o_mini_03",
+      "kind": "wp1",
+      "source": "openai_gpt4o_mini",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "excited_message may not be a first-person utterance"
+        }
+      ]
+    },
+    {
+      "family_id": "wp1_openai_gpt4o_mini_04",
+      "kind": "wp1",
+      "source": "openai_gpt4o_mini",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "wp1_openai_gpt4o_mini_05",
+      "kind": "wp1",
+      "source": "openai_gpt4o_mini",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "wp1_openai_gpt4o_mini_06",
+      "kind": "wp1",
+      "source": "openai_gpt4o_mini",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "wp1_openai_gpt4o_mini_07",
+      "kind": "wp1",
+      "source": "openai_gpt4o_mini",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "wp1_openai_gpt41_mini_00",
+      "kind": "wp1",
+      "source": "openai_gpt41_mini",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "excited_message may not be a first-person utterance"
+        },
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "neutral_social_message may not be a first-person utterance"
+        }
+      ]
+    },
+    {
+      "family_id": "wp1_openai_gpt41_mini_01",
+      "kind": "wp1",
+      "source": "openai_gpt41_mini",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "wp1_openai_gpt41_mini_02",
+      "kind": "wp1",
+      "source": "openai_gpt41_mini",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "excited_message may not be a first-person utterance"
+        }
+      ]
+    },
+    {
+      "family_id": "wp1_openai_gpt41_mini_03",
+      "kind": "wp1",
+      "source": "openai_gpt41_mini",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "distress_quote may not be a first-person utterance"
+        },
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "excited_message may not be a first-person utterance"
+        },
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "neutral_social_message may not be a first-person utterance"
+        }
+      ]
+    },
+    {
+      "family_id": "wp1_openai_gpt41_mini_04",
+      "kind": "wp1",
+      "source": "openai_gpt41_mini",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "distress_quote may not be a first-person utterance"
+        },
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "excited_message may not be a first-person utterance"
+        },
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "neutral_social_message may not be a first-person utterance"
+        }
+      ]
+    },
+    {
+      "family_id": "wp1_openai_gpt41_mini_05",
+      "kind": "wp1",
+      "source": "openai_gpt41_mini",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "excited_message may not be a first-person utterance"
+        },
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "neutral_social_message may not be a first-person utterance"
+        }
+      ]
+    },
+    {
+      "family_id": "wp1_openai_gpt41_mini_06",
+      "kind": "wp1",
+      "source": "openai_gpt41_mini",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "distress_quote may not be a first-person utterance"
+        },
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "neutral_social_message may not be a first-person utterance"
+        }
+      ]
+    },
+    {
+      "family_id": "wp1_openai_gpt41_mini_07",
+      "kind": "wp1",
+      "source": "openai_gpt41_mini",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "wp1_anthropic_haiku45_00",
+      "kind": "wp1",
+      "source": "anthropic_haiku45",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "wp1_anthropic_haiku45_01",
+      "kind": "wp1",
+      "source": "anthropic_haiku45",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "wp1_anthropic_haiku45_02",
+      "kind": "wp1",
+      "source": "anthropic_haiku45",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "wp1_anthropic_haiku45_03",
+      "kind": "wp1",
+      "source": "anthropic_haiku45",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "wp1_anthropic_haiku45_04",
+      "kind": "wp1",
+      "source": "anthropic_haiku45",
+      "hard_valid": false,
+      "findings": [
+        {
+          "severity": "hard",
+          "code": "message_too_long",
+          "detail": "distress_quote has 25 words"
+        }
+      ]
+    },
+    {
+      "family_id": "wp1_anthropic_haiku45_05",
+      "kind": "wp1",
+      "source": "anthropic_haiku45",
+      "hard_valid": false,
+      "findings": [
+        {
+          "severity": "hard",
+          "code": "message_too_long",
+          "detail": "distress_quote has 27 words"
+        }
+      ]
+    },
+    {
+      "family_id": "wp1_anthropic_haiku45_06",
+      "kind": "wp1",
+      "source": "anthropic_haiku45",
+      "hard_valid": false,
+      "findings": [
+        {
+          "severity": "hard",
+          "code": "message_too_long",
+          "detail": "distress_quote has 26 words"
+        },
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "excited_message may not be a first-person utterance"
+        }
+      ]
+    },
+    {
+      "family_id": "wp1_anthropic_haiku45_07",
+      "kind": "wp1",
+      "source": "anthropic_haiku45",
+      "hard_valid": false,
+      "findings": [
+        {
+          "severity": "hard",
+          "code": "message_too_long",
+          "detail": "distress_quote has 26 words"
+        },
+        {
+          "severity": "hard",
+          "code": "forbidden_message_word",
+          "detail": "distress_quote contains ['urgent']"
+        }
+      ]
+    },
+    {
+      "family_id": "wp1_google_gemini25_flash_00",
+      "kind": "wp1",
+      "source": "google_gemini25_flash",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "excited_message may not be a first-person utterance"
+        }
+      ]
+    },
+    {
+      "family_id": "wp1_google_gemini25_flash_01",
+      "kind": "wp1",
+      "source": "google_gemini25_flash",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "neutral_social_message may not be a first-person utterance"
+        }
+      ]
+    },
+    {
+      "family_id": "wp1_google_gemini25_flash_02",
+      "kind": "wp1",
+      "source": "google_gemini25_flash",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "excited_message may not be a first-person utterance"
+        }
+      ]
+    },
+    {
+      "family_id": "wp1_google_gemini25_flash_03",
+      "kind": "wp1",
+      "source": "google_gemini25_flash",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "wp1_google_gemini25_flash_04",
+      "kind": "wp1",
+      "source": "google_gemini25_flash",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "excited_message may not be a first-person utterance"
+        }
+      ]
+    },
+    {
+      "family_id": "wp1_google_gemini25_flash_05",
+      "kind": "wp1",
+      "source": "google_gemini25_flash",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "neutral_social_message may not be a first-person utterance"
+        }
+      ]
+    },
+    {
+      "family_id": "wp1_google_gemini25_flash_06",
+      "kind": "wp1",
+      "source": "google_gemini25_flash",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "excited_message may not be a first-person utterance"
+        }
+      ]
+    },
+    {
+      "family_id": "wp1_google_gemini25_flash_07",
+      "kind": "wp1",
+      "source": "google_gemini25_flash",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "excited_message may not be a first-person utterance"
+        }
+      ]
+    },
+    {
+      "family_id": "wp3_openai_gpt4o_mini_00",
+      "kind": "wp3",
+      "source": "openai_gpt4o_mini",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "wp3_openai_gpt4o_mini_01",
+      "kind": "wp3",
+      "source": "openai_gpt4o_mini",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "wp3_openai_gpt4o_mini_02",
+      "kind": "wp3",
+      "source": "openai_gpt4o_mini",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "neutral_message may not be a first-person utterance"
+        }
+      ]
+    },
+    {
+      "family_id": "wp3_openai_gpt4o_mini_03",
+      "kind": "wp3",
+      "source": "openai_gpt4o_mini",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "wp3_openai_gpt4o_mini_04",
+      "kind": "wp3",
+      "source": "openai_gpt4o_mini",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "neutral_message may not be a first-person utterance"
+        }
+      ]
+    },
+    {
+      "family_id": "wp3_openai_gpt4o_mini_05",
+      "kind": "wp3",
+      "source": "openai_gpt4o_mini",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "wp3_openai_gpt4o_mini_06",
+      "kind": "wp3",
+      "source": "openai_gpt4o_mini",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "neutral_message may not be a first-person utterance"
+        }
+      ]
+    },
+    {
+      "family_id": "wp3_openai_gpt4o_mini_07",
+      "kind": "wp3",
+      "source": "openai_gpt4o_mini",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "neutral_message may not be a first-person utterance"
+        }
+      ]
+    },
+    {
+      "family_id": "wp3_openai_gpt4o_mini_08",
+      "kind": "wp3",
+      "source": "openai_gpt4o_mini",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "wp3_openai_gpt4o_mini_09",
+      "kind": "wp3",
+      "source": "openai_gpt4o_mini",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "neutral_message may not be a first-person utterance"
+        }
+      ]
+    },
+    {
+      "family_id": "wp3_openai_gpt4o_mini_10",
+      "kind": "wp3",
+      "source": "openai_gpt4o_mini",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "wp3_openai_gpt4o_mini_11",
+      "kind": "wp3",
+      "source": "openai_gpt4o_mini",
+      "hard_valid": false,
+      "findings": [
+        {
+          "severity": "hard",
+          "code": "forbidden_message_word",
+          "detail": "neutral_message contains ['task']"
+        },
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "neutral_message may not be a first-person utterance"
+        }
+      ]
+    },
+    {
+      "family_id": "wp3_openai_gpt41_mini_00",
+      "kind": "wp3",
+      "source": "openai_gpt41_mini",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "wp3_openai_gpt41_mini_01",
+      "kind": "wp3",
+      "source": "openai_gpt41_mini",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "distress_quote may not be a first-person utterance"
+        },
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "neutral_message may not be a first-person utterance"
+        },
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "resolved_message may not be a first-person utterance"
+        }
+      ]
+    },
+    {
+      "family_id": "wp3_openai_gpt41_mini_02",
+      "kind": "wp3",
+      "source": "openai_gpt41_mini",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "resolved_message may not be a first-person utterance"
+        }
+      ]
+    },
+    {
+      "family_id": "wp3_openai_gpt41_mini_03",
+      "kind": "wp3",
+      "source": "openai_gpt41_mini",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "neutral_message may not be a first-person utterance"
+        }
+      ]
+    },
+    {
+      "family_id": "wp3_openai_gpt41_mini_04",
+      "kind": "wp3",
+      "source": "openai_gpt41_mini",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "distress_quote may not be a first-person utterance"
+        },
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "neutral_message may not be a first-person utterance"
+        }
+      ]
+    },
+    {
+      "family_id": "wp3_openai_gpt41_mini_05",
+      "kind": "wp3",
+      "source": "openai_gpt41_mini",
+      "hard_valid": false,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "distress_quote may not be a first-person utterance"
+        },
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "neutral_message may not be a first-person utterance"
+        },
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "resolved_message may not be a first-person utterance"
+        },
+        {
+          "severity": "hard",
+          "code": "unsafe_content",
+          "detail": "contains ['shoot']"
+        }
+      ]
+    },
+    {
+      "family_id": "wp3_openai_gpt41_mini_06",
+      "kind": "wp3",
+      "source": "openai_gpt41_mini",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "distress_quote may not be a first-person utterance"
+        },
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "resolved_message may not be a first-person utterance"
+        }
+      ]
+    },
+    {
+      "family_id": "wp3_openai_gpt41_mini_07",
+      "kind": "wp3",
+      "source": "openai_gpt41_mini",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "neutral_message may not be a first-person utterance"
+        },
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "resolved_message may not be a first-person utterance"
+        }
+      ]
+    },
+    {
+      "family_id": "wp3_openai_gpt41_mini_08",
+      "kind": "wp3",
+      "source": "openai_gpt41_mini",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "neutral_message may not be a first-person utterance"
+        }
+      ]
+    },
+    {
+      "family_id": "wp3_openai_gpt41_mini_09",
+      "kind": "wp3",
+      "source": "openai_gpt41_mini",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "resolved_message may not be a first-person utterance"
+        }
+      ]
+    },
+    {
+      "family_id": "wp3_openai_gpt41_mini_10",
+      "kind": "wp3",
+      "source": "openai_gpt41_mini",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "distress_quote may not be a first-person utterance"
+        },
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "neutral_message may not be a first-person utterance"
+        },
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "resolved_message may not be a first-person utterance"
+        }
+      ]
+    },
+    {
+      "family_id": "wp3_openai_gpt41_mini_11",
+      "kind": "wp3",
+      "source": "openai_gpt41_mini",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "neutral_message may not be a first-person utterance"
+        }
+      ]
+    },
+    {
+      "family_id": "wp3_anthropic_haiku45_00",
+      "kind": "wp3",
+      "source": "anthropic_haiku45",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "wp3_anthropic_haiku45_01",
+      "kind": "wp3",
+      "source": "anthropic_haiku45",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "neutral_message may not be a first-person utterance"
+        }
+      ]
+    },
+    {
+      "family_id": "wp3_anthropic_haiku45_02",
+      "kind": "wp3",
+      "source": "anthropic_haiku45",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "neutral_message may not be a first-person utterance"
+        },
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "resolved_message may not be a first-person utterance"
+        }
+      ]
+    },
+    {
+      "family_id": "wp3_anthropic_haiku45_03",
+      "kind": "wp3",
+      "source": "anthropic_haiku45",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "neutral_message may not be a first-person utterance"
+        }
+      ]
+    },
+    {
+      "family_id": "wp3_anthropic_haiku45_04",
+      "kind": "wp3",
+      "source": "anthropic_haiku45",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "neutral_message may not be a first-person utterance"
+        }
+      ]
+    },
+    {
+      "family_id": "wp3_anthropic_haiku45_05",
+      "kind": "wp3",
+      "source": "anthropic_haiku45",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "neutral_message may not be a first-person utterance"
+        }
+      ]
+    },
+    {
+      "family_id": "wp3_anthropic_haiku45_06",
+      "kind": "wp3",
+      "source": "anthropic_haiku45",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "neutral_message may not be a first-person utterance"
+        }
+      ]
+    },
+    {
+      "family_id": "wp3_anthropic_haiku45_07",
+      "kind": "wp3",
+      "source": "anthropic_haiku45",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "neutral_message may not be a first-person utterance"
+        }
+      ]
+    },
+    {
+      "family_id": "wp3_anthropic_haiku45_08",
+      "kind": "wp3",
+      "source": "anthropic_haiku45",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "neutral_message may not be a first-person utterance"
+        },
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "resolved_message may not be a first-person utterance"
+        }
+      ]
+    },
+    {
+      "family_id": "wp3_anthropic_haiku45_09",
+      "kind": "wp3",
+      "source": "anthropic_haiku45",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "neutral_message may not be a first-person utterance"
+        },
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "resolved_message may not be a first-person utterance"
+        }
+      ]
+    },
+    {
+      "family_id": "wp3_anthropic_haiku45_10",
+      "kind": "wp3",
+      "source": "anthropic_haiku45",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "neutral_message may not be a first-person utterance"
+        }
+      ]
+    },
+    {
+      "family_id": "wp3_anthropic_haiku45_11",
+      "kind": "wp3",
+      "source": "anthropic_haiku45",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "neutral_message may not be a first-person utterance"
+        }
+      ]
+    },
+    {
+      "family_id": "wp3_google_gemini25_flash_00",
+      "kind": "wp3",
+      "source": "google_gemini25_flash",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "wp3_google_gemini25_flash_01",
+      "kind": "wp3",
+      "source": "google_gemini25_flash",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "wp3_google_gemini25_flash_02",
+      "kind": "wp3",
+      "source": "google_gemini25_flash",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "wp3_google_gemini25_flash_03",
+      "kind": "wp3",
+      "source": "google_gemini25_flash",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "wp3_google_gemini25_flash_04",
+      "kind": "wp3",
+      "source": "google_gemini25_flash",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "wp3_google_gemini25_flash_05",
+      "kind": "wp3",
+      "source": "google_gemini25_flash",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "wp3_google_gemini25_flash_06",
+      "kind": "wp3",
+      "source": "google_gemini25_flash",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "wp3_google_gemini25_flash_07",
+      "kind": "wp3",
+      "source": "google_gemini25_flash",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "wp3_google_gemini25_flash_08",
+      "kind": "wp3",
+      "source": "google_gemini25_flash",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "wp3_google_gemini25_flash_09",
+      "kind": "wp3",
+      "source": "google_gemini25_flash",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "wp3_google_gemini25_flash_10",
+      "kind": "wp3",
+      "source": "google_gemini25_flash",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "resolved_message may not be a first-person utterance"
+        }
+      ]
+    },
+    {
+      "family_id": "wp3_google_gemini25_flash_11",
+      "kind": "wp3",
+      "source": "google_gemini25_flash",
+      "hard_valid": true,
+      "findings": []
+    }
+  ],
+  "near_duplicate_pairs": []
+}

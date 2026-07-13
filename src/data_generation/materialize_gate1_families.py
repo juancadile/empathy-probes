@@ -20,10 +20,12 @@ import numpy as np
 
 try:
     from .audit_gate_blueprints import audit_family, normalize
-    from .generate_gate_blueprints import KINDS, SOURCES, output_path
+    from .generate_gate_blueprints import (
+        KINDS, SOURCES, apply_replacement_artifacts, output_path)
 except ImportError:  # direct script execution
     from audit_gate_blueprints import audit_family, normalize
-    from generate_gate_blueprints import KINDS, SOURCES, output_path
+    from generate_gate_blueprints import (
+        KINDS, SOURCES, apply_replacement_artifacts, output_path)
 
 ROOT = Path(__file__).resolve().parents[2]
 BLUEPRINTS = ROOT / "data/gate_families/blueprints"
@@ -68,6 +70,8 @@ def load_kind(kind: str, revision: int) -> tuple[list[dict], list[dict]]:
                        "sha256": sha256_path(path), "source": source,
                        "count": expected})
         rows.extend(artifact["families"])
+    rows, replacement_inputs = apply_replacement_artifacts(rows, kind, revision)
+    inputs.extend(replacement_inputs)
     invalid = []
     for row in rows:
         result = audit_family(row)
@@ -309,8 +313,8 @@ def validate_rendered(writer: list[dict], r2b: list[dict]) -> dict:
         "r2b_records": len(r2b),
         "writer_families": len(writer_families),
         "r2b_families": len(r2b_families),
-        "writer_partition_counts": dict(actual_writer),
-        "r2b_partition_counts": dict(actual_r2b),
+        "writer_partition_counts": dict(sorted(actual_writer.items())),
+        "r2b_partition_counts": dict(sorted(actual_r2b.items())),
     }
 
 

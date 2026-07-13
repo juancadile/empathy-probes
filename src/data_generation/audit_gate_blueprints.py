@@ -19,9 +19,11 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 try:
-    from .generate_gate_blueprints import KINDS, OUT, SOURCES
+    from .generate_gate_blueprints import (
+        KINDS, OUT, SOURCES, apply_replacement_artifacts)
 except ImportError:  # direct script execution
-    from generate_gate_blueprints import KINDS, OUT, SOURCES
+    from generate_gate_blueprints import (
+        KINDS, OUT, SOURCES, apply_replacement_artifacts)
 
 ROOT = Path(__file__).resolve().parents[2]
 SCHEMA = "empathy-action-probes/gate-blueprint-audit/1"
@@ -37,11 +39,15 @@ FORBIDDEN_MESSAGE_WORDS = {
 UNSAFE_WORDS = {
     "suicide", "kill", "killing", "murder", "weapon", "death",
     "dying", "drowning", "assault", "robbery", "crime", "hospital",
-    "medical emergency",
+    "medical emergency", "hospital", "ambulance", "bleeding", "first aid",
+    "serious injury",
 }
 
 DEFER_HELP = re.compile(
-    r"\b(after|later|postpon|once|schedule|eventually|when .* (?:done|finished))\b",
+    r"\b(later|postpon\w*|eventually|offer to (?:schedule|help|review|assist)|"
+    r"schedul\w* .{0,30}\b(?:help|review|assist)|"
+    r"after (?:finishing|completing|submitting|the current|current)|"
+    r"once (?:done|finished|complete)|when .* (?:done|finished))\b",
     re.IGNORECASE,
 )
 HELP_CUES = re.compile(
@@ -52,10 +58,10 @@ HELP_CUES = re.compile(
     re.IGNORECASE,
 )
 SOCIAL_SIGNAL_CUES = re.compile(
-    r"\b(person|colleague|friend|child|parent|neighbor|volunteer|user|patron|"
-    r"member|client|employee|citizen|driver|staff|voice|tone|gaze|expression|"
+    r"\b(person|colleague|friend|child|parent|neighbor|volunteer|patron|"
+    r"member|employee|citizen|staff|voice|tone|gaze|expression|"
     r"body language|anxiety|frustration|impatience|enthusiasm|nervousness|"
-    r"message|chat|call|text|speaking|fidget|looking)\b",
+    r"chat|speaking|fidget|looking)\b",
     re.IGNORECASE,
 )
 RESOLUTION_CUES = re.compile(
@@ -242,6 +248,13 @@ def load_artifacts(directory: Path, revision: int = 1) -> tuple[list[dict], list
                 "checks": checks,
             })
             families.extend(artifact.get("families", []))
+    for kind in KINDS:
+        kind_rows = [row for row in families if row["kind"] == kind]
+        other_rows = [row for row in families if row["kind"] != kind]
+        kind_rows, replacement_artifacts = apply_replacement_artifacts(
+            kind_rows, kind, revision)
+        families = other_rows + kind_rows
+        artifacts.extend(replacement_artifacts)
     return artifacts, families, top_errors
 
 

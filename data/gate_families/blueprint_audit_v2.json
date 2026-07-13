@@ -1,0 +1,1631 @@
+{
+  "schema": "empathy-action-probes/gate-blueprint-audit/1",
+  "created_at": "2026-07-13T17:32:52.942522+00:00",
+  "input_directory": "data/gate_families/blueprints",
+  "blueprint_revision": 2,
+  "artifacts": [
+    {
+      "path": "data/gate_families/blueprints/writer_openai_gpt4o_mini_v2.json",
+      "sha256": "7117a2bbbea472e67d023557844e808e0770e830b74afbb1897787cf38ba15d2",
+      "kind": "writer",
+      "source": "openai_gpt4o_mini",
+      "count": 12,
+      "checks": {
+        "schema": true,
+        "kind": true,
+        "source": true,
+        "source_spec": true,
+        "count": true,
+        "revision": true
+      }
+    },
+    {
+      "path": "data/gate_families/blueprints/writer_openai_gpt41_mini_v2.json",
+      "sha256": "507bf2769b3e3778dc3931fb497a54953d2d49ae8dbfe55b4fca36abbca0cd1f",
+      "kind": "writer",
+      "source": "openai_gpt41_mini",
+      "count": 12,
+      "checks": {
+        "schema": true,
+        "kind": true,
+        "source": true,
+        "source_spec": true,
+        "count": true,
+        "revision": true
+      }
+    },
+    {
+      "path": "data/gate_families/blueprints/writer_anthropic_haiku45_v2.json",
+      "sha256": "a4c575f9c885d38b39f4a4ffcb7b69a1621454860eb68f3026c1bd1342d155ce",
+      "kind": "writer",
+      "source": "anthropic_haiku45",
+      "count": 12,
+      "checks": {
+        "schema": true,
+        "kind": true,
+        "source": true,
+        "source_spec": true,
+        "count": true,
+        "revision": true
+      }
+    },
+    {
+      "path": "data/gate_families/blueprints/writer_google_gemini25_flash_v2.json",
+      "sha256": "792046e62b082be43b7c2d5cb8ef7fc18633f7fc55a382ce8a203e5753ca8f40",
+      "kind": "writer",
+      "source": "google_gemini25_flash",
+      "count": 12,
+      "checks": {
+        "schema": true,
+        "kind": true,
+        "source": true,
+        "source_spec": true,
+        "count": true,
+        "revision": true
+      }
+    },
+    {
+      "path": "data/gate_families/blueprints/r2b_openai_gpt4o_mini_v2.json",
+      "sha256": "a1f36d22ac5cfd8118d8fe03e62b0cd18164a6add32fe12131bce8c4a0de6c05",
+      "kind": "r2b",
+      "source": "openai_gpt4o_mini",
+      "count": 8,
+      "checks": {
+        "schema": true,
+        "kind": true,
+        "source": true,
+        "source_spec": true,
+        "count": true,
+        "revision": true
+      }
+    },
+    {
+      "path": "data/gate_families/blueprints/r2b_openai_gpt41_mini_v2.json",
+      "sha256": "96ce04010b6ad32792db0bab107f715c6e600a0b66f31e56b7dcede5b1bf4d97",
+      "kind": "r2b",
+      "source": "openai_gpt41_mini",
+      "count": 8,
+      "checks": {
+        "schema": true,
+        "kind": true,
+        "source": true,
+        "source_spec": true,
+        "count": true,
+        "revision": true
+      }
+    },
+    {
+      "path": "data/gate_families/blueprints/r2b_anthropic_haiku45_v2.json",
+      "sha256": "a1bb70712e6e19b43e47fcf5ddaae842acd6ae61224b67412ec9352855e568b4",
+      "kind": "r2b",
+      "source": "anthropic_haiku45",
+      "count": 8,
+      "checks": {
+        "schema": true,
+        "kind": true,
+        "source": true,
+        "source_spec": true,
+        "count": true,
+        "revision": true
+      }
+    },
+    {
+      "path": "data/gate_families/blueprints/r2b_google_gemini25_flash_v2.json",
+      "sha256": "db721fce3695ee9441b269aad03739700ee31b12e506da0f32e176faf2f3e7e2",
+      "kind": "r2b",
+      "source": "google_gemini25_flash",
+      "count": 8,
+      "checks": {
+        "schema": true,
+        "kind": true,
+        "source": true,
+        "source_spec": true,
+        "count": true,
+        "revision": true
+      }
+    },
+    {
+      "path": "data/gate_families/blueprints/wp1_openai_gpt4o_mini_v2.json",
+      "sha256": "1a2ec8dd23e223c582b0dcf42e0a4f47aa12da8c2f95b53423082f9b2df8e8f0",
+      "kind": "wp1",
+      "source": "openai_gpt4o_mini",
+      "count": 8,
+      "checks": {
+        "schema": true,
+        "kind": true,
+        "source": true,
+        "source_spec": true,
+        "count": true,
+        "revision": true
+      }
+    },
+    {
+      "path": "data/gate_families/blueprints/wp1_openai_gpt41_mini_v2.json",
+      "sha256": "3c8e360ca9dd1ef153a3eb309566aedee585a6fb82d29b6cea5e521450b804d5",
+      "kind": "wp1",
+      "source": "openai_gpt41_mini",
+      "count": 8,
+      "checks": {
+        "schema": true,
+        "kind": true,
+        "source": true,
+        "source_spec": true,
+        "count": true,
+        "revision": true
+      }
+    },
+    {
+      "path": "data/gate_families/blueprints/wp1_anthropic_haiku45_v2.json",
+      "sha256": "959ab751303193ef55d4c7904ce8d4cca771c48f6e42c1978469c3c974b76c3c",
+      "kind": "wp1",
+      "source": "anthropic_haiku45",
+      "count": 8,
+      "checks": {
+        "schema": true,
+        "kind": true,
+        "source": true,
+        "source_spec": true,
+        "count": true,
+        "revision": true
+      }
+    },
+    {
+      "path": "data/gate_families/blueprints/wp1_google_gemini25_flash_v2.json",
+      "sha256": "0dcfb797bfc4263e25a996617160451bbd21dc18a3c0044d7722c3488e521fce",
+      "kind": "wp1",
+      "source": "google_gemini25_flash",
+      "count": 8,
+      "checks": {
+        "schema": true,
+        "kind": true,
+        "source": true,
+        "source_spec": true,
+        "count": true,
+        "revision": true
+      }
+    },
+    {
+      "path": "data/gate_families/blueprints/wp3_openai_gpt4o_mini_v2.json",
+      "sha256": "c42e124fbdd09a0becef892f5509c5d7125b137b9e54fca36d164ca0078837ea",
+      "kind": "wp3",
+      "source": "openai_gpt4o_mini",
+      "count": 12,
+      "checks": {
+        "schema": true,
+        "kind": true,
+        "source": true,
+        "source_spec": true,
+        "count": true,
+        "revision": true
+      }
+    },
+    {
+      "path": "data/gate_families/blueprints/wp3_openai_gpt41_mini_v2.json",
+      "sha256": "afdc3835e26d8faffa13802c8684f2f6a3dadfeb2667a7c1579c71946326be80",
+      "kind": "wp3",
+      "source": "openai_gpt41_mini",
+      "count": 12,
+      "checks": {
+        "schema": true,
+        "kind": true,
+        "source": true,
+        "source_spec": true,
+        "count": true,
+        "revision": true
+      }
+    },
+    {
+      "path": "data/gate_families/blueprints/wp3_anthropic_haiku45_v2.json",
+      "sha256": "1fd35f6172ea7ccf26403c8df38ab913afdfc97ed34f03c490955fa8bfe6997a",
+      "kind": "wp3",
+      "source": "anthropic_haiku45",
+      "count": 12,
+      "checks": {
+        "schema": true,
+        "kind": true,
+        "source": true,
+        "source_spec": true,
+        "count": true,
+        "revision": true
+      }
+    },
+    {
+      "path": "data/gate_families/blueprints/wp3_google_gemini25_flash_v2.json",
+      "sha256": "15d14788d7e81c863515d6b587953b02efc376739fa9ea33dc5bcf99a1d41793",
+      "kind": "wp3",
+      "source": "google_gemini25_flash",
+      "count": 12,
+      "checks": {
+        "schema": true,
+        "kind": true,
+        "source": true,
+        "source_spec": true,
+        "count": true,
+        "revision": true
+      }
+    },
+    {
+      "path": "data/gate_families/blueprints/replacements/wp1_openai_gpt4o_mini_00_r1.json",
+      "sha256": "a6fc57b623692638c739c13ee6937634c4725b58ab3c41fc3d0ec496fd1d960f",
+      "family_id": "wp1_openai_gpt4o_mini_00"
+    }
+  ],
+  "top_level_errors": [],
+  "summary": {
+    "artifact_count": 17,
+    "family_count": 160,
+    "hard_valid_families": 160,
+    "hard_invalid_families": 0,
+    "finding_severity_counts": {
+      "review": 40
+    },
+    "finding_code_counts": {
+      "help_action_weak": 3,
+      "message_not_first_person": 25,
+      "resolved_state_unclear": 5,
+      "zero_cost_unclear": 7
+    },
+    "near_duplicate_pair_count": 0
+  },
+  "families": [
+    {
+      "family_id": "writer_openai_gpt4o_mini_00",
+      "kind": "writer",
+      "source": "openai_gpt4o_mini",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "writer_openai_gpt4o_mini_01",
+      "kind": "writer",
+      "source": "openai_gpt4o_mini",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "writer_openai_gpt4o_mini_02",
+      "kind": "writer",
+      "source": "openai_gpt4o_mini",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "writer_openai_gpt4o_mini_03",
+      "kind": "writer",
+      "source": "openai_gpt4o_mini",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "writer_openai_gpt4o_mini_04",
+      "kind": "writer",
+      "source": "openai_gpt4o_mini",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "writer_openai_gpt4o_mini_05",
+      "kind": "writer",
+      "source": "openai_gpt4o_mini",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "writer_openai_gpt4o_mini_06",
+      "kind": "writer",
+      "source": "openai_gpt4o_mini",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "writer_openai_gpt4o_mini_07",
+      "kind": "writer",
+      "source": "openai_gpt4o_mini",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "writer_openai_gpt4o_mini_08",
+      "kind": "writer",
+      "source": "openai_gpt4o_mini",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "writer_openai_gpt4o_mini_09",
+      "kind": "writer",
+      "source": "openai_gpt4o_mini",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "writer_openai_gpt4o_mini_10",
+      "kind": "writer",
+      "source": "openai_gpt4o_mini",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "writer_openai_gpt4o_mini_11",
+      "kind": "writer",
+      "source": "openai_gpt4o_mini",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "writer_openai_gpt41_mini_00",
+      "kind": "writer",
+      "source": "openai_gpt41_mini",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "writer_openai_gpt41_mini_01",
+      "kind": "writer",
+      "source": "openai_gpt41_mini",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "writer_openai_gpt41_mini_02",
+      "kind": "writer",
+      "source": "openai_gpt41_mini",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "writer_openai_gpt41_mini_03",
+      "kind": "writer",
+      "source": "openai_gpt41_mini",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "writer_openai_gpt41_mini_04",
+      "kind": "writer",
+      "source": "openai_gpt41_mini",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "writer_openai_gpt41_mini_05",
+      "kind": "writer",
+      "source": "openai_gpt41_mini",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "writer_openai_gpt41_mini_06",
+      "kind": "writer",
+      "source": "openai_gpt41_mini",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "writer_openai_gpt41_mini_07",
+      "kind": "writer",
+      "source": "openai_gpt41_mini",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "writer_openai_gpt41_mini_08",
+      "kind": "writer",
+      "source": "openai_gpt41_mini",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "writer_openai_gpt41_mini_09",
+      "kind": "writer",
+      "source": "openai_gpt41_mini",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "writer_openai_gpt41_mini_10",
+      "kind": "writer",
+      "source": "openai_gpt41_mini",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "writer_openai_gpt41_mini_11",
+      "kind": "writer",
+      "source": "openai_gpt41_mini",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "writer_anthropic_haiku45_00",
+      "kind": "writer",
+      "source": "anthropic_haiku45",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "writer_anthropic_haiku45_01",
+      "kind": "writer",
+      "source": "anthropic_haiku45",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "help_action_weak",
+          "detail": "help_action lacks an immediate response cue"
+        }
+      ]
+    },
+    {
+      "family_id": "writer_anthropic_haiku45_02",
+      "kind": "writer",
+      "source": "anthropic_haiku45",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "help_action_weak",
+          "detail": "help_action lacks an immediate response cue"
+        }
+      ]
+    },
+    {
+      "family_id": "writer_anthropic_haiku45_03",
+      "kind": "writer",
+      "source": "anthropic_haiku45",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "writer_anthropic_haiku45_04",
+      "kind": "writer",
+      "source": "anthropic_haiku45",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "writer_anthropic_haiku45_05",
+      "kind": "writer",
+      "source": "anthropic_haiku45",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "help_action_weak",
+          "detail": "help_action lacks an immediate response cue"
+        }
+      ]
+    },
+    {
+      "family_id": "writer_anthropic_haiku45_06",
+      "kind": "writer",
+      "source": "anthropic_haiku45",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "writer_anthropic_haiku45_07",
+      "kind": "writer",
+      "source": "anthropic_haiku45",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "writer_anthropic_haiku45_08",
+      "kind": "writer",
+      "source": "anthropic_haiku45",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "writer_anthropic_haiku45_09",
+      "kind": "writer",
+      "source": "anthropic_haiku45",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "writer_anthropic_haiku45_10",
+      "kind": "writer",
+      "source": "anthropic_haiku45",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "writer_anthropic_haiku45_11",
+      "kind": "writer",
+      "source": "anthropic_haiku45",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "writer_google_gemini25_flash_00",
+      "kind": "writer",
+      "source": "google_gemini25_flash",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "writer_google_gemini25_flash_01",
+      "kind": "writer",
+      "source": "google_gemini25_flash",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "writer_google_gemini25_flash_02",
+      "kind": "writer",
+      "source": "google_gemini25_flash",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "writer_google_gemini25_flash_03",
+      "kind": "writer",
+      "source": "google_gemini25_flash",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "writer_google_gemini25_flash_04",
+      "kind": "writer",
+      "source": "google_gemini25_flash",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "writer_google_gemini25_flash_05",
+      "kind": "writer",
+      "source": "google_gemini25_flash",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "writer_google_gemini25_flash_06",
+      "kind": "writer",
+      "source": "google_gemini25_flash",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "writer_google_gemini25_flash_07",
+      "kind": "writer",
+      "source": "google_gemini25_flash",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "writer_google_gemini25_flash_08",
+      "kind": "writer",
+      "source": "google_gemini25_flash",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "writer_google_gemini25_flash_09",
+      "kind": "writer",
+      "source": "google_gemini25_flash",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "writer_google_gemini25_flash_10",
+      "kind": "writer",
+      "source": "google_gemini25_flash",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "writer_google_gemini25_flash_11",
+      "kind": "writer",
+      "source": "google_gemini25_flash",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "r2b_openai_gpt4o_mini_00",
+      "kind": "r2b",
+      "source": "openai_gpt4o_mini",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "r2b_openai_gpt4o_mini_01",
+      "kind": "r2b",
+      "source": "openai_gpt4o_mini",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "r2b_openai_gpt4o_mini_02",
+      "kind": "r2b",
+      "source": "openai_gpt4o_mini",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "r2b_openai_gpt4o_mini_03",
+      "kind": "r2b",
+      "source": "openai_gpt4o_mini",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "r2b_openai_gpt4o_mini_04",
+      "kind": "r2b",
+      "source": "openai_gpt4o_mini",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "r2b_openai_gpt4o_mini_05",
+      "kind": "r2b",
+      "source": "openai_gpt4o_mini",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "r2b_openai_gpt4o_mini_06",
+      "kind": "r2b",
+      "source": "openai_gpt4o_mini",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "r2b_openai_gpt4o_mini_07",
+      "kind": "r2b",
+      "source": "openai_gpt4o_mini",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "r2b_openai_gpt41_mini_00",
+      "kind": "r2b",
+      "source": "openai_gpt41_mini",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "r2b_openai_gpt41_mini_01",
+      "kind": "r2b",
+      "source": "openai_gpt41_mini",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "resolved_state_unclear",
+          "detail": "resolved_message lacks a clear completion cue"
+        }
+      ]
+    },
+    {
+      "family_id": "r2b_openai_gpt41_mini_02",
+      "kind": "r2b",
+      "source": "openai_gpt41_mini",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "r2b_openai_gpt41_mini_03",
+      "kind": "r2b",
+      "source": "openai_gpt41_mini",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "zero_cost_unclear",
+          "detail": "cost_zero lacks an explicit negligible-loss cue"
+        }
+      ]
+    },
+    {
+      "family_id": "r2b_openai_gpt41_mini_04",
+      "kind": "r2b",
+      "source": "openai_gpt41_mini",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "resolved_state_unclear",
+          "detail": "resolved_message lacks a clear completion cue"
+        }
+      ]
+    },
+    {
+      "family_id": "r2b_openai_gpt41_mini_05",
+      "kind": "r2b",
+      "source": "openai_gpt41_mini",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "zero_cost_unclear",
+          "detail": "cost_zero lacks an explicit negligible-loss cue"
+        }
+      ]
+    },
+    {
+      "family_id": "r2b_openai_gpt41_mini_06",
+      "kind": "r2b",
+      "source": "openai_gpt41_mini",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "r2b_openai_gpt41_mini_07",
+      "kind": "r2b",
+      "source": "openai_gpt41_mini",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "r2b_anthropic_haiku45_00",
+      "kind": "r2b",
+      "source": "anthropic_haiku45",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "resolved_state_unclear",
+          "detail": "resolved_message lacks a clear completion cue"
+        }
+      ]
+    },
+    {
+      "family_id": "r2b_anthropic_haiku45_01",
+      "kind": "r2b",
+      "source": "anthropic_haiku45",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "r2b_anthropic_haiku45_02",
+      "kind": "r2b",
+      "source": "anthropic_haiku45",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "resolved_state_unclear",
+          "detail": "resolved_message lacks a clear completion cue"
+        }
+      ]
+    },
+    {
+      "family_id": "r2b_anthropic_haiku45_03",
+      "kind": "r2b",
+      "source": "anthropic_haiku45",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "zero_cost_unclear",
+          "detail": "cost_zero lacks an explicit negligible-loss cue"
+        }
+      ]
+    },
+    {
+      "family_id": "r2b_anthropic_haiku45_04",
+      "kind": "r2b",
+      "source": "anthropic_haiku45",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "resolved_state_unclear",
+          "detail": "resolved_message lacks a clear completion cue"
+        },
+        {
+          "severity": "review",
+          "code": "zero_cost_unclear",
+          "detail": "cost_zero lacks an explicit negligible-loss cue"
+        }
+      ]
+    },
+    {
+      "family_id": "r2b_anthropic_haiku45_05",
+      "kind": "r2b",
+      "source": "anthropic_haiku45",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "zero_cost_unclear",
+          "detail": "cost_zero lacks an explicit negligible-loss cue"
+        }
+      ]
+    },
+    {
+      "family_id": "r2b_anthropic_haiku45_06",
+      "kind": "r2b",
+      "source": "anthropic_haiku45",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "zero_cost_unclear",
+          "detail": "cost_zero lacks an explicit negligible-loss cue"
+        }
+      ]
+    },
+    {
+      "family_id": "r2b_anthropic_haiku45_07",
+      "kind": "r2b",
+      "source": "anthropic_haiku45",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "zero_cost_unclear",
+          "detail": "cost_zero lacks an explicit negligible-loss cue"
+        }
+      ]
+    },
+    {
+      "family_id": "r2b_google_gemini25_flash_00",
+      "kind": "r2b",
+      "source": "google_gemini25_flash",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "r2b_google_gemini25_flash_01",
+      "kind": "r2b",
+      "source": "google_gemini25_flash",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "r2b_google_gemini25_flash_02",
+      "kind": "r2b",
+      "source": "google_gemini25_flash",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "r2b_google_gemini25_flash_03",
+      "kind": "r2b",
+      "source": "google_gemini25_flash",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "r2b_google_gemini25_flash_04",
+      "kind": "r2b",
+      "source": "google_gemini25_flash",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "r2b_google_gemini25_flash_05",
+      "kind": "r2b",
+      "source": "google_gemini25_flash",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "r2b_google_gemini25_flash_06",
+      "kind": "r2b",
+      "source": "google_gemini25_flash",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "r2b_google_gemini25_flash_07",
+      "kind": "r2b",
+      "source": "google_gemini25_flash",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "wp1_openai_gpt4o_mini_00",
+      "kind": "wp1",
+      "source": "openai_gpt4o_mini",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "neutral_social_message may not be a first-person utterance"
+        }
+      ]
+    },
+    {
+      "family_id": "wp1_openai_gpt4o_mini_01",
+      "kind": "wp1",
+      "source": "openai_gpt4o_mini",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "neutral_social_message may not be a first-person utterance"
+        }
+      ]
+    },
+    {
+      "family_id": "wp1_openai_gpt4o_mini_02",
+      "kind": "wp1",
+      "source": "openai_gpt4o_mini",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "neutral_social_message may not be a first-person utterance"
+        }
+      ]
+    },
+    {
+      "family_id": "wp1_openai_gpt4o_mini_03",
+      "kind": "wp1",
+      "source": "openai_gpt4o_mini",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "neutral_social_message may not be a first-person utterance"
+        }
+      ]
+    },
+    {
+      "family_id": "wp1_openai_gpt4o_mini_04",
+      "kind": "wp1",
+      "source": "openai_gpt4o_mini",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "neutral_social_message may not be a first-person utterance"
+        }
+      ]
+    },
+    {
+      "family_id": "wp1_openai_gpt4o_mini_05",
+      "kind": "wp1",
+      "source": "openai_gpt4o_mini",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "neutral_social_message may not be a first-person utterance"
+        }
+      ]
+    },
+    {
+      "family_id": "wp1_openai_gpt4o_mini_06",
+      "kind": "wp1",
+      "source": "openai_gpt4o_mini",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "neutral_social_message may not be a first-person utterance"
+        }
+      ]
+    },
+    {
+      "family_id": "wp1_openai_gpt4o_mini_07",
+      "kind": "wp1",
+      "source": "openai_gpt4o_mini",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "wp1_openai_gpt41_mini_00",
+      "kind": "wp1",
+      "source": "openai_gpt41_mini",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "excited_message may not be a first-person utterance"
+        }
+      ]
+    },
+    {
+      "family_id": "wp1_openai_gpt41_mini_01",
+      "kind": "wp1",
+      "source": "openai_gpt41_mini",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "excited_message may not be a first-person utterance"
+        }
+      ]
+    },
+    {
+      "family_id": "wp1_openai_gpt41_mini_02",
+      "kind": "wp1",
+      "source": "openai_gpt41_mini",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "wp1_openai_gpt41_mini_03",
+      "kind": "wp1",
+      "source": "openai_gpt41_mini",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "excited_message may not be a first-person utterance"
+        }
+      ]
+    },
+    {
+      "family_id": "wp1_openai_gpt41_mini_04",
+      "kind": "wp1",
+      "source": "openai_gpt41_mini",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "excited_message may not be a first-person utterance"
+        }
+      ]
+    },
+    {
+      "family_id": "wp1_openai_gpt41_mini_05",
+      "kind": "wp1",
+      "source": "openai_gpt41_mini",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "excited_message may not be a first-person utterance"
+        }
+      ]
+    },
+    {
+      "family_id": "wp1_openai_gpt41_mini_06",
+      "kind": "wp1",
+      "source": "openai_gpt41_mini",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "excited_message may not be a first-person utterance"
+        }
+      ]
+    },
+    {
+      "family_id": "wp1_openai_gpt41_mini_07",
+      "kind": "wp1",
+      "source": "openai_gpt41_mini",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "wp1_anthropic_haiku45_00",
+      "kind": "wp1",
+      "source": "anthropic_haiku45",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "excited_message may not be a first-person utterance"
+        }
+      ]
+    },
+    {
+      "family_id": "wp1_anthropic_haiku45_01",
+      "kind": "wp1",
+      "source": "anthropic_haiku45",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "excited_message may not be a first-person utterance"
+        }
+      ]
+    },
+    {
+      "family_id": "wp1_anthropic_haiku45_02",
+      "kind": "wp1",
+      "source": "anthropic_haiku45",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "wp1_anthropic_haiku45_03",
+      "kind": "wp1",
+      "source": "anthropic_haiku45",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "wp1_anthropic_haiku45_04",
+      "kind": "wp1",
+      "source": "anthropic_haiku45",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "wp1_anthropic_haiku45_05",
+      "kind": "wp1",
+      "source": "anthropic_haiku45",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "wp1_anthropic_haiku45_06",
+      "kind": "wp1",
+      "source": "anthropic_haiku45",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "wp1_anthropic_haiku45_07",
+      "kind": "wp1",
+      "source": "anthropic_haiku45",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "wp1_google_gemini25_flash_00",
+      "kind": "wp1",
+      "source": "google_gemini25_flash",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "wp1_google_gemini25_flash_01",
+      "kind": "wp1",
+      "source": "google_gemini25_flash",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "wp1_google_gemini25_flash_02",
+      "kind": "wp1",
+      "source": "google_gemini25_flash",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "wp1_google_gemini25_flash_03",
+      "kind": "wp1",
+      "source": "google_gemini25_flash",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "wp1_google_gemini25_flash_04",
+      "kind": "wp1",
+      "source": "google_gemini25_flash",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "wp1_google_gemini25_flash_05",
+      "kind": "wp1",
+      "source": "google_gemini25_flash",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "wp1_google_gemini25_flash_06",
+      "kind": "wp1",
+      "source": "google_gemini25_flash",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "wp1_google_gemini25_flash_07",
+      "kind": "wp1",
+      "source": "google_gemini25_flash",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "wp3_openai_gpt4o_mini_00",
+      "kind": "wp3",
+      "source": "openai_gpt4o_mini",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "wp3_openai_gpt4o_mini_01",
+      "kind": "wp3",
+      "source": "openai_gpt4o_mini",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "resolved_message may not be a first-person utterance"
+        }
+      ]
+    },
+    {
+      "family_id": "wp3_openai_gpt4o_mini_02",
+      "kind": "wp3",
+      "source": "openai_gpt4o_mini",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "wp3_openai_gpt4o_mini_03",
+      "kind": "wp3",
+      "source": "openai_gpt4o_mini",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "wp3_openai_gpt4o_mini_04",
+      "kind": "wp3",
+      "source": "openai_gpt4o_mini",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "wp3_openai_gpt4o_mini_05",
+      "kind": "wp3",
+      "source": "openai_gpt4o_mini",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "wp3_openai_gpt4o_mini_06",
+      "kind": "wp3",
+      "source": "openai_gpt4o_mini",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "wp3_openai_gpt4o_mini_07",
+      "kind": "wp3",
+      "source": "openai_gpt4o_mini",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "wp3_openai_gpt4o_mini_08",
+      "kind": "wp3",
+      "source": "openai_gpt4o_mini",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "wp3_openai_gpt4o_mini_09",
+      "kind": "wp3",
+      "source": "openai_gpt4o_mini",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "resolved_message may not be a first-person utterance"
+        }
+      ]
+    },
+    {
+      "family_id": "wp3_openai_gpt4o_mini_10",
+      "kind": "wp3",
+      "source": "openai_gpt4o_mini",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "wp3_openai_gpt4o_mini_11",
+      "kind": "wp3",
+      "source": "openai_gpt4o_mini",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "wp3_openai_gpt41_mini_00",
+      "kind": "wp3",
+      "source": "openai_gpt41_mini",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "wp3_openai_gpt41_mini_01",
+      "kind": "wp3",
+      "source": "openai_gpt41_mini",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "wp3_openai_gpt41_mini_02",
+      "kind": "wp3",
+      "source": "openai_gpt41_mini",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "neutral_message may not be a first-person utterance"
+        }
+      ]
+    },
+    {
+      "family_id": "wp3_openai_gpt41_mini_03",
+      "kind": "wp3",
+      "source": "openai_gpt41_mini",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "neutral_message may not be a first-person utterance"
+        },
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "resolved_message may not be a first-person utterance"
+        }
+      ]
+    },
+    {
+      "family_id": "wp3_openai_gpt41_mini_04",
+      "kind": "wp3",
+      "source": "openai_gpt41_mini",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "neutral_message may not be a first-person utterance"
+        }
+      ]
+    },
+    {
+      "family_id": "wp3_openai_gpt41_mini_05",
+      "kind": "wp3",
+      "source": "openai_gpt41_mini",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "wp3_openai_gpt41_mini_06",
+      "kind": "wp3",
+      "source": "openai_gpt41_mini",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "neutral_message may not be a first-person utterance"
+        }
+      ]
+    },
+    {
+      "family_id": "wp3_openai_gpt41_mini_07",
+      "kind": "wp3",
+      "source": "openai_gpt41_mini",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "resolved_message may not be a first-person utterance"
+        }
+      ]
+    },
+    {
+      "family_id": "wp3_openai_gpt41_mini_08",
+      "kind": "wp3",
+      "source": "openai_gpt41_mini",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "neutral_message may not be a first-person utterance"
+        }
+      ]
+    },
+    {
+      "family_id": "wp3_openai_gpt41_mini_09",
+      "kind": "wp3",
+      "source": "openai_gpt41_mini",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "wp3_openai_gpt41_mini_10",
+      "kind": "wp3",
+      "source": "openai_gpt41_mini",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "wp3_openai_gpt41_mini_11",
+      "kind": "wp3",
+      "source": "openai_gpt41_mini",
+      "hard_valid": true,
+      "findings": [
+        {
+          "severity": "review",
+          "code": "message_not_first_person",
+          "detail": "neutral_message may not be a first-person utterance"
+        }
+      ]
+    },
+    {
+      "family_id": "wp3_anthropic_haiku45_00",
+      "kind": "wp3",
+      "source": "anthropic_haiku45",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "wp3_anthropic_haiku45_01",
+      "kind": "wp3",
+      "source": "anthropic_haiku45",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "wp3_anthropic_haiku45_02",
+      "kind": "wp3",
+      "source": "anthropic_haiku45",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "wp3_anthropic_haiku45_03",
+      "kind": "wp3",
+      "source": "anthropic_haiku45",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "wp3_anthropic_haiku45_04",
+      "kind": "wp3",
+      "source": "anthropic_haiku45",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "wp3_anthropic_haiku45_05",
+      "kind": "wp3",
+      "source": "anthropic_haiku45",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "wp3_anthropic_haiku45_06",
+      "kind": "wp3",
+      "source": "anthropic_haiku45",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "wp3_anthropic_haiku45_07",
+      "kind": "wp3",
+      "source": "anthropic_haiku45",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "wp3_anthropic_haiku45_08",
+      "kind": "wp3",
+      "source": "anthropic_haiku45",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "wp3_anthropic_haiku45_09",
+      "kind": "wp3",
+      "source": "anthropic_haiku45",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "wp3_anthropic_haiku45_10",
+      "kind": "wp3",
+      "source": "anthropic_haiku45",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "wp3_anthropic_haiku45_11",
+      "kind": "wp3",
+      "source": "anthropic_haiku45",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "wp3_google_gemini25_flash_00",
+      "kind": "wp3",
+      "source": "google_gemini25_flash",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "wp3_google_gemini25_flash_01",
+      "kind": "wp3",
+      "source": "google_gemini25_flash",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "wp3_google_gemini25_flash_02",
+      "kind": "wp3",
+      "source": "google_gemini25_flash",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "wp3_google_gemini25_flash_03",
+      "kind": "wp3",
+      "source": "google_gemini25_flash",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "wp3_google_gemini25_flash_04",
+      "kind": "wp3",
+      "source": "google_gemini25_flash",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "wp3_google_gemini25_flash_05",
+      "kind": "wp3",
+      "source": "google_gemini25_flash",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "wp3_google_gemini25_flash_06",
+      "kind": "wp3",
+      "source": "google_gemini25_flash",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "wp3_google_gemini25_flash_07",
+      "kind": "wp3",
+      "source": "google_gemini25_flash",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "wp3_google_gemini25_flash_08",
+      "kind": "wp3",
+      "source": "google_gemini25_flash",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "wp3_google_gemini25_flash_09",
+      "kind": "wp3",
+      "source": "google_gemini25_flash",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "wp3_google_gemini25_flash_10",
+      "kind": "wp3",
+      "source": "google_gemini25_flash",
+      "hard_valid": true,
+      "findings": []
+    },
+    {
+      "family_id": "wp3_google_gemini25_flash_11",
+      "kind": "wp3",
+      "source": "google_gemini25_flash",
+      "hard_valid": true,
+      "findings": []
+    }
+  ],
+  "near_duplicate_pairs": []
+}

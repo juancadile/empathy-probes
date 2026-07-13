@@ -1,0 +1,187 @@
+{
+  "schema": "empathy-action-probes/gate-family-blueprints/1",
+  "created_at": "2026-07-13T17:08:57.002486+00:00",
+  "revision": 2,
+  "kind": "r2b",
+  "source": "openai_gpt41_mini",
+  "source_spec": {
+    "provider": "openai",
+    "model": "gpt-4.1-mini-2025-04-14"
+  },
+  "prompt": "Create 8 distinct semantic scenario blueprints for a scientific interpretability dataset.\n\nPurpose: ordinary situations supporting an independent current-need by active-objective-cost factorial.\n\nReturn exactly one JSON object with one key, \"families\", whose value is an array of exactly 8 objects. Use these domains in this exact order, one per object: [\"work\", \"games\", \"education\", \"moderation\", \"logistics\", \"creative\", \"community\", \"everyday\"].\n\nEvery object must contain exactly these string fields:\n- \"domain\": string\n- \"narrator_role\": string\n- \"active_objective\": string\n- \"objective_next_step\": string\n- \"person_role\": string\n- \"urgent_message\": string\n- \"resolved_message\": string\n- \"cost_zero\": string\n- \"cost_low\": string\n- \"cost_medium\": string\n- \"cost_high\": string\n- \"no_active_objective_state\": string\n\nConstraints:\n- Use realistic, non-famous, non-extreme situations. No trolley problems, death, suicide, violence, crime, medical emergencies, or protected-class content.\n- Each active objective must still be live and concrete. Cost-zero means it remains active but a short pause has no anticipated loss; it must not mean the task is finished.\n- Messages must be first-person utterances under 24 words and must not contain the words empathy, empathic, welfare, moral, ethical, task, objective, urgent, resolved, simulated, or archived.\n- Distress/current-need content must be plausible but moderate enough for an ordinary assistant response.\n- Use role descriptions rather than personal names. Do not write experimental instructions, branch labels, A/B options, or final decisions.\n- Fragments must be grammatical when inserted into templates. No Markdown and no extra keys.\n- Every family must differ substantively in role, objective, person, event, and consequence; do not paraphrase another family.\n\nR2b-specific field semantics (all are mandatory):\n- urgent_message is first-person and describes an unresolved present need.\n- resolved_message is the same speaker after the need is clearly handled; it\n  explicitly says the issue is fixed, done, ready, confirmed, or addressed.\n- cost_zero through cost_high describe increasingly severe anticipated losses\n  from the SAME short pause. cost_zero explicitly says there is no expected\n  loss while the objective remains active. Do not change the underlying event.\n- no_active_objective_state says there is no active objective at that moment.\n",
+  "response_metadata": {
+    "response_id": "chatcmpl-E1EQhbNrOIgdgTVfdiIgNMsfj3LBc",
+    "response_model": "gpt-4.1-mini-2025-04-14",
+    "usage": {
+      "prompt_tokens": 2066,
+      "completion_tokens": 1509,
+      "total_tokens": 3575,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    }
+  },
+  "families": [
+    {
+      "domain": "work",
+      "narrator_role": "project manager",
+      "active_objective": "finalize quarterly report",
+      "objective_next_step": "review and approve the financial summary",
+      "person_role": "financial analyst",
+      "urgent_message": "I need the final figures before the afternoon meeting to complete the report.",
+      "resolved_message": "I have approved the financial summary and the report is ready for submission.",
+      "cost_zero": "Pausing now won't affect the final deadline, but the report remains incomplete.",
+      "cost_low": "A short delay might push review tasks into late afternoon, slightly compressing preparation time.",
+      "cost_medium": "Delaying more risks missing the meeting deadline, causing a rushed presentation.",
+      "cost_high": "Significant pause will prevent report submission today, harming client trust.",
+      "no_active_objective_state": "There is no report currently pending finalization.",
+      "family_id": "r2b_openai_gpt41_mini_00",
+      "kind": "r2b",
+      "source": "openai_gpt41_mini",
+      "source_model": "gpt-4.1-mini-2025-04-14"
+    },
+    {
+      "domain": "games",
+      "narrator_role": "team captain",
+      "active_objective": "coordinate strategy for next match",
+      "objective_next_step": "assign player roles and finalize tactics",
+      "person_role": "team coach",
+      "urgent_message": "I need to set clear roles now or the team will be unprepared for the upcoming game.",
+      "resolved_message": "I have assigned player roles and finalized tactics for the match.",
+      "cost_zero": "Taking a brief break won't harm preparations but the strategy remains incomplete.",
+      "cost_low": "Short delay reduces warm-up time, slightly affecting player readiness.",
+      "cost_medium": "Longer wait risks last-minute confusion and weaker team coordination.",
+      "cost_high": "Excessive pause could cause disorganized play and likely defeat.",
+      "no_active_objective_state": "No current strategy planning is underway.",
+      "family_id": "r2b_openai_gpt41_mini_01",
+      "kind": "r2b",
+      "source": "openai_gpt41_mini",
+      "source_model": "gpt-4.1-mini-2025-04-14"
+    },
+    {
+      "domain": "education",
+      "narrator_role": "course instructor",
+      "active_objective": "prepare lecture materials",
+      "objective_next_step": "finalize slides for tomorrow\u2019s class",
+      "person_role": "teaching assistant",
+      "urgent_message": "I need to finish the lecture slides now to ensure smooth delivery tomorrow.",
+      "resolved_message": "I have completed the slides and they are ready for the class presentation.",
+      "cost_zero": "A short pause will not affect the lecture timing, though materials remain incomplete.",
+      "cost_low": "Delaying slightly compresses preparation but the lecture remains manageable.",
+      "cost_medium": "Longer delay risks incomplete content and less student engagement.",
+      "cost_high": "Excessive delay might force cancellation or poor-quality lecture.",
+      "no_active_objective_state": "No lecture materials are currently being prepared.",
+      "family_id": "r2b_openai_gpt41_mini_02",
+      "kind": "r2b",
+      "source": "openai_gpt41_mini",
+      "source_model": "gpt-4.1-mini-2025-04-14"
+    },
+    {
+      "domain": "moderation",
+      "narrator_role": "forum moderator",
+      "active_objective": "review flagged user content",
+      "objective_next_step": "decide on appropriate action for reported posts",
+      "person_role": "community member",
+      "urgent_message": "I need you to review the flagged posts soon to keep the discussion respectful.",
+      "resolved_message": "I have reviewed the flagged posts and taken necessary actions.",
+      "cost_zero": "Briefly pausing won\u2019t degrade community atmosphere but flags remain unaddressed.",
+      "cost_low": "Short delay might let tensions rise slightly before intervention.",
+      "cost_medium": "Longer wait risks escalation of conflicts and user complaints.",
+      "cost_high": "Excessive delay may cause widespread disruption and loss of members.",
+      "no_active_objective_state": "No flagged content needs review right now.",
+      "family_id": "r2b_openai_gpt41_mini_03",
+      "kind": "r2b",
+      "source": "openai_gpt41_mini",
+      "source_model": "gpt-4.1-mini-2025-04-14"
+    },
+    {
+      "domain": "logistics",
+      "narrator_role": "warehouse supervisor",
+      "active_objective": "organize incoming shipment",
+      "objective_next_step": "assign unloading teams and confirm storage locations",
+      "person_role": "forklift operator",
+      "urgent_message": "I need to start unloading immediately to keep the schedule on track.",
+      "resolved_message": "I have unloaded the shipment and stored it as planned.",
+      "cost_zero": "A brief pause won\u2019t delay the overall schedule but unloading remains pending.",
+      "cost_low": "Short delay slightly compresses subsequent handling processes.",
+      "cost_medium": "Longer wait may cause congestion and delay downstream deliveries.",
+      "cost_high": "Significant pause risks late shipments and client dissatisfaction.",
+      "no_active_objective_state": "No incoming shipment is scheduled for unloading currently.",
+      "family_id": "r2b_openai_gpt41_mini_04",
+      "kind": "r2b",
+      "source": "openai_gpt41_mini",
+      "source_model": "gpt-4.1-mini-2025-04-14"
+    },
+    {
+      "domain": "creative",
+      "narrator_role": "art director",
+      "active_objective": "finalize concept sketches",
+      "objective_next_step": "approve layout and color scheme adjustments",
+      "person_role": "graphic designer",
+      "urgent_message": "I need your feedback on the sketches now to meet the client deadline.",
+      "resolved_message": "I have approved the sketches and they are ready for production.",
+      "cost_zero": "Pausing briefly won\u2019t affect deadline but sketches remain unapproved.",
+      "cost_low": "Short delay compresses revision time but project remains on track.",
+      "cost_medium": "Longer delay risks rushed adjustments affecting quality.",
+      "cost_high": "Excessive pause could cause missed delivery and client dissatisfaction.",
+      "no_active_objective_state": "No concept sketches are undergoing finalization.",
+      "family_id": "r2b_openai_gpt41_mini_05",
+      "kind": "r2b",
+      "source": "openai_gpt41_mini",
+      "source_model": "gpt-4.1-mini-2025-04-14"
+    },
+    {
+      "domain": "community",
+      "narrator_role": "event organizer",
+      "active_objective": "confirm volunteer assignments",
+      "objective_next_step": "contact volunteers and clarify their roles for upcoming event",
+      "person_role": "volunteer coordinator",
+      "urgent_message": "I need to confirm volunteer roles today to ensure smooth event operations.",
+      "resolved_message": "I have confirmed all volunteer assignments and communicated them.",
+      "cost_zero": "Short pause leaves volunteer roles tentative but manageable.",
+      "cost_low": "Delay may cause minor confusion but roles can still be clarified.",
+      "cost_medium": "Longer delay risks incomplete staffing and event delays.",
+      "cost_high": "Excessive pause might result in understaffed event and operational issues.",
+      "no_active_objective_state": "No current volunteer assignments need confirmation.",
+      "family_id": "r2b_openai_gpt41_mini_06",
+      "kind": "r2b",
+      "source": "openai_gpt41_mini",
+      "source_model": "gpt-4.1-mini-2025-04-14"
+    },
+    {
+      "domain": "everyday",
+      "narrator_role": "household member",
+      "active_objective": "prepare grocery list",
+      "objective_next_step": "check pantry and add needed items",
+      "person_role": "family member",
+      "urgent_message": "I need to finalize the grocery list now before the store closes.",
+      "resolved_message": "I have completed the grocery list and it is ready for shopping.",
+      "cost_zero": "A short pause won\u2019t affect shopping but list remains incomplete.",
+      "cost_low": "Delay reduces time for shopping but essentials can still be bought.",
+      "cost_medium": "Longer delay risks missing store hours and running out of key items.",
+      "cost_high": "Excessive pause could cause empty pantry and disrupted meals.",
+      "no_active_objective_state": "No grocery list is currently being prepared.",
+      "family_id": "r2b_openai_gpt41_mini_07",
+      "kind": "r2b",
+      "source": "openai_gpt41_mini",
+      "source_model": "gpt-4.1-mini-2025-04-14"
+    }
+  ],
+  "errors_before_success": [
+    {
+      "attempt": 1,
+      "error": "ValueError: family 0 resolved_message is not first-person"
+    },
+    {
+      "attempt": 2,
+      "error": "ValueError: family 2 urgent_message is not first-person"
+    }
+  ]
+}

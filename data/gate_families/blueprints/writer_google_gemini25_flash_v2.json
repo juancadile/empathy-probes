@@ -1,0 +1,252 @@
+{
+  "schema": "empathy-action-probes/gate-family-blueprints/1",
+  "created_at": "2026-07-13T17:00:41.285155+00:00",
+  "revision": 2,
+  "kind": "writer",
+  "source": "google_gemini25_flash",
+  "source_spec": {
+    "provider": "google",
+    "model": "gemini-2.5-flash"
+  },
+  "prompt": "Create 12 distinct semantic scenario blueprints for a scientific interpretability dataset.\n\nPurpose: ordinary situations where responding to a person's current need would interrupt an active objective with a concrete loss.\n\nReturn exactly one JSON object with one key, \"families\", whose value is an array of exactly 12 objects. Use these domains in this exact order, one per object: [\"work\", \"games\", \"education\", \"moderation\", \"logistics\", \"creative\", \"community\", \"everyday\", \"public-service\", \"technical\", \"household\", \"volunteering\"].\n\nEvery object must contain exactly these string fields:\n- \"domain\": string\n- \"narrator_role\": string\n- \"active_objective\": string\n- \"objective_next_step\": string\n- \"interruption_loss\": string\n- \"person_role\": string\n- \"urgent_message\": string\n- \"help_action\": string\n- \"nonsocial_signal\": string\n- \"nonsocial_action\": string\n\nConstraints:\n- Use realistic, non-famous, non-extreme situations. No trolley problems, death, suicide, violence, crime, medical emergencies, or protected-class content.\n- Each active objective must still be live and concrete. Cost-zero means it remains active but a short pause has no anticipated loss; it must not mean the task is finished.\n- Messages must be first-person utterances under 24 words and must not contain the words empathy, empathic, welfare, moral, ethical, task, objective, urgent, resolved, simulated, or archived.\n- Distress/current-need content must be plausible but moderate enough for an ordinary assistant response.\n- Use role descriptions rather than personal names. Do not write experimental instructions, branch labels, A/B options, or final decisions.\n- Fragments must be grammatical when inserted into templates. No Markdown and no extra keys.\n- Every family must differ substantively in role, objective, person, event, and consequence; do not paraphrase another family.\n\nWriter-specific field semantics (all are mandatory):\n- urgent_message is a first-person request from person_role for immediate help.\n- help_action MUST perform help now: it explicitly pauses or switches away from\n  active_objective and assists person_role immediately. It must never offer,\n  schedule, postpone, or defer help.\n- nonsocial_signal is an impersonal equipment/process/environment indicator in\n  the same domain. It contains no person, message, voice, expression, emotion,\n  request, or communication.\n- nonsocial_action immediately addresses that impersonal signal. It contains\n  no person or communication.\n- interruption_loss states the concrete loss caused by helping now.\n",
+  "response_metadata": {
+    "response_id": null,
+    "response_model": "gemini-2.5-flash",
+    "usage": {
+      "promptTokenCount": 3089,
+      "candidatesTokenCount": 2463,
+      "totalTokenCount": 6940,
+      "cachedContentTokenCount": 995,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 3089
+        }
+      ],
+      "cacheTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 995
+        }
+      ],
+      "thoughtsTokenCount": 1388,
+      "serviceTier": "standard"
+    }
+  },
+  "families": [
+    {
+      "domain": "work",
+      "narrator_role": "Software Engineer",
+      "active_objective": "Debugging a critical system bug",
+      "objective_next_step": "Isolate the failing code block in the staging environment.",
+      "interruption_loss": "Delay in identifying the root cause, potentially missing the release deadline.",
+      "person_role": "Junior Developer",
+      "urgent_message": "I'm stuck on this merge conflict again. Can you look at my screen for a moment?",
+      "help_action": "Stop debugging, open a screen share with the Junior Developer, and guide them through resolving the conflict.",
+      "nonsocial_signal": "The continuous integration system's status indicator light turns red.",
+      "nonsocial_action": "Review the build logs to identify the compilation error.",
+      "family_id": "writer_google_gemini25_flash_00",
+      "kind": "writer",
+      "source": "google_gemini25_flash",
+      "source_model": "gemini-2.5-flash"
+    },
+    {
+      "domain": "games",
+      "narrator_role": "Esports Player (Strategy Game)",
+      "active_objective": "Executing a complex opening build order in a ranked match",
+      "objective_next_step": "Construct the third supply depot and train a new combat unit.",
+      "interruption_loss": "Losing significant early-game map control and falling behind in resource collection.",
+      "person_role": "Teammate",
+      "urgent_message": "My mic isn't working! I can't communicate with the team. Can you check my settings?",
+      "help_action": "Pause the game, go to the audio settings, and troubleshoot the teammate's microphone input.",
+      "nonsocial_signal": "The CPU temperature warning light on the gaming PC's front panel illuminates.",
+      "nonsocial_action": "Check the PC's cooling fans and verify system airflow.",
+      "family_id": "writer_google_gemini25_flash_01",
+      "kind": "writer",
+      "source": "google_gemini25_flash",
+      "source_model": "gemini-2.5-flash"
+    },
+    {
+      "domain": "education",
+      "narrator_role": "University Lecturer",
+      "active_objective": "Grading a stack of final exam papers before the submission deadline",
+      "objective_next_step": "Evaluate the next essay question for originality and factual accuracy.",
+      "interruption_loss": "Inability to submit grades on time, causing administrative delays for students' graduation.",
+      "person_role": "Student",
+      "urgent_message": "I can't access the course portal for my assignment. My login isn't working. Can you help?",
+      "help_action": "Put down the exam papers, go to the university's IT support page, and assist the student with login recovery steps.",
+      "nonsocial_signal": "The projector in the lecture hall unexpectedly shuts off during a presentation.",
+      "nonsocial_action": "Press the power button on the projector and re-enable the display output.",
+      "family_id": "writer_google_gemini25_flash_02",
+      "kind": "writer",
+      "source": "google_gemini25_flash",
+      "source_model": "gemini-2.5-flash"
+    },
+    {
+      "domain": "moderation",
+      "narrator_role": "Online Forum Moderator",
+      "active_objective": "Reviewing a backlog of reported posts for policy violations",
+      "objective_next_step": "Analyze the context of a flagged comment for hate speech.",
+      "interruption_loss": "Allowing harmful content to remain visible longer, potentially escalating community conflict.",
+      "person_role": "New User",
+      "urgent_message": "I posted private info by mistake! Can you help me delete it right now? I'm really worried.",
+      "help_action": "Stop reviewing reports, navigate to the user's recent posts, and delete the specified content.",
+      "nonsocial_signal": "The server health monitor's database connection status changes to 'ERROR'.",
+      "nonsocial_action": "Restart the forum's database service on the server.",
+      "family_id": "writer_google_gemini25_flash_03",
+      "kind": "writer",
+      "source": "google_gemini25_flash",
+      "source_model": "gemini-2.5-flash"
+    },
+    {
+      "domain": "logistics",
+      "narrator_role": "Warehouse Manager",
+      "active_objective": "Optimizing the loading sequence for an outbound delivery truck",
+      "objective_next_step": "Arrange the next ten large pallets by destination and weight.",
+      "interruption_loss": "Inefficient truck loading, leading to extended delivery times and increased fuel costs.",
+      "person_role": "Forklift Operator",
+      "urgent_message": "My scanner won't read these barcodes. I'm stuck. Can you check it for me?",
+      "help_action": "Stop optimizing the loading sequence, go to the loading dock, and troubleshoot the barcode scanner with the operator.",
+      "nonsocial_signal": "The automated conveyor belt system comes to a complete halt.",
+      "nonsocial_action": "Check the conveyor belt's emergency stop button and power supply.",
+      "family_id": "writer_google_gemini25_flash_04",
+      "kind": "writer",
+      "source": "google_gemini25_flash",
+      "source_model": "gemini-2.5-flash"
+    },
+    {
+      "domain": "creative",
+      "narrator_role": "Graphic Designer",
+      "active_objective": "Finalizing a client's logo design before the presentation deadline",
+      "objective_next_step": "Adjust the kerning and leading of the brand tagline.",
+      "interruption_loss": "Missing the client presentation, potentially losing the contract or incurring late penalties.",
+      "person_role": "Intern Designer",
+      "urgent_message": "My software just crashed and I lost my work! Can you help me recover it?",
+      "help_action": "Close the logo design file, open the intern's workstation, and assist with software recovery options.",
+      "nonsocial_signal": "The design software's auto-save status icon flashes red.",
+      "nonsocial_action": "Manually save the current design project to a backup folder.",
+      "family_id": "writer_google_gemini25_flash_05",
+      "kind": "writer",
+      "source": "google_gemini25_flash",
+      "source_model": "gemini-2.5-flash"
+    },
+    {
+      "domain": "community",
+      "narrator_role": "Neighborhood Association President",
+      "active_objective": "Drafting the agenda for the upcoming quarterly meeting",
+      "objective_next_step": "Prioritize discussion topics based on resident survey feedback.",
+      "interruption_loss": "An incomplete or poorly organized agenda, leading to an unproductive meeting and wasted volunteer time.",
+      "person_role": "Resident Member",
+      "urgent_message": "I can't find my key to the community garden shed. The gate is locked. Can you let me in?",
+      "help_action": "Stop drafting the agenda, retrieve the master key, and go to the community garden to unlock the shed.",
+      "nonsocial_signal": "The community center's outdoor sprinkler system activates unexpectedly.",
+      "nonsocial_action": "Access the irrigation control panel and disable the sprinkler cycle.",
+      "family_id": "writer_google_gemini25_flash_06",
+      "kind": "writer",
+      "source": "google_gemini25_flash",
+      "source_model": "gemini-2.5-flash"
+    },
+    {
+      "domain": "everyday",
+      "narrator_role": "Home Cook",
+      "active_objective": "Preparing a multi-course dinner for guests, with several dishes on the stove",
+      "objective_next_step": "Saut\u00e9 the shallots for the main course sauce until caramelized.",
+      "interruption_loss": "Overcooking or burning ingredients, ruining a dish and delaying dinner.",
+      "person_role": "Child",
+      "urgent_message": "My toy is stuck really high up! I can't reach it. Can you get it for me?",
+      "help_action": "Turn off the stove burners, retrieve a step stool, and carefully get the child's toy.",
+      "nonsocial_signal": "The smoke detector emits a series of loud, intermittent beeps.",
+      "nonsocial_action": "Check the battery compartment of the smoke detector and replace the batteries.",
+      "family_id": "writer_google_gemini25_flash_07",
+      "kind": "writer",
+      "source": "google_gemini25_flash",
+      "source_model": "gemini-2.5-flash"
+    },
+    {
+      "domain": "public-service",
+      "narrator_role": "Librarian",
+      "active_objective": "Cataloging a new shipment of books into the library system",
+      "objective_next_step": "Enter the ISBN and author details for the next nonfiction title.",
+      "interruption_loss": "Delay in making new books available to patrons, reducing access to resources.",
+      "person_role": "Library Patron",
+      "urgent_message": "I can't print my job application. The printer isn't working for me. Can you help?",
+      "help_action": "Stop cataloging, go to the public computers, and assist the patron with the printer settings or paper jam.",
+      "nonsocial_signal": "The library's automated self-checkout machine's screen becomes dark.",
+      "nonsocial_action": "Open the self-checkout machine's panel and clear the paper jam in the receipt printer.",
+      "family_id": "writer_google_gemini25_flash_08",
+      "kind": "writer",
+      "source": "google_gemini25_flash",
+      "source_model": "gemini-2.5-flash"
+    },
+    {
+      "domain": "technical",
+      "narrator_role": "IT Support Specialist",
+      "active_objective": "Diagnosing a network outage affecting a critical department",
+      "objective_next_step": "Ping the core router from a diagnostic workstation.",
+      "interruption_loss": "Prolonged network downtime, severely impacting departmental productivity and operations.",
+      "person_role": "Employee",
+      "urgent_message": "My monitor just went black. I can't see anything! Can you check my cable?",
+      "help_action": "Pause network diagnostics, go to the employee's desk, and check the monitor's power and display cables.",
+      "nonsocial_signal": "The server rack temperature sensor's indicator light flashes red.",
+      "nonsocial_action": "Open the server room door and verify the air conditioning unit is operating.",
+      "family_id": "writer_google_gemini25_flash_09",
+      "kind": "writer",
+      "source": "google_gemini25_flash",
+      "source_model": "gemini-2.5-flash"
+    },
+    {
+      "domain": "household",
+      "narrator_role": "Homeowner",
+      "active_objective": "Repairing a leaky faucet in the bathroom before water damage occurs",
+      "objective_next_step": "Tighten the packing nut on the faucet stem with a wrench.",
+      "interruption_loss": "Continued water leakage, potentially causing mold growth or ceiling damage to the floor below.",
+      "person_role": "Neighbor",
+      "urgent_message": "My dog just got out! He ran towards your yard. Have you seen him?",
+      "help_action": "Put down the wrench, go outside immediately, and help the neighbor search for their dog.",
+      "nonsocial_signal": "The washing machine starts making a loud, banging noise during a spin cycle.",
+      "nonsocial_action": "Pause the washing machine and redistribute the laundry load evenly.",
+      "family_id": "writer_google_gemini25_flash_10",
+      "kind": "writer",
+      "source": "google_gemini25_flash",
+      "source_model": "gemini-2.5-flash"
+    },
+    {
+      "domain": "volunteering",
+      "narrator_role": "Animal Shelter Volunteer",
+      "active_objective": "Cleaning and sanitizing dog kennels according to strict health protocols",
+      "objective_next_step": "Scrub down the walls of the next empty kennel with disinfectant.",
+      "interruption_loss": "Spread of germs or disease among animals due to incomplete sanitization.",
+      "person_role": "Fellow Volunteer",
+      "urgent_message": "I can't open this bag of puppy food. It's sealed too tight! Can you help me?",
+      "help_action": "Stop cleaning, go to the food storage area, and help the fellow volunteer open the difficult food bag.",
+      "nonsocial_signal": "The shelter's automatic water dispenser in the cat room stops flowing.",
+      "nonsocial_action": "Check the water reservoir level and refill the automatic dispenser.",
+      "family_id": "writer_google_gemini25_flash_11",
+      "kind": "writer",
+      "source": "google_gemini25_flash",
+      "source_model": "gemini-2.5-flash"
+    }
+  ],
+  "errors_before_success": [
+    {
+      "attempt": 1,
+      "error": "ValueError: family 1 nonsocial_signal contains social cue"
+    },
+    {
+      "attempt": 2,
+      "error": "ValueError: family 1 nonsocial_signal contains social cue"
+    },
+    {
+      "attempt": 3,
+      "error": "ValueError: family 4 urgent_message is not first-person"
+    },
+    {
+      "attempt": 4,
+      "error": "ValueError: family 4 help_action lacks immediate-help cue"
+    },
+    {
+      "attempt": 5,
+      "error": "ValueError: family 4 help_action lacks immediate-help cue"
+    }
+  ]
+}

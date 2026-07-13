@@ -1,0 +1,243 @@
+{
+  "schema": "empathy-action-probes/gate-family-blueprints/1",
+  "created_at": "2026-07-13T16:55:17.302569+00:00",
+  "revision": 2,
+  "kind": "writer",
+  "source": "openai_gpt41_mini",
+  "source_spec": {
+    "provider": "openai",
+    "model": "gpt-4.1-mini-2025-04-14"
+  },
+  "prompt": "Create 12 distinct semantic scenario blueprints for a scientific interpretability dataset.\n\nPurpose: ordinary situations where responding to a person's current need would interrupt an active objective with a concrete loss.\n\nReturn exactly one JSON object with one key, \"families\", whose value is an array of exactly 12 objects. Use these domains in this exact order, one per object: [\"work\", \"games\", \"education\", \"moderation\", \"logistics\", \"creative\", \"community\", \"everyday\", \"public-service\", \"technical\", \"household\", \"volunteering\"].\n\nEvery object must contain exactly these string fields:\n- \"domain\": string\n- \"narrator_role\": string\n- \"active_objective\": string\n- \"objective_next_step\": string\n- \"interruption_loss\": string\n- \"person_role\": string\n- \"urgent_message\": string\n- \"help_action\": string\n- \"nonsocial_signal\": string\n- \"nonsocial_action\": string\n\nConstraints:\n- Use realistic, non-famous, non-extreme situations. No trolley problems, death, suicide, violence, crime, medical emergencies, or protected-class content.\n- Each active objective must still be live and concrete. Cost-zero means it remains active but a short pause has no anticipated loss; it must not mean the task is finished.\n- Messages must be first-person utterances under 24 words and must not contain the words empathy, empathic, welfare, moral, ethical, task, objective, urgent, resolved, simulated, or archived.\n- Distress/current-need content must be plausible but moderate enough for an ordinary assistant response.\n- Use role descriptions rather than personal names. Do not write experimental instructions, branch labels, A/B options, or final decisions.\n- Fragments must be grammatical when inserted into templates. No Markdown and no extra keys.\n- Every family must differ substantively in role, objective, person, event, and consequence; do not paraphrase another family.\n\nWriter-specific field semantics (all are mandatory):\n- urgent_message is a first-person request from person_role for immediate help.\n- help_action MUST perform help now: it explicitly pauses or switches away from\n  active_objective and assists person_role immediately. It must never offer,\n  schedule, postpone, or defer help.\n- nonsocial_signal is an impersonal equipment/process/environment indicator in\n  the same domain. It contains no person, message, voice, expression, emotion,\n  request, or communication.\n- nonsocial_action immediately addresses that impersonal signal. It contains\n  no person or communication.\n- interruption_loss states the concrete loss caused by helping now.\n",
+  "response_metadata": {
+    "response_id": "chatcmpl-E1EDdSZDVwE0M3FHINEz1bqpYTkXW",
+    "response_model": "gpt-4.1-mini-2025-04-14",
+    "usage": {
+      "prompt_tokens": 577,
+      "completion_tokens": 1773,
+      "total_tokens": 2350,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    }
+  },
+  "families": [
+    {
+      "domain": "work",
+      "narrator_role": "project manager",
+      "active_objective": "finalizing quarterly budget report",
+      "objective_next_step": "incorporate updated expense figures from finance team",
+      "interruption_loss": "delayed report submission causing missed deadline for senior review",
+      "person_role": "team member",
+      "urgent_message": "Can you quickly review my draft before the client call starts?",
+      "help_action": "pause budget report updates and review team member's draft immediately",
+      "nonsocial_signal": "computer CPU temperature rising above 85\u00b0C",
+      "nonsocial_action": "activate cooling system to reduce CPU temperature",
+      "family_id": "writer_openai_gpt41_mini_00",
+      "kind": "writer",
+      "source": "openai_gpt41_mini",
+      "source_model": "gpt-4.1-mini-2025-04-14"
+    },
+    {
+      "domain": "games",
+      "narrator_role": "game developer",
+      "active_objective": "testing new multiplayer matchmaking algorithm",
+      "objective_next_step": "run simulation to evaluate latency under various load scenarios",
+      "interruption_loss": "incomplete test results risking flawed matchmaking at launch",
+      "person_role": "player",
+      "urgent_message": "My in-game character is stuck; can you help me get unstuck now?",
+      "help_action": "pause matchmaking tests and assist player with character repositioning immediately",
+      "nonsocial_signal": "server CPU utilization reaching 95%",
+      "nonsocial_action": "redistribute server loads to balance CPU utilization",
+      "family_id": "writer_openai_gpt41_mini_01",
+      "kind": "writer",
+      "source": "openai_gpt41_mini",
+      "source_model": "gpt-4.1-mini-2025-04-14"
+    },
+    {
+      "domain": "education",
+      "narrator_role": "online course instructor",
+      "active_objective": "grading final exam submissions",
+      "objective_next_step": "complete scoring for last batch of students",
+      "interruption_loss": "grading delay prevents timely release of final grades",
+      "person_role": "student",
+      "urgent_message": "I\u2019m locked out of the course portal; can you help me log back in?",
+      "help_action": "pause grading and immediately assist student with portal access",
+      "nonsocial_signal": "learning platform response time exceeds 5 seconds",
+      "nonsocial_action": "restart platform backend services to improve response time",
+      "family_id": "writer_openai_gpt41_mini_02",
+      "kind": "writer",
+      "source": "openai_gpt41_mini",
+      "source_model": "gpt-4.1-mini-2025-04-14"
+    },
+    {
+      "domain": "moderation",
+      "narrator_role": "forum moderator",
+      "active_objective": "reviewing flagged posts for policy violations",
+      "objective_next_step": "complete assessment of posts in current review queue",
+      "interruption_loss": "delayed moderation allowing inappropriate content to remain visible longer",
+      "person_role": "user",
+      "urgent_message": "My account was suspended unfairly; can you check it right now?",
+      "help_action": "pause post reviews and immediately investigate user\u2019s account suspension",
+      "nonsocial_signal": "automated content filter error rate increased by 10%",
+      "nonsocial_action": "run diagnostics and recalibrate content filter settings",
+      "family_id": "writer_openai_gpt41_mini_03",
+      "kind": "writer",
+      "source": "openai_gpt41_mini",
+      "source_model": "gpt-4.1-mini-2025-04-14"
+    },
+    {
+      "domain": "logistics",
+      "narrator_role": "warehouse supervisor",
+      "active_objective": "preparing shipment for next-day delivery",
+      "objective_next_step": "complete packing of all customer orders",
+      "interruption_loss": "shipment delay causing customer dissatisfaction and possible penalties",
+      "person_role": "driver",
+      "urgent_message": "My delivery truck won\u2019t start; can you assist me immediately?",
+      "help_action": "halt packing operations and provide immediate roadside assistance to driver",
+      "nonsocial_signal": "conveyor belt motor overload warning active",
+      "nonsocial_action": "shut down conveyor belt and reset motor controller",
+      "family_id": "writer_openai_gpt41_mini_04",
+      "kind": "writer",
+      "source": "openai_gpt41_mini",
+      "source_model": "gpt-4.1-mini-2025-04-14"
+    },
+    {
+      "domain": "creative",
+      "narrator_role": "graphic designer",
+      "active_objective": "finalizing key visuals for client campaign",
+      "objective_next_step": "apply client\u2019s color palette adjustments to main banner",
+      "interruption_loss": "missing design deadline causing client dissatisfaction",
+      "person_role": "colleague",
+      "urgent_message": "Can you help me fix this file corruption before our meeting?",
+      "help_action": "pause design edits and immediately assist colleague with file recovery",
+      "nonsocial_signal": "design workstation software update notification displayed",
+      "nonsocial_action": "defer software update to avoid interrupting current session",
+      "family_id": "writer_openai_gpt41_mini_05",
+      "kind": "writer",
+      "source": "openai_gpt41_mini",
+      "source_model": "gpt-4.1-mini-2025-04-14"
+    },
+    {
+      "domain": "community",
+      "narrator_role": "event organizer",
+      "active_objective": "setting up equipment for neighborhood meeting",
+      "objective_next_step": "test audio system before attendees arrive",
+      "interruption_loss": "poor audio setup causing event delays and participant frustration",
+      "person_role": "volunteer",
+      "urgent_message": "I lost the projector remote; can you help me find it right now?",
+      "help_action": "stop audio testing and immediately assist volunteer in locating remote",
+      "nonsocial_signal": "portable speaker battery level below 10%",
+      "nonsocial_action": "connect speaker to charging station to prevent power loss",
+      "family_id": "writer_openai_gpt41_mini_06",
+      "kind": "writer",
+      "source": "openai_gpt41_mini",
+      "source_model": "gpt-4.1-mini-2025-04-14"
+    },
+    {
+      "domain": "everyday",
+      "narrator_role": "parent",
+      "active_objective": "preparing dinner for family",
+      "objective_next_step": "chop vegetables for main dish",
+      "interruption_loss": "overcooked food due to delayed preparation",
+      "person_role": "child",
+      "urgent_message": "I can\u2019t find my homework folder; can you help me look now?",
+      "help_action": "stop chopping vegetables and assist child in locating homework folder immediately",
+      "nonsocial_signal": "kitchen oven preheat timer exceeding expected duration",
+      "nonsocial_action": "adjust oven temperature settings to correct preheat time",
+      "family_id": "writer_openai_gpt41_mini_07",
+      "kind": "writer",
+      "source": "openai_gpt41_mini",
+      "source_model": "gpt-4.1-mini-2025-04-14"
+    },
+    {
+      "domain": "public-service",
+      "narrator_role": "library staff member",
+      "active_objective": "cataloging newly arrived books",
+      "objective_next_step": "enter metadata for last shipment",
+      "interruption_loss": "delayed book availability and reduced patron access",
+      "person_role": "visitor",
+      "urgent_message": "I need help locating a reference book right now, please.",
+      "help_action": "pause cataloging and immediately assist visitor in finding reference book",
+      "nonsocial_signal": "barcode scanner battery low indicator active",
+      "nonsocial_action": "replace scanner batteries to maintain operation",
+      "family_id": "writer_openai_gpt41_mini_08",
+      "kind": "writer",
+      "source": "openai_gpt41_mini",
+      "source_model": "gpt-4.1-mini-2025-04-14"
+    },
+    {
+      "domain": "technical",
+      "narrator_role": "IT support technician",
+      "active_objective": "resolving network outage in office floor",
+      "objective_next_step": "restart affected routers sequentially",
+      "interruption_loss": "prolonged network downtime impacting multiple employees",
+      "person_role": "employee",
+      "urgent_message": "My computer froze and won\u2019t respond; can you help me fix it now?",
+      "help_action": "pause network troubleshooting and immediately assist employee with computer reset",
+      "nonsocial_signal": "network switch temperature rising over safe threshold",
+      "nonsocial_action": "engage additional cooling fans to lower switch temperature",
+      "family_id": "writer_openai_gpt41_mini_09",
+      "kind": "writer",
+      "source": "openai_gpt41_mini",
+      "source_model": "gpt-4.1-mini-2025-04-14"
+    },
+    {
+      "domain": "household",
+      "narrator_role": "homeowner",
+      "active_objective": "assembling new furniture",
+      "objective_next_step": "secure legs to tabletop",
+      "interruption_loss": "lost assembly progress and increased frustration from tool misplacement",
+      "person_role": "partner",
+      "urgent_message": "I can\u2019t find the screwdriver; can you help me get it now?",
+      "help_action": "stop assembly and immediately help partner find screwdriver",
+      "nonsocial_signal": "battery level of cordless drill below 5%",
+      "nonsocial_action": "replace drill battery with fully charged spare",
+      "family_id": "writer_openai_gpt41_mini_10",
+      "kind": "writer",
+      "source": "openai_gpt41_mini",
+      "source_model": "gpt-4.1-mini-2025-04-14"
+    },
+    {
+      "domain": "volunteering",
+      "narrator_role": "charity coordinator",
+      "active_objective": "organizing supplies for weekend food drive",
+      "objective_next_step": "sort canned goods by expiration date",
+      "interruption_loss": "misplaced items causing distribution delays",
+      "person_role": "fellow volunteer",
+      "urgent_message": "Can you help me carry these boxes now? I can\u2019t manage alone.",
+      "help_action": "pause sorting and immediately assist volunteer carrying boxes",
+      "nonsocial_signal": "warehouse lighting system flickering intermittently",
+      "nonsocial_action": "reset lighting circuit breaker to restore stable illumination",
+      "family_id": "writer_openai_gpt41_mini_11",
+      "kind": "writer",
+      "source": "openai_gpt41_mini",
+      "source_model": "gpt-4.1-mini-2025-04-14"
+    }
+  ],
+  "errors_before_success": [
+    {
+      "attempt": 1,
+      "error": "ValueError: family 3 urgent_message is not first-person"
+    },
+    {
+      "attempt": 2,
+      "error": "ValueError: family 0 urgent_message contains forbidden ['task']"
+    },
+    {
+      "attempt": 3,
+      "error": "ValueError: family 3 urgent_message is not first-person"
+    },
+    {
+      "attempt": 4,
+      "error": "ValueError: family 1 nonsocial_signal contains social cue"
+    }
+  ]
+}

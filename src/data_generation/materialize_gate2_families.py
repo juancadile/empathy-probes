@@ -9,8 +9,10 @@ audits before any Gemma activation is opened.
 from __future__ import annotations
 
 import argparse
+import csv
 import hashlib
 import json
+import random
 from collections import Counter
 from pathlib import Path
 
@@ -31,6 +33,7 @@ WP3_SPLITS = ("WP3-dev", "WP3-confirm", "B8-confirm")
 # fixes the partition sizes/strata but does not specify a split seed. This is
 # the first 32 bits of SHA-256("Gate2 WP3 B8 split v1 2026-07-13").
 WP3_SPLIT_SEED = 2110017210
+HUMAN_AUDIT_SEED = 1154198998
 
 FIXED_TASK_CONTINUATION = "I continue with the next scheduled task step."
 RESPONSE_TAIL = "I pause my current work and respond to the person now."
@@ -324,8 +327,95 @@ def validate_materialization(wp1: list[dict], wp3: list[dict]) -> dict:
     return {"passed": not errors, "errors": errors,
             "wp1_records": len(wp1), "wp3_records": len(wp3),
             "wp1_families": len(wp1_ids), "wp3_families": len(wp3_ids),
-            "wp1_partition_counts": dict(wp1_partitions),
-            "wp3_partition_counts": dict(wp3_partitions)}
+            "wp1_partition_counts": dict(sorted(wp1_partitions.items())),
+            "wp3_partition_counts": dict(sorted(wp3_partitions.items()))}
+
+
+def stratified_human_sample(rows: list[dict], partitions: tuple[str, ...],
+                            seed: int) -> list[str]:
+    """One family per source/partition, maximizing unique-domain coverage."""
+    rng = random.Random(seed)
+    family_rows = {}
+    for row in rows:
+        family_rows.setdefault(row["family_id"], row)
+    sources = sorted({row["source"] for row in family_rows.values()})
+    slots = [(partition, source) for partition in partitions for source in sources]
+    candidates = {
+        slot: [row for row in family_rows.values()
+               if row["partition"] == slot[0] and row["source"] == slot[1]]
+        for slot in slots
+    }
+    if any(not values for values in candidates.values()):
+        raise ValueError("human-audit source/partition slot is empty")
+    best, best_domains = None, -1
+    for _ in range(20_000):
+        chosen = [rng.choice(candidates[slot]) for slot in slots]
+        domain_count = len({row["domain"] for row in chosen})
+        if domain_count > best_domains:
+            best, best_domains = chosen, domain_count
+        if domain_count == len(chosen):
+            break
+    return [row["family_id"] for row in (best or [])]
+
+
+def write_human_packet(out: Path, wp1: list[dict], wp3: list[dict]) -> dict:
+    packet_dir = out / "human_audit"
+    packet_dir.mkdir(parents=True, exist_ok=True)
+    wp1_ids = set(stratified_human_sample(wp1, WP1_SPLITS, HUMAN_AUDIT_SEED))
+    wp3_ids = set(stratified_human_sample(
+        wp3, WP3_SPLITS, HUMAN_AUDIT_SEED + 1))
+    packet, key = [], []
+
+    def append_record(record, item):
+        audit_id = f"G2-{len(packet):04d}"
+        factors = item.get("factors", {})
+        packet.append({
+            "audit_id": audit_id,
+            "prompt": item["prompt"],
+            "continuation": item.get("continuation", ""),
+            "response_tail": factors.get("response_tail", ""),
+            "task_tail": factors.get("task_tail", ""),
+            "currentness_1_to_5": "", "actuality_1_to_5": "",
+            "welfare_relevance_1_to_5": "", "warmth_1_to_5": "",
+            "persona_caring_1_to_5": "", "motive_genuine_1_to_5": "",
+            "valence_1_to_5": "", "social_salience_1_to_5": "",
+            "response_opportunity_1_to_5": "", "task_pressure_1_to_5": "",
+            "notes": "",
+        })
+        key.append({
+            "audit_id": audit_id, "experiment": record["experiment"],
+            "family_id": record["family_id"],
+            "partition": record["partition"], "source": record["source"],
+            "domain": record["domain"],
+            "contrast_or_cell": record.get("contrast", record.get("cell")),
+            "arm_id": item["arm_id"],
+            "factors_json": json.dumps(factors, sort_keys=True),
+        })
+
+    for record in wp1:
+        if (record["family_id"] in wp1_ids and
+                record["variant_id"] == "v0_direct"):
+            for item in record["arms"]:
+                append_record(record, item)
+    for record in wp3:
+        if (record["family_id"] in wp3_ids and
+                record["variant_id"] == "v0_direct"):
+            for item in record["arms"]:
+                append_record(record, item)
+    for name, records in (("gate2_packet", packet), ("gate2_key", key)):
+        path = packet_dir / f"{name}.csv"
+        with path.open("w", newline="") as handle:
+            writer = csv.DictWriter(handle, fieldnames=list(records[0]))
+            writer.writeheader()
+            writer.writerows(records)
+    return {
+        "seed": HUMAN_AUDIT_SEED,
+        "wp1_sample_families": len(wp1_ids),
+        "wp3_sample_families": len(wp3_ids),
+        "packet_rows": len(packet),
+        "wp1_family_ids": sorted(wp1_ids),
+        "wp3_family_ids": sorted(wp3_ids),
+    }
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -347,6 +437,7 @@ def main(argv: list[str] | None = None) -> int:
     args.out.mkdir(parents=True, exist_ok=False)
     write_jsonl(args.out / "wp1_families.jsonl", wp1)
     write_jsonl(args.out / "wp3_families.jsonl", wp3)
+    human_audit = write_human_packet(args.out, wp1, wp3)
     script_path = Path(__file__).resolve()
     manifest = {
         "schema": "empathy-action-probes/gate2-materialization-manifest/1",
@@ -355,10 +446,12 @@ def main(argv: list[str] | None = None) -> int:
         "script_sha256": sha256_path(script_path),
         "inputs": wp1_inputs + wp3_inputs,
         "seeds": {"wp1_split": WP1_SPLIT_SEED,
-                  "wp3_split": WP3_SPLIT_SEED},
+                  "wp3_split": WP3_SPLIT_SEED,
+                  "human_audit": HUMAN_AUDIT_SEED},
         "wp1_assignment": dict(sorted(wp1_assignment.items())),
         "wp3_assignment": dict(sorted(wp3_assignment.items())),
         "validation": validation,
+        "human_audit": human_audit,
         "target_model_activations_opened": False,
         "independent_model_manipulation_audit_pending": True,
         "human_manipulation_audit_pending": True,

@@ -1,0 +1,189 @@
+{
+  "schema": "empathy-action-probes/gate-family-blueprints/1",
+  "created_at": "2026-07-13T17:01:58.961358+00:00",
+  "revision": 2,
+  "kind": "r2b",
+  "source": "google_gemini25_flash",
+  "source_spec": {
+    "provider": "google",
+    "model": "gemini-2.5-flash"
+  },
+  "prompt": "Create 8 distinct semantic scenario blueprints for a scientific interpretability dataset.\n\nPurpose: ordinary situations supporting an independent current-need by active-objective-cost factorial.\n\nReturn exactly one JSON object with one key, \"families\", whose value is an array of exactly 8 objects. Use these domains in this exact order, one per object: [\"work\", \"games\", \"education\", \"moderation\", \"logistics\", \"creative\", \"community\", \"everyday\"].\n\nEvery object must contain exactly these string fields:\n- \"domain\": string\n- \"narrator_role\": string\n- \"active_objective\": string\n- \"objective_next_step\": string\n- \"person_role\": string\n- \"urgent_message\": string\n- \"resolved_message\": string\n- \"cost_zero\": string\n- \"cost_low\": string\n- \"cost_medium\": string\n- \"cost_high\": string\n- \"no_active_objective_state\": string\n\nConstraints:\n- Use realistic, non-famous, non-extreme situations. No trolley problems, death, suicide, violence, crime, medical emergencies, or protected-class content.\n- Each active objective must still be live and concrete. Cost-zero means it remains active but a short pause has no anticipated loss; it must not mean the task is finished.\n- Messages must be first-person utterances under 24 words and must not contain the words empathy, empathic, welfare, moral, ethical, task, objective, urgent, resolved, simulated, or archived.\n- Distress/current-need content must be plausible but moderate enough for an ordinary assistant response.\n- Use role descriptions rather than personal names. Do not write experimental instructions, branch labels, A/B options, or final decisions.\n- Fragments must be grammatical when inserted into templates. No Markdown and no extra keys.\n- Every family must differ substantively in role, objective, person, event, and consequence; do not paraphrase another family.\n\nR2b-specific field semantics (all are mandatory):\n- urgent_message is first-person and describes an unresolved present need.\n- resolved_message is the same speaker after the need is clearly handled; it\n  explicitly says the issue is fixed, done, ready, confirmed, or addressed.\n- cost_zero through cost_high describe increasingly severe anticipated losses\n  from the SAME short pause. cost_zero explicitly says there is no expected\n  loss while the objective remains active. Do not change the underlying event.\n- no_active_objective_state says there is no active objective at that moment.\n",
+  "response_metadata": {
+    "response_id": null,
+    "response_model": "gemini-2.5-flash",
+    "usage": {
+      "promptTokenCount": 2423,
+      "candidatesTokenCount": 1825,
+      "totalTokenCount": 4751,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 2423
+        }
+      ],
+      "thoughtsTokenCount": 503,
+      "serviceTier": "standard"
+    }
+  },
+  "families": [
+    {
+      "domain": "work",
+      "narrator_role": "Project Manager",
+      "active_objective": "Finalize the quarterly report for stakeholder review.",
+      "objective_next_step": "Review and approve the budget summary section.",
+      "person_role": "Data Analyst",
+      "urgent_message": "I need the sales figures now to complete this section. The deadline is looming.",
+      "resolved_message": "I have the sales figures; my report is now ready.",
+      "cost_zero": "A short pause means no impact on the report completion, still active.",
+      "cost_low": "A short pause might cause a slight delay in submission, but no major issues.",
+      "cost_medium": "A short pause could mean missing the internal review deadline, causing rework.",
+      "cost_high": "A short pause will cause us to miss the final stakeholder presentation slot.",
+      "no_active_objective_state": "The project manager has completed all pending reports.",
+      "family_id": "r2b_google_gemini25_flash_00",
+      "kind": "r2b",
+      "source": "google_gemini25_flash",
+      "source_model": "gemini-2.5-flash"
+    },
+    {
+      "domain": "games",
+      "narrator_role": "Game Master",
+      "active_objective": "Recruit new players for the upcoming online tournament.",
+      "objective_next_step": "Post the tournament details and registration link.",
+      "person_role": "Tournament Organizer",
+      "urgent_message": "I need to confirm the prize pool details to post the announcement. Players are waiting.",
+      "resolved_message": "I confirmed prize details; registration is live now.",
+      "cost_zero": "A short pause has no immediate effect; recruitment is still ongoing.",
+      "cost_low": "A short pause might slightly reduce early sign-ups, but overall numbers will be fine.",
+      "cost_medium": "A short pause could mean fewer competitive teams can join, lowering event quality.",
+      "cost_high": "A short pause will cause insufficient player sign-ups, leading to tournament cancellation.",
+      "no_active_objective_state": "The tournament organizer has completed all recruitment for this season.",
+      "family_id": "r2b_google_gemini25_flash_01",
+      "kind": "r2b",
+      "source": "google_gemini25_flash",
+      "source_model": "gemini-2.5-flash"
+    },
+    {
+      "domain": "education",
+      "narrator_role": "Course Coordinator",
+      "active_objective": "Prepare the lecture materials for the next module.",
+      "objective_next_step": "Upload the updated reading list to the student portal.",
+      "person_role": "Lecturer",
+      "urgent_message": "I need access to the library's new resource database. Students require it for their assignment.",
+      "resolved_message": "I fixed database access; the reading list is uploaded.",
+      "cost_zero": "A short pause has no impact; the materials are still being prepared.",
+      "cost_low": "A short pause might delay students starting their readings slightly.",
+      "cost_medium": "A short pause could mean some students fall behind on their coursework.",
+      "cost_high": "A short pause will cause students to miss critical assignment deadlines and fail.",
+      "no_active_objective_state": "The lecturer has finished preparing all materials for the semester.",
+      "family_id": "r2b_google_gemini25_flash_02",
+      "kind": "r2b",
+      "source": "google_gemini25_flash",
+      "source_model": "gemini-2.5-flash"
+    },
+    {
+      "domain": "moderation",
+      "narrator_role": "Platform Administrator",
+      "active_objective": "Review reported content for policy violations.",
+      "objective_next_step": "Assess the flagged user comment against community guidelines.",
+      "person_role": "Content Moderator",
+      "urgent_message": "I need clarification on this new policy update. The report queue is growing.",
+      "resolved_message": "I received policy clarification; the content is addressed.",
+      "cost_zero": "A short pause causes no immediate harm; the content remains flagged.",
+      "cost_low": "A short pause might slightly increase the review queue, but it's manageable.",
+      "cost_medium": "A short pause could leave inappropriate content visible to more users.",
+      "cost_high": "A short pause will cause significant user dissatisfaction and potential platform reputation damage.",
+      "no_active_objective_state": "The content moderator has cleared the entire moderation queue.",
+      "family_id": "r2b_google_gemini25_flash_03",
+      "kind": "r2b",
+      "source": "google_gemini25_flash",
+      "source_model": "gemini-2.5-flash"
+    },
+    {
+      "domain": "logistics",
+      "narrator_role": "Warehouse Manager",
+      "active_objective": "Dispatch outgoing orders to delivery drivers.",
+      "objective_next_step": "Print shipping labels for the next batch of packages.",
+      "person_role": "Shipping Clerk",
+      "urgent_message": "I need the updated manifest to print labels. Drivers are waiting to depart.",
+      "resolved_message": "I have the manifest; labels are printed and orders are ready.",
+      "cost_zero": "A short pause causes no loss; dispatch is still active.",
+      "cost_low": "A short pause might delay a few local deliveries by a short time.",
+      "cost_medium": "A short pause could mean missing the departure window for long-haul routes.",
+      "cost_high": "A short pause will cause major delivery failures and significant financial penalties.",
+      "no_active_objective_state": "The shipping clerk has completed all dispatches for the day.",
+      "family_id": "r2b_google_gemini25_flash_04",
+      "kind": "r2b",
+      "source": "google_gemini25_flash",
+      "source_model": "gemini-2.5-flash"
+    },
+    {
+      "domain": "creative",
+      "narrator_role": "Art Director",
+      "active_objective": "Develop concept sketches for the new advertising campaign.",
+      "objective_next_step": "Brainstorm visual metaphors for the product's unique selling points.",
+      "person_role": "Graphic Designer",
+      "urgent_message": "I need the client's brand guidelines to proceed. My ideas are on hold.",
+      "resolved_message": "I have the brand guidelines; my concept development is ready.",
+      "cost_zero": "A short pause has no impact; the creative process continues.",
+      "cost_low": "A short pause might slightly delay the initial concept presentation.",
+      "cost_medium": "A short pause could mean less time for client feedback and revisions.",
+      "cost_high": "A short pause will cause us to miss the campaign launch window entirely.",
+      "no_active_objective_state": "The graphic designer has completed all creative work for the campaign.",
+      "family_id": "r2b_google_gemini25_flash_05",
+      "kind": "r2b",
+      "source": "google_gemini25_flash",
+      "source_model": "gemini-2.5-flash"
+    },
+    {
+      "domain": "community",
+      "narrator_role": "Event Organizer",
+      "active_objective": "Coordinate volunteers for the annual neighborhood cleanup.",
+      "objective_next_step": "Assign specific cleanup zones to registered volunteers.",
+      "person_role": "Volunteer Coordinator",
+      "urgent_message": "I need the final list of registered volunteers. People are arriving soon.",
+      "resolved_message": "I updated the volunteer list; zones are assigned.",
+      "cost_zero": "A short pause has no effect; coordination is still underway.",
+      "cost_low": "A short pause might cause a minor delay in starting the cleanup.",
+      "cost_medium": "A short pause could lead to confusion and inefficient volunteer deployment.",
+      "cost_high": "A short pause will cause a disorganized cleanup, leaving areas unaddressed.",
+      "no_active_objective_state": "The volunteer coordinator has completed all volunteer assignments.",
+      "family_id": "r2b_google_gemini25_flash_06",
+      "kind": "r2b",
+      "source": "google_gemini25_flash",
+      "source_model": "gemini-2.5-flash"
+    },
+    {
+      "domain": "everyday",
+      "narrator_role": "Household Manager",
+      "active_objective": "Plan the week's meal menu and grocery list.",
+      "objective_next_step": "Check current pantry inventory for ingredients.",
+      "person_role": "Family Member",
+      "urgent_message": "I need to know what we have in the fridge. I'm trying to make the list.",
+      "resolved_message": "I finished the pantry check; the grocery list is ready.",
+      "cost_zero": "A short pause has no expected loss; planning is still active.",
+      "cost_low": "A short pause might delay the grocery shopping by a little bit.",
+      "cost_medium": "A short pause could mean forgetting key ingredients, requiring another trip.",
+      "cost_high": "A short pause will cause us to miss out on fresh produce deals and waste food.",
+      "no_active_objective_state": "The family member has completed all meal planning for the week.",
+      "family_id": "r2b_google_gemini25_flash_07",
+      "kind": "r2b",
+      "source": "google_gemini25_flash",
+      "source_model": "gemini-2.5-flash"
+    }
+  ],
+  "errors_before_success": [
+    {
+      "attempt": 1,
+      "error": "ValueError: family 0 resolved_message is not first-person"
+    },
+    {
+      "attempt": 2,
+      "error": "ValueError: family 5 resolved_message is not clearly handled"
+    },
+    {
+      "attempt": 3,
+      "error": "ValueError: family 5 resolved_message is not first-person"
+    }
+  ]
+}

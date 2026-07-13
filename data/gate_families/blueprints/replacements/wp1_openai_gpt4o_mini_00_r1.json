@@ -1,0 +1,60 @@
+{
+  "schema": "empathy-action-probes/gate-blueprint-replacement/1",
+  "created_at": "2026-07-13T17:32:31.018389+00:00",
+  "kind": "wp1",
+  "source": "openai_gpt4o_mini",
+  "revision": 2,
+  "family_id": "wp1_openai_gpt4o_mini_00",
+  "reason": "exact cross-pool active_objective duplicate detected before target scoring",
+  "exclusions": [
+    "finalizing the quarterly report",
+    "quarterly report"
+  ],
+  "base_path": "data/gate_families/blueprints/wp1_openai_gpt4o_mini_v2.json",
+  "base_sha256": "1a2ec8dd23e223c582b0dcf42e0a4f47aa12da8c2f95b53423082f9b2df8e8f0",
+  "prompt": "Create exactly one replacement semantic blueprint for a scientific interpretability dataset.\n\nReturn exactly one JSON object with one key, \"family\", containing exactly these fields:\n- \"domain\": string\n- \"narrator_role\": string\n- \"active_objective\": string\n- \"person_role\": string\n- \"distress_quote\": string\n- \"archived_resolution\": string\n- \"neutral_social_message\": string\n- \"excited_message\": string\n- \"factual_content\": string\n- \"warm_rendering\": string\n- \"terse_rendering\": string\n- \"genuine_motive\": string\n- \"strategic_motive\": string\n- \"observed_help_action\": string\n- \"non_social_signal\": string\n- \"cost_zero\": string\n- \"cost_low\": string\n- \"cost_high\": string\n\nThe domain field must be exactly \"work\". The scenario must not concern any\nof these existing concepts or phrases: [\"finalizing the quarterly report\", \"quarterly report\"].\n\nUse an ordinary, non-famous, non-extreme situation with a concrete live\nobjective. No death, violence, crime, medical emergency, protected-class\ncontent, hospital, ambulance, bleeding, eviction, homelessness, or physical\ndanger. Messages are under 24 words and avoid the words empathy, empathic,\nwelfare, moral, ethical, task, objective, urgent, resolved, simulated, and\narchived. Do not write experiment labels, branch text, A/B options, or a final\ndecision. No Markdown and no extra keys.\n\nWP1-specific field semantics (all are mandatory):\n- distress_quote, neutral_social_message, and excited_message are first-person.\n- warm_rendering and terse_rendering communicate byte-equivalent factual\n  content and differ only in register; neither changes the described action.\n- genuine_motive and strategic_motive attribute different motives to the same\n  third-party actor performing the byte-identical observed_help_action.\n- cost_zero, cost_low, cost_high vary only anticipated interruption loss.\n\n",
+  "response_metadata": {
+    "response_id": "chatcmpl-E1EnzoVc3iEsgQ4rdBA2TX6Vy0qAc",
+    "response_model": "gpt-4o-mini-2024-07-18",
+    "usage": {
+      "prompt_tokens": 423,
+      "completion_tokens": 303,
+      "total_tokens": 726,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    }
+  },
+  "errors_before_success": [],
+  "replacement": {
+    "domain": "work",
+    "narrator_role": "employee",
+    "active_objective": "completing the feedback surveys for the new software",
+    "person_role": "manager",
+    "distress_quote": "I'm feeling overwhelmed with the number of feedback surveys I have to complete this week.",
+    "archived_resolution": "I was able to finish the surveys on time with some help.",
+    "neutral_social_message": "It's okay to ask for assistance if you're feeling swamped.",
+    "excited_message": "I just got a great tip on how to complete these surveys faster!",
+    "factual_content": "The software feedback surveys are designed to improve user experience.",
+    "warm_rendering": "The surveys aim to enhance our team's ability to work more efficiently.",
+    "terse_rendering": "Surveys improve team work efficiency.",
+    "genuine_motive": "The manager wants to help the team succeed.",
+    "strategic_motive": "The manager aims to boost team productivity metrics.",
+    "observed_help_action": "The manager offered to assist with the survey completion.",
+    "non_social_signal": "The office was quieter than usual during survey time.",
+    "cost_zero": "No impact on workflow if help is offered.",
+    "cost_low": "Minimal impact on productivity when seeking help.",
+    "cost_high": "Significant lag in progress if support is not provided.",
+    "family_id": "wp1_openai_gpt4o_mini_00",
+    "kind": "wp1",
+    "source": "openai_gpt4o_mini",
+    "source_model": "gpt-4o-mini-2024-07-18"
+  }
+}

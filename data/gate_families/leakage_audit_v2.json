@@ -1,0 +1,257 @@
+{
+  "schema": "empathy-action-probes/gate-family-leakage-audit/1",
+  "blueprint_revision": 2,
+  "threshold": 0.85,
+  "new_artifacts": [
+    {
+      "path": "data/gate_families/blueprints/writer_openai_gpt4o_mini_v2.json",
+      "sha256": "7117a2bbbea472e67d023557844e808e0770e830b74afbb1897787cf38ba15d2"
+    },
+    {
+      "path": "data/gate_families/blueprints/writer_openai_gpt41_mini_v2.json",
+      "sha256": "507bf2769b3e3778dc3931fb497a54953d2d49ae8dbfe55b4fca36abbca0cd1f"
+    },
+    {
+      "path": "data/gate_families/blueprints/writer_anthropic_haiku45_v2.json",
+      "sha256": "a4c575f9c885d38b39f4a4ffcb7b69a1621454860eb68f3026c1bd1342d155ce"
+    },
+    {
+      "path": "data/gate_families/blueprints/writer_google_gemini25_flash_v2.json",
+      "sha256": "792046e62b082be43b7c2d5cb8ef7fc18633f7fc55a382ce8a203e5753ca8f40"
+    },
+    {
+      "path": "data/gate_families/blueprints/r2b_openai_gpt4o_mini_v2.json",
+      "sha256": "a1f36d22ac5cfd8118d8fe03e62b0cd18164a6add32fe12131bce8c4a0de6c05"
+    },
+    {
+      "path": "data/gate_families/blueprints/r2b_openai_gpt41_mini_v2.json",
+      "sha256": "96ce04010b6ad32792db0bab107f715c6e600a0b66f31e56b7dcede5b1bf4d97"
+    },
+    {
+      "path": "data/gate_families/blueprints/r2b_anthropic_haiku45_v2.json",
+      "sha256": "a1bb70712e6e19b43e47fcf5ddaae842acd6ae61224b67412ec9352855e568b4"
+    },
+    {
+      "path": "data/gate_families/blueprints/r2b_google_gemini25_flash_v2.json",
+      "sha256": "db721fce3695ee9441b269aad03739700ee31b12e506da0f32e176faf2f3e7e2"
+    },
+    {
+      "path": "data/gate_families/blueprints/wp1_openai_gpt4o_mini_v2.json",
+      "sha256": "1a2ec8dd23e223c582b0dcf42e0a4f47aa12da8c2f95b53423082f9b2df8e8f0"
+    },
+    {
+      "path": "data/gate_families/blueprints/wp1_openai_gpt41_mini_v2.json",
+      "sha256": "3c8e360ca9dd1ef153a3eb309566aedee585a6fb82d29b6cea5e521450b804d5"
+    },
+    {
+      "path": "data/gate_families/blueprints/wp1_anthropic_haiku45_v2.json",
+      "sha256": "959ab751303193ef55d4c7904ce8d4cca771c48f6e42c1978469c3c974b76c3c"
+    },
+    {
+      "path": "data/gate_families/blueprints/wp1_google_gemini25_flash_v2.json",
+      "sha256": "0dcfb797bfc4263e25a996617160451bbd21dc18a3c0044d7722c3488e521fce"
+    },
+    {
+      "path": "data/gate_families/blueprints/wp3_openai_gpt4o_mini_v2.json",
+      "sha256": "c42e124fbdd09a0becef892f5509c5d7125b137b9e54fca36d164ca0078837ea"
+    },
+    {
+      "path": "data/gate_families/blueprints/wp3_openai_gpt41_mini_v2.json",
+      "sha256": "afdc3835e26d8faffa13802c8684f2f6a3dadfeb2667a7c1579c71946326be80"
+    },
+    {
+      "path": "data/gate_families/blueprints/wp3_anthropic_haiku45_v2.json",
+      "sha256": "1fd35f6172ea7ccf26403c8df38ab913afdfc97ed34f03c490955fa8bfe6997a"
+    },
+    {
+      "path": "data/gate_families/blueprints/wp3_google_gemini25_flash_v2.json",
+      "sha256": "15d14788d7e81c863515d6b587953b02efc376739fa9ea33dc5bcf99a1d41793"
+    },
+    {
+      "path": "data/gate_families/blueprints/replacements/wp1_openai_gpt4o_mini_00_r1.json",
+      "sha256": "a6fc57b623692638c739c13ee6937634c4725b58ab3c41fc3d0ec496fd1d960f",
+      "family_id": "wp1_openai_gpt4o_mini_00"
+    }
+  ],
+  "historical_artifacts": [
+    {
+      "path": "data/contrastive_pairs/merged_cleaned_pairs.jsonl",
+      "sha256": "d8bae056f91bd8e8a9714eb09b95c1ffe9a4f19933e1ad04576d62f71a1a21f9"
+    },
+    {
+      "path": "data/contrastive_pairs/v2_1/A_claude-haiku.jsonl",
+      "sha256": "1ef5762c883adad17a1f8ecd10ef5cd5f6b9b56342dec735575dc31a65d9922e"
+    },
+    {
+      "path": "data/contrastive_pairs/v2_1/A_gemini-flash.jsonl",
+      "sha256": "748dd4c256efab22e06b3193ef2e6d6bf6e4ab04ba6d862f4487d7819406c6db"
+    },
+    {
+      "path": "data/contrastive_pairs/v2_1/A_gpt-4o-mini.jsonl",
+      "sha256": "131607c674b5e044e51ca7ba165a2299261d3aef25c716c5b5c8275c3e22fd7e"
+    },
+    {
+      "path": "data/contrastive_pairs/v2_1/B_claude-haiku.jsonl",
+      "sha256": "7ce1c5360d5dc35ce53786a24f63c9205a517b6f58b02979f77f4a6692b2d053"
+    },
+    {
+      "path": "data/contrastive_pairs/v2_1/B_gemini-flash.jsonl",
+      "sha256": "bb03a0eafce565f2ba126fe5e1a69a86236038e6c56d872a62ae5244c281ea87"
+    },
+    {
+      "path": "data/contrastive_pairs/v2_1/B_gpt-4o-mini.jsonl",
+      "sha256": "f602dbf594e678ebc0c55f1f64f9d9c3256deb3e9447f5c022f003ef8f816679"
+    },
+    {
+      "path": "data/contrastive_pairs/v2_1/D_claude-haiku.jsonl",
+      "sha256": "0eae6e1734bea737e0315f7d97edf74bdf2baf2c324ea5be2d686a9eaed79885"
+    },
+    {
+      "path": "data/contrastive_pairs/v2_1/D_gemini-flash.jsonl",
+      "sha256": "e7f1196ed3babcc29178ffeb409568516be334c02f3f5ef6a456fc8bdadd3653"
+    },
+    {
+      "path": "data/contrastive_pairs/v2_1/D_gpt-4o-mini.jsonl",
+      "sha256": "31d6ff5bfbce9b2a89486eed49904c6987ae0a94f26e68c17a81c74d97d108c2"
+    },
+    {
+      "path": "data/contrastive_pairs/v2_1/E_claude-haiku.jsonl",
+      "sha256": "cdba1e00d6db7b92f29391914571e89894a37ce3b36f6947204ba98e1cc82766"
+    },
+    {
+      "path": "data/contrastive_pairs/v2_1/E_gemini-flash.jsonl",
+      "sha256": "e354d8e1b721d54bcb3188cf848745e3c677fad070ad08c93c704365434fdd9f"
+    },
+    {
+      "path": "data/contrastive_pairs/v2_1/E_gpt-4o-mini.jsonl",
+      "sha256": "f4ef6a5b7e6d986043e6ee7814a29351b39207d7f71d8c0ec8074c64ca73b0d7"
+    },
+    {
+      "path": "data/contrastive_pairs/v2_1/F_claude-haiku.jsonl",
+      "sha256": "76c17740297351e1202a6266cd9e944899a71c500a9040cf5b38fe1783f9b952"
+    },
+    {
+      "path": "data/contrastive_pairs/v2_1/F_gemini-flash.jsonl",
+      "sha256": "4dc5ba57ca77b56b73f4c979194cebbc48d90fe8d63cfb0bf0e36e5f778c378f"
+    },
+    {
+      "path": "data/contrastive_pairs/v2_1/F_gpt-4o-mini.jsonl",
+      "sha256": "aca5e6127de5f3b8ae5e4bcad287392f4a24cfb3ce7fd37ca4527a92575d27bf"
+    },
+    {
+      "path": "data/contrastive_pairs/v2_1/G_claude-haiku.jsonl",
+      "sha256": "44669e042d489c09f9118496d19d4843a8494be0814105dca66279153b11afd2"
+    },
+    {
+      "path": "data/contrastive_pairs/v2_1/G_gemini-flash.jsonl",
+      "sha256": "9d1767ba3dca10a376fd6cbe7703ac491f259a57cbc95c6fd590b24e48e0b437"
+    },
+    {
+      "path": "data/contrastive_pairs/v2_1/G_gpt-4o-mini.jsonl",
+      "sha256": "0cca4b4d0f006443eadbcacf072acd403626114608abbb9b75bf28cddcbb41ab"
+    },
+    {
+      "path": "data/contrastive_pairs/v2_1/H_claude-haiku.jsonl",
+      "sha256": "8e138e6f3dc2a6a460124dc2d4ee3ad25b07ff325c6ba4d0763c2c5834b35812"
+    },
+    {
+      "path": "data/contrastive_pairs/v2_1/H_gemini-flash.jsonl",
+      "sha256": "fba3034345b34c0f16bbcb5be1a22ae16898733d897941ea3bbf2d332e29ac81"
+    },
+    {
+      "path": "data/contrastive_pairs/v2_1/H_gpt-4o-mini.jsonl",
+      "sha256": "556188b0b8db6f7bde8b35118a5f3a6f5cf3ca7cb6cafab6ad3c8ee38b631c2c"
+    },
+    {
+      "path": "data/contrastive_pairs/v2_1/M_confirm_templated.jsonl",
+      "sha256": "2e4bcd4d59538f0e5316b23f55247418636deca2b4df0d72cb6cca690ad847d4"
+    },
+    {
+      "path": "data/contrastive_pairs/v2_1/M_templated.jsonl",
+      "sha256": "6e9d32dfdc816afcee43434bf2095a1f78091e2495cdd66d05737b04dedb7d91"
+    },
+    {
+      "path": "data/contrastive_pairs/v2_1/R_claude-haiku.jsonl",
+      "sha256": "6815a9232765103c641085c7a7f6edd6646dc5b1b2d7b74beb8079550d002cb3"
+    },
+    {
+      "path": "data/contrastive_pairs/v2_1/R_v2_contrast_preserving.jsonl",
+      "sha256": "57e8ce197ab8d34d2b01dc95276b067ea360e7314155decaf9615a97188b4191"
+    },
+    {
+      "path": "data/contrastive_pairs/v2_1/R_v2_report.json",
+      "sha256": "a3c27004291b96083ce7c70da43f172fc2d282015c7df60843000b7b0b60b0d9"
+    },
+    {
+      "path": "data/contrastive_pairs/v2_1/S_claude-haiku.jsonl",
+      "sha256": "bd564dca97aea5628ab85db39024d08428783f50a20dfd45463eff3ec31c5281"
+    },
+    {
+      "path": "data/contrastive_pairs/v2_1/S_gemini-flash.jsonl",
+      "sha256": "9f19f774c400cf264ce234879e77ab091ac372ce063f99cfef72b78722bd9431"
+    },
+    {
+      "path": "data/contrastive_pairs/v2_1/S_gpt-4o-mini.jsonl",
+      "sha256": "654bc9a2e83629cb1c34492ff3b22b114074b0bb8c1050d170df0c10903480fd"
+    },
+    {
+      "path": "data/contrastive_pairs/v2_1/T_confirm_templated.jsonl",
+      "sha256": "33bed6a287d71e6515838c94027ec5a754e5bd2fb86970b29ca4c966225300e4"
+    },
+    {
+      "path": "data/contrastive_pairs/v2_1/T_confirm_templated.jsonl.provenance.json",
+      "sha256": "046366410903d6a6d182a2fccef7302885da4813e1ceb9bc410f65493466c8c7"
+    },
+    {
+      "path": "data/contrastive_pairs/v2_1/T_templated.jsonl",
+      "sha256": "bb7ca413dcaccde65e2a6de22dedece43e9cf80b61c23830710f23201494a12e"
+    },
+    {
+      "path": "data/contrastive_pairs/v2_1/T_templated.jsonl.provenance.json",
+      "sha256": "41717f3397c36332d391acabba484d9cf7499c08fe9621686a2a2ac425c03f3c"
+    },
+    {
+      "path": "data/contrastive_pairs/v2_2/cost_axis_templated.jsonl",
+      "sha256": "5c60e08f653d057fb449939c103ce614edbfc7af48fbe18653523d6f07adee69"
+    },
+    {
+      "path": "data/contrastive_pairs/v2_2/moral_axis_templated.jsonl",
+      "sha256": "b3c6dff3d7d84c49adcc468f5b950c2b48c6064098403e8ac017630cc16225ae"
+    },
+    {
+      "path": "data/contrastive_pairs/v2_2/moral_pretest.json",
+      "sha256": "3ca8138ece7d35eb4a9ffc72537fcf14db0f6fb8b5539604dc68b5ea82d13e2f"
+    },
+    {
+      "path": "data/contrastive_pairs/v2_2/need_mild_axis_templated.jsonl",
+      "sha256": "8c7d8a15312878e2b419799267639b5fb23fb6c33b2c76dafce16f1fdf3b0d93"
+    },
+    {
+      "path": "data/contrastive_pairs/v2_2/need_pretest.json",
+      "sha256": "58a9e1fee4c0a75738c2d52b3e941e07398cc2a2a08d2c94a8cd682ef547503d"
+    },
+    {
+      "path": "data/contrastive_pairs/v2_2/need_resolved_axis_templated.jsonl",
+      "sha256": "e463614de9dc3a986befca3728679bb4d10a356623fc979f169bbf1dfa097b30"
+    },
+    {
+      "path": "data/contrastive_pairs/v2_2/nonsocial_axis_templated.jsonl",
+      "sha256": "05ed2c09e8421bde9f0456d0993c53a28f3d58922ada0549750066f6bd382ffe"
+    },
+    {
+      "path": "data/eia_scenarios/scenarios.json",
+      "sha256": "bd716b019a4663a1fcb4a479b2a5ac4b44a9ef68b657b5012509bda114acf393"
+    },
+    {
+      "path": "data/eia_scenarios/v2_1_cells.json",
+      "sha256": "5a0d51c9a2a6d84194b6e19f6de8513fb52a32f90d48b8efd62dc91919de8838"
+    }
+  ],
+  "new_component_count": 797,
+  "historical_component_count": 38638,
+  "cross_pool_review_count": 0,
+  "within_new_review_count": 0,
+  "requires_manual_review": false,
+  "cross_pool_pairs": [],
+  "within_new_pairs": []
+}

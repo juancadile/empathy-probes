@@ -41,3 +41,20 @@ def test_wp3_agency_and_cost_use_identical_candidate_tails():
         for item in record["arms"]:
             assert item["factors"]["response_tail"] == gate2.RESPONSE_TAIL
             assert item["factors"]["task_tail"] == gate2.TASK_TAIL
+
+
+def test_human_sample_balances_source_and_partition():
+    records = []
+    for partition in gate2.WP1_SPLITS:
+        for source_index in range(4):
+            for family_index in range(4):
+                records.append({
+                    "family_id": f"{partition}-{source_index}-{family_index}",
+                    "partition": partition, "source": f"s{source_index}",
+                    "domain": f"d{family_index}",
+                })
+    chosen = gate2.stratified_human_sample(records, gate2.WP1_SPLITS, 123)
+    assert len(chosen) == 8
+    chosen_rows = [row for row in records if row["family_id"] in chosen]
+    assert set(row["source"] for row in chosen_rows) == {"s0", "s1", "s2", "s3"}
+    assert set(row["partition"] for row in chosen_rows) == set(gate2.WP1_SPLITS)

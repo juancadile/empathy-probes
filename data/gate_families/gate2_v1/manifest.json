@@ -1,0 +1,200 @@
+{
+  "schema": "empathy-action-probes/gate2-materialization-manifest/1",
+  "blueprint_revision": 2,
+  "script": "src/data_generation/materialize_gate2_families.py",
+  "script_sha256": "f5de7142f47f17d839574e6fe20f02c01fdc5e53a3895b3d7939598349c28238",
+  "inputs": [
+    {
+      "path": "data/gate_families/blueprints/wp1_openai_gpt4o_mini_v2.json",
+      "sha256": "1a2ec8dd23e223c582b0dcf42e0a4f47aa12da8c2f95b53423082f9b2df8e8f0",
+      "source": "openai_gpt4o_mini",
+      "count": 8
+    },
+    {
+      "path": "data/gate_families/blueprints/wp1_openai_gpt41_mini_v2.json",
+      "sha256": "3c8e360ca9dd1ef153a3eb309566aedee585a6fb82d29b6cea5e521450b804d5",
+      "source": "openai_gpt41_mini",
+      "count": 8
+    },
+    {
+      "path": "data/gate_families/blueprints/wp1_anthropic_haiku45_v2.json",
+      "sha256": "959ab751303193ef55d4c7904ce8d4cca771c48f6e42c1978469c3c974b76c3c",
+      "source": "anthropic_haiku45",
+      "count": 8
+    },
+    {
+      "path": "data/gate_families/blueprints/wp1_google_gemini25_flash_v2.json",
+      "sha256": "0dcfb797bfc4263e25a996617160451bbd21dc18a3c0044d7722c3488e521fce",
+      "source": "google_gemini25_flash",
+      "count": 8
+    },
+    {
+      "path": "data/gate_families/blueprints/replacements/wp1_openai_gpt4o_mini_00_r1.json",
+      "sha256": "a6fc57b623692638c739c13ee6937634c4725b58ab3c41fc3d0ec496fd1d960f",
+      "family_id": "wp1_openai_gpt4o_mini_00"
+    },
+    {
+      "path": "data/gate_families/blueprints/wp3_openai_gpt4o_mini_v2.json",
+      "sha256": "c42e124fbdd09a0becef892f5509c5d7125b137b9e54fca36d164ca0078837ea",
+      "source": "openai_gpt4o_mini",
+      "count": 12
+    },
+    {
+      "path": "data/gate_families/blueprints/wp3_openai_gpt41_mini_v2.json",
+      "sha256": "afdc3835e26d8faffa13802c8684f2f6a3dadfeb2667a7c1579c71946326be80",
+      "source": "openai_gpt41_mini",
+      "count": 12
+    },
+    {
+      "path": "data/gate_families/blueprints/wp3_anthropic_haiku45_v2.json",
+      "sha256": "1fd35f6172ea7ccf26403c8df38ab913afdfc97ed34f03c490955fa8bfe6997a",
+      "source": "anthropic_haiku45",
+      "count": 12
+    },
+    {
+      "path": "data/gate_families/blueprints/wp3_google_gemini25_flash_v2.json",
+      "sha256": "15d14788d7e81c863515d6b587953b02efc376739fa9ea33dc5bcf99a1d41793",
+      "source": "google_gemini25_flash",
+      "count": 12
+    }
+  ],
+  "seeds": {
+    "wp1_split": 2000982249,
+    "wp3_split": 2110017210,
+    "human_audit": 1154198998
+  },
+  "wp1_assignment": {
+    "wp1_anthropic_haiku45_00": "WP1-dev",
+    "wp1_anthropic_haiku45_01": "WP1-dev",
+    "wp1_anthropic_haiku45_02": "WP1-confirm",
+    "wp1_anthropic_haiku45_03": "WP1-confirm",
+    "wp1_anthropic_haiku45_04": "WP1-dev",
+    "wp1_anthropic_haiku45_05": "WP1-confirm",
+    "wp1_anthropic_haiku45_06": "WP1-dev",
+    "wp1_anthropic_haiku45_07": "WP1-confirm",
+    "wp1_google_gemini25_flash_00": "WP1-confirm",
+    "wp1_google_gemini25_flash_01": "WP1-dev",
+    "wp1_google_gemini25_flash_02": "WP1-dev",
+    "wp1_google_gemini25_flash_03": "WP1-dev",
+    "wp1_google_gemini25_flash_04": "WP1-confirm",
+    "wp1_google_gemini25_flash_05": "WP1-dev",
+    "wp1_google_gemini25_flash_06": "WP1-confirm",
+    "wp1_google_gemini25_flash_07": "WP1-confirm",
+    "wp1_openai_gpt41_mini_00": "WP1-dev",
+    "wp1_openai_gpt41_mini_01": "WP1-dev",
+    "wp1_openai_gpt41_mini_02": "WP1-dev",
+    "wp1_openai_gpt41_mini_03": "WP1-confirm",
+    "wp1_openai_gpt41_mini_04": "WP1-confirm",
+    "wp1_openai_gpt41_mini_05": "WP1-confirm",
+    "wp1_openai_gpt41_mini_06": "WP1-dev",
+    "wp1_openai_gpt41_mini_07": "WP1-confirm",
+    "wp1_openai_gpt4o_mini_00": "WP1-confirm",
+    "wp1_openai_gpt4o_mini_01": "WP1-dev",
+    "wp1_openai_gpt4o_mini_02": "WP1-confirm",
+    "wp1_openai_gpt4o_mini_03": "WP1-dev",
+    "wp1_openai_gpt4o_mini_04": "WP1-dev",
+    "wp1_openai_gpt4o_mini_05": "WP1-dev",
+    "wp1_openai_gpt4o_mini_06": "WP1-confirm",
+    "wp1_openai_gpt4o_mini_07": "WP1-confirm"
+  },
+  "wp3_assignment": {
+    "wp3_anthropic_haiku45_00": "WP3-confirm",
+    "wp3_anthropic_haiku45_01": "B8-confirm",
+    "wp3_anthropic_haiku45_02": "B8-confirm",
+    "wp3_anthropic_haiku45_03": "WP3-confirm",
+    "wp3_anthropic_haiku45_04": "B8-confirm",
+    "wp3_anthropic_haiku45_05": "WP3-confirm",
+    "wp3_anthropic_haiku45_06": "WP3-dev",
+    "wp3_anthropic_haiku45_07": "WP3-confirm",
+    "wp3_anthropic_haiku45_08": "WP3-dev",
+    "wp3_anthropic_haiku45_09": "B8-confirm",
+    "wp3_anthropic_haiku45_10": "WP3-dev",
+    "wp3_anthropic_haiku45_11": "WP3-dev",
+    "wp3_google_gemini25_flash_00": "WP3-dev",
+    "wp3_google_gemini25_flash_01": "WP3-confirm",
+    "wp3_google_gemini25_flash_02": "WP3-dev",
+    "wp3_google_gemini25_flash_03": "WP3-confirm",
+    "wp3_google_gemini25_flash_04": "WP3-confirm",
+    "wp3_google_gemini25_flash_05": "WP3-dev",
+    "wp3_google_gemini25_flash_06": "B8-confirm",
+    "wp3_google_gemini25_flash_07": "B8-confirm",
+    "wp3_google_gemini25_flash_08": "B8-confirm",
+    "wp3_google_gemini25_flash_09": "WP3-dev",
+    "wp3_google_gemini25_flash_10": "B8-confirm",
+    "wp3_google_gemini25_flash_11": "WP3-confirm",
+    "wp3_openai_gpt41_mini_00": "WP3-confirm",
+    "wp3_openai_gpt41_mini_01": "WP3-dev",
+    "wp3_openai_gpt41_mini_02": "B8-confirm",
+    "wp3_openai_gpt41_mini_03": "WP3-dev",
+    "wp3_openai_gpt41_mini_04": "WP3-confirm",
+    "wp3_openai_gpt41_mini_05": "WP3-confirm",
+    "wp3_openai_gpt41_mini_06": "WP3-dev",
+    "wp3_openai_gpt41_mini_07": "B8-confirm",
+    "wp3_openai_gpt41_mini_08": "B8-confirm",
+    "wp3_openai_gpt41_mini_09": "B8-confirm",
+    "wp3_openai_gpt41_mini_10": "WP3-dev",
+    "wp3_openai_gpt41_mini_11": "WP3-confirm",
+    "wp3_openai_gpt4o_mini_00": "B8-confirm",
+    "wp3_openai_gpt4o_mini_01": "WP3-confirm",
+    "wp3_openai_gpt4o_mini_02": "WP3-confirm",
+    "wp3_openai_gpt4o_mini_03": "WP3-dev",
+    "wp3_openai_gpt4o_mini_04": "WP3-dev",
+    "wp3_openai_gpt4o_mini_05": "B8-confirm",
+    "wp3_openai_gpt4o_mini_06": "B8-confirm",
+    "wp3_openai_gpt4o_mini_07": "WP3-dev",
+    "wp3_openai_gpt4o_mini_08": "WP3-confirm",
+    "wp3_openai_gpt4o_mini_09": "WP3-confirm",
+    "wp3_openai_gpt4o_mini_10": "B8-confirm",
+    "wp3_openai_gpt4o_mini_11": "WP3-dev"
+  },
+  "validation": {
+    "passed": true,
+    "errors": [],
+    "wp1_records": 640,
+    "wp3_records": 480,
+    "wp1_families": 32,
+    "wp3_families": 48,
+    "wp1_partition_counts": {
+      "WP1-confirm": 16,
+      "WP1-dev": 16
+    },
+    "wp3_partition_counts": {
+      "B8-confirm": 16,
+      "WP3-confirm": 16,
+      "WP3-dev": 16
+    }
+  },
+  "human_audit": {
+    "seed": 1154198998,
+    "wp1_sample_families": 8,
+    "wp3_sample_families": 12,
+    "packet_rows": 416,
+    "wp1_family_ids": [
+      "wp1_anthropic_haiku45_02",
+      "wp1_anthropic_haiku45_06",
+      "wp1_google_gemini25_flash_04",
+      "wp1_google_gemini25_flash_05",
+      "wp1_openai_gpt41_mini_01",
+      "wp1_openai_gpt41_mini_07",
+      "wp1_openai_gpt4o_mini_00",
+      "wp1_openai_gpt4o_mini_03"
+    ],
+    "wp3_family_ids": [
+      "wp3_anthropic_haiku45_02",
+      "wp3_anthropic_haiku45_03",
+      "wp3_anthropic_haiku45_11",
+      "wp3_google_gemini25_flash_01",
+      "wp3_google_gemini25_flash_02",
+      "wp3_google_gemini25_flash_07",
+      "wp3_openai_gpt41_mini_05",
+      "wp3_openai_gpt41_mini_06",
+      "wp3_openai_gpt41_mini_08",
+      "wp3_openai_gpt4o_mini_04",
+      "wp3_openai_gpt4o_mini_09",
+      "wp3_openai_gpt4o_mini_10"
+    ]
+  },
+  "target_model_activations_opened": false,
+  "independent_model_manipulation_audit_pending": true,
+  "human_manipulation_audit_pending": true
+}
