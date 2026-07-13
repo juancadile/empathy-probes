@@ -56,13 +56,15 @@
 
 ### Writer replication
 
-- Authority: `EXECUTION_ORDER_2026-07-13.md` Gate 1A and issue #37.
+- Preregistration: `GATE1_PARAMETER_LOCALIZATION_PREREG_2026-07-13.md` Part A;
+  issue #37.
 - Requirement: at least ten new sealed M-confirm2 families plus matched fresh task controls; frozen current writer set and dual-order raw/chat/continuation protocol.
 - Claim ceiling on pass: band-localized costly-helping writer intervention, not a unique two-component circuit.
 
 ### Suppressor R2b
 
-- Authority: `SCIENCE_AUDIT_2026-07-13.md` R2b section and issue #36.
+- Preregistration: `GATE1_PARAMETER_LOCALIZATION_PREREG_2026-07-13.md` Part B;
+  audit history in `SCIENCE_AUDIT_2026-07-13.md`; issue #36.
 - Requirement: sixteen fresh active-objective families; realized joint-L2 norm pairing; one head per L17-L20; dose monotonicity; family-paired target-minus-null inference.
 - Claim ceiling on pass: selected-head localization conditional on the tested layer/type universe. Failure retains set-level/direction-specific evidence only.
 
