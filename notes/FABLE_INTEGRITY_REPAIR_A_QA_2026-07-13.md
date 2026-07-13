@@ -330,3 +330,20 @@ Repair A is cleared only after an independent post-Fable review confirms all
 ten items, the complete test suite passes, import smoke succeeds, and dry-run
 artifacts demonstrate provider/revision/component provenance. Passing unit tests
 alone is not clearance.
+
+## Reset Handoff Update (2026-07-13 04:45 EDT)
+
+- Current architect HEAD is `d7189c3`. Commits after the original Fable repair
+  remain preregistration, QA, and roadmap-coverage documents only; no protected
+  score was opened.
+- `ROADMAP_COVERAGE_AUDIT_2026-07-13.md` closes the planning audit. It does not
+  add work to Integrity Repair A.
+- `pytest -q tests` remains green at `118 passed in 5.62s` before the QA repair.
+- Do not use bare `pytest -q` as the acceptance command: the repository root
+  contains `test_gpt5_access.py`, an unrelated live-API smoke script that exits
+  during collection when `OPENAI_API_KEY` is absent. This is outside the repair
+  batch. The required suite is `pytest -q tests` plus the explicit import, CLI,
+  dry-run, compilation, and diff checks in the Delivery Contract.
+- Q1 and Q2 remain visibly failing at the CLI surfaces: the EIA driver cannot
+  import because of removed component constants, and the judge/pretest CLIs
+  still expose no provider selection.
