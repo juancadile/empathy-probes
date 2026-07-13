@@ -56,6 +56,14 @@ def test_prompt_places_generation_outside_matched_branch_text():
     assert "help_action MUST perform help now" in prompt
 
 
+def test_r2b_revision3_separates_welfare_need_from_objective_cost():
+    prompt = prompt_for("r2b", KINDS["r2b"]["count_per_source"], 3)
+    assert "PRESENT personal state" in prompt
+    assert "speaker's difficulty" in prompt
+    assert "describe only consequences for the narrator's" in prompt
+    assert "present tense" in prompt
+
+
 def test_strict_writer_validation_rejects_deferred_help():
     payload = valid_payload("writer")
     for row in payload["families"]:

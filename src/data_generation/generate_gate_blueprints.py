@@ -179,6 +179,28 @@ WP3-specific field semantics (all are mandatory):
 """,
 }
 
+V3_KIND_CONSTRAINTS = {
+    "r2b": """
+R2b revision-3 repair constraints (all are mandatory):
+- urgent_message describes the speaker's PRESENT personal state and a modest
+  need for reassurance, guidance, listening, or practical support from the
+  narrator. It must not request completion of the narrator's active objective,
+  report a process status, or use deadlines and operational consequences as
+  evidence of need.
+- resolved_message concerns the same speaker and topic, but explicitly says
+  the difficulty is over and that no response or support is needed now.
+- The narrator's active_objective and objective_next_step are independent of
+  the speaker's difficulty. Helping the speaker is not a step toward completing
+  that objective.
+- cost_zero through cost_high describe only consequences for the narrator's
+  independent active objective from the SAME short pause. They must not mention
+  the speaker, the speaker's state, help, support, reassurance, or guidance.
+- no_active_objective_state is present tense and says exactly that the narrator
+  currently has no active objective or pending work. It must not describe
+  yesterday, an earlier phase, or a completed version of the active objective.
+""",
+}
+
 
 def load_env():
     path = ROOT / ".env"
@@ -213,7 +235,8 @@ Constraints:
 - Use role descriptions rather than personal names. Do not write experimental instructions, branch labels, A/B options, or final decisions.
 - Fragments must be grammatical when inserted into templates. No Markdown and no extra keys.
 - Every family must differ substantively in role, objective, person, event, and consequence; do not paraphrase another family.
-""" + (V2_KIND_CONSTRAINTS[kind] if revision >= 2 else "")
+""" + (V2_KIND_CONSTRAINTS[kind] if revision >= 2 else "") + (
+        V3_KIND_CONSTRAINTS.get(kind, "") if revision >= 3 else "")
 
 
 def _post_openai(model, prompt):
