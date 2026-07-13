@@ -9,12 +9,14 @@ and `EXECUTION_ORDER_2026-07-13.md`.
 
 ## Result
 
-All planned experiments capable of supporting a new causal, construct,
-mechanistic, enacted-behavior, or generality claim are now governed by a
-preregistration. The remaining unpreregistered roadmap items are descriptive
-or legacy analyses. They may be run only as exploratory diagnostics and may
-not restore a failed gate, select a headline result, or consume a sealed
-confirmation pool.
+All currently executable experiments capable of supporting a new causal,
+construct, mechanistic, enacted-behavior, or generality claim are governed by a
+preregistration. B9 Tier 3 workspace-like functional testing is intentionally
+not executable: its present document freezes requirements but now mandates a
+separate implementation-specific preregistration and fresh families after Tier
+2. Other remaining unpreregistered roadmap items are descriptive or legacy
+analyses. They may run only as exploratory diagnostics and may not restore a
+failed gate, select a headline result, or consume a sealed confirmation pool.
 
 ## Coverage Matrix
 
@@ -30,7 +32,7 @@ confirmation pool.
 | B6 concept versus persona versus policy | `B6_CONCEPT_PERSONA_PREREG_2026-07-13.md` | Separate N/P/R/A objects, wrong-variable interventions, and entanglement stopping rule. Persona-vector comparisons are secondary triangulation only. |
 | B1/B3 path tracing, B2/SAE feature circuits, B4 faithfulness/completeness | `B3_CURRENT_CIRCUIT_PREREG_2026-07-13.md` | Disjoint selection and confirmation pools, joint finite nulls, fidelity gates, and cumulative effect coverage. Historical partial edges and E20 labels are hypotheses only. |
 | B7 Activation Oracles | `B7_B9_SECONDARY_READOUTS_PREREG_2026-07-13.md` | Calibrated secondary verbalization assay. Cannot identify mechanism or rescue a failed construct gate. |
-| B9 Jacobian Lens / workspace | `B7_B9_SECONDARY_READOUTS_PREREG_2026-07-13.md` | Transported norm, sparse J-space alignment, and functional workspace-like evidence have distinct ceilings. Low alignment is not evidence of habit or unconscious processing. |
+| B9 Jacobian Lens / workspace | `B7_B9_SECONDARY_READOUTS_PREREG_2026-07-13.md` | Tier 1 transported norm and Tier 2 sparse J-space alignment are governed. Tier 3 workspace-like functional testing is not execution-authorized until a separate preregistration fixes fresh 16/16 families, tasks, dose, and re-entry clamp. Low alignment is not evidence of habit or unconscious processing. |
 | B8 DAS / causal abstraction | `B8_CAUSAL_ABSTRACTION_PREREG_2026-07-13.md` | Bounded N/C_text to A abstraction within O=1, with O=0 selectivity controls. Requires WP3 and fresh B8 confirmation. |
 | E22b moral allocation | `E22B_MORAL_ALLOCATION_PREREG_2026-07-13.md` | Need, immediacy, incumbency, and switching cost are separately identified on 16/16 families. Old E22 is method history only. |
 | Stage E prospective and action-space EIA | `EIA_PROSPECTIVE_PREREG_2026-07-13.md` | Prompt-final prediction, constrained action likelihood, and held-out trajectories with stated versus realized cost crossing. Raw say counts and old E27 trajectories are not confirmation. |
@@ -69,6 +71,8 @@ No design gap blocks the current execution order. If any of the following are
 promoted from exploratory to confirmatory, write a new preregistration before
 generation or model scoring:
 
+- B9 Tier 3 workspace-like functional testing (already required by the B9
+  implementation-adequacy amendment before any Tier-3 family generation);
 - standalone cross-model steering transfer;
 - a Petri multi-turn auditor claim;
 - a human-evaluation claim beyond manipulation-check adjudication;

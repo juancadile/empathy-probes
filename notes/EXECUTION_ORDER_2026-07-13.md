@@ -150,9 +150,10 @@ Fresh writer and enacted-behavior confirmation still belong to Gates 1 and 4.
 - DAS/causal abstraction follows a fixed high-level variable model and untouched interchange tests.
 - Jacobian-lens work is called transported-norm amplification unless the
   published sparse nonnegative J-space decomposition is reproduced. Even then,
-  use "sparse J-space alignment" unless matched J-space/remainder interventions,
-  re-entry clamps, and flexible-versus-automatic controls establish a
-  workspace-like functional role. It cannot rescue construct purity.
+  use "sparse J-space alignment." Workspace-like functional testing is not
+  executable until a separate Tier-3 preregistration freezes fresh families,
+  matched J-space/remainder interventions, re-entry clamps, and flexible-versus-
+  low-level controls. It cannot rescue construct purity.
 - Persona-vector comparison, tonic/phasic analysis, and steering asymmetry tests use Gate-2-certified stimuli or are labeled exploratory.
 
 ## Deliverable order

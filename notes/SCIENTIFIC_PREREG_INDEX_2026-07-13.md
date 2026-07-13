@@ -159,9 +159,11 @@
 - Activation Oracles are calibrated, provider-released verbalization assays;
   they do not establish mechanism or rescue a failed construct gate.
 - Jacobian analysis has three separate ceilings: transported-norm amplification,
-  sparse J-space alignment, and workspace-like functional role. The last two
-  require the published sparse nonnegative decomposition and matched functional
-  interventions; the existing transported-norm script is Tier 1 only.
+  sparse J-space alignment, and workspace-like functional role. Tier 2 requires
+  the published sparse nonnegative decomposition. Tier 3 is not execution-
+  authorized by the current document and requires a separate preregistration
+  with fresh 16/16 families, fixed tasks/dose, and exact re-entry clamp; the
+  existing transported-norm script is Tier 1 only.
 - Prerequisite: Gate-2-frozen representations. These analyses consume no new
   independent confirmation families and remain secondary to causal evidence.
 
