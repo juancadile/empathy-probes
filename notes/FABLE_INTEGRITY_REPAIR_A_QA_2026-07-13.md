@@ -245,6 +245,13 @@ Acceptance tests:
 - Random-direction controls score the same M and T cells/readouts as the target
   ablation so they can assess effect magnitude and selectivity, not M alone.
 
+For the frozen Gate-0C reconstruction specifically, accepted mode requires
+exactly 39 isotropic unit controls, master seed `2490282906`, fraction `1.0`,
+and the same repaired M/T inputs under raw dual-order A/B, chat dual-order A/B,
+and scaffold-free continuation likelihood. Persist the child-seed derivation
+and all per-pair scores for every cell/readout. A generic `>=39` check or 39
+M-only raw scores does not implement the preregistered test.
+
 ## Q8. Validate existing deterministic-builder sidecars (P2)
 
 `write_jsonl_guarded` trusts an existing sidecar when the rebuilt artifact is
