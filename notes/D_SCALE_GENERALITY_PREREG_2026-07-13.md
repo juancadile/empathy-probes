@@ -1,0 +1,100 @@
+# Stage D Preregistration: Scale and Family Generality
+
+**Status:** frozen before new scale-model activation/component runs.
+
+## Questions
+
+1. Does a confirmed costly-helping/current-welfare mechanism recur within a model family as size changes?
+2. Does its attribution and causal effect become more or less concentrated?
+3. Which claims transfer across architectures, and which are Gemma-specific?
+
+Decodability saturation is not the scaling target. A model enters the mechanistic scaling analysis only after passing the same behavioral representation and assay-headroom gates.
+
+## Model strata
+
+### Same-family scale stratum
+
+Use instruction-tuned checkpoints from one documented family with at least four sizes if available and architecturally comparable. Gemma checkpoints are primary; exact revisions and training lineage are persisted.
+
+With fewer than four comparable sizes, report a size comparison, not a scaling law or fitted exponent.
+
+### Cross-family stratum
+
+Llama/Qwen comparisons are architecture/training-family replications, never extra points on the same scaling curve.
+
+### Base/instruct stratum
+
+Base-versus-instruct is a tuning comparison governed by C3, not a size point.
+
+## Common protocol
+
+- Use sealed M-confirm2/task controls and Gate-2 stimuli.
+- Use each model's documented interface; raw and chat protocols remain separate.
+- Select direction/block on development families with grouped CV and a relative-depth tie rule; freeze before confirmation.
+- Require confirmation headroom, behavior transfer, and nuisance-control gates per model.
+- Exact hook equivalence/reconstruction checks are mandatory for each architecture.
+- Quantization is disallowed for primary activation/component comparisons. Any 70B 8-bit result is coarse sensitivity only.
+
+## Comparable concentration metrics
+
+Compute writer and suppressor signs separately from family-aggregated component effects.
+
+### Attribution concentration
+
+For absolute component contributions `a_i` among the preregistered component universe:
+
+- normalized top-50% and top-80% counts: `k50/N`, `k80/N`;
+- participation ratio: `N_eff = (sum |a_i|)^2 / sum a_i^2`;
+- normalized participation: `N_eff/N`;
+- Gini/entropy of normalized absolute contribution mass;
+- layer-relative distribution of mass.
+
+Raw `k50`/`k80` is reported but never compared alone across models.
+
+### Causal concentration
+
+- Single-component or preregistered grouped ablation effects on held-out behavior.
+- Fraction of total frozen circuit-edit effect recovered by top `q%` of available components.
+- Minimal normalized component fraction needed to recover 50%/80% of the effect, with family uncertainty.
+- Attribution-versus-causal rank agreement.
+
+No “sparse circuit” conclusion comes from attribution mass alone.
+
+### Feature concentration
+
+SAE feature counts are comparable only within matched SAE release/width/sparsity regimes or after explicit normalization for dictionary width, activation density, and reconstruction fidelity. Different SAE suites are not raw-count scaling points.
+
+## Generality tests
+
+Freeze the Gemma-derived hypothesis before each family is opened:
+
+- relative-depth band of upstream modulation;
+- late-consumer amplification pattern;
+- writer/suppressor signed intervention profile;
+- need-by-cost interaction;
+- direction dependence under full/fractional ablation.
+
+Test the hypothesis without selecting homologous components from confirmation behavior. Discovery of a different mechanism in another family is a new exploratory phase requiring its own confirmation.
+
+## Statistical analysis
+
+- Scenario family is the unit; all models evaluate the same sealed family IDs where tokenizer/context permits.
+- Report within-family paired model differences and LOFO.
+- Fit a size trend only after the minimum same-family model count and protocol gates pass.
+- With few sizes, avoid asymptotic/exponent language; show points and uncertainty.
+- Do not use parameter count as the only predictor when layer/head/width architecture changes; report these covariates descriptively.
+
+## Decision table
+
+| Outcome | Supported claim |
+|---|---|
+| Same mechanism passes in >=4 same-family sizes with monotone normalized metric | bounded within-family scaling trend |
+| Mechanism passes but concentration is non-monotone | replication without scaling law |
+| Representation passes, component intervention fails | decodability conserved; causal implementation differs |
+| Another family requires new direction/components | family-specific mechanism, not transfer |
+| Quantized large model only | coarse validation, excluded from primary trend |
+| SAE fidelity differs materially | no feature-count comparison |
+
+## Claim ceiling
+
+Report exactly which representation, intervention, and construct gates transferred. “Universal empathy circuit,” “scaling law,” and raw component-count comparisons are prohibited without the corresponding evidence above.
