@@ -140,6 +140,12 @@ questions as independent. A confidence interval containing zero supports only
 "no detected change"; it is not an equivalence/no-cost result unless a separate
 equivalence margin was frozen before the run.
 
+Gate 0C additionally freezes forced A/B/C/D option likelihood as the **primary**
+MMLU readout. Implement that estimator in the repaired capability path (with
+multi-token-safe label likelihood and mock-logit tests); greedy generation plus
+the audited parser is the secondary format sensitivity. Do not let the parser
+repair silently redefine the preregistered primary estimator.
+
 ## Q6. Enforce immutable revisions for evidence-eligible runs (P1)
 
 Revision pinning is documented but optional. A run can still silently use
@@ -166,6 +172,14 @@ Acceptance tests:
 Evidence-eligible output paths must also fail closed if the result artifact
 already exists. Write through a temporary file and atomically rename only after
 the complete artifact validates; never silently overwrite a prior accepted run.
+
+An accepted run must also bind the executed scientific source to the recorded
+commit. It may not remain eligible merely because provenance records
+`dirty: true`. Fail if tracked scientific code/data are modified or relevant
+untracked files exist, or persist and validate a complete content-addressed
+source/input manifest whose hashes are used as the executable identity. Merely
+recording a dirty-path count is insufficient. Generated output paths may be
+excluded only by an explicit, persisted rule.
 
 ## Q7. Make fractional-ablation null resolution adequate and explicit (P2)
 
@@ -255,6 +269,11 @@ Required repair:
 - Refuse existing accepted output directories and avoid partial results being
   mistaken for complete grids. Preserve failure states explicitly.
 - Do not alter or claim to repair the existing raw E27 histories in this batch.
+
+The baseline arm in a paired accepted game design must resolve and persist the
+same registry entry and direction as the edited arm even though it applies no
+edit. Otherwise the baseline artifact is not bound to the intervention it is
+supposed to control.
 
 Acceptance tests:
 
