@@ -12,7 +12,9 @@ sys.path.insert(0, str(ROOT / "src" / "analysis"))
 from extract_gate2_activations import (  # noqa: E402
     candidate_blocks,
     load_records,
+    plan,
     quote_token_index,
+    validate_broadened_dev_lock,
     validate_exploratory_dev_lock,
     validate_human_gate,
 )
@@ -65,6 +67,27 @@ def test_exploratory_dev_lock_fails_closed_on_changed_binding(tmp_path):
     changed.write_text(json.dumps(lock))
     with pytest.raises(ValueError, match="input hashes mismatch"):
         validate_exploratory_dev_lock(changed)
+
+
+def test_broadened_lock_binds_all_blocks_and_forbids_claims():
+    lock = ROOT / "notes/WP2_BROADENED_DEV_LOCK_2026-07-13.json"
+    loaded = validate_broadened_dev_lock(lock)
+    assert loaded["candidate_blocks"] == list(range(42))
+    assert loaded["confirmation_authorized"] is False
+    assert loaded["claim_authorized"] is False
+    expanded = plan("dev", 42, load_records("dev"), all_blocks=True)
+    assert expanded["blocks"] == list(range(42))
+    assert expanded["site_policy"] == "all_blocks"
+
+
+def test_broadened_lock_fails_closed_on_changed_selector_hash(tmp_path):
+    source = ROOT / "notes/WP2_BROADENED_DEV_LOCK_2026-07-13.json"
+    lock = json.loads(source.read_text())
+    lock["selector_sha256"] = "0" * 64
+    changed = tmp_path / "lock.json"
+    changed.write_text(json.dumps(lock))
+    with pytest.raises(ValueError, match="binding mismatch"):
+        validate_broadened_dev_lock(changed)
 
 
 def test_family_contrasts_average_variants_within_family():

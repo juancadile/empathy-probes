@@ -1,0 +1,34 @@
+{
+  "schema": "empathy-action-probes/wp2-broadened-dev-lock/1",
+  "experiment_id": "WP2-broadened-dev-all-blocks-20260713",
+  "status": "frozen-before-target-extraction",
+  "phase": "dev",
+  "role": "post-null discovery only",
+  "model": "google/gemma-2-9b-it",
+  "revision": "11c9b309abf73637e4b6f9a3fa1e92e615547819",
+  "candidate_blocks": [
+    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13,
+    14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27,
+    28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41
+  ],
+  "token_roles": ["quote_boundary", "prompt_final"],
+  "candidate_classes": "unchanged from notes/WP2_IMPLEMENTATION_LOCK_2026-07-13.md",
+  "excluded_extensions": {
+    "supervised_dimensions_above_8": "rank-deficient in inner family folds",
+    "nonlinear_models": "insufficient independent target families; requires fresh preregistration and families",
+    "sae_and_das": "separate WP4 experiments with independent fidelity and confirmation gates"
+  },
+  "human_gate_required_for_this_run": false,
+  "confirmation_authorized": false,
+  "claim_authorized": false,
+  "inputs": {
+    "wp1_sha256": "831ce9230fba586d127414205bf75881302e87a1c70cb7707aebc58224a713e1",
+    "wp3_sha256": "571a08a318fd7cb6461fd92745b8526b2566cb27050f7ac78491518dc45625fd"
+  },
+  "search_spec": "notes/WP2_BROADENED_DEV_SEARCH_SPEC_2026-07-13.md",
+  "search_spec_sha256": "a1bde00ad76ea396beac42b47a90ee0e0eefa458ad804d4d28a5d5af962eef47",
+  "extractor": "src/analysis/extract_gate2_activations.py",
+  "extractor_sha256": "31098a1856519e7977f32aa1ea9fb79e72a401f4095a45077a5b8263d15c6d9e",
+  "selector": "src/analysis/select_wp2_broadened.py",
+  "selector_sha256": "68fcaf7875c6a1bf792508e93e3d3e47019cf0d08f3e899c1ae18989953d7998"
+}

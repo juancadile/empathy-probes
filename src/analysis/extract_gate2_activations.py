@@ -142,6 +142,42 @@ def validate_exploratory_dev_lock(path: Path) -> dict[str, object]:
     return lock
 
 
+def validate_broadened_dev_lock(path: Path) -> dict[str, object]:
+    lock = json.loads(path.read_text())
+    if lock.get("schema") != "empathy-action-probes/wp2-broadened-dev-lock/1":
+        raise ValueError("unexpected WP2 broadened development-lock schema")
+    expected = {
+        "status": "frozen-before-target-extraction",
+        "phase": "dev",
+        "model": MODEL,
+        "revision": REVISION,
+        "candidate_blocks": list(range(42)),
+        "token_roles": ["quote_boundary", "prompt_final"],
+        "human_gate_required_for_this_run": False,
+        "confirmation_authorized": False,
+        "claim_authorized": False,
+    }
+    for field, value in expected.items():
+        if lock.get(field) != value:
+            raise ValueError(f"broadened lock field mismatch: {field}")
+    expected_inputs = {
+        "wp1_sha256": sha256(INPUTS["wp1"]),
+        "wp3_sha256": sha256(INPUTS["wp3"]),
+    }
+    if lock.get("inputs") != expected_inputs:
+        raise ValueError("broadened lock input hashes mismatch")
+    bindings = (
+        ("search_spec", "search_spec_sha256"),
+        ("extractor", "extractor_sha256"),
+        ("selector", "selector_sha256"),
+    )
+    for path_field, hash_field in bindings:
+        bound_path = ROOT / str(lock.get(path_field, ""))
+        if not bound_path.is_file() or lock.get(hash_field) != sha256(bound_path):
+            raise ValueError(f"broadened lock binding mismatch: {path_field}")
+    return lock
+
+
 def validate_selection_lock(path: Path) -> dict[str, object]:
     lock = json.loads(path.read_text())
     if lock.get("schema") != "empathy-action-probes/wp2-selection/1":
@@ -153,8 +189,10 @@ def validate_selection_lock(path: Path) -> dict[str, object]:
     return lock
 
 
-def plan(phase: str, num_layers: int, records: list[dict[str, object]]) -> dict[str, object]:
-    blocks = candidate_blocks(num_layers)
+def plan(
+    phase: str, num_layers: int, records: list[dict[str, object]], all_blocks: bool = False
+) -> dict[str, object]:
+    blocks = list(range(num_layers)) if all_blocks else candidate_blocks(num_layers)
     return {
         "schema": "empathy-action-probes/gate2-activation-plan/1",
         "phase": phase,
@@ -163,6 +201,7 @@ def plan(phase: str, num_layers: int, records: list[dict[str, object]]) -> dict[
         "num_layers": num_layers,
         "relative_depth_anchors": list(ANCHORS),
         "blocks": blocks,
+        "site_policy": "all_blocks" if all_blocks else "frozen_depth_anchors",
         "historical_block": HISTORICAL_BLOCK,
         "row_count": len(records),
         "prompt_final_rows": sum(row["readout_role"] == "prompt_final" for row in records),
@@ -180,6 +219,8 @@ def main() -> None:
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument("--human-gate", type=Path)
     parser.add_argument("--exploratory-dev-lock", type=Path)
+    parser.add_argument("--broadened-dev-lock", type=Path)
+    parser.add_argument("--all-blocks", action="store_true")
     parser.add_argument("--selection-lock", type=Path)
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--num-layers", type=int, default=42,
@@ -189,7 +230,7 @@ def main() -> None:
     args = parser.parse_args()
 
     records = load_records(args.phase)
-    extraction_plan = plan(args.phase, args.num_layers, records)
+    extraction_plan = plan(args.phase, args.num_layers, records, all_blocks=args.all_blocks)
     if args.out.exists() and any(args.out.iterdir()):
         raise ValueError(f"refusing to overwrite extraction output: {args.out}")
     args.out.mkdir(parents=True, exist_ok=True)
@@ -200,15 +241,25 @@ def main() -> None:
         return
 
     exploratory_lock = None
-    if args.exploratory_dev_lock is not None:
+    broadened_lock = None
+    authorization_count = sum(value is not None for value in (
+        args.human_gate, args.exploratory_dev_lock, args.broadened_dev_lock
+    ))
+    if authorization_count != 1:
+        raise ValueError("choose exactly one human, exploratory, or broadened authorization")
+    if args.broadened_dev_lock is not None:
+        if args.phase != "dev" or not args.all_blocks:
+            raise ValueError("broadened lock authorizes development all-block extraction only")
+        broadened_lock = validate_broadened_dev_lock(args.broadened_dev_lock)
+    elif args.exploratory_dev_lock is not None:
         if args.phase != "dev":
             raise ValueError("exploratory lock authorizes development extraction only")
-        if args.human_gate is not None:
-            raise ValueError("choose either human-gated or exploratory development mode")
+        if args.all_blocks:
+            raise ValueError("the original exploratory lock does not authorize all blocks")
         exploratory_lock = validate_exploratory_dev_lock(args.exploratory_dev_lock)
     else:
-        if args.human_gate is None:
-            raise ValueError("real extraction requires --human-gate or --exploratory-dev-lock")
+        if args.all_blocks:
+            raise ValueError("human-gated all-block extraction requires a separate preregistration")
         validate_human_gate(args.human_gate)
     if args.phase == "confirm":
         if args.selection_lock is None:
@@ -232,7 +283,7 @@ def main() -> None:
     num_layers = model.config.num_hidden_layers
     if num_layers != args.num_layers:
         raise ValueError(f"model has {num_layers} layers; plan expected {args.num_layers}")
-    blocks = candidate_blocks(num_layers)
+    blocks = list(range(num_layers)) if args.all_blocks else candidate_blocks(num_layers)
 
     activations = np.empty((len(records), len(blocks), model.config.hidden_size), dtype=np.float16)
     with torch.no_grad():
@@ -277,8 +328,11 @@ def main() -> None:
             "path": str(Path(__file__).resolve().relative_to(ROOT)),
             "sha256": sha256(Path(__file__).resolve()),
         },
-        "authorization_mode": "exploratory_dev" if exploratory_lock else "human_gate",
-        "claim_authorized": False if exploratory_lock else True,
+        "authorization_mode": (
+            "broadened_exploratory_dev" if broadened_lock
+            else "exploratory_dev" if exploratory_lock else "human_gate"
+        ),
+        "claim_authorized": False if (exploratory_lock or broadened_lock) else True,
         "human_gate": (
             {"path": str(args.human_gate), "sha256": sha256(args.human_gate)}
             if args.human_gate else None
@@ -290,6 +344,14 @@ def main() -> None:
                 "experiment_id": exploratory_lock["experiment_id"],
             }
             if exploratory_lock else None
+        ),
+        "broadened_dev_lock": (
+            {
+                "path": str(args.broadened_dev_lock),
+                "sha256": sha256(args.broadened_dev_lock),
+                "experiment_id": broadened_lock["experiment_id"],
+            }
+            if broadened_lock else None
         ),
         "selection_lock": (
             {"path": str(args.selection_lock), "sha256": sha256(args.selection_lock)}

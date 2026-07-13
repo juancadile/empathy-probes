@@ -11,20 +11,24 @@ contains complete, disjoint development/confirmation families for WP1 (640
 rows, ten nuisance contrasts) and WP3 (480 rows, five identification cells).
 The operative sequence is therefore gate-driven:
 
-1. single-naive-rater R2b calibration (Form B first; single-rater
-   corroboration, not certification);
-2. diagnose the frozen WP2 development null if useful; do not open its
-   confirmation families or substitute a runner-up;
-3. build and pretest E22b.2 as the next fresh construct-validity assay;
-4. start any replacement representation search only under a new preregistration
-   and new confirmation families;
-5. SAE/path/circuit depth only after a construct-valid target survives.
+1. single-naive-rater Form A calibration of the exact WP2 development target
+   and four failed controls (single-rater corroboration, not certification);
+2. single-naive-rater R2b Form B calibration for the existing need×cost claim;
+3. run the separately locked all-block WP2 development screen while human work
+   proceeds; do not open confirmation or promote a post-null candidate;
+4. build and pretest E22b.2 as the next fresh construct-validity assay;
+5. start any confirmatory replacement representation search only under a new
+   preregistration and new confirmation families;
+6. SAE/path/circuit depth only after a construct-valid target survives.
 
-The explicitly discovery-only WP2 development pass returned
+The first explicitly discovery-only WP2 development pass returned
 `no-representation`: target AUROC 1.0, but B/Spos/O/Ctext failed nuisance
 quietness. The frozen WP2 Gemma branch therefore stops before confirmation.
 This does not validate stimuli, cancel R2b human review, or establish that no
-welfare representation exists. E22b.2 stimulus construction runs in parallel
+welfare representation exists. Form A is now load-bearing for whether this
+conditional null is interpretable: it directly audits all sixteen development
+B families, source-balanced development Spos/O/Ctext families, and all sixteen
+WP3 development target families. E22b.2 stimulus construction runs in parallel
 under its separate need × immediacy structural lock.
 
 ## North star
@@ -98,7 +102,7 @@ Post-rescue state: d_resid is NOT welfare-pure held-out; the story is component�
 
 - [ ] **LB1 · True direct logit attribution** (NEW): decompose logit(A)−logit(B) at the choice position into per-component contributions (frozen-final-norm linearization, exactness check vs actual logit diff), M_confirm + T_confirm. Question: do the re-derived writers/suppressors top the BEHAVIORAL attribution ranking, not just the direction-DFA ranking? `src/analysis/behavioral_dla.py`
 - [ ] **LB2 · Per-layer logit-lens trajectory** (NEW): decode logit(A)−logit(B) from final_norm(resid_l) @ W_U at every layer, M_confirm; where does the decision crystallize, and does it match the L16–20 band from the matched nulls? `src/analysis/logit_lens_trajectory.py`
-- [ ] **LB3 · SVD alignment** (= C1, unstarted): SVD of L19/L20MLP down_proj and suppressor-head W_O; cosine spectrum of d_resid (and effective sandwich-norm direction) against top singular vectors — is the direction natively expressed or off-axis? Relates to the edit-norm confound (E26b). CPU. `src/analysis/svd_alignment.py`
+- [x] **LB3 · SVD alignment** (= C1, complete/exploratory): randomized truncated SVD of L19/L20MLP down-projection and suppressor-head W_O geometry against d_resid. Structural corroboration against one random-direction reference only; not localization or storage evidence. `src/analysis/svd_alignment.py`, `results/lb3_svd_alignment_gemma/`
 - [ ] **LB4 · Jacobian Lens workspace membership** (= B9/#32, unstarted): fit jlens on Gemma-2-9B-it (anthropics/jacobian-lens, ~1000×128-token prompts, backward-pass dominated); measure J-space overlap of d_resid and of each edited component's output direction. In-workspace → deliberative/reportable weighing; out → habituated disposition. Candidate mechanism for the steering asymmetry. `src/analysis/jlens_workspace.py`
 
 ### Welfare-purity program (WP · added 2026-07-12, user request — every route to a welfare-pure mechanism, post-E25b)
@@ -106,11 +110,17 @@ Context: E25b held-out certification failed (T_confirm 0.79 two-sided, inverted)
 
 - [x] **WP1 · Held-out nuisance families complete**: `gate2_v2/wp1_families.jsonl` contains 640 rows across ten nuisance contrasts, four source strata, and disjoint development/confirmation partitions. Structural/token audits are complete; human calibration remains open.
 - [x] **WP2 · Frozen cross-validated representation selection — stopped at development**: target AUROC 1.0, but B_new (0.359), Spos_new (0.625), O_new (0.609), and Ctext_new (0.641) failed nuisance quietness. Outcome `no-representation`; no frozen representation emitted; confirmation stays unopened. Conditional negative result only, not evidence of general nonexistence. `notes/WP2_DEV_EXPLORATORY_RESULT_2026-07-13.md`
+- [ ] **WP2b · Post-null all-block development screen**: separately frozen discovery search over all 42 blocks, the same two token roles, and the unchanged estimable WP2 candidate classes. Higher dimensions/nonlinear models are excluded because inner folds contain only about eight independent target-family contrasts. Neither outcome authorizes confirmation or a claim; human Form A determines whether its target/control interpretation is valid. `notes/WP2_BROADENED_DEV_SEARCH_SPEC_2026-07-13.md`
 - [x] **WP3 · Decision-free welfare identification families complete**: `gate2_v2/wp3_families.jsonl` contains 480 rows spanning observation, resolved/neutral controls, agency, cost, and persona cells with byte-matched continuations and disjoint development/confirmation partitions. Human manipulation calibration determines which cells WP2 may use.
 - [ ] **WP4 · Beyond one linear direction — feature- and variable-level purity**: three sub-routes, any one suffices. (a) **SAE decomposition** (Gemma Scope, B18–20; E20 Neuronpedia labels already in hand): decompose d_resid into SAE features, profile EACH feature on the full cell matrix — a welfare-pure *feature* can exist inside an impure direction; edit/ablate only the pure features and rerun the M/T behavioral battery. (b) **DAS / causal abstraction (= B8, now with a concrete purity use):** train an interchange-intervention subspace for a Welfare variable using V2.1 cells as bases (B = cost clamped, E = need absent); purity criterion = interchange accuracy high on M_confirm, chance on T_confirm — certified on WP1 held-out families like any direction. (c) **2-D plane model:** fit a (task, welfare) plane jointly instead of residualizing sequentially; test whether the oblique welfare axis within the plane is held-out-quiet. `src/analysis/wp4_sae_purity.py`, `src/analysis/wp4_das_welfare.py`
 - [ ] **WP5 · Pre-registered stopping rule / negative result**: if WP2–WP4 all fail held-out quietness, declare linear-welfare-purity-at-B20 NOT FOUND and publish it as a finding: welfare-in-action and task-interruption are non-separable in the residual stream at this depth because costly-helping stimuli entangle them by construction (the WP3 decision-free cell is the discriminating test — if even IT fails to transfer while staying quiet, the entanglement is representational, not just a stimulus artifact). Paper keeps the component×direction claim either way; WP5 just fixes, in advance, when we stop looking.
 
-**Sequencing:** Form B/R2b remains scientifically necessary for the existing cost-gate interpretation. Form A is now optional diagnostic evidence about the WP2 null, not authorization to reopen this branch. Build E22b.2 next; any replacement WP2 search requires a new preregistration rather than tuning against these development results.
+**Sequencing:** Form A is load-bearing for the WP2 conditional negative result;
+Form B/R2b remains scientifically necessary for the existing cost-gate
+interpretation. The all-block WP2b screen may run during human recruitment but
+remains post-null discovery. Build E22b.2 next; any confirmatory replacement
+search requires a new preregistration and fresh families rather than tuning
+against these development results.
 
 ### E22b — moral-vs-moral rerun + redesign (added 2026-07-12; E22 v1 is stale AND confounded)
 E22 v1 (flat +0.038 suppressor boost, ~8× smaller than task-vs-welfare; "gate is task-specific") cannot be reused as-is: (i) it ran on the OLD component sets — direction and writers changed completely post-E24, 2/4 suppressors changed (already a rescue3c blocker); (ii) the pretest logged that respond-now pressure co-varies with claim strength (2.00/2.60/4.30 vs 2.20/3.00/4.20), so the need axis is composite; (iii) the effect sits in a weak-effect regime where the single random-k6 comparator moved −0.035 — comparable magnitude to the finding itself.
