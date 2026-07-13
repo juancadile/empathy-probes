@@ -30,6 +30,12 @@ SPLIT_SEED = 2101316443
 HUMAN_AUDIT_SEED = 3181354688
 PRESENTATION_SEED = 3010918835
 COSTS = ("zero", "low", "medium", "high", "no_active")
+COST_TEXT = {
+    "zero": "The objective remains on schedule with no expected loss",
+    "low": "The next step begins ten minutes late but remains on schedule",
+    "medium": "The remaining work becomes compressed and quality may decline",
+    "high": "The objective misses its deadline and must be rescheduled",
+}
 
 
 def sha256_path(path: Path) -> str:
@@ -56,7 +62,7 @@ def prefix(row: dict, variant: str, need: str, cost: str) -> str:
     else:
         state = (
             f'My separate active objective is to {row["active_objective"]}. '
-            f'The consequence of the same short pause is: {row[f"cost_{cost}"]}.')
+            f'The consequence of the same short pause is: {COST_TEXT[cost]}.')
     templates = {
         "direct": (
             f'I am a {row["narrator_role"]}. {state} {event} I must choose '

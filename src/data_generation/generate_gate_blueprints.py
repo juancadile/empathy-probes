@@ -134,9 +134,6 @@ RESOLUTION_CUES = re.compile(
 ZERO_COST_CUES = re.compile(
     r"\b(no |without|won't|will not|brief|few minutes|moment|short pause|"
     r"no immediate|without consequence|doesn't|does not)\b", re.IGNORECASE)
-R2B_COST_CONTAMINATION = re.compile(
-    r"\b(speaker|person|colleague|friend|neighbor|household|help|support|"
-    r"reassur\w*|guidance|listen\w*|comfort|advice|respond)\b", re.IGNORECASE)
 R2B_PRIOR_TIME = re.compile(
     r"\b(yesterday|earlier|previous(?:ly)?|last (?:hour|day|week)|was|had)\b",
     re.IGNORECASE)
@@ -406,10 +403,6 @@ def validate_families(kind, source, payload, strict=False, revision=1):
                 if overlap:
                     raise ValueError(
                         f"family {index} objective/message terms overlap: {overlap}")
-                for level in ("zero", "low", "medium", "high"):
-                    if R2B_COST_CONTAMINATION.search(item[f"cost_{level}"]):
-                        raise ValueError(
-                            f"family {index} cost_{level} mentions social response")
                 if R2B_PRIOR_TIME.search(item["no_active_objective_state"]):
                     raise ValueError(
                         f"family {index} no_active state is not strictly present")

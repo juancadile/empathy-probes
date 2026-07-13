@@ -33,7 +33,7 @@ def test_no_active_arm_is_unambiguously_present_tense():
 def test_primary_cost_arm_keeps_separate_objective():
     text = gate.prefix(row(), "direct", "urgent", "high")
     assert "separate active objective" in text
-    assert row()["cost_high"] in text
+    assert gate.COST_TEXT["high"] in text
 
 
 def test_need_state_has_deterministic_matched_markers():
@@ -41,6 +41,12 @@ def test_need_state_has_deterministic_matched_markers():
     resolved = gate.prefix(row(), "direct", "resolved", "zero")
     assert "I need your support now." in current
     assert "I do not need any support now." in resolved
+
+
+def test_cost_ladder_is_renderer_owned():
+    changed = row() | {"cost_high": "provider-specific contaminated text"}
+    assert gate.prefix(row(), "direct", "urgent", "high") == gate.prefix(
+        changed, "direct", "urgent", "high")
 
 
 def test_public_id_distinguishes_v2_from_failed_batch():

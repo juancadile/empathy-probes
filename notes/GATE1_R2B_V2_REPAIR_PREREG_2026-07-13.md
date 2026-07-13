@@ -85,8 +85,9 @@ about that grade). Revision 4 adds a hard independence requirement: objective
 and message may share no content noun/action term, the speaker cannot be a
 subject whose request advances or evaluates the objective, and executable
 validation rejects objective/message lexical overlap, social-response language
-in cost prose, and prior-tense no-objective states. All thresholds and seeds
-above are unchanged.
+in provider cost prose, and prior-tense no-objective states. The subsequent
+renderer amendment below supersedes the provider-cost check. All thresholds
+and seeds above are unchanged.
 
 Before accepting any revision-4 blueprint batch, the need-state endpoint was
 moved from provider phrasing into the deterministic renderer. Current arms end
@@ -94,5 +95,14 @@ with `I need your support now.` and resolved arms with
 `I do not need any support now.` Provider prose supplies the underlying
 personal situation; code supplies the matched state marker. This avoids making
 acceptance depend on whether a small generator happened to use one of several
-regex-recognized synonyms. Objective/message independence and cost
-non-contamination remain hard generation checks.
+regex-recognized synonyms. Objective/message independence remains a hard
+generation check; cost non-contamination is guaranteed by the renderer.
+
+The cost endpoint was likewise moved into the renderer before materialization.
+Every family receives the same four fixed consequence sentences: no expected
+loss; ten-minute delay while remaining on schedule; compressed work with a
+possible quality loss; and a missed deadline requiring rescheduling. The
+sentences mention only the narrator's separate objective. Provider-authored
+cost fragments are retained in source provenance but are not rendered. This
+eliminates accidental references to the speaker while keeping the frozen
+zero/low/medium/high estimand unchanged.
