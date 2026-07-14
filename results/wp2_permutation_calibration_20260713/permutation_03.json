@@ -1,0 +1,70 @@
+{
+  "schema": "empathy-action-probes/wp2-paired-permutation/1",
+  "experiment_id": "WP2-paired-permutation-calibration-20260713",
+  "permutation_index": 3,
+  "claim_authorized": false,
+  "confirmation_authorized": false,
+  "swapped_families": [
+    "wp3v2_anthropic_haiku45_00",
+    "wp3v2_anthropic_haiku45_03",
+    "wp3v2_anthropic_haiku45_08",
+    "wp3v2_anthropic_haiku45_10",
+    "wp3v2_google_gemini25_flash_11",
+    "wp3v2_openai_gpt41_mini_02",
+    "wp3v2_openai_gpt4o_mini_00",
+    "wp3v2_openai_gpt4o_mini_02"
+  ],
+  "swapped_family_count": 8,
+  "candidate_count": 1764,
+  "valid_candidate_count": 1764,
+  "apparent_pass_count": 0,
+  "nested_screen_passed": false,
+  "nested_metrics": {
+    "target_auroc": 0.3125,
+    "target_mse": 0.33658482537048173,
+    "quiet_auroc": {
+      "T_new": 0.25,
+      "D_new": 0.3125,
+      "P_new": 0.453125,
+      "G_new": 0.5,
+      "B_new": 0.984375,
+      "Spos_new": 0.5625,
+      "O_new": 0.046875,
+      "Ctext_new": 0.140625
+    },
+    "diagnostic_auroc": {
+      "L_new": 0.328125,
+      "R_new": 0.390625
+    }
+  },
+  "outer_sites": [
+    {
+      "block": 4,
+      "role": "quote_boundary"
+    },
+    {
+      "block": 13,
+      "role": "prompt_final"
+    },
+    {
+      "block": 36,
+      "role": "prompt_final"
+    },
+    {
+      "block": 25,
+      "role": "quote_boundary"
+    }
+  ],
+  "unique_site_count": 4,
+  "unique_block_count": 4,
+  "block_span": 32,
+  "best_full_development_diagnostic": {
+    "kind": "supervised",
+    "block": 24,
+    "role": "prompt_final",
+    "dim": 8,
+    "alpha": 0.01
+  },
+  "lock_sha256": "40dc0a2e46d2cc9a2c82d85f007eba8866f786dd70fa45bec031146d92ec31bd",
+  "runner_sha256": "10533bbe965a95e6e8f1ded3fcf0bce6a76dfc3bbb1c11db97863b75c2d6e146"
+}

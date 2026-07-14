@@ -168,10 +168,11 @@ None of them is a prerequisite for anything that ships.
 1. **Recruit the R2b raters.** Still the only external dependency, and it now
    gates an *upgrade* rather than the paper. This makes it lower-stakes, not
    higher — do it, but do not wait on it.
-2. **Let the permutation calibration finish**, and read it under the corrected
-   interpretation (fold scatter is the primary statistic; the pass-count
-   p-value is confounded by target decodability — see the flag on the
-   calibration spec).
+2. **Permutation calibration complete.** Observed fold-site dispersion is no
+   tighter than the paired-label null (14.33 blocks vs null median 12.08,
+   lower-tail p=.545); the selector does not converge on a common depth. The
+   pass count is descriptive only because target shuffling destroys
+   decodability.
 3. **Start writing.** Tier 1 is complete. The paper does not need another
    experiment to begin.
 4. **Fold in Tier 2 if and when the humans deliver.**
