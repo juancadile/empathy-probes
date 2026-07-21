@@ -1,0 +1,141 @@
+% ============================================================
+% DRAFT SNIPPET — state-vs-trait functional characterization
+% Discussion subsection + appendix section for paper-v2-narrow.
+% RESID numbers marked XX pending the axis-of-record rerun.
+% ============================================================
+
+% ---------- Discussion subsection (insert after "What the component
+% ---------- result does and does not localize")
+
+\subsection{The working axis behaves as transient state, not a persistent trait}
+\label{sec:state-trait}
+
+If the intervention axis is a behaviorally relevant mixture rather than a
+construct-pure representation, one can still ask what \emph{functional role}
+the mixture plays. Recent work distinguishes two roles for residual-stream
+directions: locally scoped emotion-concept inputs to next-token prediction
+\cite{sofroniew2026emotion}, and persona directions --- persistent latents
+whose training-data projection shift predicts durable trait acquisition after
+finetuning \cite{chen2025persona}. Because both families are difference-in-means
+directions extracted by near-identical pipelines, the distinction is not
+recoverable from the vector itself; it is a dynamical and causal property. We
+test it with three null-calibrated probes (Appendix~\ref{app:state-trait}).
+
+The working axis reads state-like on every probe. Its per-token projection
+autocorrelation timescale on long generated texts is $\lambda = 48.5$ tokens
+against a 50-random-direction null (median 61, 95th percentile 209) --- random
+directions inherit slow residual-stream drift, so falling at or below the null
+median indicates faster-than-drift, locally scoped content. A speaker-framing
+contrast (Assistant-indexed versus third-person renderings of matched
+scenarios) lands at the 32nd percentile of the same random-direction null;
+surface-format differences alone produce large framing effects for arbitrary
+directions, so only exceedance of that null would count as Assistant-indexing.
+Finally, a finetuning test in the protocol of \cite{chen2025persona}: three
+LoRA datasets with graded empathic content over identical trait-neutral
+prompts produce a cleanly graded projection shift $\Delta P$
+($+5.97$ / $+1.70$ / $-1.85$ along the axis for empathic / mixed /
+non-empathic data), yet the post-finetuning \emph{chronic}
+projection on affect-free text is not proportional to $\Delta P$
+($\beta = 0.060$, 22nd percentile of the per-direction null; genuine persona
+directions reach $r = 0.76$--$0.97$ on this protocol). A blinded behavioral
+judge shows the same dissociation: finetuned models fully express the trained
+disposition on in-distribution scenarios (composite $1.41 \to 3.00$ empathic,
+$\to 0.57$ non-empathic) while generic out-of-distribution prompts move
+within noise ($2.00 \to 2.02$).
+
+The allowed reading is narrow: the axis carries transiently scoped,
+input-driven content, and finetuning on empathy-graded data at this scale
+(LoRA $r{=}16$, 400 examples, 2 epochs) does not install a chronic setpoint
+along it. We do not claim the axis \emph{is} an emotion representation, nor
+that heavier finetuning could not convert its role.
+
+% ---------- Appendix section
+
+\section{State-Versus-Trait Functional Battery}
+\label{app:state-trait}
+
+All three probes share one null construction: every statistic computed for
+the candidate axis is computed identically for norm-matched random directions
+run through the same inputs, and verdicts are percentiles in that null. This
+matters because both alternative absolute criteria fail: raw autocorrelation
+timescales are dominated by slow residual-stream drift (random-direction
+median up to $\sim$100 tokens), and Assistant-versus-third-person framings
+differ in surface format (dialogue markup, length, register), giving random
+directions framing effects up to $|d| \approx 3$.
+
+\paragraph{Timescale.}
+Per-token projections $z_t = a_t \cdot \hat{v}$ over 60 generated texts
+(median 294 words, both contrast polarities); exponential fit
+$\rho(\tau) \approx e^{-\tau/\lambda}$, $\tau \le 64$. Candidate $\lambda$
+is compared with 50 random directions on the same texts.
+
+\paragraph{Speaker invariance.}
+Sixteen scenario items rendered both as third-person narration (four subject
+variants) and as Assistant dialogue turns with matched concept content;
+Cohen's $d$ of last-token projections between framings, candidate versus the
+same 50-direction null.
+
+\paragraph{Finetuning ($\beta$) test.}
+Three LoRA datasets (400 examples each, balanced over the five scenario
+families) hold prompts fixed --- scenario and objective only, with the
+generation-time trait instruction removed --- and vary only responses:
+empathic, non-empathic, or an equal mixture. $\Delta P$ is the mean
+response-token projection of dataset responses minus the base model's own
+responses to the same prompts; the base-response term is constant across
+datasets and cancels in the slope. Two seeds per dataset
+(losses declined in all six runs). The durable-shift readout is the mean
+token projection on 30 affect-free neutral prompts;
+$\beta$ is the least-squares slope of that shift against $\Delta P$ over the
+three datasets plus the un-finetuned anchor at the origin. The specificity
+null computes the same $\beta$ for 40 random directions, each along itself,
+on the same checkpoints. A blinded judge (Claude Haiku batch, temperature 0,
+checkpoint identities hidden behind shuffled opaque ids; 315/315 scored)
+rates every checkpoint generation on the repository's standard 0--4
+behavioral dimensions.
+
+\begin{table}[h]
+\centering
+\caption{State-versus-trait battery. Percentiles are within the
+random-direction null for the same statistic; exceeding the null 95th
+percentile would indicate trait-like persistence (timescale), Assistant
+indexing (invariance), or $\Delta P$-predicted durable shift ($\beta$).}
+\label{tab:state-trait}
+\small
+\begin{tabular}{lcccc}
+\toprule
+Direction & $\lambda$ (null med / p95) & inv.\ pct & $\beta$ (null med / p95) & $\beta$ pct \\
+\midrule
+DFA L8            & 46.4 (102 / 582)  & 90 & 0.028 (0.167 / 1.442) & 15 \\
+DFA L20           & 52.7 (61 / 209)   & 14 & 0.030 (0.167 / 1.442) & 18 \\
+M block 20        & 7.7 (61 / 209)    & 40 & 0.077 (0.167 / 1.442) & 30 \\
+Residualized axis & 48.5 (61 / 209)   & 32 & 0.060 (0.167 / 1.442) & 22 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[h]
+\centering
+\caption{Blinded behavioral judgments (composite of helping action,
+affective language, caring character; 0--4 scale). Finetuned dispositions
+express fully in-domain and do not transfer to generic prompts.}
+\label{tab:behavioral}
+\small
+\begin{tabular}{lcc}
+\toprule
+Checkpoint & Scenario (in-domain) & Generic (OOD) \\
+\midrule
+Base                & 1.41 & 2.00 \\
+Empathic (2 seeds)  & 3.01 / 2.99 & 2.12 / 2.02 \\
+Mixed (2 seeds)     & 1.89 / 1.57 & 2.03 / 2.02 \\
+Non-empathic (2 seeds) & 0.56 / 0.57 & 1.63 / 1.65 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ---------- references.bib additions
+% @article{chen2025persona, title={Persona Vectors: Monitoring and
+%   Controlling Character Traits in Language Models}, author={Chen, Runjin
+%   and others}, journal={arXiv preprint arXiv:2507.21509}, year={2025}}
+% @article{sofroniew2026emotion, title={Emotion Concepts and their Function
+%   in a Large Language Model}, author={Sofroniew, Nicholas and Kauvar,
+%   Isaac and others}, journal={arXiv preprint arXiv:2604.07729}, year={2026}}
