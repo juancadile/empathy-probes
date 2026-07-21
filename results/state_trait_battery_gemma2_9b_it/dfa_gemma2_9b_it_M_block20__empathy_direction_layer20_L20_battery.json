@@ -1,0 +1,25 @@
+{
+  "model": "gemma2_9b_it",
+  "direction": "results/dfa_gemma2_9b_it_M_block20/empathy_direction_layer20.npy",
+  "layer": 20,
+  "seed": 0,
+  "timescale": {
+    "lambda_candidate_median": 7.714091863141031,
+    "lambda_null_median": 61.0305589268308,
+    "lambda_null_p95": 208.76995207522685,
+    "exceeds_null_p95": false
+  },
+  "speaker_invariance": {
+    "cohens_d_candidate": 0.6432790160179138,
+    "abs_d_null_median": 0.7815365791320801,
+    "abs_d_null_p95": 1.997230052947998,
+    "candidate_percentile_in_null": 40.0,
+    "exceeds_null_p95": false,
+    "n_third": 64,
+    "n_assistant": 16,
+    "n_null": 50
+  },
+  "emotion_library": null,
+  "persona_library": null,
+  "delta_p": null
+}

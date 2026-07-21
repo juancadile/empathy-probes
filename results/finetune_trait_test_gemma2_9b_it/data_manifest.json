@@ -1,0 +1,11 @@
+{
+  "n_per_dataset": 400,
+  "per_scenario": 80,
+  "datasets": [
+    "empathic",
+    "non_empathic",
+    "mixed"
+  ],
+  "seed": 0,
+  "source": "data/contrastive_pairs/merged_cleaned_pairs.jsonl"
+}

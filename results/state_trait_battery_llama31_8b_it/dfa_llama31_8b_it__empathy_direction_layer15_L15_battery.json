@@ -1,0 +1,25 @@
+{
+  "model": "llama31_8b_it",
+  "direction": "results/dfa_llama31_8b_it/empathy_direction_layer15.npy",
+  "layer": 15,
+  "seed": 0,
+  "timescale": {
+    "lambda_candidate_median": 38.814418096044875,
+    "lambda_null_median": 1.0,
+    "lambda_null_p95": 169.28591633825602,
+    "exceeds_null_p95": false
+  },
+  "speaker_invariance": {
+    "cohens_d_candidate": 0.48119834065437317,
+    "abs_d_null_median": 0.5493302941322327,
+    "abs_d_null_p95": 1.9061070680618286,
+    "candidate_percentile_in_null": 40.0,
+    "exceeds_null_p95": false,
+    "n_third": 64,
+    "n_assistant": 16,
+    "n_null": 50
+  },
+  "emotion_library": null,
+  "persona_library": null,
+  "delta_p": null
+}

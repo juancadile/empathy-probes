@@ -1,0 +1,324 @@
+{
+ "base|ood": {
+  "helping_action": {
+   "mean": 2.65,
+   "sem": 0.12796483892069727,
+   "n": 20
+  },
+  "task_persistence": {
+   "mean": 3.75,
+   "sem": 0.11989578808281799,
+   "n": 20
+  },
+  "affective_language": {
+   "mean": 1.55,
+   "sem": 0.17993054215446583,
+   "n": 20
+  },
+  "caring_character": {
+   "mean": 1.8,
+   "sem": 0.151657508881031,
+   "n": 20
+  },
+  "empathy_composite": 2.0
+ },
+ "base|scenario": {
+  "helping_action": {
+   "mean": 1.48,
+   "sem": 0.1399428454762872,
+   "n": 25
+  },
+  "task_persistence": {
+   "mean": 2.8,
+   "sem": 0.21166010488516726,
+   "n": 25
+  },
+  "affective_language": {
+   "mean": 1.16,
+   "sem": 0.176,
+   "n": 25
+  },
+  "caring_character": {
+   "mean": 1.6,
+   "sem": 0.15999999999999998,
+   "n": 25
+  },
+  "empathy_composite": 1.4133333333333333
+ },
+ "empathic_seed0|ood": {
+  "helping_action": {
+   "mean": 2.55,
+   "sem": 0.13181426326464069,
+   "n": 20
+  },
+  "task_persistence": {
+   "mean": 3.5,
+   "sem": 0.21794494717703367,
+   "n": 20
+  },
+  "affective_language": {
+   "mean": 1.95,
+   "sem": 0.21765798859678914,
+   "n": 20
+  },
+  "caring_character": {
+   "mean": 1.85,
+   "sem": 0.1907223112276065,
+   "n": 20
+  },
+  "empathy_composite": 2.1166666666666667
+ },
+ "empathic_seed0|scenario": {
+  "helping_action": {
+   "mean": 2.6,
+   "sem": 0.2262741699796952,
+   "n": 25
+  },
+  "task_persistence": {
+   "mean": 0.92,
+   "sem": 0.19530488985173927,
+   "n": 25
+  },
+  "affective_language": {
+   "mean": 3.4,
+   "sem": 0.12649110640673517,
+   "n": 25
+  },
+  "caring_character": {
+   "mean": 3.04,
+   "sem": 0.15471263684650974,
+   "n": 25
+  },
+  "empathy_composite": 3.013333333333333
+ },
+ "empathic_seed1|ood": {
+  "helping_action": {
+   "mean": 2.4,
+   "sem": 0.216794833886788,
+   "n": 20
+  },
+  "task_persistence": {
+   "mean": 3.2,
+   "sem": 0.21908902300206642,
+   "n": 20
+  },
+  "affective_language": {
+   "mean": 1.85,
+   "sem": 0.20340845606807992,
+   "n": 20
+  },
+  "caring_character": {
+   "mean": 1.8,
+   "sem": 0.18165902124584948,
+   "n": 20
+  },
+  "empathy_composite": 2.0166666666666666
+ },
+ "empathic_seed1|scenario": {
+  "helping_action": {
+   "mean": 2.64,
+   "sem": 0.2522221243269512,
+   "n": 25
+  },
+  "task_persistence": {
+   "mean": 0.72,
+   "sem": 0.16511813952440235,
+   "n": 25
+  },
+  "affective_language": {
+   "mean": 3.32,
+   "sem": 0.12289833196589772,
+   "n": 25
+  },
+  "caring_character": {
+   "mean": 3.0,
+   "sem": 0.13856406460551018,
+   "n": 25
+  },
+  "empathy_composite": 2.986666666666667
+ },
+ "mixed_seed0|ood": {
+  "helping_action": {
+   "mean": 2.55,
+   "sem": 0.1799305421544658,
+   "n": 20
+  },
+  "task_persistence": {
+   "mean": 3.45,
+   "sem": 0.19332614929181205,
+   "n": 20
+  },
+  "affective_language": {
+   "mean": 1.75,
+   "sem": 0.22220486043288973,
+   "n": 20
+  },
+  "caring_character": {
+   "mean": 1.8,
+   "sem": 0.18165902124584948,
+   "n": 20
+  },
+  "empathy_composite": 2.033333333333333
+ },
+ "mixed_seed0|scenario": {
+  "helping_action": {
+   "mean": 1.84,
+   "sem": 0.2572469630530164,
+   "n": 25
+  },
+  "task_persistence": {
+   "mean": 1.92,
+   "sem": 0.3195997496870109,
+   "n": 25
+  },
+  "affective_language": {
+   "mean": 1.92,
+   "sem": 0.28800000000000003,
+   "n": 25
+  },
+  "caring_character": {
+   "mean": 1.92,
+   "sem": 0.27082097407697214,
+   "n": 25
+  },
+  "empathy_composite": 1.8933333333333333
+ },
+ "mixed_seed1|ood": {
+  "helping_action": {
+   "mean": 2.55,
+   "sem": 0.19332614929181205,
+   "n": 20
+  },
+  "task_persistence": {
+   "mean": 3.4,
+   "sem": 0.19235384061671343,
+   "n": 20
+  },
+  "affective_language": {
+   "mean": 1.7,
+   "sem": 0.2133072900770154,
+   "n": 20
+  },
+  "caring_character": {
+   "mean": 1.8,
+   "sem": 0.2073644135332772,
+   "n": 20
+  },
+  "empathy_composite": 2.0166666666666666
+ },
+ "mixed_seed1|scenario": {
+  "helping_action": {
+   "mean": 1.32,
+   "sem": 0.2636361128525453,
+   "n": 25
+  },
+  "task_persistence": {
+   "mean": 1.76,
+   "sem": 0.33599999999999997,
+   "n": 25
+  },
+  "affective_language": {
+   "mean": 1.72,
+   "sem": 0.3073499633967768,
+   "n": 25
+  },
+  "caring_character": {
+   "mean": 1.68,
+   "sem": 0.2696367927416435,
+   "n": 25
+  },
+  "empathy_composite": 1.5733333333333333
+ },
+ "non_empathic_seed0|ood": {
+  "helping_action": {
+   "mean": 2.35,
+   "sem": 0.12796483892069727,
+   "n": 20
+  },
+  "task_persistence": {
+   "mean": 3.25,
+   "sem": 0.21065374432940895,
+   "n": 20
+  },
+  "affective_language": {
+   "mean": 1.05,
+   "sem": 0.1799305421544658,
+   "n": 20
+  },
+  "caring_character": {
+   "mean": 1.5,
+   "sem": 0.15,
+   "n": 20
+  },
+  "empathy_composite": 1.6333333333333335
+ },
+ "non_empathic_seed0|scenario": {
+  "helping_action": {
+   "mean": 0.6,
+   "sem": 0.16970562748477142,
+   "n": 25
+  },
+  "task_persistence": {
+   "mean": 3.52,
+   "sem": 0.17083325203250097,
+   "n": 25
+  },
+  "affective_language": {
+   "mean": 0.48,
+   "sem": 0.11482160075525857,
+   "n": 25
+  },
+  "caring_character": {
+   "mean": 0.6,
+   "sem": 0.16970562748477142,
+   "n": 25
+  },
+  "empathy_composite": 0.56
+ },
+ "non_empathic_seed1|ood": {
+  "helping_action": {
+   "mean": 2.25,
+   "sem": 0.22220486043288973,
+   "n": 20
+  },
+  "task_persistence": {
+   "mean": 3.1,
+   "sem": 0.31543620591175014,
+   "n": 20
+  },
+  "affective_language": {
+   "mean": 1.2,
+   "sem": 0.15165750888103102,
+   "n": 20
+  },
+  "caring_character": {
+   "mean": 1.5,
+   "sem": 0.16583123951776998,
+   "n": 20
+  },
+  "empathy_composite": 1.6500000000000001
+ },
+ "non_empathic_seed1|scenario": {
+  "helping_action": {
+   "mean": 0.68,
+   "sem": 0.21703455946000857,
+   "n": 25
+  },
+  "task_persistence": {
+   "mean": 3.24,
+   "sem": 0.28999310336626977,
+   "n": 25
+  },
+  "affective_language": {
+   "mean": 0.36,
+   "sem": 0.096,
+   "n": 25
+  },
+  "caring_character": {
+   "mean": 0.68,
+   "sem": 0.20953281365934068,
+   "n": 25
+  },
+  "empathy_composite": 0.5733333333333334
+ }
+}

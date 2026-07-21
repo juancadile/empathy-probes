@@ -509,3 +509,286 @@ Full memo: `notes/INTEGRITY_REPAIR_A_2026-07-13.md`. Brief `FABLE_INTEGRITY_REPA
   preregistered blinded human audit of at least 30 E27 messages. Human work may
   refine label agreement but these inspected trajectories remain development
   evidence and cannot become fresh enacted-behavior confirmation.
+
+## 2026-07-13 — Methods-claim correction: no weight decomposition was ever run
+
+**Trigger:** external reviewer (CAMBRIA/cbai.ai) pushed back that weight-level
+circuit reverse-engineering is hard and effectively only done end-to-end for
+induction. Audit of our own methods confirmed he is right *about this repo*:
+we have described the work to others as "weight decomposition / attention-head
+finding," and that is an overclaim.
+
+**What we actually do.** Component *selection* is activation-space Direct
+Feature Attribution (`src/direct_feature_attribution.py:139-175`): hooks capture
+each component's realized output on real stimuli, project it onto `d_resid`, and
+rank. `W_O` appears only as a fixed routing matrix applied to activations. This
+is not a decomposition of parameters. Component *validation* is a genuine
+weight-space causal intervention (rank-1 orthogonalization,
+`src/weight_orthogonalization.py:202-221`) — that part is real and is the
+project's actual strength.
+
+**Never run:** OV circuit (`W_V W_O`), QK circuit, composition scores,
+direct-path expansion, base-vs-IT weight diffing. `src/inspect_action_components.py:166-204`
+computes `‖W_Oᵀd‖` — the O half only, and against the *superseded*
+pre-correction direction and component set. It does not describe the sets of
+record. `src/analysis/svd_alignment.py` (LB3) is the only true weight-space
+geometry and is labeled EXPLORATORY / "not localization evidence"
+(`notes/ROADMAP.md:113`).
+
+**Paper edits (paper-v2/paper.tex, compiles clean, 8pp, no undefined refs):**
+- Abstract: "we locate and edit two weight-level component sets" → selection is
+  activation-space DFA, editing is weight-level. The old phrasing was the likely
+  source of the overclaim.
+- Intro: replaced "identifiable, editable mechanism in the weights" framing with
+  an explicit disclaimer of circuit reverse-engineering.
+- Methods §3.2: added a "Scope of weight-level in this paper" paragraph; **fixed
+  stale component sets** — Methods still named the pre-correction sets
+  (writers L19MLP/L20H15, suppressors L19H12/L15H15/L17H13/L18H13). Now names
+  the sets of record (writers L19MLP/L20MLP; suppressors L18H13/L20H10/L19H12/L17H7)
+  and marks the old ones as superseded.
+- Limitations: new lead bullet, "No weight-level circuit tracing," recording the
+  LB1 result (edited components rank 76–409 as direct logit writers; top direct
+  contributors are L38–L41) — so the supported reading is "upstream modulators
+  feeding unresolved late paths," not a circuit.
+
+**Forward:** `notes/WEIGHT_DECOMPOSITION_PLAN.md` (W-series, proposed, not
+started). Key structural point: ARENA's method relies on a privileged basis at
+*both* ends (token→token); we have a privileged output basis only (the
+forced-choice logit-diff direction `u = W_U(e_help − e_task)`), and no
+`W_E`-analog for "welfare." So a full `W_E → W_U` expansion is unavailable and
+must not be promised. Tractable: real OV circuits with GQA handled (W1),
+restricted-vocab QK circuits (W2), rank-1 neuron decomposition of the GeGLU
+writer MLPs' `W_down` (W3 — the input side is nonlinear and cannot be traced),
+and virtual-weight composition/path expansion into the L38–41 direct writers
+(W4, load-bearing given LB1). All weights-only linear algebra; cost is thinking,
+not compute. Every phase carries a preregistered random-weight null — in
+d_model=3584 a Frobenius norm looks "big" by default.
+
+## 2026-07-20 — State-vs-trait battery: infrastructure built (no scientific runs)
+
+**Motivation:** disambiguate whether a residual-stream direction plays an
+emotion-like role (transient state: input to next-token prediction) or a
+persona-like role (persistent trait: latent controlling the Assistant's
+behavior distribution). Projection onto emotion/persona vector libraries
+cannot decide this — the bases are correlated (persona vectors decompose
+into affective sub-features; negative traits co-vary) — so the battery
+measures *dynamical/causal* signatures instead.
+
+**New code:** `src/state_trait_battery.py`. Three tests per candidate
+direction + layer: (1) timescale — autocorrelation decay λ of per-token
+projection z_t over long transcripts vs a norm-matched random-direction
+null band run through the same transcripts (controls for content
+autocorrelation); (2) speaker invariance — Cohen's d of last-token
+projection, Assistant-framed vs third-person framings of matched scenarios;
+(3) library projection — top-5 |cosine| vs optional .npy libraries
+(localization only, explicitly not a classifier). Also computes ΔP on a
+{prompt, response_pos, response_neg} jsonl for the downstream
+finetuning-slope (β) test; the finetune itself is out of scope.
+
+**Validation (not an experiment):** λ estimator unit-checked on synthetic
+processes — white noise → λ=1.0, AR(1) ρ=.95 → λ≈23.9 (theory 19.5; mild
+upward bias shared by candidate and nulls, absorbed by the null band).
+End-to-end smoke test on SmolLM2-135M (CPU) with a random 576-d direction:
+λ=1.0 = null band (correct). Caution: random direction scored d=0.61 on
+speaker invariance with only 6 Assistant items — the built-in scenario set
+is too small for verdicts; expand before real runs. Two bugs fixed during
+smoke: decoder-layer hook must handle tensor (not tuple) outputs; MPS bf16
+GQA matmul crashes → added --dtype/--device-map flags (real runs: CUDA).
+
+**Data:** `data/state_trait_transcripts.jsonl` — 60 texts (median 294
+words, both polarities, seed=0) sampled from
+`data/contrastive_pairs/merged_cleaned_pairs.jsonl` (8,315 eligible ≥220w).
+
+**Libraries:** `third_party/persona_vectors` (safety-research, arXiv
+2507.21509) and `third_party/assistant-axis` (safety-research) cloned —
+both ship extraction pipelines + trait data, NOT precomputed vectors; to
+get persona libraries in gemma2-9b-it/llama31-8b-it activation space we
+must run their pipelines on our models (Spark job). The emotion-concepts
+paper (arXiv 2604.07729, Anthropic) has no code/data release on its arXiv
+page as of today — the 171 emotion vectors are not downloadable and would
+need reproduction from the paper's methodology.
+
+**Next:** real run on Spark — empathy_direction_layer_{8,12,16,20,24}.npy
+(gemma2_9b_it) through the battery, per-layer profiles not scalars.
+
+### 2026-07-20 addendum — battery hardened; run staged, blocked on Spark
+
+- **Speaker-invariance test was confounded as first designed:** on
+  SmolLM2-135M, 20 random directions scored |d| median 1.04, max 3.20 —
+  the two framings differ in surface form (dialogue markup, length,
+  register), so any direction separates them. Fixed: the test now runs
+  candidate + nulls jointly and reports the candidate's |d| percentile
+  within the random-direction null on the same texts
+  (`exceeds_null_p95` is the verdict). Post-fix smoke: random candidate →
+  73rd percentile, correctly "no persona evidence." Scenario set expanded
+  6 → 16 items with matched concept content across framings.
+- **Target-direction correction:** `results/probes/empathy_direction_layer_*.npy`
+  are the V1 Phi-3-mini probes (d_model 3072), NOT usable with gemma/llama.
+  Runner (`scripts/run_state_trait_battery.sh`) targets the V2 DFA
+  directions of record instead: dfa_gemma2_9b_it L8, dfa_gemma2_9b_it_L20
+  L20, dfa_gemma2_9b_it_M_block20 L20 (all 3584-d), dfa_llama31_8b_it L15
+  (4096-d). Output stems now include parent dir (two L20 files share a
+  filename).
+- **Status:** Spark offline (Tailscale: last seen 3d ago; LAN IP times
+  out). Local Mac (M1 Pro, 16GB) cannot hold gemma2-9b fp16. Run is
+  staged, launches when Spark returns:
+  `nohup bash scripts/run_state_trait_battery.sh > state_trait_battery.log 2>&1 &`
+  (per safe_pull protocol: verify script exists on Spark before nohup).
+
+## 2026-07-21 — State-vs-trait battery: first real runs (4 directions, Spark)
+
+**Run:** `scripts/run_state_trait_battery.sh` on the Spark (GB10, empathy
+conda env; code scp'd, checksums verified — NOT committed yet, see below).
+60 transcripts (`data/state_trait_transcripts.jsonl`), 50 norm-matched
+random nulls per test, seed 0. Results downloaded to
+`results/state_trait_battery_{gemma2_9b_it,llama31_8b_it}/`.
+
+**Result: all four V2 empathy directions read STATE-like on both axes.**
+
+| direction | λ (cand) | λ null med/p95 | invariance d | d-null pct |
+|---|---|---|---|---|
+| gemma L8 (dfa) | 46.4 | 102 / 582 | 1.30 | 90 |
+| gemma L20 (dfa_L20) | 52.7 | 61 / 209 | −0.19 | 14 |
+| gemma L20 (M_block20) | 7.7 | 61 / 209 | 0.64 | 40 |
+| llama L15 (dfa) | 38.8 | 1 / 169 | 0.48 | 40 |
+
+No direction exceeds the null p95 on either persistence or
+Assistant-indexing. Three of four sit at or below the null median λ —
+they decay *faster* than random directions, which inherit the residual
+stream's slow drift (null λ median up to ~102 tokens at gemma L8; drift
+is why absolute λ is uninterpretable and the null band is load-bearing).
+M_block20 is the most sharply state-like (λ=7.7, ~clause-scale).
+
+**Interpretation:** the empathy directions behave as locally-scoped
+emotion-concept-like inputs (transient state), not persona-like latents.
+Consistent with the V2 claim ceiling (upstream modulators, no
+welfare-pure direction) and with Sofroniew et al.'s "locally scoped"
+emotion vectors. The finetuning test (β) remains the open trait-axis
+check — untested; nothing here rules a trait role in via training-shift
+prediction, we only fail to detect trait signatures dynamically.
+
+**Caveats:** gemma-L8 invariance sits at pct 90 (closest to the bar);
+llama-L15 null λ median of 1.0 (vs gemma's 61–102) suggests
+model-dependent drift structure — worth a look before cross-model claims.
+n_assistant=16 remains the weakest sample size.
+
+**Provenance debt:** battery code + transcripts are uncommitted (scp'd to
+Spark as untracked files). Spark's clone also holds two unpushed commits
+(ebf63b7 Gate 2 Llama sensitivity disagreement, 6a9d4af Gate 2 v2 Qwen
+pairwise screen) — push those from the Spark first, then commit the
+battery files, to keep history linear.
+
+## 2026-07-21 — Finetuning trait-axis (β) test: design locked, run launched
+
+**Question:** does ΔP of a finetuning dataset along an empathy direction
+predict a DURABLE post-finetune shift (persona-paper trait signature,
+r=0.76–0.97 there)? State-hypothesis prediction: β ≈ 0.
+
+**Design** (`src/finetune_trait_test.py`, six resumable stages):
+3 LoRA datasets (empathic / non_empathic / mixed responses to IDENTICAL
+neutral prompts; 400 ex balanced 80/scenario from merged_cleaned_pairs) +
+un-finetuned base as ΔP=0 anchor. Prompts deliberately DROP the
+generation-time trait instruction (using it would confound
+acquisition-from-responses with instruction-following). ΔP =
+response-token projection of dataset responses minus base model's own
+responses (base term constant across datasets → cancels in β; slope is
+response-driven). LoRA r16/α32, lr 1e-4, 2 epochs, seeds {0,1} → 6 runs.
+Readouts per checkpoint: PRIMARY chronic mean-token projection on 30
+affect-free neutral texts; SECONDARY generations on 25 scenario + 20 OOD
+prompts saved for blinded judging
+(`src/evaluation/judge_trait_expression_batch.py`, Haiku batch, repo 0-4
+dims, checkpoint-blinded via shuffled opaque ids). β = OLS slope of
+chronic shift vs ΔP over 4 points, per direction (3 candidates: dfa_L8,
+dfa_L20, M_block20). Direction-specificity null: 40 random directions,
+each β'd along itself; verdict = candidate |β| percentile in that null.
+
+**Validation:** all six stages smoke-tested end-to-end on SmolLM2-135M
+(CPU) with fake directions — SMOKE OK; random candidates correctly land
+within the β null. Real bug caught: PEFT wrapping breaks
+`model.model.layers` hook path → robust `decoder_layers()` walker.
+
+**Run:** launched on Spark (pid 1846338, `finetune_trait_test.log`),
+GPU idle at launch, no Sol jobs. Code scp'd (md5-verified), still
+uncommitted — same provenance debt as the battery run, reconcile after.
+
+### 2026-07-21 addendum — β test primary arm complete: NO trait signature
+
+**ΔP grading (x-axis) came out clean and monotone** (empathic / mixed /
+non_empathic): dfa_L8 +6.69/+0.29/−5.89; dfa_L20 +20.09/+2.44/−14.67;
+M_block20 +5.47/+1.21/−2.43. Losses declined across all 6 LoRA runs
+(1.4–1.7 → 1.0–1.5, 2 epochs) — models learned the data.
+
+**β verdicts (chronic shift on neutral texts vs ΔP, null = 40 random
+directions each β'd along itself):**
+
+| direction | β | r | |β| null med/p95 | pct | verdict |
+|---|---|---|---|---|---|
+| dfa_L8 | 0.028 | 0.95 | 0.167 / 1.442 | 15 | no trait signature |
+| dfa_L20 | 0.030 | 0.56 | 0.167 / 1.442 | 18 | no trait signature |
+| M_block20 | 0.077 | 0.35 | 0.167 / 1.442 | 30 | no trait signature |
+
+**Shape of the failure is diagnostic:** dfa_L20 chronic shift is positive
+under ALL datasets (+1.64 empathic, +0.73 non_empathic, +1.48 mixed);
+M_block20 negative under all (−0.62/−1.56/−1.43). LoRA moves the residual
+stream nonspecifically; the movement is NOT proportional to the dataset's
+empathic content along the direction. Combined with the persona paper's
+r=0.76–0.97 for genuine trait directions, this is the causal completion of
+the state-vs-trait battery: the empathy directions carry transient
+emotion-concept-like state, and finetuning on evocative data does not
+install a chronic setpoint along them.
+
+**Secondary arm:** blinded Haiku judge batch submitted
+(msgbatch_01AxnBMros6X556PGKcasQ1W, 315 requests, 7 checkpoints × 45
+generations). Results land in
+`results/finetune_trait_test_gemma2_9b_it/judge/`.
+
+### 2026-07-21 addendum 2 — β test secondary (behavioral) arm complete
+
+Blinded Haiku batch: 315/315 succeeded, 0 failed
+(`results/finetune_trait_test_gemma2_9b_it/judge/`). Seeds agree
+throughout (max seed gap ~0.3).
+
+**In-domain (scenario prompts): disposition clearly acquired.**
+Composite (helping+affective+caring)/3: base 1.41 → empathic ~3.00,
+mixed ~1.7, non_empathic ~0.57. task_persistence flips 2.80 → 0.7–0.9
+(empathic) vs 3.2–3.5 (non_empathic). Clean dose-response in dataset
+content — the LoRAs learned the training distribution.
+
+**OOD (generic prompts): essentially NO transfer.** Composite: base
+2.00 → empathic 2.02–2.12 (Δ within noise), mixed ~2.02, non_empathic
+1.63–1.65. The one hint of generalization: non_empathic FT lowers OOD
+affective_language 1.55 → 1.05–1.20 (small "coldness" bleed), an order
+of magnitude smaller than the in-domain effect.
+
+**Combined verdict (both arms + battery):** the V2 empathy directions are
+state-like on every axis tested — fast timescale (λ at/below random-drift
+null), no Assistant-indexing beyond format confound, β within direction
+null on chronic projections, and behavioral change that stays in-domain
+instead of installing a broad disposition. Narrow empathy-content FT does
+NOT produce the persona-style broad shift here. The claim ceiling
+supports: "locally-scoped emotion-concept-like input, not a persona
+latent; no evidence finetuning converts it into one at this scale
+(LoRA r16, 400 ex, 2 epochs — heavier FT untested)."
+
+### 2026-07-21 addendum 3 — axis-of-record rerun + paper integration
+
+Battery + β test re-run on `direction_M_resid_block20.npy` (the
+paper-v2-narrow central object; existing LoRA checkpoints reused, no new
+finetunes): λ=48.5 (null 61/209), invariance pct 32, ΔP graded
++5.97/+1.70/−1.85, β=0.060 pct 22 → state-like on all probes, matching
+the three DFA directions. Artifacts downloaded.
+
+**Paper integration (paper-v2-narrow):** Discussion §"The working axis
+behaves as transient state, not a persistent trait" + Appendix
+"State-Versus-Trait Functional Battery" (2 tables) added to paper.tex;
+chen2025persona + sofroniew2026emotion added to references.bib; PDF
+rebuilds clean (12 pp, 0 undefined refs). Two rows added to
+CLAIM_LEDGER.md with allowed wording / forbidden upgrades. Draft snippet
+retained at paper-v2-narrow/state_trait_snippet.tex.
+
+**Process note:** the rerun took ~3.5 h because posttest regenerates all
+checkpoint generations even when only projections are needed — add
+--skip-generations before this pipeline runs again. Ledger rows currently
+point at UNCOMMITTED artifacts; the provenance debt (battery + FT-test
+code/results + Spark's two unpushed Gate-2 commits) must clear before the
+ledger binding is real.
